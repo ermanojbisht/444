@@ -1,0 +1,1117 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"vi",
+				"village_id"
+			],
+			[
+				"blo",
+				"block_id"
+			],
+			[
+				"est",
+				"estimate_group_id"
+			],
+			[
+				"for",
+				"foreach〔keyword〕"
+			],
+			[
+				"nam",
+				"namespace"
+			],
+			[
+				"e",
+				"employee"
+			],
+			[
+				"select",
+				"selectAll()"
+			],
+			[
+				"domain",
+				"domain()"
+			],
+			[
+				"a",
+				"append"
+			],
+			[
+				"d",
+				"div"
+			],
+			[
+				"instance",
+				"instance_estimate_id"
+			],
+			[
+				"WORK",
+				"WORK_code"
+			],
+			[
+				"fo",
+				"font-weight-bold"
+			],
+			[
+				"end",
+				"endif"
+			],
+			[
+				"st",
+				"strong"
+			],
+			[
+				"c",
+				"container"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "composer.json",
+			"settings":
+			{
+				"buffer_size": 2393,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+			]
+		},
+		{
+			"file": "/var/www/444/.env",
+			"settings":
+			{
+				"buffer_size": 1021,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					18,
+					3,
+					"left_delete",
+					null,
+					"AwAAACABAAAAAAAAIAEAAAAAAAABAAAAUh8BAAAAAAAAHwEAAAAAAAABAAAASB4BAAAAAAAAHgEAAAAAAAABAAAAXw",
+					"AQAAAAAAAAABAAAAIQEAAAAAAAAhAQAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"phpcom",
+				"PHPCompanion:Insert Constructor Property"
+			],
+			[
+				"compan",
+				"PHPCompanion:Insert Constructor Property"
+			],
+			[
+				"phpfmt",
+				"phpfmt: getter and setter (Go)"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"package ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/var/www/222",
+		"/var/www/222/config"
+	],
+	"file_history":
+	[
+		"/var/www/222/app/Http/Controllers/Api/V1/Admin/UsersApiController.php",
+		"/var/www/222/routes/api.php",
+		"/var/www/222/app/Http/Resources/Admin/UserResource.php",
+		"/var/www/222/app/Http/Resources/Admin/WorkResource.php",
+		"/var/www/222/app/Http/Controllers/Api/V1/Admin/WorkApiController.php",
+		"/var/www/222/app/Providers/RouteServiceProvider.php",
+		"/media/dell/datadrive/l/[ FreeCourseWeb.com ] Udemy - Vue 3 and Laravel - Admin App, Vuex, Typescript, Docker/How to Support [ FreeCourseWeb.com ] for Free.txt",
+		"/media/dell/datadrive/l/[ FreeCourseWeb.com ] Udemy - Vue 3 and Laravel - Admin App, Vuex, Typescript, Docker/Passwords - only if needed when extracting.txt",
+		"/media/dell/datadrive/l/copy_syno_learning/Learn Laravel 8 API Development Tutorial Step by Step/4. Phase #2 - API Development Using Sanctum Authentication/14.1 apiphase2/apiphase2/routes/api.php",
+		"/var/www/222/resources/views/track/estimate/view.blade.php",
+		"/var/www/222/resources/views/track/estimate/updateEstimate.blade.php",
+		"/var/www/222/resources/views/track/estimate/partial/_EstimateInfo.blade.php",
+		"/var/www/222/resources/views/track/estimate/efc/show.blade.php",
+		"/var/www/222/resources/views/track/estimate/efc/index.blade.php",
+		"/var/www/222/app/Http/Controllers/Track/EfcReportController.php",
+		"/var/www/222/storage/logs/laravel.log",
+		"/home/dell/Desktop/Jagannatha Hora.desktop",
+		"/var/www/222/app/Models/Track/Instance.php",
+		"/var/www/222/app/Models/Track/InstanceEstimate.php",
+		"/var/www/222/app/Http/Controllers/TempController.php",
+		"/var/www/222/resources/views/components/track/instance-estimate-header.blade.php",
+		"/var/www/222/composer.json",
+		"/var/www/222/app/Http/Controllers/Track/InstanceController.php",
+		"/var/www/222/routes/web_instance.php",
+		"/var/www/222/app/Models/Im/Village.php",
+		"/var/www/222/app/Models/Im/Ulb.php",
+		"/tmp/fz3temp-2/laravel.log",
+		"/var/www/222/app/Http/Controllers/Ajax/AjaxFetchDropDownController.php",
+		"/var/www/222/resources/views/partials/js/_getFeatureListAsPerSelectedGroupJs.blade.php",
+		"/var/www/222/resources/views/track/estimate/feature/create.blade.php",
+		"/var/www/222/resources/views/track/estimate/feature/edit.blade.php",
+		"/var/www/222/app/Http/Requests/Track/StoreEstimateFeatureRequest.php",
+		"/var/www/222/resources/views/track/estimate/feature/index.blade.php",
+		"/var/www/222/app/Http/Controllers/Track/EstimateUlbController.php",
+		"/var/www/222/app/Http/Controllers/Track/EstimateVillageController.php",
+		"/var/www/222/resources/views/track/estimate/ulb.blade.php",
+		"/var/www/222/resources/views/layouts/_commonpartials/_breadcrumb.blade.php",
+		"/var/www/222/resources/views/track/estimate/village.blade.php",
+		"/var/www/222/resources/views/layouts/_commonpartials/_ifIcon.blade.php",
+		"/var/www/222/app/Providers/AppServiceProvider.php",
+		"/var/www/222/resources/views/layouts/_commonpartials/js/_select2.blade.php",
+		"/var/www/222/resources/views/layouts/type200/main.blade.php",
+		"/var/www/222/routes/web.php",
+		"/var/www/222/app/Models/Block.php",
+		"/var/www/222/resources/views/partials/js/_makeDropDown.blade.php",
+		"/var/www/222/app/Models/Patch/RoadPatchAchivement.php",
+		"/var/www/222/app/Models/Patch/RoadPatchTarget.php",
+		"/var/www/222/app/Http/Controllers/Patch/RoadPatchTargetController.php",
+		"/var/www/222/app/Models/Im/EeOfficeSegment.php",
+		"/var/www/222/app/Models/im/EeOfficeSegment.php",
+		"/var/www/222/app/Http/Controllers/Track/EstimateGroupController.php",
+		"/var/www/222/app/Http/Controllers/Track/EstimateFeatureController.php",
+		"/var/www/222/app/Models/Track/EstimateFeature.php",
+		"/var/www/222/resources/views/track/estimate/group/edit.blade.php",
+		"/var/www/222/resources/views/track/estimate/group/index.blade.php",
+		"/var/www/222/app/Models/Track/EstimateDocument.php",
+		"/var/www/222/app/Models/Track/EstimateGroup.php",
+		"/var/www/222/resources/views/track/estimate/group/create.blade.php",
+		"/var/www/222/app/Http/Requests/Track/StoreUpdateEstimateGroupRequest.php",
+		"/var/www/222/app/Http/Requests/Track/StoreEstimateGroupRequest.php",
+		"/var/www/222/app/Models/Track/EstimateFeatureGroup.php",
+		"/var/www/222/app/Http/Middleware/ApprovalMiddleware.php",
+		"/var/www/222/app/Http/Middleware/AuthGates.php",
+		"/var/www/222/app/Http/Controllers/Auth/LoginController.php",
+		"/var/www/222/vendor/laravel/ui/auth-backend/AuthenticatesUsers.php",
+		"/var/www/222/resources/views/employee/auth/login.blade.php",
+		"/var/www/222/vendor/laravel/ui/auth-backend/ThrottlesLogins.php",
+		"/var/www/222/app/Http/Controllers/Employee/HomeController.php",
+		"/var/www/222/app/Http/Controllers/Employee/Auth/LoginController.php",
+		"/var/www/222/resources/views/employee/dashboard.blade.php",
+		"/var/www/222/app/Models/Employee.php",
+		"/var/www/222/config/auth.php",
+		"/var/www/222/resources/views/layouts/_commonpartials/_logoutform_foremployee.blade.php",
+		"/var/www/222/vendor/laravel/framework/src/Illuminate/Auth/SessionGuard.php",
+		"/var/www/222/app/Http/Kernel.php",
+		"/var/www/222/app/Models/Admin.php",
+		"/var/www/222/app/Http/Controllers/Auth/RegisterController.php",
+		"/var/www/222/vendor/laravel/ui/auth-backend/RedirectsUsers.php",
+		"/var/www/222/resources/views/auth/login.blade.php",
+		"/var/www/222/vendor/laravel/ui/tests/AuthBackend/AuthenticatesUsersTest.php",
+		"/var/www/222/app/Http/Requests/MassDestroyAlertProjectRequest.php",
+		"/home/dell/Desktop/mainly i hv interest in",
+		"/var/www/222/resources/lang/en/global.php",
+		"/var/www/222/app/Http/Middleware/VerificationMiddleware.php",
+		"/var/www/222/resources/views/auth/adminLogin.blade.php",
+		"/var/www/222/database/migrations/2022_01_19_082846_create_admins_table.php",
+		"/var/www/222/app/Exceptions/Handler.php",
+		"/var/www/222/app/Providers/AuthServiceProvider.php",
+		"/var/www/222/app/Models/EmpUser.php",
+		"/var/www/222/resources/views/track/estimate/estimate-dashboard.blade.php",
+		"/var/www/222/resources/views/d3.blade.php",
+		"/var/www/222/app/Http/Middleware/RedirectIfAuthenticated.php",
+		"/var/www/222/app/Http/Controllers/Auth/EmployeeLoginController.php",
+		"/var/www/222/resources/views/employee.blade.php",
+		"/var/www/222/resources/views/layouts/auth.blade.php",
+		"/var/www/222/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php",
+		"/var/www/222/app/Http/Controllers/Admin/EmployeeController.php",
+		"/var/www/222/vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithExceptionHandling.php",
+		"/media/dell/datadrive/l/copy_syno_learning/Udemy - Mastering data visualization in D3.js/Materials/06 Make it interactive/056 6.10.0/6.10.0/js/main.js",
+		"/media/dell/datadrive/l/copy_syno_learning/Udemy - Mastering data visualization in D3.js/Materials/02 Getting started with D3/011 2.05.0/2.05.0/js/main.js",
+		"/media/dell/datadrive/l/copy_syno_learning/Udemy - Mastering data visualization in D3.js/Materials/03 Scales and Axes/027 3.13.0/3.13.0/js/main.js",
+		"/media/dell/datadrive/l/copy_syno_learning/Udemy - Mastering data visualization in D3.js/Materials/02 Getting started with D3/014 2.08.0/2.08.0/js/main.js",
+		"/var/www/222/resources/views/layouts/type200/_commonpartials/_sidebarmenu.blade.php",
+		"/var/www/222/resources/views/track/document/doclist.blade.php",
+		"/var/www/222/resources/views/components/nav-group.blade.php",
+		"/media/dell/datadrive/l/[ TutPig.com ] Udemy - Complete SASS course for beginners w - real world projects/~Get Your Files Here !/Bonus Resources.txt",
+		"/var/www/222/resources/views/components/nav-item.blade.php",
+		"/var/www/222/resources/views/components/form/label.blade.php",
+		"/var/www/222/app/View/Components/Form.php",
+		"/var/www/222/app/View/Components/Box1.php",
+		"/var/www/222/resources/views/components/box1.blade.php",
+		"/var/www/222/resources/views/components/progress-bar1.blade.php",
+		"/var/www/222/resources/views/components/navigation-link.blade.php",
+		"/var/www/222/.env",
+		"/var/www/222/app/View/Components/Form/Label.blade.php",
+		"/var/www/222/resources/lang/en/efc.php",
+		"/var/www/222/resources/lang/hi/efc.php",
+		"/var/www/222/resources/views/layouts/_commonpartials/language_switcher.blade.php",
+		"/var/www/222/app/Http/Middleware/LanguageManager.php",
+		"/var/www/222/resources/views/lang.blade.php",
+		"/var/www/222/app/Http/Controllers/LangController.php",
+		"/var/www/222/config/app.php",
+		"/var/www/222/resources/views/layouts/type200/_commonpartials/_header.blade.php",
+		"/var/www/222/resources/views/temp.blade.php",
+		"/var/www/222/resources/views/track/estimate/all_estimates.blade.php",
+		"/var/www/222/resources/views/partials/_sidebarmenu.blade.php",
+		"/var/www/222/resources/views/layouts/type100/partials/side_menu.blade.php",
+		"/var/www/222/resources/views/layouts/type100/partials/footer.blade.php"
+	],
+	"find":
+	{
+		"height": 31.0
+	},
+	"find_in_files":
+	{
+		"height": 128.0,
+		"where_history":
+		[
+			"/var/www/222/resources/views/track",
+			"/var/www/222/app/Http/Controllers/Track",
+			"/var/www/222/",
+			"C:\\wamp64\\www\\ram2020,<project filters>",
+			"C:\\wamp64\\www\\ram2020\\resources\\views\\reports\\roads,<project filters>"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"sanctum",
+			"work",
+			"go",
+			"dest",
+			"getFeatureListAsPerSelectedGroup",
+			"name",
+			"ulbInserUpdateForm",
+			"queryLog",
+			"village_id",
+			"villageModel",
+			"villageInserUpdateForm",
+			"village-model",
+			"block_id",
+			"addNewVillage",
+			"pivot",
+			"`",
+			"select2",
+			"_alerts_msg",
+			"with('success'",
+			"response",
+			"getFeatureListAsPerSelectedGroup",
+			"estimate_feature_type_id",
+			"getFeatureListAsPerSelectedGroup",
+			"AjaxFetchDropDownController",
+			"getDDLSelectedText",
+			"bindDdlWithDataAndSetValue",
+			"userInserUpdateForm",
+			"user-model",
+			"userModel",
+			"addNewVillage",
+			"addNewUser",
+			"userInserUpdateForm",
+			"EeOfficeSegment",
+			"`",
+			"estimate_feature_group",
+			"add estimate feature",
+			"EstimateFeature",
+			"$estimateFeature",
+			"remark",
+			"EstimateFeature",
+			"InstanceEstimate",
+			"username",
+			"c_email",
+			"email",
+			"class",
+			"dashboard",
+			"JsonResponse",
+			"redirectPath",
+			"hasTooManyLoginAttempts",
+			"password",
+			"'email' => 'required",
+			"'password' => 'required',",
+			"LoginRequest",
+			"yourAccountNeedsAdminApproval",
+			"Your accounts needs an administrator approval in order to log in",
+			"AuthGates",
+			"unauthenticated",
+			"active",
+			"$instance",
+			"viewEstimateInstance",
+			"active",
+			"viewEstimateInstance",
+			"active",
+			"$active",
+			"active",
+			"d3",
+			"cruds",
+			"@include('",
+			"track.view",
+			"layouts._commonpartials.css",
+			"layouts.admin",
+			"layouts.min",
+			"layouts.app",
+			"layouts.min",
+			"layouts.admin",
+			"partials.menu",
+			"body",
+			"c_body",
+			"header",
+			"ddlValue",
+			"bindDdlWithData",
+			"estimate_feature_group",
+			"bindDdlWithData",
+			"Edit",
+			"instance_estimate_id",
+			"instanceEstimate->id",
+			"footerscripts",
+			"instance_estimate_id",
+			"*/\n",
+			"estimate reporting",
+			"version",
+			"doctitle",
+			"City",
+			"country_id",
+			"`",
+			"view",
+			"Log",
+			"publishToggle",
+			"layouts.min",
+			"estimate.addDetails",
+			"due_to",
+			"show",
+			"layouts.css._commonpartials",
+			"layouts.js._commonpartials",
+			"icon",
+			"shortcut",
+			"site_title",
+			"'formaction'=>'",
+			"searchDoc",
+			"redirect",
+			"exportdoclist",
+			"@include('partials.search_doc'",
+			"similarDocExist",
+			"work",
+			"checkIfinstanceIsAllowed",
+			"checkIfWorkIsAllowed",
+			"Route::group",
+			"@can",
+			"outbox",
+			"estimate detail",
+			"Qr code request",
+			"alertSendMsg",
+			"CronTasksCOntroller",
+			"notifyBridgePic",
+			"notifyAlert",
+			"admin.financialprogress.update",
+			"submit",
+			"roadkml"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"ulbModel",
+			"ulbInserUpdateForm",
+			"ulb-model",
+			"ulb_type_id",
+			"addNewUlb",
+			"'",
+			"villageInserUpdateForm",
+			"village-model",
+			"villageModel",
+			"addNewVillage",
+			"'",
+			"estimate_group_id",
+			"EstimateGroup",
+			"$group",
+			"EstimateGroup",
+			"id",
+			"c_email",
+			"layouts.type50.admin",
+			"layouts.type50.min",
+			"layouts.type50.app",
+			"layouts.type50.admin",
+			"instanceEstimate->id",
+			"EstimateFeature",
+			"instance_estimate_id",
+			"'",
+			"layouts._commonpartials.css",
+			"layouts._commonpartials.js"
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "composer.json",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 2393,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1027,
+								1027
+							]
+						],
+						"settings":
+						{
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/JSON/JSON.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/var/www/444/.env",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1021,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								286,
+								286
+							]
+						],
+						"settings":
+						{
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
+							"git_gutter_is_enabled": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"trim_trailing_white_space_on_save": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 31.0
+	},
+	"input":
+	{
+		"height": 48.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "alert.sublime-project",
+	"replace":
+	{
+		"height": 58.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"routeserv",
+				"app/Providers/RouteServiceProvider.php"
+			],
+			[
+				"api",
+				"routes/api.php"
+			],
+			[
+				"lara",
+				"storage/logs/laravel.log"
+			],
+			[
+				"instE",
+				"app/Models/Track/InstanceEstimate.php"
+			],
+			[
+				"efc",
+				"app/Http/Controllers/Track/EfcReportController.php"
+			],
+			[
+				"temp",
+				"app/Http/Controllers/TempController.php"
+			],
+			[
+				"efc/sh",
+				"resources/views/track/estimate/efc/show.blade.php"
+			],
+			[
+				"track/estimate/partial/_EstimateInfo.blade.php",
+				"resources/views/track/estimate/partial/_EstimateInfo.blade.php"
+			],
+			[
+				"components/track/instance-estimate-header.blade.php",
+				"resources/views/components/track/instance-estimate-header.blade.php"
+			],
+			[
+				"track/est",
+				"resources/views/track/estimate/updateEstimate.blade.php"
+			],
+			[
+				"efc/show",
+				"resources/views/track/estimate/efc/show.blade.php"
+			],
+			[
+				"web",
+				"routes/web_instance.php"
+			],
+			[
+				"instancec",
+				"app/Http/Controllers/Track/InstanceController.php"
+			],
+			[
+				"partials/js/_getFeatureListAsPerSelectedGroupJs.blade.php",
+				"resources/views/partials/js/_getFeatureListAsPerSelectedGroupJs.blade.php"
+			],
+			[
+				"feature/cre",
+				"resources/views/track/estimate/feature/create.blade.php"
+			],
+			[
+				"estimate/feature/index",
+				"resources/views/track/estimate/feature/index.blade.php"
+			],
+			[
+				"layouts/_commonpartials/_breadcrumb.blade.php",
+				"resources/views/layouts/_commonpartials/_breadcrumb.blade.php"
+			],
+			[
+				"",
+				"app/Models/Track/InstanceEstimate.php"
+			],
+			[
+				"ins",
+				"app/Models/Track/InstanceEstimate.php"
+			],
+			[
+				"vill",
+				"app/Models/Im/Village.php"
+			],
+			[
+				"layouts/type200/main.blade.php",
+				"resources/views/layouts/type200/main.blade.php"
+			],
+			[
+				"l",
+				"storage/logs/laravel.log"
+			],
+			[
+				"track/estimate.blade.php",
+				"resources/views/track/estimate/updateEstimate.blade.php"
+			],
+			[
+				"Track/EstimateVillageController",
+				"app/Http/Controllers/Track/EstimateVillageController.php"
+			],
+			[
+				"instanceE",
+				"app/Models/Track/InstanceEstimate.php"
+			],
+			[
+				"track/estimate/feature/edit.blade.php",
+				"resources/views/track/estimate/feature/edit.blade.php"
+			],
+			[
+				"track/estimate/feature/index.blade.php",
+				"resources/views/track/estimate/feature/index.blade.php"
+			],
+			[
+				"track/estimate/feature/create.blade.php",
+				"resources/views/track/estimate/feature/create.blade.php"
+			],
+			[
+				"estimateG",
+				"app/Models/Track/EstimateGroup.php"
+			],
+			[
+				"employee/auth/login.blade.php",
+				"resources/views/employee/auth/login.blade.php"
+			],
+			[
+				"auth/login.blade.php",
+				"resources/views/auth/login.blade.php"
+			],
+			[
+				"login",
+				"resources/views/auth/login.blade.php"
+			],
+			[
+				"dashboard.blade.php",
+				"resources/views/adminDashboard.blade.php"
+			],
+			[
+				"adminLogin.blade.php",
+				"resources/views/auth/adminLogin.blade.php"
+			],
+			[
+				"pp\\Http\\Requests\\",
+				"app/Http/Requests/MassDestroyAlertProjectRequest.php"
+			],
+			[
+				"ApprovalMiddleware",
+				"app/Http/Middleware/ApprovalMiddleware.php"
+			],
+			[
+				"auth",
+				"config/auth.php"
+			],
+			[
+				"resources/views/adminDashboard.blade.php",
+				"resources/views/adminDashboard.blade.php"
+			],
+			[
+				"admincon",
+				"app/Http/Controllers/AdminController.php"
+			],
+			[
+				"adminl",
+				"resources/views/auth/adminLogin.blade.php"
+			],
+			[
+				"admin",
+				"app/Http/Controllers/Auth/AdminAuthController.php"
+			],
+			[
+				"CreateAdminsTable",
+				"database/migrations/2022_01_19_082846_create_admins_table.php"
+			],
+			[
+				"AuthGates",
+				"app/Http/Middleware/AuthGates.php"
+			],
+			[
+				"a",
+				"config/auth.php"
+			],
+			[
+				"hande",
+				"app/Exceptions/Handler.php"
+			],
+			[
+				"RedirectIfAuthenticated",
+				"app/Http/Middleware/RedirectIfAuthenticated.php"
+			],
+			[
+				"redirectIfAuthenticated",
+				"app/Http/Middleware/RedirectIfAuthenticated.php"
+			],
+			[
+				"layouts/type200/_commonpartials/_sidebarmenu.blade.php",
+				"resources/views/layouts/type200/_commonpartials/_sidebarmenu.blade.php"
+			],
+			[
+				".en",
+				".env"
+			],
+			[
+				"we",
+				"routes/web_instance.php"
+			],
+			[
+				"track/estimate/efc/show.blade.php",
+				"resources/views/track/estimate/efc/show.blade.php"
+			],
+			[
+				"app",
+				"config/app.php"
+			],
+			[
+				"lang",
+				"app/Http/Middleware/LanguageManager.php"
+			],
+			[
+				"efcc",
+				"app/Http/Controllers/Track/EfcReportController.php"
+			],
+			[
+				"estimate/v",
+				"resources/views/track/estimate/view.blade.php"
+			],
+			[
+				"auth/login.blade",
+				"resources/views/auth/login.blade.php"
+			],
+			[
+				"type100/partials/side_menu",
+				"resources/views/layouts/type100/partials/side_menu.blade.php"
+			],
+			[
+				"_commonpartials/_sidebarmenu",
+				"resources/views/layouts/type200/_commonpartials/_sidebarmenu.blade.php"
+			],
+			[
+				"_sidebarmenu",
+				"resources/views/partials/_sidebarmenu.blade.php"
+			],
+			[
+				"all_estimates",
+				"resources/views/track/estimate/all_estimates.blade.php"
+			],
+			[
+				"_makeDropDown.blade.php",
+				"resources/views/partials/js/_makeDropDown.blade.php"
+			],
+			[
+				"all_est",
+				"resources/views/track/estimate/all_estimates.blade.php"
+			],
+			[
+				"partials/search_doc.blade.php",
+				"resources/views/partials/search_doc.blade.php"
+			],
+			[
+				"instance-estimate-header.blade.php",
+				"resources/views/components/track/instance-estimate-header.blade.php"
+			],
+			[
+				"estimate",
+				"app/Http/Controllers/Track/UpdateEstimateController.php"
+			],
+			[
+				"com",
+				"composer.json"
+			],
+			[
+				"estimatedoc",
+				"app/Http/Controllers/Track/InstanceEstimateDocController.php"
+			],
+			[
+				"all_estimates.blade",
+				"resources/views/track/estimate/all_estimates.blade.php"
+			],
+			[
+				".env",
+				".env"
+			],
+			[
+				"layouts/admin.blade.php",
+				"resources/views/layouts/admin.blade.php"
+			],
+			[
+				"layouts/type100/main.blade.php",
+				"resources/views/layouts/type100/main.blade.php"
+			],
+			[
+				"site",
+				"config/site.php"
+			],
+			[
+				"contrac",
+				"app/Http/Controllers/Contract/ContractorController.php"
+			],
+			[
+				".",
+				".env"
+			],
+			[
+				"larav",
+				"storage/logs/laravel.log"
+			],
+			[
+				"partials/workheaderPartial.blade.php",
+				"resources/views/partials/workheaderPartial.blade.php"
+			],
+			[
+				"layouts/min.blade.php",
+				"resources/views/layouts/min.blade.php"
+			],
+			[
+				"app/Models/Track/InstanceEstimate.php",
+				"app/Models/Track/InstanceEstimate.php"
+			],
+			[
+				"app/Http/Requests/Track/StoreEstimateRequest.php",
+				"app/Http/Requests/Track/StoreEstimateRequest.php"
+			],
+			[
+				"EstimateController",
+				"app/Http/Controllers/Track/EstimateController.php"
+			],
+			[
+				"laravel",
+				"vendor/barryvdh/laravel-debugbar/src/LaravelDebugbar.php"
+			],
+			[
+				"managedocuments/doclist.blade.php",
+				"resources/views/managedocuments/doclist.blade.php"
+			],
+			[
+				"managedocuments/create.blade.php",
+				"resources/views/managedocuments/create.blade.php"
+			],
+			[
+				"EeO",
+				"app/Models/EeOffice.php"
+			],
+			[
+				"config/mis_entry.php",
+				"config/mis_entry/svgIcon.php"
+			],
+			[
+				"cron",
+				"app/Http/Controllers/CronTasksCOntroller.php"
+			],
+			[
+				"admin contract contractor create",
+				"resources\\views\\admin\\contract\\contractor\\create.blade.php"
+			],
+			[
+				"admin patch index",
+				"resources\\views\\admin\\patch\\index.blade.php"
+			],
+			[
+				"roadpatch",
+				"app\\Models\\patch\\RoadPatchTarget.php"
+			],
+			[
+				"roadSummary",
+				"resources\\views\\reports\\roads\\roadSummary.blade.php"
+			],
+			[
+				"roadlist",
+				"app\\Http\\Controllers\\RoadListController.php"
+			],
+			[
+				"map bridge",
+				"resources\\views\\maps\\bridges.blade.php"
+			],
+			[
+				"sideba",
+				"resources\\views\\vendor\\backpack\\base\\inc\\sidebar_content.blade.php"
+			],
+			[
+				"side",
+				"resources\\views\\inc\\sidebar.blade.php"
+			],
+			[
+				"map bridges",
+				"resources\\views\\maps\\bridges.blade.php"
+			],
+			[
+				"map",
+				"resources\\views\\reports\\roads\\Map.blade.php"
+			],
+			[
+				"roadl",
+				"app\\Http\\Controllers\\RoadListController.php"
+			],
+			[
+				"map.blade",
+				"resources\\views\\reports\\roads\\Map.blade.php"
+			],
+			[
+				"roadList",
+				"resources\\views\\reports\\roads\\roadList.blade.php"
+			],
+			[
+				"distr",
+				"app\\Models\\District.php"
+			],
+			[
+				"constit",
+				"app\\Models\\Constituencie.php"
+			],
+			[
+				"officeRoadList",
+				"resources\\views\\reports\\roads\\officeRoadList.blade.php"
+			],
+			[
+				"summaryTable",
+				"resources\\views\\reports\\roads\\summaryTable.blade.php"
+			],
+			[
+				"segment",
+				"app\\Models\\Segment.php"
+			],
+			[
+				"summary",
+				"resources\\views\\reports\\roads\\summaryTable.blade.php"
+			],
+			[
+				"roadli",
+				"app\\Http\\Controllers\\RoadListController.php"
+			],
+			[
+				"officema",
+				"resources\\views\\reports\\roads\\officeMap.blade.php"
+			],
+			[
+				"officeMap",
+				"resources\\views\\reports\\roads\\officeMap.blade.php"
+			],
+			[
+				"officemap",
+				"resources\\views\\reports\\roads\\officeMap.blade.php"
+			],
+			[
+				"web.php",
+				"routes\\web.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 334.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

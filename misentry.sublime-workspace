@@ -1,0 +1,266 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"c",
+				"container"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ins",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Install Package Control"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/M S PANWAR/AppData/Roaming/Sublime Text/Packages/Default/.python-version",
+		"/C/wamp64/www/222/app/Models/patch/RoadPatchTarget.php",
+		"/C/wamp64/www/222/app/Models/patch/RoadPatchAchivement.php",
+		"/C/wamp64/www/222/app/Models/im/EeOfficeSegment.php",
+		"/C/wamp64/www/222/resources/views/admin/patch/index.blade.php",
+		"/C/wamp64/www/222/app/Http/Controllers/patch/PatchController.php",
+		"/C/wamp64/www/222/routes/web.php",
+		"/C/wamp64/www/222/resources/views/admin/contract/contractor/index.blade.php",
+		"/C/wamp64/www/222/app/Models/Procurement/ContractorRegistration.php",
+		"/C/wamp64/www/222/config/database.php",
+		"/C/wamp64/www/222/.env",
+		"/C/wamp64/www/222/app/Http/Controllers/TempController.php",
+		"/C/wamp64/www/222/vendor/bugsnag/bugsnag/src/Env.php",
+		"/C/wamp64/www/222/app/Http/Controllers/MgtTask/PatchController.php",
+		"/C/wamp64/www/222/app/Models/RoadPatchTarget.php",
+		"/C/wamp64/www/222/app/Models/Employee.php",
+		"/C/wamp64/www/ram2020/app/Http/Controllers/RoadListController.php",
+		"/C/wamp64/www/ram2020/resources/views/reports/roads/officeMap.blade.php",
+		"/C/wamp64/www/ram2020/app/Models/Constituencie.php",
+		"/C/wamp64/www/ram2020/composer.json",
+		"/C/wamp64/www/ram2020/app/Http/Controllers/TempController.php",
+		"/C/wamp64/www/ram2020/routes/web.php",
+		"/C/wamp64/www/mispwd/routes/web.php",
+		"/C/wamp64/www/mispwd/webhook",
+		"/C/wamp64/www/mispwd/vendor/haruncpi/laravel-user-activity/routes/web.php",
+		"/C/wamp64/www/html/index.php",
+		"/C/wamp64/www/index.php",
+		"/C/wamp64/www/html/index.html",
+		"/C/wamp64/bin/apache/apache2.4.46/conf/httpd.conf",
+		"/C/wamp64/www/Test/index.html"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"officeMap",
+			"$wwwDir",
+			"www",
+			"DocumentRoot",
+			"www",
+			"root"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 41.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "misentry.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"contractor index",
+				"resources\\views\\admin\\contract\\contractor\\index.blade.php"
+			],
+			[
+				"contract",
+				"app\\Models\\Procurement\\ContractorRegistration.php"
+			],
+			[
+				"web",
+				"routes\\web.php"
+			],
+			[
+				"data",
+				"config\\database.php"
+			],
+			[
+				".env",
+				".env"
+			],
+			[
+				"env",
+				"vendor\\bugsnag\\bugsnag\\src\\Env.php"
+			],
+			[
+				"roadp",
+				"app\\Models\\RoadPatchTarget.php"
+			],
+			[
+				"officeMap",
+				"resources\\views\\reports\\roads\\officeMap.blade.php"
+			],
+			[
+				"temp",
+				"app\\Http\\Controllers\\TempController.php"
+			],
+			[
+				"officemap",
+				"resources\\views\\reports\\roads\\officeMap.blade.php"
+			],
+			[
+				"web.php",
+				"routes\\web.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 553.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
