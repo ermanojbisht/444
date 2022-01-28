@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Acr\Acr;
 
+use Log;
+
 class TempController extends Controller
 {
 
@@ -23,6 +25,11 @@ class TempController extends Controller
 
     }
 
+    public function store(Request $request)
+    {
+         Log::info("response = ".print_r($request->all(),true));
+       // return $request->all();
+    }
     public function temp()
     {
 
