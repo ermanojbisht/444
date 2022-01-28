@@ -26,10 +26,8 @@ class StoreUserRequest extends FormRequest
             'roles.*'  => ['integer'],
             'roles'    => ['array'],
             'chat_id'  => ['integer'],
-            'contact_no'  => ['integer'],
-            'designation'  => ['string'],
-            'remark'       => ['string'],
-            'emp_code'     => ['string'],
+            'contact_no'  => ['integer','required'],
+            'employee_id'     => ['string','nullable','unique:users'],
             'user_type'    => ['integer'],
         ];
     }

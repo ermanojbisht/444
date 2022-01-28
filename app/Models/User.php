@@ -17,8 +17,7 @@ use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
 use \DateTimeInterface;
 
-
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use SoftDeletes, Notifiable, HasApiTokens,UserOfficesTrait;
 
@@ -127,6 +126,11 @@ class User extends Authenticatable
     public function permissions()
     {
         return $this->belongsToMany(Permission::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
     /**
      * [mkb hasAccess checks only permission table used in hasPermissionTo]

@@ -25,7 +25,8 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Designation extends Model
 {
-	 protected $fillable = [
+	 protected $connection='mysqlmispwd';
+     protected $fillable = [
          'id',
 		  'name',
 		  'short_code',
