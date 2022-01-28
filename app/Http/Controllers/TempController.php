@@ -14,11 +14,12 @@ class TempController extends Controller
 
         $acr_type_id =  $acr->acr_type_id;
 
-        return $data = $acr->acrMasterParameters()->get();
+        $groupIds = $acr->acrMasterParameters()->get()->pluck('config_group')->unique();
 
-        $groupIds = $data->pluck('config_group')->unique();
 
-        return view('acr.create',compact('acr', 'groupIds'));
+        $datas = $acr->acrMasterParameters()->get();
+
+        return view('acr.create',compact('acr', 'groupIds','datas'));
 
     }
 
