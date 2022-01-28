@@ -23,6 +23,8 @@ Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'],fu
 
 
 
+Route::get('create/{acr}', 'TempController@create');
+
 Route::get('userVerification/{token}', 'UserVerificationController@approve')->name('userVerification');
 
 // Admin

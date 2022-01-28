@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Helper;
-use App\Models\AlertProject;
-use App\Models\Contract\Bond;
-use App\Models\Employee;
-use App\Models\Nabard\NabardWorkDetail;
-use App\Models\ODK\Actor;
-use App\Models\Procurement\Contractor;
-use App\Models\Qrrequest;
-use App\Models\Track\InstanceEstimate;
-use App\Models\User;
-use App\Models\Work;
-use DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+
+use App\Models\Acr\Acr;
 
 class TempController extends Controller
 {
 
+    public function create(Acr $acr)
+    {
 
+        $acr_type_id =  $acr->acr_type_id;
+
+        return $data = $acr->acrMasterParameters()->get();
+
+        $groupIds = $data->pluck('config_group')->unique();
+
+        return view('acr.create',compact('acr', 'groupIds'));
+
+    }
 
     public function temp()
     {
