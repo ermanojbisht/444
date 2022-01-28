@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
+use Illuminate\Http\Request;
 use App\Models\Acr\Acr;
 
 use Log;
@@ -27,7 +27,9 @@ class TempController extends Controller
 
     public function store(Request $request)
     {
+         return $request->all();
          Log::info("response = ".print_r($request->all(),true));
+         redirect()->back();
        // return $request->all();
     }
     public function temp()
