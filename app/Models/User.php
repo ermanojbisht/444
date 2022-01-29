@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use App\Models\OfficeJobDefault;
 use App\Notifications\VerifyUserNotification;
 use App\Traits\UserOfficesTrait;
 use Carbon\Carbon;
@@ -206,6 +207,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function inRole(string $roleSlug)
     {
         return $this->roles()->where('name', $roleSlug)->count() == 1;
+    }
+
+    public function relatedOfficeToAnyJobs($jobs=[])
+    {
+        return OfficeJobDefault::where('user_id',$this->id)->whereIn('job_id',$jobs)->get()->pluck('office_id');
     }
 
 

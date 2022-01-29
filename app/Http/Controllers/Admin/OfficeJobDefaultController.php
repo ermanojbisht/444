@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOfficeJobDefaultRequest;
 use App\Models\EeOffice;
+use App\Models\Office;
 use App\Models\OfficeJob;
 use App\Models\OfficeJobDefault;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Auth;
 use Gate;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -39,7 +40,7 @@ class OfficeJobDefaultController extends Controller
     public function index()
     {
         abort_if(Gate::denies('office_job_default_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $officeJobDefaults = OfficeJobDefault::with(['user', 'jobType','eeOffice'])->get();
+        $officeJobDefaults = OfficeJobDefault::with(['user', 'jobType','Office'])->get();
         return view('admin.officeJobDefaults.index', compact('officeJobDefaults'));
     }
     /**
@@ -52,7 +53,7 @@ class OfficeJobDefaultController extends Controller
        
        $jobs = OfficeJob::all()->pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
        $users = User::all();
-       $offices = EeOffice::all();
+       $offices = Office::all();
        return view('admin.officeJobDefaults.create',compact('jobs','users','offices'));
     }
 
@@ -111,6 +112,7 @@ class OfficeJobDefaultController extends Controller
      */
     public function destroy(OfficeJobDefault $officeJobDefault)
     {
-        //
+        $officeJobDefault->delete();
+        return redirect()->route('admin.office-job-defaults.index')->with('success','Data deleted');
     }
 }

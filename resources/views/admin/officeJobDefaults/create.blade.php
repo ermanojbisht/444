@@ -24,26 +24,26 @@
                 <span class="help-block">JOB ID</span>
             </div>
             <div class="form-group">
-                <label class="required" for="ee_office_id">EE Office</label>
-                <select class="form-control select2 {{ $errors->has('ee_office_id') ? 'is-invalid' : '' }}" name="ee_office_id" id="ee_office_id" required>
+                <label class="required" for="office_id">Office</label>
+                <select class="form-control select2 {{ $errors->has('office_id') ? 'is-invalid' : '' }}" name="office_id" id="office_id" required>
                     <option value="" >Please select</option>
                     @foreach($offices as $id => $office)
-                        <option value="{{ $office->id }}" {{ old('ee_office_id') == $office->id ? 'selected' : '' }}>{{ $office->name }}</option>
+                        <option value="{{ $office->id }}" {{ old('office_id') == $office->id ? 'selected' : '' }}>{{ $office->name }}</option>
                     @endforeach
                 </select>
-                @if($errors->has('ee_office_id'))
+                @if($errors->has('office_id'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('ee_office_id') }}
+                        {{ $errors->first('office_id') }}
                     </div>
                 @endif
-                <span class="help-block">EE Office ID</span>
+                <span class="help-block">Office</span>
             </div>
             <div class="form-group">
                 <label class="required" for="user_id">Name Of User</label>
                 <select class="form-control select2 {{ $errors->has('user_id') ? 'is-invalid' : '' }}" name="user_id" id="user_id" required>
                     <option value="" >Please select</option>
                     @foreach($users as $id => $user)
-                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }} : {{$user->employee_id}}</option>
                     @endforeach
                 </select>
                 @if($errors->has('user_id'))
