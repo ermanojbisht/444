@@ -25,6 +25,7 @@ Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'],fu
 
 Route::get('create/{acr}', 'TempController@create');
 Route::post('store', 'TempController@store')->name('temp.store');
+Route::post('store2', 'TempController@store2')->name('temp.store2');
 
 //Route::post('/assignOfficeAndJob', 'UsersController@assignOfficeAndJob');
 
