@@ -48,15 +48,6 @@ class SeOfficeController extends Controller
                 ));
             });
 
-            $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
-            });
-            $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : "";
-            });
-            $table->editColumn('name_h', function ($row) {
-                return $row->name_h ? $row->name_h : "";
-            });
             $table->editColumn('head_emp_code', function ($row) {
                 $emp = Employee::find($row->head_emp_code);
                 if ($emp) {
@@ -65,21 +56,9 @@ class SeOfficeController extends Controller
                     return "no data";
                 }
             });
-            $table->editColumn('email_1', function ($row) {
-                return $row->email_1 ? $row->email_1 : "";
-            });
-            $table->editColumn('email_2', function ($row) {
-                return $row->email_2 ? $row->email_2 : "";
-            });
-            $table->editColumn('contact_no', function ($row) {
-                return $row->contact_no ? $row->contact_no : "";
-            });
-            $table->editColumn('lat', function ($row) {
-                return $row->lat ? $row->lat : "";
-            });
-            $table->editColumn('lon', function ($row) {
-                return $row->lon ? $row->lon : "";
-            });
+
+
+
             $table->addColumn('ce_office_name', function ($row) {
                 return $row->ce_office ? $row->ce_office->name : '';
             });

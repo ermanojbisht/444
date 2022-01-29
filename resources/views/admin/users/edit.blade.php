@@ -99,30 +99,20 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    {{--  Designation text --}}
-                    <div class="form-group">
-                        <label class="required" for="designation">{{ trans('cruds.user.fields.designation') }}</label>
-                        <input class="form-control {{ $errors->has('designation') ? 'is-invalid' : '' }}" type="text" name="designation" id="designation" value="{{ old('designation', $user->designation) }}" required>
-                        @if($errors->has('designation'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('designation') }}
-                            </div>
-                        @endif
-                        <span class="help-block">{{ trans('cruds.user.fields.designation_helper') }}</span>
-                    </div>
-                </div>
-                <div class="col-md-6">
                     {{--  Employee code text --}}
                     <div class="form-group">
-                        <label class="" for="emp_code">{{ trans('cruds.user.fields.emp_code') }}</label>
-                        <input class="form-control {{ $errors->has('emp_code') ? 'is-invalid' : '' }}" type="text" name="emp_code" id="emp_code" value="{{ old('emp_code', $user->emp_code) }}" >
-                        @if($errors->has('emp_code'))
+                        <label class="" for="employee_id">{{ trans('cruds.user.fields.emp_code') }}</label>
+                        <input class="form-control {{ $errors->has('employee_id') ? 'is-invalid' : '' }}" type="text" name="employee_id" id="employee_id" value="{{ old('employee_id', $user->employee_id) }}" >
+                        @if($errors->has('employee_id'))
                             <div class="invalid-feedback">
-                                {{ $errors->first('emp_code') }}
+                                {{ $errors->first('employee_id') }}
                             </div>
                         @endif
                         <span class="help-block">{{ trans('cruds.user.fields.emp_code_helper') }}</span>
                     </div>
+                </div>
+                <div class="col-md-6">
+                    {{--  Designation text --}}
                 </div>
             </div>
             {{-- approved check box --}}
@@ -190,17 +180,6 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.user.fields.permissions_helper') }}</span>
-            </div>
-            {{--  remark text --}}
-            <div class="form-group">
-                <label class="" for="remark">{{ trans('cruds.user.fields.remark') }}</label>
-                <input class="form-control {{ $errors->has('remark') ? 'is-invalid' : '' }}" type="text" name="remark" id="remark" value="{{ old('remark', $user->remark) }}" >
-                @if($errors->has('remark'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('remark') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.user.fields.remark_helper') }}</span>
             </div>
             {{-- mkb submit --}}
             <div class="form-group">

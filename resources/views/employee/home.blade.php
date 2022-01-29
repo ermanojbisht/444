@@ -30,7 +30,23 @@
                     @if(auth()->user())
                       &#128591; {{strtoupper(auth()->user()->name)}}
                       @if(strpos(auth()->user()->email, 'emp.com') !== false )
-                      <br>For Security Resons .Please change your mail . todo button
+                      <p>For Security Resons .Please change your mail .</p>
+                      @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
+                        <a class="btn btn-info" href="{{ route('profile.password.edit') }}">
+                            <i class="fa-fw fas fa-key c-sidebar-nav-icon">
+                            </i>
+                            Change Your Email / Password
+                        </a>
+                      @endif
+                      @else
+                      @if(!auth()->user()->email_verified_at))
+                      <p>For Security Resons .Please verify your mail .</p>
+                        <a class="btn btn-info" href="{{ route('verification.notice') }}">
+                            <i class="fa-fw fas fa-key c-sidebar-nav-icon">
+                            </i>
+                            Process Verification
+                        </a>
+                      @endif
                       @endif
                       {{-- @if(auth()->user()->chat_id <= 11111 )
                       <br>Your telegram is not mapped with PWD System, You may like to share the info with set procedure .Consult to PWD IT Cell.  <a href="http://mis.pwduk.in/dms/index.php/summary/128-website-software-trainning-material/1276-subscribe-telegram-bot-for-pwd-alerts">You may follow this video link</a>

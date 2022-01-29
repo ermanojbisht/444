@@ -27,11 +27,10 @@ class UpdateUserRequest extends FormRequest
             'permissions.*' => [ 'integer',],
             'permissions'   => ['array',],
             'chat_id'  => ['integer','nullable',],
-            'contact_no'  => ['integer','nullable',],
-            'designation'  => ['string','nullable',],
-            'remark'       => ['string','nullable',],
-            'emp_code'     => ['string','nullable',],
+            'contact_no'  => ['integer','required',],
+            'employee_id'     => ['string','nullable','unique:users,employee_id,' . request()->route('user')->id],
             'user_type'    => ['integer','nullable',],
         ];
     }
 }
+//42270313M02006

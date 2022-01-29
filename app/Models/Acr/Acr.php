@@ -7,6 +7,9 @@ use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
+use  App\Models\Employee;
+
+use  App\Models\Acr\AcrType;
 
 class Acr extends Model
 {
@@ -19,11 +22,15 @@ class Acr extends Model
 	public function acrMasterParameters()
 	{
 		return $this->hasMany(AcrMasterParameter::class, 'acr_type_id', 'acr_type_id');
+	} 
+	
+	public function type(){
+		return $this-> belongsTo(AcrType::class, 'acr_type_id', 'id');
 	}
 
 	public function getEmployeeData()
-	{
-		return $this->belongsTo(Employee::class, 'employee_id', 'id');
-	}
+	  {
+	    return $this->belongsTo(Employee::class, 'employee_id', 'id');
+	  }
 
-}
+} 

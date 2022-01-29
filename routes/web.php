@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+
 
 Route::get('lang/{locale}', function ($locale) {
     app()->setLocale($locale);
@@ -9,13 +12,17 @@ Route::get('lang/{locale}', function ($locale) {
 })->name('changeLang');
 
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/', 'Employee\HomeController@dashboard')->name('employee.home');
+});
+//Auth::routes();
+Auth::routes(['verify' => true]);
 
-Auth::routes();
 //employee system routes-------------------------
 Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'],function(){
 
-    Route::group(['middleware' => ['auth']], function () {
-        Route::get('/', 'HomeController@dashboard')->name('home');
+    Route::group(['middleware' => ['auth','verified']], function () {
+
     });
 });
 //employee system routes-------------------------------
@@ -25,6 +32,12 @@ Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'],fu
 //  ACR
 
 Route::get('create/{acr}', 'TempController@create');
+Route::post('store', 'TempController@store')->name('temp.store');
+Route::post('store2', 'TempController@store2')->name('temp.store2');
+
+//Route::post('/assignOfficeAndJob', 'UsersController@assignOfficeAndJob');
+
+
 
 Route::get('view', 'Employee\Acr\AcrController@index')->name('myacr.list');
 Route::get('create', 'Employee\Acr\AcrController@create')->name('acr.create');
@@ -74,8 +87,7 @@ Route::get('userVerification/{token}', 'UserVerificationController@approve')->na
 
 // Admin
 
-Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
-
+Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth','verified']], function () {
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
     Route::resource('permissions', 'PermissionsController');

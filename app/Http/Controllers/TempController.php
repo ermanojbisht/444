@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
+use Illuminate\Http\Request;
 use App\Models\Acr\Acr;
+use App\Models\Acr\AcrParameter;
+use App\Models\Acr\AcrBasic;
+use App\Models\Acr\AcrType;
+
+use Log;
 
 class TempController extends Controller
 {
@@ -12,16 +17,47 @@ class TempController extends Controller
     public function create(Acr $acr)
     {
 
-        $acr_type_id =  $acr->acr_type_id;
+       // return ;
 
-        $groupIds = $acr->acrMasterParameters()->get()->pluck('config_group')->unique();
-
-
-        $datas = $acr->acrMasterParameters()->get();
-
-        return view('acr.create',compact('acr', 'groupIds','datas'));
+        $dataGroups = $acr->acrMasterParameters()->where('type',1)->get()->groupBy('config_group');
+        $NegativeGroups = $acr->acrMasterParameters()->where('type',0)->get()->groupBy('config_group');
+       
+        return view('acr.create',compact('acr','dataGroups','NegativeGroups'));
 
     }
+
+    public function store(Request $request)
+    {
+        //return $request->all();
+        foreach($request->acr_master_parameter_id as $acr_master_parameter){
+            if($request->applicable[$acr_master_parameter] == 1 ) {
+                AcrParameter::create([
+                    'acr_id' => $request->acr_id, 
+                    'acr_master_parameter_id' => $acr_master_parameter,
+                    'user_target' => $request->target[$acr_master_parameter]??'',
+                    'user_achivement' => $request->achivement[$acr_master_parameter]??'',
+                    'status' => $request->status[$acr_master_parameter]??'',
+                ]);   
+            }
+        }
+        return redirect()->back();
+    }
+
+    public function store2(Request $request)
+    {
+        //return $request->all();
+        
+                AcrBasic::create([
+                    'acr_id' => $request->acr_id, 
+                    'good_work' => $request->good_work, 
+                    'difficultie' => $request->difficultie, 
+                    
+                ]);   
+        
+        return redirect()->back();
+    }
+
+
 
     public function temp()
     {

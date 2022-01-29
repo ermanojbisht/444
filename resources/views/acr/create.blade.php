@@ -1,25 +1,5 @@
 @extends('layouts.type200.main')
-
-@section('styles')
-@include('cssbundle.datatablefor5',['button'=>true])
-@endsection
-@section('sidebarmenu')
-@include('layouts.type200._commonpartials._sidebarmenu',['active'=>'arc'])
-@endsection
-
-@section('pagetitle')
-My ACR
-@endsection
-
-@section('breadcrumb')
-@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
-['label'=> 'Acr ','active'=>false],
-['label'=> 'Create','active'=>true]
-]])
-@endsection
-
 @section('content')
- 
 {{$acr->type->description}}
 <hr>
 <div class="card">
@@ -154,5 +134,4 @@ My ACR
 			    </div>
 	</form>
 </div>
-@endsection
 @endsection
