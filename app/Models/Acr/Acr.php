@@ -7,7 +7,7 @@ use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
-use  App\Models\Employee;
+
 
 use  App\Models\Acr\AcrType;
 
