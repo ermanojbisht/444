@@ -90,7 +90,6 @@ return [
     ],
     'userJobAllotmentMenu' => [ //todo same in mispwd
         '1' => ['id' => '1', 'name' => 'Offices'],
-        '2' => ['id' => '2', 'name' => 'forest info of Works'],
     ],
 
     'forestTimeLineBaseUrl' => 'http://forestsclearance.nic.in/timeline.aspx?pid=',

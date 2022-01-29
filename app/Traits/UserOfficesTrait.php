@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 use App\Models\CeOffice;
+use App\Models\EeOffice;
 use App\Models\SeOffice;
 use DB;
 use Log;
@@ -25,7 +26,7 @@ trait UserOfficesTrait {
 			{
 			case 'App\CeOffice':
 			//Log::info("office_id...... = ".print_r($office_id,true));
-				$offices = DB::table('ce_offices')
+				$offices = DB::table('mispwd.ce_offices')
 					->where('id', $office_id)->where('is_exist', 1)
 					->first();
 				
@@ -73,7 +74,7 @@ trait UserOfficesTrait {
 				break;
 			case 'App\SeOffice': //IF USER HAS SE OFFICE
 
-				$offices = DB::table('se_offices')
+				$offices = DB::table('mispwd.se_offices')
 					->where('id', $office_id)->where('is_exist', 1)
 					->first();
 				if($offices){
@@ -111,7 +112,7 @@ trait UserOfficesTrait {
 				break;
 
 			case 'App\EeOffice': //IF USER HAS EE OFFICE
-				$offices = DB::table('ee_offices')
+				$offices = DB::table('mispwd.ee_offices')
 					->where('id', $office_id)
 					->first();
 				if($offices){
@@ -198,7 +199,13 @@ trait UserOfficesTrait {
             {
             case 'App\CeOffice':
             //Log::info("office_id...... = ".print_r($office_id,true));
-                $offices = DB::table('ce_offices')
+                $ceofficetable='mispwd.'.(new CeOffice)->table;
+               // Log::info("this = ".print_r($ceofficetable,true));
+               /* $connection=(new CeOffice)->tableName();
+                Log::info("this = ".print_r($connection,true));*/
+
+
+                $offices = DB::table($ceofficetable)
                     ->where('id', $office_id)->where('is_exist', 1)
                     ->first();
 
@@ -210,8 +217,8 @@ trait UserOfficesTrait {
                 }
                 break;
             case 'App\SeOffice': //IF USER HAS SE OFFICE
-
-                $offices = DB::table('se_offices')
+                $seofficetable='mispwd.'.(new SeOffice)->table;
+                $offices = DB::table($seofficetable)
                     ->where('id', $office_id)->where('is_exist', 1)
                     ->first();
                 if($offices){
@@ -223,7 +230,8 @@ trait UserOfficesTrait {
                 break;
 
             case 'App\EeOffice': //IF USER HAS EE OFFICE
-                $offices = DB::table('ee_offices')
+                $eeofficetable='mispwd.'.(new EeOffice)->table;
+                $offices = DB::table($eeofficetable)
                     ->where('id', $office_id)
                     ->first();
                 if($offices){

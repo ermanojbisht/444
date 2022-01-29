@@ -13,7 +13,7 @@
         @if(auth()->user())
           &#128591; {{strtoupper(auth()->user()->name)}}
           @if(strpos(auth()->user()->email, 'emp.com') !== false )
-          <br>Please change your mail . Share your mail with IT cell
+          <br>Please change your mail .
           @endif
         @endif
         @if(count(config('panel.available_languages', [])) > 1)

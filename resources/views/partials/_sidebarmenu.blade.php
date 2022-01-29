@@ -133,20 +133,7 @@
                 </ul>
             </li>
         @endcan
-        @can('asset_access')
-            <li class="c-sidebar-nav-dropdown">
-                <a class="c-sidebar-nav-dropdown-toggle" href="#">
-                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
-                    </i>
-                    {{ trans('cruds.asset.title') }}
-                </a>
-                <ul class="c-sidebar-nav-dropdown-items">
-
-
-                </ul>
-            </li>
-        @endcan
         @can('alerts_for_proj_admin_access')
             <li class="c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">

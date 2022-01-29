@@ -24,8 +24,8 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="" for="name_h">{{ trans('cruds.user.fields.name_h') }}</label>
-                        <input class="form-control {{ $errors->has('name_h') ? 'is-invalid' : '' }}" type="text" name="name_h" id="name_h" value="{{ old('name_h', '') }}" >
+                        <label class="required" for="name_h">{{ trans('cruds.user.fields.name_h') }}</label>
+                        <input class="form-control {{ $errors->has('name_h') ? 'is-invalid' : '' }}" type="text" name="name_h" id="name_h" value="{{ old('name_h', '') }}" required>
                         @if($errors->has('name_h'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('name_h') }}
@@ -91,30 +91,20 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    {{--  Designation text --}}
-                    <div class="form-group">
-                        <label class="required" for="designation">{{ trans('cruds.user.fields.designation') }}</label>
-                        <input class="form-control {{ $errors->has('designation') ? 'is-invalid' : '' }}" type="text" name="designation" id="designation" value="{{ old('designation', '') }}" required>
-                        @if($errors->has('designation'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('designation') }}
-                            </div>
-                        @endif
-                        <span class="help-block">{{ trans('cruds.user.fields.designation_helper') }}</span>
-                    </div>
-                </div>
-                <div class="col-md-6">
                     {{--  Employee code text --}}
                     <div class="form-group">
-                        <label class="" for="emp_code">{{ trans('cruds.user.fields.emp_code') }}</label>
-                        <input class="form-control {{ $errors->has('emp_code') ? 'is-invalid' : '' }}" type="text" name="emp_code" id="emp_code" value="{{ old('emp_code', '') }}" >
-                        @if($errors->has('emp_code'))
+                        <label class="required" for="employee_id">{{ trans('cruds.user.fields.emp_code') }}</label>
+                        <input class="form-control {{ $errors->has('employee_id') ? 'is-invalid' : '' }}" type="text" name="employee_id" id="employee_id" value="{{ old('employee_id', '') }}" required>
+                        @if($errors->has('employee_id'))
                             <div class="invalid-feedback">
-                                {{ $errors->first('emp_code') }}
+                                {{ $errors->first('employee_id') }}
                             </div>
                         @endif
                         <span class="help-block">{{ trans('cruds.user.fields.emp_code_helper') }}</span>
                     </div>
+                </div>
+                <div class="col-md-6">
+
                 </div>
             </div>
             {{-- approved check box --}}
@@ -151,16 +141,6 @@
                 <span class="help-block">{{ trans('cruds.user.fields.roles_helper') }}</span>
             </div>
             {{--  remark text --}}
-            <div class="form-group">
-                <label class="" for="remark">{{ trans('cruds.user.fields.remark') }}</label>
-                <input class="form-control {{ $errors->has('remark') ? 'is-invalid' : '' }}" type="text" name="remark" id="remark" value="{{ old('remark', '') }}" >
-                @if($errors->has('remark'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('remark') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.user.fields.remark_helper') }}</span>
-            </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}

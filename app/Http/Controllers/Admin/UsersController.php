@@ -7,24 +7,80 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\ODK\WorkToNotify;
+use App\Models\Employee;
+use App\Models\Office;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\user_office;
+use App\Traits\UserOfficesTrait;
 use Gate;
 use Illuminate\Http\Request;
 use Log;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class UsersController extends Controller {
-	public function index() {
+    use UserOfficesTrait;
+	public function index(Request $request) {
 
-		//abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+		abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if ($request->ajax()) {
+            $query = User::with(['roles','employee','employee.designation'])->select(sprintf('%s.*', (new User)->table));
+            $table = Datatables::of($query);
 
-		$users = User::with('roles')->get()->take(1000);
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
 
-		return view('admin.users.index', compact('users'));
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'user_show';
+                $editGate = 'user_edit';
+                $deleteGate = 'user_delete';
+                $crudRoutePart = 'users';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->addColumn('designation', function($row){
+                if($row->employee->designation){
+                    return $row->employee->designation->name;
+                }
+                return 'no designation';
+
+            });
+
+            $table->editColumn('roles', function ($row) {
+                $roles='';
+                foreach ($row->roles as $key => $item) {
+                  $roles.= '<span class="badge badge-info">'.$item->name.'</span>';
+               }
+               return $roles;
+            });
+            $table->editColumn('approved', function ($row) {
+                $verifiedchecked=$row->approved ? 'checked' : '';
+                return '<input type="checkbox" disabled="disabled" '.$verifiedchecked . '>';
+            });
+
+
+            $table->editColumn('verified', function ($row) {
+                $verifiedchecked=$row->verified ? 'checked' : '';
+                return '<input type="checkbox" disabled="disabled" '.$verifiedchecked . '>';
+            });
+
+
+            $table->rawColumns(['actions', 'placeholder','roles','approved','verified']);
+
+            return $table->make(true);
+         }
+		 $offices=Office::all();
+
+		return view('admin.users.index', compact('offices'));
 	}
 
 	public function create() {
@@ -41,6 +97,7 @@ class UsersController extends Controller {
 	 * @param StoreUserRequest $request
 	 */
 	public function store(StoreUserRequest $request) {
+        $this->checkEmployeeIdExist($request);
 		$user = User::create($request->all());
 		$user->roles()->sync($request->input('roles', []));
 		event(new UserCreatedEvent($user));
@@ -69,6 +126,7 @@ class UsersController extends Controller {
 	 * @param User $user
 	 */
 	public function update(UpdateUserRequest $request, User $user) {
+        $this->checkEmployeeIdExist($request);
 		$user->update($request->all());
 		$user->roles()->sync($request->input('roles', []));
 		$user->permissions()->sync($request->input('permissions', []));
@@ -117,9 +175,9 @@ class UsersController extends Controller {
 		$Officetypes          = collect(config('site.officeType'))->pluck('name', 'id');
 		$userJobAllotmentMenu = collect(config('site.userJobAllotmentMenu'))->pluck('name', 'id');
 
-        $patterns=$userInfo->workToNotify()->get();
 
-		return view('admin.users.userprofileForOffice', compact('userInfo', 'allowedEeoffice', 'allowedSeoffice', 'allowedCeoffice', 'Officetypes', 'userJobAllotmentMenu','patterns'));
+
+		return view('admin.users.userprofileForOffice', compact('userInfo', 'allowedEeoffice', 'allowedSeoffice', 'allowedCeoffice', 'Officetypes', 'userJobAllotmentMenu'));
 	}
 
 	/**
@@ -131,9 +189,6 @@ class UsersController extends Controller {
 		$eeoffice = $request->get('eeoffice');
 		$seoffice = $request->get('seoffice');
 		$ceoffice = $request->get('ceoffice');
-		Log::info("eeoffice = ".print_r($eeoffice, true));
-		Log::info("seoffice = ".print_r($seoffice, true));
-		Log::info("ceoffice = ".print_r($ceoffice, true));
 
 		if ($eeoffice) {
 			foreach ($eeoffice as $key => $oneOffice) {
@@ -307,5 +362,15 @@ class UsersController extends Controller {
             return redirect()->back()->with('success',$request->WORK_code . " pattern is added");
         }
 
+    }
+
+    public function checkEmployeeIdExist($request)
+    {
+        if($request->employee_id){
+            $employee=Employee::find($request->employee_id);
+            if(!$employee){
+                return redirect()->back()->with('fail','employee_id is not valid');
+            }
+        }
     }
 }

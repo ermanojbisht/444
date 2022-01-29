@@ -65,5 +65,6 @@ protected $routeMiddleware = [
         'signed'=> \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle'=> \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
+        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class, //mkb added for verified mail
     ];
 }
