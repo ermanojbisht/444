@@ -13,6 +13,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\user_office;
+use App\Traits\UserOfficesTrait;
 use Gate;
 use Illuminate\Http\Request;
 use Log;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
 class UsersController extends Controller {
+    use UserOfficesTrait;
 	public function index(Request $request) {
 
 		abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -173,9 +175,9 @@ class UsersController extends Controller {
 		$Officetypes          = collect(config('site.officeType'))->pluck('name', 'id');
 		$userJobAllotmentMenu = collect(config('site.userJobAllotmentMenu'))->pluck('name', 'id');
 
-        $patterns=$userInfo->workToNotify()->get();
 
-		return view('admin.users.userprofileForOffice', compact('userInfo', 'allowedEeoffice', 'allowedSeoffice', 'allowedCeoffice', 'Officetypes', 'userJobAllotmentMenu','patterns'));
+
+		return view('admin.users.userprofileForOffice', compact('userInfo', 'allowedEeoffice', 'allowedSeoffice', 'allowedCeoffice', 'Officetypes', 'userJobAllotmentMenu'));
 	}
 
 	/**

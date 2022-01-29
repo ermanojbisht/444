@@ -132,22 +132,7 @@
 
 
 
-    <div class="row">
-        <div class="col-md-12 ">
-                <div class="box box-success">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><i class="fa fa-user"></i>Works Patteren for Telegram notification</h3> <a class="btn btn-xs btn-info" href="{{route('admin.addTelegramPattern',['user'=>$userInfo->id])}}">Add Pattern</a>
-                    </div>
-                    <div class="box-body">
-                        <ul>
-                        @foreach($patterns as $pattern)
-                            <li>{{$pattern->WORK_code}}</li>
-                        @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-    </div>
+
 
 @endsection
 

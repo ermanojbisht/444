@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\Auditable;
+use App\Traits\CanGetTableNameStatically;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
@@ -10,7 +11,7 @@ use \DateTimeInterface;
 
 class CeOffice extends Model
 {
-    use SoftDeletes, Auditable;
+    use SoftDeletes, Auditable, CanGetTableNameStatically;
 
     public $table = 'ce_offices';
     protected $connection='mysqlmispwd';

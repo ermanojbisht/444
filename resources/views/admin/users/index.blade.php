@@ -126,7 +126,7 @@ let dtOverrideGlobals = {
         {data: 'verified', name: 'verified'}
     ],
     columnDefs:[
-         { "searchable": false, "targets": [0, 3,6] }  // Disable search on first and last columns
+         { "searchable": false, "targets": [0, 3,7] }  // Disable search on first and last columns
     ],
 
 
