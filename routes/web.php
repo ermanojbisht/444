@@ -22,8 +22,53 @@ Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'],fu
 
 
 
+//  ACR
 
 Route::get('create/{acr}', 'TempController@create');
+
+Route::get('view', 'Employee\Acr\AcrController@index')->name('myacr.list');
+Route::get('create', 'Employee\Acr\AcrController@create')->name('acr.create');
+
+
+//  ACR
+
+
+// Grivance
+
+//employee system routes-------------------------  // 
+Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['auth:employee']], function () {
+
+    // GrivanceController
+    Route::get('hr_grivance', 'App\Http\Controllers\Employee\HrGrivance\GrivanceController@index')->name('hr_grivance');
+    Route::get('hr_grivance/create', 'App\Http\Controllers\Employee\HrGrivance\GrivanceController@create')->name('hr_grivance.create');
+    Route::post('store', 'App\Http\Controllers\Employee\HrGrivance\GrivanceController@store')->name('hr_grivance.store');
+
+    Route::get('hr_grivance/edit/{hr_grivance}', 'App\Http\Controllers\Employee\HrGrivance\GrivanceController@edit')->name('hr_grivance.edit');
+    Route::post('update', 'App\Http\Controllers\Employee\HrGrivance\GrivanceController@update')->name('hr_grivance.update');
+
+    Route::get('hr_grivance/{hr_grivance}', 'App\Http\Controllers\Employee\HrGrivance\GrivanceController@show')->name('hr_grivance.show');
+
+    Route::post('ajaxDataForOffice', 'App\Http\Controllers\Employee\HrGrivance\GrivanceController@ajaxDataForOffice')->name('ajaxDataForOffice');
+});
+//employee system routes-------------------------------
+
+//ResolveGrievanceController
+
+Route::get('Office/HrGrivance', 'App\Http\Controllers\Employee\HrGrivance\Officer\ResolveGrievanceController@index')->name('office_hr_grivance');
+Route::get('Office/HrGrivance/{hr_grivance}/Show', 'App\Http\Controllers\Employee\HrGrivance\Officer\ResolveGrievanceController@show')->name('office.View.hrGrivance');
+Route::get('Office/resolve/hr_grivance/addDraft/{hr_grivance}', 'App\Http\Controllers\Employee\HrGrivance\Officer\ResolveGrievanceController@addDraft')->name('office.resolve.hr_grivance.addDraftAnswer');
+Route::post('addDraft', 'App\Http\Controllers\Employee\HrGrivance\Officer\ResolveGrievanceController@updateGrievance')->name('officer.hr_grivance.updateGrievance');
+
+Route::get('Office/resolve/hr_grivance/{hr_grivance}', 'App\Http\Controllers\Employee\HrGrivance\Officer\ResolveGrievanceController@addFinalAnswer')->name('office.resolve.hr_grivance');
+
+
+//ResolveGrievanceController
+
+
+
+// End Grievance
+
+
 
 Route::get('userVerification/{token}', 'UserVerificationController@approve')->name('userVerification');
 

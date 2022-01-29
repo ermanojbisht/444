@@ -14,12 +14,11 @@
         </svg>
     </div>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
-        <li class="nav-title">Track Instance</li>
-        <x-nav-item icon="plus" href="{{route('instance.create')}}">Add New Instance</x-nav-item>
-        <x-nav-group icon="book" name="ESTIMATE">
-            <x-nav-group icon="list-rich" name="Estimate List">
-                <x-nav-item icon="storage" href="{{route('index')}}">All Estimate</x-nav-item>
-                <x-nav-item icon="user-plus" href="{{route('myInstances')}}">My Estimate</x-nav-item>
+        <li class="nav-title">Track ACR</li>
+        <x-nav-item icon="plus" href="{{route('acr.create')}}">Add New ACR</x-nav-item>
+        <x-nav-group icon="book" name="ACR">
+            <x-nav-group icon="list-rich" name="ACR List"> 
+                <x-nav-item icon="user-plus" href="{{route('myacr.list')}}">My ACR</x-nav-item>
                 <x-nav-item icon="envelope-letter " href="{{route('receivedInstances')}}">Inbox</x-nav-item>
                 <x-nav-item icon="share" href="{{route('sentEstimateInstances')}}">Sent</x-nav-item>
             </x-nav-group>
