@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Employee\HrGrivance;
+namespace App\Http\Controllers\Employee\HrGrievance;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Models\DocumentType;
-use App\Models\Track\EstimateDocument;
-use App\Models\Track\Grivance\HrGrivance;
-use App\Models\Track\Grivance\HrGrivanceDocument;
+use App\Models\HrGrievance\HrGrievance;
+use App\Models\HrGrievance\HrGrievanceDocument;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -35,7 +34,7 @@ class GrivanceDocController extends Controller
      * @param $work_code
      * @param false        $doctypeid
      */
-    protected function doclist(HrGrivance $hr_grivance, $is_question = 1)
+    protected function doclist(HrGrievance $hr_grivance, $is_question = 1)
     {
         $doclist = $hr_grivance->documents();
         if ($is_question != 2) {
@@ -51,7 +50,7 @@ class GrivanceDocController extends Controller
     /**
      * @param $hr_hrivance
      */
-    public function addDocument(HrGrivance $hr_grivance)
+    public function addDocument(HrGrievance $hr_grivance)
     {
         $hr_grivance_id = $hr_grivance->id;
         return view('employee.hr_grivance.document.create', compact('hr_grivance_id'));
@@ -105,7 +104,7 @@ class GrivanceDocController extends Controller
         );
 
         $hr_grivance_id = $request->input('hr_grivance_id');
-        $hr_grivance = HrGrivance::findOrFail($hr_grivance_id);
+        $hr_grivance = HrGrievance::findOrFail($hr_grivance_id);
         $doctitle = $request->input('doctitle');
 
         if ($hr_grivance->checkSimlirityOfDocTitle($doctitle)) {
@@ -121,7 +120,7 @@ class GrivanceDocController extends Controller
             $path = $request->uploaded_file->storeAs('hrgrivancedocs/' . $hr_grivance_id, $fileName, 'public');
             $doc_address = config('site.app_url_mis') . '/' . $path;
 
-            $document = new HrGrivanceDocument;
+            $document = new HrGrievanceDocument;
             $document->hr_grivance_id = $hr_grivance_id;
             $document->name = $doctitle;
             $document->uploaded_by = Auth::user()->id;  //  todo:: employee logged in Employee Id to be supplied 
@@ -141,45 +140,4 @@ class GrivanceDocController extends Controller
         ' 2 days editable '; 
     } 
 
-
-    /**
-     * @param $docid
-     * @param $isactive
-     */
-    public function publishToggle($docid, $isactive)
-    {
-        $doc = EstimateDocument::findOrFail($docid);
-        $this->checkIfinstanceIsAllowed($doc->instanceEstimate->ee_office_id);
-        if ($isactive) {
-            $doc->is_active = 0;
-        } else {
-            $doc->is_active = 1;
-        }
-        $doc->save();
-
-        return redirect()->back()->with('success', 'Document Status Changed Successfully');
-    }
-
-    /**
-     * @param $id
-     */
-    public function editDocument($id)
-    {
-        $docdetails = Document::findOrFail($id);
-        $this->checkIfWorkIsAllowed($docdetails->work_code);
-        $docTypes = DocumentType::orderBy('name')->get();
-
-        return view('managedocuments.edit', compact('docdetails', 'docTypes'));
-    }
-
-    /**
-     * @param Request $request
-     */
-    public function searchDoc(Request $request)
-    {
-        return redirect()
-            ->route('instance.estimate.doclist', ['instance_estimate' => $request->input('instance_estimate_id'), 'doctypeid' => $request->input('doctype')])
-            ->with('status', session('status'));
-        //return redirect('doclist/'.$request->input('instance_estimate_id').'/'.$request->input('doctype'));
-    }
 }

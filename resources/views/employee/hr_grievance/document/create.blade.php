@@ -33,7 +33,7 @@
             <div class="card-header"></div>
             <div class="card-body card-block">
                 {{-- form --}}
-                <form action="{{ route('employee.hr_grivance.storeDocInHrGrivance') }}" method="post"
+                <form action="{{ route('employee.hr_grievance.storeDocInHrGrievance') }}" method="post"
                     enctype="multipart/form-data" class="">
                     {{ csrf_field() }}
                     <input type="hidden" name="hr_grivance_id" value="{{ $hr_grivance_id }}">

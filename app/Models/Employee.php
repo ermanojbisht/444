@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\HrGrievance\HrGrievance;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use DB;
@@ -159,6 +160,12 @@ class Employee extends Authenticatable
         ->whereIn('designation_id',  [13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,37,40,43,46,49,52,55,58,61,64,106,107,108])
         ->get();
     }
+
+    public function grievances()
+    {
+    	return $this->hasMany(HrGrievance::class, "employee_id", "id");
+    }
+
 
     
 }
