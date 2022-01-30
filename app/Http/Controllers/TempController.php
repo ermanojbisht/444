@@ -73,6 +73,8 @@ class TempController extends Controller
     {
         return view('temp');
 
+        return User::find(600)->canDoJobInOffice('office-head', 2001);
+
         return User::find(600)->OfficeToAnyJob(['cao', 'office-head']);
 
         (new CeOffice)->bulkUpdateHeadEmpAsUserInJobTable();
