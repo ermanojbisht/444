@@ -136,6 +136,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::resource('office-jobs', 'OfficeJobController');
     // Office Jobs defailt user
     Route::resource('office-job-defaults', 'OfficeJobDefaultController');
+    Route::get('bulkUpdateOfficeHeadJob', 'OfficeJobDefaultController@bulkUpdateOfficeHeadJob')->name('bulkUpdateOfficeHeadJob');
 
 
     Route::get('getdistrictdetails/{districtid}/{dropdown}', 'AjaxController@districtDetail');

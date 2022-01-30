@@ -147,5 +147,11 @@ class OfficeJobDefaultController extends Controller
         (new CeOffice)->bulkUpdateHeadEmpAsUserInJobTable();
         (new EeOffice)->bulkUpdateHeadEmpAsUserInJobTable();
         (new SeOffice)->bulkUpdateHeadEmpAsUserInJobTable();
+        return redirect()->back()->with('success', 'Data updated');
+
     }
 }
+
+/**
+ * todo route('bulkUpdateOfficeHeadJob')
+ */
