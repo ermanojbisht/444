@@ -10,6 +10,7 @@ class Office extends Model
     use NodeTrait;
     public $timestamps =false;
     protected $connection='mysqlmispwd';
+    public $fulltable = 'mispwd.offices';
 
 
     public function getParentIdName()

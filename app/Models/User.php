@@ -276,6 +276,19 @@ class User extends Authenticatable implements MustVerifyEmail
         (OfficeJob::class, 'office_job_defaults', 'user_id', 'job_id', 'id', 'id')->withPivot('office_id');
     }
 
+    public function jobs()
+    {
+        $officeTable=(new Office)->fulltable;
+
+        return OfficeJobDefault::where('user_id',$this->id)
+        ->join($officeTable, 'office_job_defaults.office_id', '=', $officeTable.'.id')
+        ->join('office_jobs', 'office_job_defaults.job_id', '=', 'office_jobs.id')
+        ->select('office_job_defaults.id', $officeTable.'.name as office_name','office_jobs.name')
+        ->orderBy('office_jobs.name')
+        ->orderBy($officeTable.'.id')
+        ->get();
+    }
+
     /**
      * @param array $jobs
      */
