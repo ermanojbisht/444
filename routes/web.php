@@ -14,6 +14,7 @@ Route::get('lang/{locale}', function ($locale) {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', 'Employee\HomeController@dashboard')->name('employee.home');
+    Route::post('employeeBasicData', 'Employee\HomeController@employeeBasicData')->name('employee.basicData');
 });
 //Auth::routes();
 Auth::routes(['verify' => true]);
