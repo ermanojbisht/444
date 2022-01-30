@@ -17,6 +17,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
 use \DateTimeInterface;
+use Log;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -44,7 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->chat_id;
     }
- 
+
 
 
     protected function serializeDate(DateTimeInterface $date)
@@ -131,7 +132,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class)->with('designation');
     }
     /**
      * [mkb hasAccess checks only permission table used in hasPermissionTo]
@@ -178,13 +179,13 @@ class User extends Authenticatable implements MustVerifyEmail
             if($all['ee']){
                 return $all['ee']; //id and name array of object
             }
-        } 
+        }
         return false;
     }
 
     /**
      * Checks if User has access to any $permissions.
-     * 
+     *
      */
     public function hasPermissionTo(array $permission) : bool //mkb checked
     {
@@ -199,7 +200,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 return true;
             }
         return false;
-    }   
+    }
 
     /**
      * Checks if the user belongs to role.
@@ -209,9 +210,34 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->roles()->where('name', $roleSlug)->count() == 1;
     }
 
-    public function relatedOfficeToAnyJobs($jobs=[])
+    public function officeJobs()
     {
-        return OfficeJobDefault::where('user_id',$this->id)->whereIn('job_id',$jobs)->get()->pluck('office_id');
+        return $this->belongsToMany
+        (OfficeJob::class,'office_job_defaults','user_id','job_id','id','id')->withPivot('office_id');
+    }
+
+    public function OfficeToAnyJob(array $jobs)
+    {
+
+        return OfficeJobDefault::where('user_id',$this->id)
+        ->whereIn('job_id',OfficeJob::whereIn('name',$jobs)->get()
+        ->pluck('id'))->get()->pluck('office_id');
+    }
+
+    public function employeeDetailAsHtml()
+    {
+        $employee=$this->employee;
+        if($employee){
+            $designation=($employee->designation)?$employee->designation->name:'Not found';
+            $dob=$employee->birth_date->format('d M y');
+            return "
+                Name:$employee->name <br>
+                Designation:$designation <br>
+                DOB:$dob <br>
+            ";
+        }else{
+            return "User is not designated as employee";
+        }
     }
 
 
