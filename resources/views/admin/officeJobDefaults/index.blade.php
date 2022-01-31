@@ -4,14 +4,14 @@
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.office-job-defaults.create') }}">
-                Add a user to a job for a particular office
+                Add a user to a assigned job for a particular office
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        List of user to a job in a EE office
+        List of user to a job in an office
     </div>
 
     <div class="card-body">
@@ -29,7 +29,7 @@
                            JOB 
                         </th>
                         <th>
-                          EE office
+                          office
                         </th>
                         <th>
                             User
@@ -52,7 +52,7 @@
                                 {{ $officeJobDefault->jobType->name ?? '' }}
                             </td>
                             <td>
-                                {{ $officeJobDefault->eeOffice->name ?? '' }}
+                                {{ $officeJobDefault->office->name ?? '' }}
                             </td>
                             <td>
                                 {{ $officeJobDefault->user->name ?? '' }}</br>
@@ -61,25 +61,19 @@
                             </td>
                             
                             <td>
-                                @can('office_job_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.office-job-defaults.show', $officeJobDefault->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('office_job_default_edit')
+                                {{-- @can('office_job_default_edit')
                                     <a class="btn btn-xs btn-info" href="{{ route('admin.office-job-defaults.edit', $officeJobDefault->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
-                                @endcan
+                                @endcan --}}
 
-                                @can('office_job_delete')
+                                {{-- @can('office_job_delete') --}}
                                     <form action="{{ route('admin.office-job-defaults.destroy', $officeJobDefault->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                     </form>
-                                @endcan
+                                {{-- @endcan --}}
 
                             </td>
 

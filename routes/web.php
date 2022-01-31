@@ -14,6 +14,7 @@ Route::get('lang/{locale}', function ($locale) {
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', 'Employee\HomeController@dashboard')->name('employee.home');
+    Route::post('employeeBasicData', 'Employee\HomeController@employeeBasicData')->name('employee.basicData');
 });
 //Auth::routes();
 Auth::routes(['verify' => true]);
@@ -135,6 +136,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::resource('office-jobs', 'OfficeJobController');
     // Office Jobs defailt user
     Route::resource('office-job-defaults', 'OfficeJobDefaultController');
+    Route::get('bulkUpdateOfficeHeadJob', 'OfficeJobDefaultController@bulkUpdateOfficeHeadJob')->name('bulkUpdateOfficeHeadJob');
 
 
     Route::get('getdistrictdetails/{districtid}/{dropdown}', 'AjaxController@districtDetail');

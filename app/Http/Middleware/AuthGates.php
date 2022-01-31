@@ -13,11 +13,9 @@ class AuthGates
     {
         if(Auth::guard('web')->check()){
         $user = \Auth::user();
-        //Log::info("user = ".print_r($user,true));
 
         if ($user) {
-            $roles            = Role::with('permissions')->get();
-            //Log::info("roles = ".print_r($roles,true));
+            $roles = Role::with('permissions')->get();
             $permissionsArray = [];
 
             foreach ($roles as $role) {

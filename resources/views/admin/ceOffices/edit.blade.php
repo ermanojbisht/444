@@ -137,46 +137,18 @@
 
 @endsection
 @section('scripts')
+@include('partials.js._employeeSelect2DropDownJs')
     <script>
         $(document).ready(function () {
-// CSRF Token
+            employeeSelect2DropDown('#head_emp_code',minimumInputLength=3,employeeType='er',section='A');
 
-            var _token = $('input[name="_token"]').val();
-            $('#head_emp_code').select2({
-                minimumInputLength: 3,
-                placeholder: 'Select an Employess as head',
-                ajax: {
-                    url: "{{ route('dynamicdependent') }}",
-
-                    method: "POST",
-                    data: function (params) {
-                        return {
-                            _token: _token,
-                            term: params.term,// search term
-                            dependent: 'employee_id'
-                        };
-                    },
-
-                    dataType: 'json',
-                    delay: 250,
-                    processResults: function (data) {
-                        return {
-                            results: $.map(data, function (item) {
-                                return {
-                                    text: item.name + ":" + item.id,
-                                    id: item.id
-                                }
-                            })
-                        };
-                    },
-                    cache: true
-                }
-            });
-            var empSelected = $('#head_emp_code');
-            var data1 = {text: "{{$ceOffice->officeHead->nameemp??''}}", id: "{{$ceOffice->head_emp_code}}",}
-            var option = new Option(data1.text, data1.text.id, true, true);
+            let empSelected = $('#head_emp_code');
+            let data1 = {text: "{{$ceOffice->officeHead->nameemp??''}}", id: "{{$ceOffice->head_emp_code}}",}
+            let option = new Option(data1.text, data1.text.id, true, true);
             empSelected.append(option).trigger('change');
 
         });
+
+
     </script>
 @endsection

@@ -76,18 +76,7 @@
                                 {{ trans('cruds.user.title') }}
                             </a>
                         </li>
-                    @endcan
-
-                    @can('audit_log_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.audit-logs.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/audit-logs") || request()->is("admin/audit-logs/*") ? "active" : "" }}">
-                                <i class="fa-fw fas fa-file-alt c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.auditLog.title') }}
-                            </a>
-                        </li>
-                    @endcan
+                    @endcan      
                 </ul>
             </li>
         @endcan
@@ -134,14 +123,23 @@
             </li>
         @endcan
 
-        @can('alerts_for_proj_admin_access')
+        @can('office_job_access')
             <li class="c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <span class="iconSvg">{!!config('mis_entry.svgIcon')['alert']!!}</span>
-                    <span class="iconText">&#160;{{ trans('cruds.alertsForProjAdmin.title') }}</span>
+                    <span class="iconText">&#160;Jobs</span>
                 </a>
                 <ul class="c-sidebar-nav-dropdown-items">
+                    @can('office_job_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.office-jobs.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/office-jobs") || request()->is("admin/office-jobs/*") ? "active" : "" }}">
+                                <i class="fa-fw fas fa-shield-alt c-sidebar-nav-icon">
 
+                                </i>
+                                {{ trans('cruds.officeJob.title') }}
+                            </a>
+                        </li>
+                    @endcan    
                     @can('office_job_access')
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.office-job-defaults.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/office-job-defaults") || request()->is("admin/office-job-defaults/*") ? "active" : "" }}">
@@ -152,18 +150,16 @@
                             </a>
                         </li>
                     @endcan
-
-                    @can('office_job_access')
+                    @can('audit_log_access')
                         <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.office-jobs.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/office-jobs") || request()->is("admin/office-jobs/*") ? "active" : "" }}">
-                                <i class="fa-fw fas fa-shield-alt c-sidebar-nav-icon">
+                            <a href="{{ route("admin.audit-logs.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/audit-logs") || request()->is("admin/audit-logs/*") ? "active" : "" }}">
+                                <i class="fa-fw fas fa-file-alt c-sidebar-nav-icon">
 
                                 </i>
-                                {{ trans('cruds.officeJob.title') }}
+                                {{ trans('cruds.auditLog.title') }}
                             </a>
                         </li>
-                    @endcan
-
+                    @endcan 
                 </ul>
             </li>
         @endcan
