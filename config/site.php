@@ -110,4 +110,6 @@ return [
 <data><@attributes><id>PwdImage2.0</id><version>20210417</version></@attributes>',
     'form9OrignalHeader' => '<?xml version=\'1.0\' ?><data id="PwdImage2.0" version="20210417" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:orx="http://openrosa.org/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:odk="http://www.opendatakit.org/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:jr="http://openrosa.org/javarosa">',
 
+    'yesNo' => ['No','Yes' ],
+
 ];

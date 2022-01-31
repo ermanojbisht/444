@@ -55,6 +55,17 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
 
     Route::get('/{acr}/view', 'Employee\Acr\AcrController@show')->name('view');
 
+    Route::get('addOfficers/{acr}', 'Employee\Acr\AcrController@addOfficers')->name('addOfficers');
+
+    Route::get('addAcrForm/{acr}', 'Employee\Acr\AcrController@addAcrForm')->name('addAcrForm');
+
+
+    Route::post('submitAcr', 'Employee\Acr\AcrController@submit')->name('submit');
+    
+
+    
+
+
     
     Route::post('/getAcrTypefromAcrGroupId', 'Employee\Acr\AcrController@getAcrTypefromAcrGroupId')->name('getAcrType'); // Gives Acr Type object for drop down
 
