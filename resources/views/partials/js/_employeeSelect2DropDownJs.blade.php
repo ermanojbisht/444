@@ -1,5 +1,8 @@
 <script type="text/javascript">
        function employeeSelect2DropDown(elementID,minimumInputLength=3,employeeType='all',section='ABCD'){
+           
+           alert(elementID);
+
             $(elementID).select2({
                 minimumInputLength: minimumInputLength,
                 placeholder: 'Select an Employee ',
