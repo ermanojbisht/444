@@ -29,22 +29,22 @@ return [
          2=>[
                'text'=>'Name of Training Program',
                'input_type'=>'text',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          3=>[
                'text'=>'Nominated Man-Days',
                'input_type'=>'number',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
          4=>[
                'text'=>'Attended Man-Days',
                'input_type'=>'number',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
          5=>[
                'text'=>'Date of Submission of training reports & copy of Certificate given after Successful training',
                'input_type'=>'text',
-               'input_name'=>'col4',
+               'input_name'=>'col_4',
             ],
       ]
    ],
@@ -62,27 +62,27 @@ return [
          2=>[
                'text'=>'Name of work for which Enquiry was setup',
                'input_type'=>'text',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          3=>[
                'text'=>'Date of Commencement of Enquiry',
                'input_type'=>'text',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
          4=>[
                'text'=>'Time Limit for Enquiry (in Days)',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
          5=>[
                'text'=>'Date of submission of Enquiry report',
                'input_type'=>'text',
-               'input_name'=>'col4',
+               'input_name'=>'col_4',
             ],
          6=>[
                'text'=>'Cause of delay if any',
                'input_type'=>'text',
-               'input_name'=>'col5',
+               'input_name'=>'col_5',
             ],
       ],
    ],
@@ -99,17 +99,17 @@ return [
          2=>[
                'text'=>'Name of Circle',
                'input_type'=>'text',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          3=>[
                'text'=>'No. of Works',
                'input_type'=>'number',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
          4=>[
                'text'=>'No. of lnspections Conducted for the period under consideration (target frequency is 1 Inspection per work per year during construction)',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
       ],
    ],
@@ -126,18 +126,18 @@ return [
          2=>[
                'text'=>'Name of Circle',
                'input_type'=>'text',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          3=>[
                'text'=>'No. of lnspections Conducted for the period under consideration (target frequency is I Inspection per work per year during construction)',
                'input_type'=>'text',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
             
          4=>[
                'text'=>'Number of Compliances on Inspection Noteffechnical Audit ensured',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
          ],
    ],
@@ -151,17 +151,17 @@ return [
          1=>[
                'text'=>'No of DPR to be submitted',
                'input_type'=>'number',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          2=>[
                'text'=>'No of DPR submitted',
                'input_type'=>'number',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
          3=>[
                'text'=>'No of DPR not submitted with the specific reasons thereof',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
       ]
    ],
@@ -174,17 +174,17 @@ return [
          1=>[
                'text'=>'No of works in progress',
                'input_type'=>'number',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          2=>[
                'text'=>'No. of Works checked Physically & Qualitatively by the officer before Payment',
                'input_type'=>'number',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
          3=>[
                'text'=>'Number of works not checked out of mentioned works with the reasons thereof',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
       ]
    ],
@@ -197,22 +197,22 @@ return [
          1=>[
                'text'=>'No. of Audit paras pending in the Jurisdiction of the Officer',
                'input_type'=>'number',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          2=>[
                'text'=>'Number of Audit paras replied',
                'input_type'=>'number',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
          3=>[
                'text'=>'Date of Submission of reply',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
          4=>[
                'text'=>'No. of Audit paras not replied with the reasons thereof',
                'input_type'=>'text',
-               'input_name'=>'col4',
+               'input_name'=>'col_4',
             ],
       ]
    ],
@@ -225,22 +225,22 @@ return [
          1=>[
                'text'=>'No. of Forest land transfer proposal pending in the Jurisdiction of the Officer',
                'input_type'=>'number',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          2=>[
                'text'=>'No. of Forest land transfer proposal prepared',
                'input_type'=>'number',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
          3=>[
                'text'=>'No. of forest proposal uploaded',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
          4=>[
                'text'=>'Reasons of not preparing/uploading forest land transfer proposal',
                'input_type'=>'text',
-               'input_name'=>'col4',
+               'input_name'=>'col_4',
             ],
       ]
    ],
@@ -257,18 +257,18 @@ return [
          2=>[
                'text'=>'Name of Division',
                'input_type'=>'text',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          3=>[
                'text'=>'Number of Audits Conducted',
                'input_type'=>'text',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
             
          4=>[
                'text'=>'Date of Submission of Audit report of Divisions to Chief Engineer',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
          ],
    ],
@@ -283,28 +283,28 @@ return [
          1=>[
                'text'=>'No. of Machines I Equipment',
                'input_type'=>'number',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          2=>[
                'text'=>'Total Hire Charges Earned',
                'input_type'=>'text',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
             
          3=>[
                'text'=>'Hire charges received',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
          4=>[
                'text'=>'Expenditure',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_4',
             ],
          5=>[
                'text'=>'Profit / Loss',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_5',
             ],
          ],
    ],
@@ -322,22 +322,22 @@ return [
          2=>[
                'text'=>'Name of work for which charge sheet was required',
                'input_type'=>'text',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          3=>[
                'text'=>'Target Date of submission of charge sheet',
                'input_type'=>'text',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
          4=>[
                'text'=>'Actual Date of submission of charge sheet to SE Office',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
          5=>[
                'text'=>'Cause of delay if any',
                'input_type'=>'text',
-               'input_name'=>'col5',
+               'input_name'=>'col_4',
             ],
       ],
    ],
@@ -351,18 +351,18 @@ return [
          1=>[
                'text'=>'No of Technical sanction to be accorded on DPR',
                'input_type'=>'number',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          2=>[
                'text'=>'No. of Technical sanction accorded on DPR',
                'input_type'=>'number',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
             
          3=>[
                'text'=>'Number of Technical sanction not accorded and the specific reasons if any',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
       ],
    ],
@@ -376,18 +376,18 @@ return [
          1=>[
                'text'=>'No of works in progress in current financial year',
                'input_type'=>'number',
-               'input_name'=>'col1',
+               'input_name'=>'col_1',
             ],
          2=>[
                'text'=>'No. of Works inspected by the officer and issued inspection note and copy sent to higher authorities',
                'input_type'=>'number',
-               'input_name'=>'col2',
+               'input_name'=>'col_2',
             ],
             
          3=>[
                'text'=>'Number of works not inspected out and reasons thereof',
                'input_type'=>'text',
-               'input_name'=>'col3',
+               'input_name'=>'col_3',
             ],
       ],
    ],
