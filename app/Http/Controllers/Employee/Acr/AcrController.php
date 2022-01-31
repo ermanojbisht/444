@@ -3,33 +3,19 @@
 namespace App\Http\Controllers\Employee\Acr;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Track\StoreEstimateRequest;
+use App\Http\Requests\Acr\StoreAcrRequest;
 use App\Models\Acr\Acr;
-use App\Models\Block;
-use App\Models\Constituency;
-use App\Models\Designation;
-use App\Models\District;
-use App\Models\EeOffice;
 use App\Models\Employee;
-use App\Models\Loksabha;
-use App\Models\Track\Instance;
-use App\Models\Track\InstanceEstimate;
-use App\Models\Track\InstanceHistory;
-use App\Models\Track\MInstanceStatus;
-use App\Models\User;
-use App\Models\WorkType;
-use Gate;
+use App\Traits\AcrFormTrait;
+use App\Traits\OfficeTypeTrait; 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Redirect;
-use Symfony\Component\HttpFoundation\Response;
-use Yajra\DataTables\DataTables;
-use Helper;
-
+use Illuminate\Support\Facades\Auth;  
 
 class AcrController extends Controller
 {
+
+    use OfficeTypeTrait, AcrFormTrait;
+
     /**
      * @var mixed
      */
@@ -54,7 +40,7 @@ class AcrController extends Controller
     public function index()
     {
         $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->get();
-        return view('employee.acr.my_acr', compact('acrs'))->with('message', 'error|There was an error...');
+        return view('employee.acr.my_acr', compact('acrs'));
     }
 
     /**
@@ -63,16 +49,23 @@ class AcrController extends Controller
      * To create Estimate
      */
     public function create()
-    {
-        // abort_if(Gate::denies('track_estimate'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        $instanceMovementAndEstimatePermission = 0; //$instance->CheckMovemtPermission($this->user->id);
-        // if (!$instanceMovementAndEstimatePermission) {
-        //     abort(403);
-        // }
-        $eeOffices = EeOffice::select(['id', 'name'])->whereIn('div_type', [1, 2])->get();
-        return view('employee.acr.create', compact('eeOffices', 'instanceMovementAndEstimatePermission'))
-            ->with('success', 'Instance added Successfully !!!');
+    {  
+        $employee = Employee::findOrFail($this->user->employee_id);
+        $Officetypes = $this->defineOfficeTypes();
+        $acrGroups = $this->defineAcrGroup();
+        return view('employee.acr.create', compact('employee','Officetypes','acrGroups'));
     }
 
- 
+ /**
+     * @param $request 
+     * To Store Indivitual ACR
+     */
+    public function store(StoreAcrRequest $request)
+    { 
+        $hrGrievance = Acr::create($request->validated()); 
+        return redirect(route('acr.myacrs'));
+    }
+
+
+
 }

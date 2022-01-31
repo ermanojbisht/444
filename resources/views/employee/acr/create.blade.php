@@ -4,7 +4,7 @@
 @include('cssbundle.datatablefor5',['button'=>true])
 @endsection
 @section('sidebarmenu')
-@include('layouts.type200._commonpartials._sidebarmenu',['active'=>'arc'])
+@include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
 @endsection
 
 @section('pagetitle')
@@ -19,140 +19,152 @@ My ACR
 @endsection
 
 @section('content')
- 
-{{$acr->type->description}}
+
+
 <hr>
+
 <div class="card">
-	<form class="form-horizontal" method="POST" action="{{route('temp.store')}}">
-	    @csrf
-			
-				<input type="hidden" name="acr_id" value='{{$acr->id}}'/>	
-				@foreach($dataGroups as $group => $datas)
-					<div>
-						<p class="fw-bold h4">{!!config('acr.group')[$group]['head']!!}</p>
-						<p class="fw-bold h6">{{config('acr.group')[$group]['head_note']}}</p>
-						<p class="fw-bold h6">{{config('acr.group')[$group]['foot_note']}}</p>
-					</div>	
-					<div class="form-control">
-						@php
-							$table_type = config('acr.group')[$group]['table_type'];
-							$total_marks = 0;
-						@endphp
-							<table class="table">
-								<thead>
-									<tr class="text-center">
-										<th>#</th>
-										<th>Parameter</th>
-										<th>Max Marks</th>
-									@if($table_type == 1)
-										<th>Unit</th>
-										<th>Target</th>
-										<th>Target Achived</th>
-									@endif
-									@if($table_type == 2)
-										<th>Status of Progress</th>							
-									@endif
-										<th>Applicable</th>
-									</tr>
-								</thead>
-								<tbody>
-									@foreach($datas as $data)
-										@php 
-											$total_marks = $total_marks + $data->max_marks;
-										@endphp
-										<input type="hidden" name="acr_master_parameter_id[]" value='{{$data->id}}'>
-										<tr>
-											<td>{{$loop->iteration}}</td>
-											<td>{{$data->description}}</td>
-											<td class="text-center">{{$data->max_marks}}</td>
-									@if($table_type == 1)
-											<td class="text-center">{{$data->unit}}</td>
-											<td><input class="form-control" type="text" name="target[{{$data->id}}]"/></td>
-											<td><input class="form-control" type="text" name="achivement[{{$data->id}}]"/></td>
-									@endif
-									@if($table_type == 2)
-											<td><input class="form-control" type="text" name="status[{{$data->id}}]"/></td>
-									@endif
-											<td>
-												<select class="form-select" name="applicable[{{$data->id}}]">
-												  <option value="1" selected>Yes</option>
-												  <option value="0">No</option>
-												</select>
-											</td>
-										</tr>		
-									@endforeach
-								</tbody>
-								<tfoot>
-									<tr class="fw-bold">
-										<td></td>
-										<td>Total</td>
-										<td class="text-center">{{$total_marks}}</td>
-									</tr>
-								</tfoot>
-							</table>
-					</div>	
-				@endforeach
-			    <div class="form-group mt-2">
-			        <button type="submit" class="btn btn-primary " >Save
-			    </div>
-	</form>
+
 </div>
 <div class="card">
-	<form class="form-horizontal" method="POST" action="{{route('temp.store2')}}">
+	<form class="form-horizontal" method="POST" action="{{route('acr.store')}}">
 		@csrf
-		<input type="hidden" name="acr_id" value='{{$data->id}}'>
-		<div class="form-group">
-		  <label for="good_work" class="fw-bold h4">
-		  	2- Exceptionally good works done, if any, apart from routine duties during the period of appraisal (Max. 100 Words)
-		  </label>
-		  <textarea class="form-control rounded-0" id="good_work"  name="good_work" rows="10"></textarea>
-		  <label for="difficultie" class="fw-bold h4">
-		  	3- Difficulties faced in performing the assigned 'Tasks/Duties' (Max. 100 Words)
-		  </label>
-		  <textarea class="form-control rounded-0" id="difficultie"  name="difficultie" rows="10"></textarea>
+
+		<div class="row">
+
+			<div class="col-md-6">
+				<h5> Select Type of ACR to be Filled : </h5>
+
+				<div class="row">
+					<div class="col-md-6">
+						<label for='acr_group_id' class="required "> Select Designation Group </label>
+						<select id="acr_group_id" name="acr_group_id" required class="form-control">
+							<option value=""> Select ACR Type </option>
+							@foreach ($acrGroups as $key=>$name)
+								<option value="{{$key}}"> {{$name}} </option>
+							@endforeach
+						</select>
+					</div>
+
+					<div class="col-md-6">
+						<label for='acr_type_id' class="required "> Select Acr Type </label>
+						<select id="acr_type_id" name="acr_type_id" required class="form-control">
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<h5> Period Of Appraisal : </h5>
+
+				<div class="row">
+					<div class="col-md-6">
+						<label for='from_date' class="required "> Enter Start Date </label>
+						<input type="date" name="from_date" required class="form-control" />
+					</div>
+					<div class="col-md-6">
+						<label for='to_date' class="required "> Enter To Date </label>
+						<input type="date" name="to_date" required class="form-control" />
+					</div>
+				</div>
+
+			</div>
+
+
+
 		</div>
 
-	<div class="form-group mt-2">
-        <button type="submit" class="btn btn-primary " >Save
-    </div>
+
+		<div class="row">
+
+			<div class="col-md-6">
+				<h5> During the Appraisal Period : </h5>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							{{ Form::label('officeType','Place of Posting ',[ 'class'=>'  required']) }}
+							{{ Form::select('officeType',($Officetypes),old('officeType'),['placeholder'=>'Select Office
+							Type','id'=>'officeTypeId','class'=>'form-control', 'required']) }}
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							{{ Form::label('office_id','Select Office Name',[ 'class'=>'  required']) }}
+							<select id="office_id" name="office_id" required class="form-control">
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<h5>   </h5>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<br/>
+							{{ Form::label('office_id','Date Of Birth ',[ 'class'=>'  required']) }}
+							<label> {{$employee->birth_date->format('d M Y')}} </label>
+						</div>
+					</div>
+				</div>
+
+
+		</div>
+
+		<div class="row">
+			<div class="col-md-3">
+				<input type="hidden" name="employee_id" value="{{$employee->id}}" />
+				<input type="submit" class="btn btn-primary " value="Save" />
+			</div>
+		</div>
 	</form>
 </div>
-<div class="card">
-	<form class="form-horizontal" method="POST" action="{{route('temp.store')}}">
-	    @csrf
-				<input type="hidden" name="acr_id" value='{{$acr->id}}'/>	
-				@foreach($NegativeGroups as $group => $datas)
-					<div>
-						<p class="fw-bold h4">{!!config('acr.group')[$group]['head']!!}</p>
-						<p class="fw-bold h6">{{config('acr.group')[$group]['head_note']}}</p>
-						<p class="fw-bold h6">{{config('acr.group')[$group]['foot_note']}}</p>
-					</div>	
-					<div class="form-control">
-						@php
-							$table_type = config('acr.group')[$group]['table_type'];
-						@endphp
-							<table class="table">
-								<thead>
-									<tr>
-										@foreach(config('acr.group')[$group]['columns'] as $key=>$values)
-											<td> {{config('acr.group')[$group]['columns'][$key]['text']}}</td>
-										@endforeach
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										@foreach(config('acr.group')[$group]['columns'] as $key=>$values)
-											<td> </td>
-										@endforeach
-									</tr>
-								</tbody>
-							</table>
-					</div>	
-				@endforeach
-			    <div class="form-group mt-2">
-			        <button type="submit" class="btn btn-primary " >Save
-			    </div>
-	</form>
-</div>
+
+
 @endsection
+
+
+@section('footscripts')
+<script type="text/javascript">
+	$(document).ready(function () {
+            $('#officeTypeId').change(function (e) {
+                e.preventDefault();
+                $filterParam = $(this).val(); // or $('#officeTypeId').val();
+                $.ajax
+                ({
+                    url: '{{ url('getOfficesfromOfficeType') }}/' + $filterParam,
+                    type: 'GET',
+                    success: function (data) {
+						console.log(data); 
+						bindDdlWithDataAndSetValue("office_id", data, "id", "name", true, "", "Select Office", "");
+                    }
+                });
+            });
+
+			
+            $('#acr_group_id').change(function (e) {
+                e.preventDefault(); 
+                $.ajax
+                ({
+                    url: "{{route('acr.getAcrType')}}",
+                    type: 'POST',
+					data: {acr_group_id: $('#acr_group_id').val(), _token : $('meta[name="csrf-token"]').attr('content') },
+                    success: function (data) {
+						console.log(data); 
+						bindDdlWithDataAndSetValue("acr_type_id", data, "id", "name", true, "", "Select ACR Type", "");
+                    }
+                });
+            });
+
+
+			
+
+
+        });
+</script>
+
+@include('partials.js._makeDropDown')
+
 @endsection

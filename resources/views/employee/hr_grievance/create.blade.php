@@ -25,6 +25,11 @@ Add Grievance
 ]])
 @endsection
 
+@section('sidebarmenu')
+@include('layouts.type200._commonpartials._sidebarmenu_hr_gr',['active'=>'Grienvance'])
+@endsection
+
+
 
 @section('content')
 

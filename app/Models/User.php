@@ -245,7 +245,6 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      */
     public function hasPermissionTo(array $permission): bool//mkb checked
-
     {
         // check if the permission is available in any role
         foreach ($this->roles as $role) {
@@ -307,7 +306,6 @@ class User extends Authenticatable implements MustVerifyEmail
             ->whereIn('job_id', OfficeJob::whereIn('name', $jobs)->get()
                     ->pluck('id'))->get()->pluck('office_id')
             ->toArray();
- 
     }
 
     /**

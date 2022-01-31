@@ -31,21 +31,34 @@ Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'],fu
 
 
 //  ACR
-
 Route::get('create/{acr}', 'TempController@create');
 Route::post('store', 'TempController@store')->name('temp.store');
 Route::post('store2', 'TempController@store2')->name('temp.store2');
-
-//Route::post('/assignOfficeAndJob', 'UsersController@assignOfficeAndJob');
-
-
-
-Route::get('view', 'Employee\Acr\AcrController@index')->name('myacr.list');
-Route::get('create', 'Employee\Acr\AcrController@create')->name('acr.create');
-
-
 //  ACR
 
+
+// acr routes-------------------------  // 
+
+
+
+
+Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], function () {
+    
+    // AcrController
+    
+    Route::get('/', 'Employee\Acr\AcrController@index')->name('myacrs');
+    Route::get('/create', 'Employee\Acr\AcrController@create')->name('create');
+    Route::post('/store', 'Employee\Acr\AcrController@store')->name('store');
+
+    
+
+    Route::get('/{acr}/view', 'Employee\Acr\AcrController@show')->name('view');
+
+    
+    Route::post('/getAcrTypefromAcrGroupId', 'Employee\Acr\AcrController@getAcrTypefromAcrGroupId')->name('getAcrType'); // Gives Acr Type object for drop down
+
+    // 
+});
 
 // GrievanceController
 
@@ -63,7 +76,12 @@ Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['aut
     Route::get('hr_grievance/{hr_grievance}', 'Employee\HrGrievance\GrievanceController@show')->name('hr_grievance.show');
 
     Route::post('ajaxDataForOffice', 'Employee\HrGrievance\GrievanceController@ajaxDataForOffice')->name('ajaxDataForOffice');
+
+    
 });
+
+
+
 //employee system routes-------------------------------
 
 //ResolveGrievanceController
@@ -103,7 +121,9 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::get('/assignUserOffices/{userid}', 'UsersController@assignUserOffices')->middleware('can:user_role_assignment')->name('assignUserOffices');
     Route::post('/assignOfficeAndJob', 'UsersController@assignOfficeAndJob');
     Route::post('/detachOffice', 'UsersController@detachOffice');
-    Route::get('/fetchAOffices/{officeType}', 'UsersController@fetchAOffices');
+    Route::get('/fetchAOffices/{officeType}', 'UsersController@fetchAOffices');  // Gives Html to select multiple Office
+    Route::get('/getOfficesfromOfficeType/{officeType}', 'UsersController@getOfficeListAsPerOfficeTypeId'); // Gives json object to select Office in drop down
+  
     Route::get('/addTelegramPattern/{user}', 'UsersController@addTelegramPattern')->name('addTelegramPattern');
     Route::post('/storeWorkPatternForTelegram', 'UsersController@storeWorkPatternForTelegram')->name('storeWorkPatternForTelegram');
 

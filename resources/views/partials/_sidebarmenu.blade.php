@@ -180,24 +180,14 @@
             {{-- @endcan --}}
         @endif
 
-
         <li class="c-sidebar-nav-item">
             <a href="{{route('employee.hr_grievance')}}" class="c-sidebar-nav-link" target="_self">
                 <span class="iconSvg">{!!config('mis_entry.svgIcon')['estimate']!!}</span>
                 <span class="iconText">&#160;Track Hr Grievance</span>
             </a>
-        </li>
-
+        </li> 
         <li class="c-sidebar-nav-item">
-            <a href="{{route('resolve_hr_grievance')}}" class="c-sidebar-nav-link" target="_self">
-                <span class="iconSvg">{!!config('mis_entry.svgIcon')['estimate']!!}</span>
-                <span class="iconText">&#160;Resolve Hr Grievance</span>
-            </a>
-        </li>
-
-
-        <li class="c-sidebar-nav-item">
-            <a href="{{route('myInstances')}}" class="c-sidebar-nav-link" target="_self">
+            <a href="{{route('acr.myacrs')}}" class="c-sidebar-nav-link" target="_self">
                 <span class="iconSvg">{!!config('mis_entry.svgIcon')['estimate']!!}</span>
                 <span class="iconText">&#160;Track ACR</span>
             </a>

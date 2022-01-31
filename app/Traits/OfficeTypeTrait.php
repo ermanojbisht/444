@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Models\CeOffice;
 use App\Models\EeOffice;
+use App\Models\Office;
 use App\Models\SeOffice;
 use DB;
 use Illuminate\Support\Facades\Log;
@@ -52,6 +53,11 @@ trait OfficeTypeTrait {
     			break;
     	}
     	return $data;
+	}
+
+	public function getOfficeListAsPerOfficeTypeId($officeId)
+	{
+		return Office::where('office_type',$officeId)->select('name','id')->get();
 	}
 
 

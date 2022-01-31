@@ -92,9 +92,7 @@
            employeeType= this.value;
            employeeSelect2DropDown('#employee_id',minimumInputLength=3,employeeType,section);
         });
-
-
-
+ 
         employeeSelect2DropDown('#employee_id',minimumInputLength=3,employeeType='all',section='all');
 
 

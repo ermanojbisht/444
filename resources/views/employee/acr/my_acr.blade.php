@@ -4,7 +4,7 @@
 @include('cssbundle.datatablefor5',['button'=>true])
 @endsection
 @section('sidebarmenu')
-@include('layouts.type200._commonpartials._sidebarmenu',['active'=>'arc'])
+@include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
 @endsection
 
 @section('pagetitle')

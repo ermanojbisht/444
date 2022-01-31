@@ -11,7 +11,6 @@
 </style>
 @endsection
 
-
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', 
 ['datas'=> [
@@ -21,6 +20,11 @@
     ['label'=> 'Edit','active'=>true],
     ]])
 @endsection
+
+@section('sidebarmenu')
+@include('layouts.type200._commonpartials._sidebarmenu_hr_gr',['active'=>'Grienvance'])
+@endsection
+
 
 
 @section('content')
