@@ -7,7 +7,6 @@ use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
-use  App\Models\Employee;
 
 use  App\Models\Acr\AcrType;
 
@@ -16,7 +15,7 @@ class Acr extends Model
 	protected $table = 'acrs';
 
 	protected $fillable = [
-		'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date'
+		'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date', 'prpoerty_return_date','good_work','difficultie','appreciations'
 	];
 
 	public function acrMasterParameters()

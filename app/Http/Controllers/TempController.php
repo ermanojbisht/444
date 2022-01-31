@@ -17,12 +17,10 @@ class TempController extends Controller
     public function create(Acr $acr)
     {
 
-       // return ;
-
-        $dataGroups = $acr->acrMasterParameters()->where('type',1)->get()->groupBy('config_group');
-        $NegativeGroups = $acr->acrMasterParameters()->where('type',0)->get()->groupBy('config_group');
-       
-        return view('acr.create',compact('acr','dataGroups','NegativeGroups'));
+        $data_groups = $acr->acrMasterParameters()->where('type',1)->get()->groupBy('config_group');
+        $negative_groups = $acr->acrMasterParameters()->where('type',0)->get()->groupBy('config_group');
+        
+        return view('acr.create',compact('acr','data_groups','negative_groups'));
 
     }
 
@@ -46,7 +44,8 @@ class TempController extends Controller
     public function store2(Request $request)
     {
         //return $request->all();
-        
+        // Merge in Acr Table
+        // Some Fields Updated Next Time
                 AcrBasic::create([
                     'acr_id' => $request->acr_id, 
                     'good_work' => $request->good_work, 
@@ -57,7 +56,23 @@ class TempController extends Controller
         return redirect()->back();
     }
 
+   /* public function store3(Request $request)
+    {
+       // return $request->all();
+        foreach($request->acr_master_parameter_id as $acr_master_parameter){
+                AcrParameter::create([
+                    'acr_id' => $request->acr_id, 
+                    'acr_master_parameter_id' => $acr_master_parameter,
+                    'user_target' => $request->user_target[$acr_master_parameter]??'',
+                    'user_achivement' => $request->user_achivement[$acr_master_parameter]??'',
+                    'status' => $request->status[$acr_master_parameter]??'',
+                    'additional_detail' => $request->additional_detail[$acr_master_parameter]??'',
+                ]);   
+        }
+        return redirect()->back();
+    } */
 
+   
 
     public function temp()
     {
