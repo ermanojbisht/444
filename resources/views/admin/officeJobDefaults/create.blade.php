@@ -49,7 +49,7 @@
                     {!! Form::select('employeeType', ['All'=>'All','er'=>'Engineer','office'=>'Office','other'=>'Other'], 'All', ['id'=>'employeeType','class'=>'form-control']) !!}
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="hrms-model">
                 <label class="required" for="employee_id">Name Of User</label>
                 <select class="form-control select2 {{ $errors->has('employee_id') ? 'is-invalid' : '' }}" name="employee_id" id="employee_id" required>
                 </select>
@@ -74,45 +74,5 @@
 @endsection
 @section('footscripts')
     @include('partials.js._employeeSelect2DropDownJs')
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        let section= $( "#section" ).val();
-        let employeeType= $( "#employeeType" ).val();
-
-        $('#section').on('change', function() {
-           section= this.value;
-           employeeType= $( "#employeeType" ).val();
-           employeeSelect2DropDown('#employee_id',minimumInputLength=3,employeeType,section);
-        });
-
-
-        $('#employeeType').on('change', function() {
-           section= $( "#section" ).val();
-           employeeType= this.value;
-           employeeSelect2DropDown('#employee_id',minimumInputLength=3,employeeType,section);
-        });
- 
-        employeeSelect2DropDown('#employee_id',minimumInputLength=3,employeeType='all',section='all');
-
-
-        $('#employee_id').change(function(event) {
-            $.ajax({
-                url: '{{route('employee.basicData')}}',
-                type: 'POST',
-                //dataType: 'default',//causes error if data is not in jSON format
-                data: {employee_id: $('#employee_id').val(),_token : $('meta[name="csrf-token"]').attr('content')},
-                success: function (result,status,xhr) {
-                    $('#employee_detail_div').html(result)
-                },
-                error: function (xhr,status,error) {
-                    console.log("error",error,status);
-                }
-            });
-        });
-
-    });
-
-</script>
 @endsection
 

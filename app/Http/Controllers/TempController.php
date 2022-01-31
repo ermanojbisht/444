@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrBasic;
 use App\Models\Acr\AcrParameter;
+use App\Models\Acr\AcrNegativeParameter;
 use App\Models\CeOffice;
 use App\Models\EeOffice;
 use App\Models\Office;
@@ -57,12 +58,37 @@ class TempController extends Controller
     public function store2(Request $request)
     {
         //return $request->all();
-        AcrBasic::create([
+        /*Acr::update([ 
             'acr_id' => $request->acr_id,
             'good_work' => $request->good_work,
             'difficultie' => $request->difficultie
 
-        ]);
+        ]);*/
+        return redirect()->back();
+    }
+
+    public function store3(Request $request)
+    {
+        //return $request->all();
+        foreach ($request->acr_master_parameter_id as $parameter_id) {
+            foreach($request->$parameter_id as $rowNo=> $rowData){
+                AcrNegativeParameter::create([
+                    'acr_id' => $request->acr_id,
+                    'acr_master_parameter_id' => $parameter_id??'',
+                    'row_no' => $rowNo,
+                    'col_1' => $rowData['col_1']??'',
+                    'col_2' => $rowData['col_2']??'',
+                    'col_3' => $rowData['col_3']??'',
+                    'col_4' => $rowData['col_4']??'',
+                    'col_5' => $rowData['col_5']??'',
+                    'col_6' => $rowData['col_6']??'',
+                    'col_7' => $rowData['col_7']??'',
+                    'col_8' => $rowData['col_8']??'',
+                    'col_9' => $rowData['col_9']??''
+                ]);
+            }
+        }
+
         return redirect()->back();
     }
 
