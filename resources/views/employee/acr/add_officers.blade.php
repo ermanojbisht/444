@@ -22,85 +22,8 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 @section('content')
 
 <div class="card">
-<<<<<<< HEAD
-
-
-
-
-	<!-- boostrap model -->
-	<div class="modal fade" id="officer-model" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title" id="OfficialType"></h4>
-				</div>
-				<div class="modal-body">
-					<form action="javascript:void(0)" id="officerInsertUpdateForm" name="officerInsertUpdateForm"
-						class="form-horizontal" method="POST">
-						@csrf
-
-						<div class="form-group mt-2">
-							{!! Form::label('Select officer ', '', ['class' => 'required'] ) !!}
-							<select id="appraisal_officer_type" name="appraisal_officer_type">
-								<option value=""> Select Officer </option>
-								<option value="1">Reviewing Officer </option>
-								<option value="2">Reporting Officer </option>
-								<option value="3">Accepting Officer </option>
-							</select>
-						</div>
-
-
-						<div class="row">
-							<div class="form-group col-md-6">
-								{!! Form::label('section', 'Section', []) !!}
-								{!! Form::select('section', ['All'=>'All','A'=>'A','B'=>'B','C'=>'C','D'=>'D'], 'All',
-								['id'=>'section','class'=>'form-control']) !!}
-
-							</div>
-							<div class="form-group col-md-6">
-								{!! Form::label('employeeType', 'Employee Type', []) !!}
-								{!! Form::select('employeeType',
-								['All'=>'All','er'=>'Engineer','office'=>'Office','other'=>'Other'], 'All',
-								['id'=>'employeeType','class'=>'form-control']) !!}
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="form-group">
-								{!! Form::label('Select Reviewing officer ', 'employee_id', ['class' => 'required'] ) !!}
-
-								<select class="form-control select2 {{ $errors->has('employee_id') ? 'is-invalid' : '' }}" name="employee_id" id="employee_id" required>
-								</select>
-								@if($errors->has('employee_id'))
-									<div class="invalid-feedback">
-										{{ $errors->first('employee_id') }}
-									</div>
-								@endif
-								<span class="help-block">User Id</span>
-							</div>
-							<div class="form-group mt-2">
-							</div>
-						</div>
-						<div class="form-group mt-2">
-							<input type="hidden" name="acr_id" value="{{$acr->id}}" />
-							<input type="submit" class="btn btn-primary " id="btnSave" value="Add Officers " />
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<div id="employee_detail_div"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end bootstrap model -->
-
-	<input type="button" id="assign_Officials" href="javascript:void(0)" class="btn btn-primary delete"
-		value="Assign Officials" />
-=======
 	<input type="button" id="assign_Officials" href="javascript:void(0)" 
 	class="btn btn-primary delete" value="Assign Officials" />
->>>>>>> refs/remotes/origin/main
 
 	<table class="table datatable table-bordered table-striped table-hover">
 		<thead>
@@ -123,27 +46,14 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 				<td> {{ config('site.yesNo')[$appraisalOfficer->pivot->is_due] }}</td>
 			</tr>
 			@empty
-<<<<<<< HEAD
-			<tr>
-				<td colspan="5" rowspan="1" headers="">No Data Found</td>
-			</tr>
-			@endforelse
-=======
             <tr>
                 <td colspan="5" rowspan="1" headers="">No Data Found</td>
             </tr>
             @endforelse
->>>>>>> refs/remotes/origin/main
 		</tbody>
 	</table>
 </div>
 
-<<<<<<< HEAD
-
-
-
-
-=======
 <div>
     <!-- boostrap model -->
 
@@ -202,7 +112,6 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
     </div>
     <!-- end bootstrap model -->
     </div>
->>>>>>> refs/remotes/origin/main
 
 @endsection
 

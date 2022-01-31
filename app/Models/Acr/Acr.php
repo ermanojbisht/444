@@ -82,9 +82,12 @@ class Acr extends Model
                 return ['status'=>false,'msg'=>'Given period ('.$start->format('d M y').'-'.$end->format('d M y').') intersect with period ( '.$record->from_date->format('d M y').' - '.$record->to_date->format('d M y').' ) in our record ID='.$record->id];
             }
             //if old record has already period for 90 days then revert
-            $recordPeriod->
+            if($recordPeriod->count()>=90){
+                 return ['status'=>false,'msg'=>'Period ( '.$record->from_date->format('d M y').' - '.$record->to_date->format('d M y').' ) in our record ID='.$record->id. 'already has '.$recordPeriod->count().' days'];
+            }
         }
         return ['status'=>true,'msg'=>''];
+
     }
 
 
