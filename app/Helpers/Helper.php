@@ -983,6 +983,10 @@ class Helper
          }
     }
 
+    public static function check_date_in_range($startDate, $endDate, $dateToCheck){
+        return ($dateToCheck->between($startDate, $endDate, true)) ? true : false;
+    }
+
 }
 
 /*call from tinker
