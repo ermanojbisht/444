@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-
+use App\Models\HrGrievance\HrGrievance;
 use App\Notifications\VerifyUserNotification;
 use App\Traits\UserOfficesTrait;
 use Carbon\Carbon;
@@ -207,7 +207,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->roles()->where('name', $roleSlug)->count() == 1;
     }
-
+    
+    public function grievances()
+    {
+    	return $this->hasMany(HrGrievance::class, "employee_id", "id");
+    }
 
 
 }

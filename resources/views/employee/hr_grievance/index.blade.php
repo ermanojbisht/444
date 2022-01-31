@@ -4,23 +4,26 @@
 @endsection
 
 @section('pagetitle')
- {{ $employee_name}}'s   Grivances
+ {{ $employee_name}}'s   Grievances
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', 
 ['datas'=> [
-    ['label'=> 'Home','active'=>false, 'route'=> 'employee.dashboard'],
-    ['label'=> 'Grivance','active'=>false],
+    ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
+    ['label'=> 'Grievance','active'=>false],
     ['label'=> 'List','active'=>true],
     ]])
 @endsection
+
+
+
 
 @section('content')
 
 <div class="card">
     <div class="d-flex justify-content-end bg-transparent">
-        <a class="btn btn-sm btn-dark m-2 " href="{{route('employee.hr_grivance.create')}}">
+        <a class="btn btn-sm btn-dark m-2 " href="{{route('employee.hr_grievance.create')}}">
             <svg class="icon">
                 <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-plus')}}"></use>
             </svg>
@@ -32,7 +35,7 @@
             <thead class="table-dark fw-bold">
                 <tr class="align-middle">
                     <th>#</th>
-                    <th class="text-center">Grivance Id</th> 
+                    <th class="text-center">Grievance Id</th> 
                     <th class="text-center">Description</th> 
                     <th class="text-center">Created on</th>
                     <th>Status</th>
@@ -41,37 +44,40 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($grivances as $grivance)
+                @foreach($grievances as $grievance)
+                
                 <tr>
                     <td>{{1+$loop->index}}</td>
-                    <td>{{$grivance->id}}</td>
+                    <td>{{$grievance->id}}</td>
                     <td>
-                        <a href="{{route('employee.hr_grivance.show', ['hr_grivance' => $grivance->id])}}">
-                            <i class="cib-twitter"></i> {{$grivance->description}}
+                        <a href="{{route('employee.hr_grievance.show', ['hr_grievance' => $grievance->id])}}">
+                            <i class="cib-twitter"></i> 
+                            {{Str::limit($grievance->description, 50, $end='.......')}}
+                             
                         </a>
                     </td>
-                    <td> {{$grivance->created_at->format('d M Y')}} </td>
+                    <td> {{$grievance->created_at ? $grievance->created_at->format('d M Y') : ''}} </td>
                     <td>
-                        {{$grivance->currentStatus()}}
+                        {{$grievance->currentStatus()}}
                     </td>
                     <td>
-                        <a href="{{ route("hr_grivance.addDoc",['hr_grivance'=>$grivance->id]) }}" >
+                        <a href="{{ route("employee.hr_grievance.addDoc",['hr_grievance'=>$grievance->id]) }}" >
                             <i class="cib-twitter"></i> Add Document
                         </a>
                     </td>
                     <td>
-                        @if (Helper::checkBackDate($grivance->created_at, false, 'hrGrivance'))
-                            <a href="{{ route("employee.hr_grivance.edit",['hr_grivance'=>$grivance->id]) }}" >
+                        @if (Helper::checkBackDate($grievance->created_at, false, 'hrGrievance'))
+                            <a href="{{ route("employee.hr_grievance.edit",['hr_grievance'=>$grievance->id]) }}" >
                                  <i class="cib-twitter"></i> Edit
                             </a>
                         @endif
                         
                     </td>
-                    <td>
-                        <a href="{{ route("employee.hr_grivance.edit",['hr_grivance'=>$grivance->id]) }}" >
+                    {{-- <td>
+                        <a href="{{ route("employee.hr_grievance.edit",['hr_grievance'=>$grievance->id]) }}" >
                             <i class="cib-twitter"></i> Action
                         </a>
-                    </td>
+                    </td> --}}
                 </tr>
                 @endforeach
             </tbody>
@@ -81,7 +87,7 @@
 </div>
 
 
-@include('layouts._commonpartials._logoutform_foremployee')
+@include('layouts._commonpartials._logoutform')
 
 
 

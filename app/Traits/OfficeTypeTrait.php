@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Traits;
-use App\CeOffice;
-use App\EeOffice;
-use App\SeOffice;
+
+use App\Models\CeOffice;
+use App\Models\EeOffice;
+use App\Models\SeOffice;
 use DB;
 use Illuminate\Support\Facades\Log;
 trait OfficeTypeTrait {
@@ -29,6 +30,30 @@ trait OfficeTypeTrait {
     	}
     	return $data;
 	}
+
+    public function officeListAsPerOfficeTypeObject($officeType)
+	{
+		switch ($officeType) {
+    		case 0:
+    			$data = [(collect(['id'=>'0', 'name' =>'ENC Office']))];
+    			break;
+    		case 1:
+    			$data= CeOffice::select('name','id')->where('is_exist',1)->orderBy('name')->get();
+    			break;
+    		case 2:
+    			$data= SeOffice::select('name','id')->where('is_exist',1)->orderBy('name')->get();
+    			break;
+    		case 3:
+    			$data= EeOffice::select('name','id')->where('is_exist',1)->orderBy('name')->get();
+    			break;
+    		
+    		default:
+    			$data= [];
+    			break;
+    	}
+    	return $data;
+	}
+
 
 	public function defineOfficeTypes()
 	{

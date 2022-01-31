@@ -54,13 +54,13 @@ Route::post('estimate/attachulb','App\Http\Controllers\Track\EstimateUlbControll
 Route::post('estimate/detachulb','App\Http\Controllers\Track\EstimateUlbController@destroy')->name('estimate.detachulb');
 
 
-// Grivance
+// Grievance
 
-// GrivanceController
-Route::get('grivance','App\Http\Controllers\Track\Grivance\GrivanceController@index')->name('grivance');
+// GrievanceController
+Route::get('grievance','App\Http\Controllers\Track\Grievance\GrievanceController@index')->name('grievance');
 
-Route::get('grivance/create','App\Http\Controllers\Track\Grivance\GrivanceController@create')->name('grivance.create');
-Route::post('ajaxDataForOffice','App\Http\Controllers\Track\Grivance\GrivanceController@ajaxDataForOffice')->name('ajaxDataForOffice');
+Route::get('grievance/create','App\Http\Controllers\Track\Grievance\GrievanceController@create')->name('grievance.create');
+Route::post('ajaxDataForOffice','App\Http\Controllers\Track\Grievance\GrievanceController@ajaxDataForOffice')->name('ajaxDataForOffice');
 
 Route::get('/dashboard',function(){
     return view('track.estimate.estimate-dashboard');

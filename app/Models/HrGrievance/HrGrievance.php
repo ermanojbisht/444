@@ -12,11 +12,11 @@ class HrGrievance extends Model {
     use OfficeTypeTrait;
     
 
-    protected $fillable = [ 'id','grivance_type_id','description','office_type', 
-    'office_id','draft_answer','final_answer','employee_id','refference_grivance_id','status_id'];
+    protected $fillable = [ 'id','grievance_type_id','description','office_type', 
+    'office_id','draft_answer','final_answer','employee_id','refference_grievance_id','status_id'];
 
-    public function grivanceType() {
-        return $this->belongsTo(HrGrievanceType::class, "grivance_type_id", "id");
+    public function grievanceType() {
+        return $this->belongsTo(HrGrievanceType::class, "grievance_type_id", "id");
     }
 
     public function creator() {

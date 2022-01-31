@@ -15,9 +15,9 @@
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', 
 ['datas'=> [
-    ['label'=> 'Home','active'=>false, 'route'=> 'employee.dashboard'],
+    ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
     ['label'=> 'Grievance','active'=>false],
-    ['label'=> 'List','active'=>false, 'route' => 'employee.hr_grivance'],
+    ['label'=> 'List','active'=>false, 'route' => 'employee.hr_grievance'],
     ['label'=> 'View','active'=>true],
     ]])
 @endsection
@@ -40,7 +40,7 @@
                         <hr />
                         <div class="row">
                             <div class="col-md-4">
-                                <label for="grivance_type_id" class="form-label required"> Employee Name ( शिकायतकर्ता का नाम)  </label>
+                                <label for="grievance_type_id" class="form-label required"> Employee Name ( शिकायतकर्ता का नाम)  </label>
                             </div>
                             <div class="col-md-6">
                                 {{Auth::User()->name}}
@@ -48,7 +48,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <label for="grivance_type_id" class="form-label required"> Employee Id ( शिकायतकर्ता की ई०  डी० ) </label>
+                                <label for="grievance_type_id" class="form-label required"> Employee Id ( शिकायतकर्ता की ई०  डी० ) </label>
                             </div>
                             <div class="col-md-6">
                                 {{Auth::User()->id}}
@@ -67,11 +67,11 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="grivance_type_id" class="form-label required"> Grievance Type ( शिकायत का प्रकार) 
+                        <label for="grievance_type_id" class="form-label required"> Grievance Type ( शिकायत का प्रकार) 
                         </label>
                     </div>
                     <div class="col-md-6">
-                        {{ $hr_grivance->grivanceType->name }}
+                        {{ $hr_grievance->grievanceType->name }}
                     </div>
                 </div>
 
@@ -81,7 +81,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            {{ $hr_grivance->office() }}
+                            {{ $hr_grievance->office() }}
                         </div>
                     </div>
                 </div>
@@ -91,17 +91,17 @@
                         </label>
                     </div>
                     <div class="col-md-6">
-                        {{ $hr_grivance->description }}
+                        {{ $hr_grievance->description }}
                     </div>
                 </div>
  
-                @if($hr_grivance->documents)
+                @if($hr_grievance->documents)
                 <div class="row">
                     <div class="col-md-4">
                         <label for="is_document_upload" class="form-label required"> Document </label>
                     </div>
                     <div class="col-md-6">
-                        <a   href="{{ route("employee.hr_grivance.doclist",['hr_grivance'=>$hr_grivance->id, 'is_question' => 1]) }}" >
+                        <a   href="{{ route("employee.hr_grievance.doclist",['hr_grievance'=>$hr_grievance->id, 'is_question' => 1]) }}" >
                             <i class="cib-twitter"></i> View Documents 
                         </a>
                     </div>

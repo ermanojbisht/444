@@ -5,18 +5,18 @@
 
 
 @section('sidebarmenu')
-@include('layouts.type200._commonpartials._sidebarmenu',['active'=>'Grivance'])
+@include('layouts.type200._commonpartials._sidebarmenu',['active'=>'Grievance'])
 @endsection
 
 @section('pagetitle')
-{{ $employee_name}}'s Grivances
+{{ $employee_name}}'s Grievances
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb',
 ['datas'=> [
-['label'=> 'Home','active'=>false, 'route'=> 'employee.dashboard'],
-['label'=> 'Grivance','active'=>false],
+['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
+['label'=> 'Grievance','active'=>false],
 ['label'=> 'List','active'=>true],
 ]])
 @endsection
@@ -42,33 +42,33 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($grivances as $grivance)
+            @foreach($grievances as $grievance)
             <tr>
                 <td>{{1+$loop->index}}</td>
-                <td>{{$grivance->id}}</td>
+                <td>{{$grievance->id}}</td>
                 <td>
-                    <a href="{{route('office.View.hrGrivance', ['hr_grivance' => $grivance->id])}}">
-                        <i class="cib-twitter"></i> {{$grivance->description}}
+                    <a href="{{route('office.View.hrGrievance', ['hr_grievance' => $grievance->id])}}">
+                        <i class="cib-twitter"></i> {{$grievance->description}}
                     </a>
                 </td>
-                <td> {{$grivance->created_at->format('d M Y')}} </td>
+                <td> {{$grievance->created_at->format('d M Y')}} </td>
                 <td>
-                    {{$grivance->currentStatus()}}
+                    {{$grievance->currentStatus()}}
                 </td>
                 @if($canCreateDefaultAnswer)
                 <td>
-                    <a href="{{ route("office.resolve.hr_grivance.addDraftAnswer",['hr_grivance'=>$grivance->id]) }}" >
-                        @if($grivance->draft_answer)
+                    <a href="{{ route("office.resolve.hr_grievance.addDraftAnswer",['hr_grievance'=>$grievance->id]) }}" >
+                        @if($grievance->draft_answer)
                         <i class="cib-twitter"></i> Update Draft
                         @else
-                        <i class="cib-twitter"></i> Draft Grivances Answer
+                        <i class="cib-twitter"></i> Draft Grievances Answer
                         @endif
                     </a>
                 </td>
                 @endif
                 @if($canCreateFinalAnswer)
                 <td>
-                    <a href="{{ route("office.resolve.hr_grivance",['hr_grivance'=>$grivance->id]) }}" >
+                    <a href="{{ route("office.resolve.hr_grievance",['hr_grievance'=>$grievance->id]) }}" >
                           <i class="cib-twitter"></i>  Resolve Grievance
                       </a>
                 </td>
@@ -82,7 +82,7 @@
 </div>
 
 
-@include('layouts._commonpartials._logoutform_foremployee')
+@include('layouts._commonpartials._logoutform')
 
 
 

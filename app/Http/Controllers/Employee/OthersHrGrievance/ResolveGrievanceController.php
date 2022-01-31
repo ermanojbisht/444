@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Employee\HrGrievance\Officer;
+namespace App\Http\Controllers\Employee\OthersHrGrievance;
 
 use App\Http\Controllers\Controller;
 use App\Models\OfficeJobDefault;
@@ -37,7 +37,7 @@ class ResolveGrievanceController extends Controller
         });
     }
 
-    // view all created grivance for your Office
+    // view all created grievance for your Office
     public function index()
     {
         $canCreateDefaultAnswer = false;
@@ -55,25 +55,25 @@ class ResolveGrievanceController extends Controller
                     $canCreateFinalAnswer = true;
             }
         }
-        $grivances =  HrGrievance::where("office_id", $Office_id)->get();
+        $grievances =  HrGrievance::where("office_id", $Office_id)->get();
 
-        return view('employee.others_hr_grievance.index', compact('employee_name', 'grivances', 'canCreateDefaultAnswer', 'canCreateFinalAnswer'))->with('success', '');
+        return view('employee.others_hr_grievance.index', compact('employee_name', 'grievances', 'canCreateDefaultAnswer', 'canCreateFinalAnswer'))->with('success', '');
     }
 
 
     /**
-     * Display the specified Grivance.
+     * Display the specified Grievance.
      *
-     * @param  \App\Models\Track\Grivance\HrGrievance
+     * @param  \App\Models\Track\Grievance\HrGrievance
      * @return \Illuminate\Http\Response
      */
-    public function show(HrGrievance $hr_grivance)
+    public function show(HrGrievance $hr_grievance)
     {
-        return view('employee.others_hr_grievance.viewGrivance', compact('hr_grivance'));
+        return view('employee.others_hr_grievance.viewGrievance', compact('hr_grievance'));
     }
 
-    // view all created grivance for your Office
-    public function addDraft(HrGrievance $hr_grivance)
+    // view all created grievance for your Office
+    public function addDraft(HrGrievance $hr_grievance)
     {
         $canCreateDefaultAnswer = false;
         $canCreateFinalAnswer = false;
@@ -90,19 +90,19 @@ class ResolveGrievanceController extends Controller
                     $canCreateFinalAnswer = true;
             }
         }
-        $grivances =  HrGrievance::where("office_id", $Office_id)->get();
-        return view('employee.others_hr_grievance.addDraft', compact('hr_grivance'));
+        $grievances =  HrGrievance::where("office_id", $Office_id)->get();
+        return view('employee.others_hr_grievance.addDraft', compact('hr_grievance'));
     }
 
           /**
-     * Display the specified Grivance.
+     * Display the specified Grievance.
      *
-     * @param  \App\Models\Track\Grivance\HrGrievance
+     * @param  \App\Models\Track\Grievance\HrGrievance
      * @return \Illuminate\Http\Response
      */
-    public function addFinalAnswer(HrGrievance $hr_grivance)
+    public function addFinalAnswer(HrGrievance $hr_grievance)
     {
-        return view('employee.others_hr_grievance.addFinalAnswer', compact('hr_grivance'));
+        return view('employee.others_hr_grievance.addFinalAnswer', compact('hr_grievance'));
     }
 
 
@@ -110,10 +110,10 @@ class ResolveGrievanceController extends Controller
     public function updateGrievance(Request $request)
     {
         // Ur data has been updated successfuly   
-        $hrGrivance = HrGrievance::findorFail($request->hr_grivance_id);
-        $hrGrivance->update($request->all());
+        $hrGrievance = HrGrievance::findorFail($request->hr_grievance_id);
+        $hrGrievance->update($request->all());
 
-        return Redirect::route('office_hr_grivance')->with('success', 'Application Resolved Successfully');
+        return Redirect::route('office_hr_grievance')->with('success', 'Application Resolved Successfully');
     }
 
  

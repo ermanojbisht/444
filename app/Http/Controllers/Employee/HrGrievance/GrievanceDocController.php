@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Redirect;
 
-class GrivanceDocController extends Controller
+class GrievanceDocController extends Controller
 {
     /**
      * @var mixed
@@ -34,26 +34,26 @@ class GrivanceDocController extends Controller
      * @param $work_code
      * @param false        $doctypeid
      */
-    protected function doclist(HrGrievance $hr_grivance, $is_question = 1)
+    protected function doclist(HrGrievance $hr_grievance, $is_question = 1)
     {
-        $doclist = $hr_grivance->documents();
+        $doclist = $hr_grievance->documents();
         if ($is_question != 2) {
             $doclist = $doclist->where('is_question', $is_question);
         }
         $doclist = $doclist->get();
-        $hr_grivance_id = $hr_grivance->id;
+        $hr_grievance_id = $hr_grievance->id;
 
-        return view('employee.hr_grivance.document.doclist', compact('hr_grivance_id', 'doclist'));
+        return view('employee.hr_grievance.document.doclist', compact('hr_grievance_id', 'doclist'));
 
     }
 
     /**
      * @param $hr_hrivance
      */
-    public function addDocument(HrGrievance $hr_grivance)
+    public function addDocument(HrGrievance $hr_grievance)
     {
-        $hr_grivance_id = $hr_grivance->id;
-        return view('employee.hr_grivance.document.create', compact('hr_grivance_id'));
+        $hr_grievance_id = $hr_grievance->id;
+        return view('employee.hr_grievance.document.create', compact('hr_grievance_id'));
     }
 
     /**
@@ -92,22 +92,27 @@ class GrivanceDocController extends Controller
      */
     public function saveDocument(Request $request)
     {
+
+        
+
         //Log::debug('saveDocument is called. ' . $request);
         //Log::info("this = ".print_r($request->all(),true));
         $this->validate(
             $request,
             [
-                'hr_grivance_id' => 'required',
+                'hr_grievance_id' => 'required',
                 'doctitle' => 'required|max:100',
                 'uploaded_file' => 'required|mimes:pdf,jpeg,jpg,png'  //    todo:: check send filed  ?? 
             ]
         );
 
-        $hr_grivance_id = $request->input('hr_grivance_id');
-        $hr_grivance = HrGrievance::findOrFail($hr_grivance_id);
+        
+
+        $hr_grievance_id = $request->input('hr_grievance_id');
+        $hr_grievance = HrGrievance::findOrFail($hr_grievance_id);
         $doctitle = $request->input('doctitle');
 
-        if ($hr_grivance->checkSimlirityOfDocTitle($doctitle)) {
+        if ($hr_grievance->checkSimlirityOfDocTitle($doctitle)) {
             return redirect()->back()->with('message', "Title '$doctitle already exist' , please review the same and then upload if you have new document.");
         }
 
@@ -116,12 +121,12 @@ class GrivanceDocController extends Controller
             $extension = $request->uploaded_file->getClientOriginalExtension();
             //Log::info("extension = ".print_r($extension,true));
             $title_in_slug = Str::slug($doctitle, '-');
-            $fileName = $hr_grivance_id . '-' . $title_in_slug . '.' . $extension;
-            $path = $request->uploaded_file->storeAs('hrgrivancedocs/' . $hr_grivance_id, $fileName, 'public');
+            $fileName = $hr_grievance_id . '-' . $title_in_slug . '.' . $extension;
+            $path = $request->uploaded_file->storeAs('hrgrievancedocs/' . $hr_grievance_id, $fileName, 'public');
             $doc_address = config('site.app_url_mis') . '/' . $path;
 
             $document = new HrGrievanceDocument;
-            $document->hr_grivance_id = $hr_grivance_id;
+            $document->hr_grievance_id = $hr_grievance_id;
             $document->name = $doctitle;
             $document->uploaded_by = Auth::user()->id;  //  todo:: employee logged in Employee Id to be supplied 
             $document->address = $doc_address;
@@ -129,14 +134,14 @@ class GrivanceDocController extends Controller
             $document->save();
         }
 
-       return  Redirect::route('employee.hr_grivance')->with('success' , $this->textMessageAfterAddingGrivance($hr_grivance_id, 'saved ')); 
+       return  Redirect::route('employee.hr_grievance')->with('success' , $this->textMessageAfterAddingGrievance($hr_grievance_id, 'saved ')); 
     }
 
  
-    public function textMessageAfterAddingGrivance($hrGrivance_id, $actionCompleted)
+    public function textMessageAfterAddingGrievance($hrGrievance_id, $actionCompleted)
     {
-        return  'Your Grivance and related document has been ' . $actionCompleted . ', please note down your Grivance Id : '
-         . $hrGrivance_id . '  Kindly note this Id for future reference. \n you can add doc \n '.
+        return  'Your Grievance and related document has been ' . $actionCompleted . ', please note down your Grievance Id : '
+         . $hrGrievance_id . '  Kindly note this Id for future reference. \n you can add doc \n '.
         ' 2 days editable '; 
     } 
 

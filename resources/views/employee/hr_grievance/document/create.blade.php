@@ -12,22 +12,22 @@
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', 
 ['datas'=> [
-    ['label'=> 'Home','active'=>false, 'route'=> 'employee.dashboard'],
+    ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
     ['label'=> 'Grievance','active'=>false],
-    ['label'=> 'List','active'=>false, 'route' => 'employee.hr_grivance'],
-    ['label'=> 'Add Document for Grievance Id -> ' . $hr_grivance_id  ,'active'=>true],
+    ['label'=> 'List','active'=>false, 'route' => 'employee.hr_grievance'],
+    ['label'=> 'Add Document for Grievance Id -> ' . $hr_grievance_id  ,'active'=>true],
     ]])
 @endsection
 
 
 @section('side_menu')
-{{-- @include('layouts.type200.partials.side_menu',['hr_grivance_id'=>$hr_grivance_id]) --}}
+{{-- @include('layouts.type200.partials.side_menu',['hr_grievance_id'=>$hr_grievance_id]) --}}
 @endsection
 
 @section('content')
 
 <div class="container-fluid">
-    {{-- todo:: grivance Header --}}
+    {{-- todo:: grievance Header --}}
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header"></div>
@@ -36,7 +36,7 @@
                 <form action="{{ route('employee.hr_grievance.storeDocInHrGrievance') }}" method="post"
                     enctype="multipart/form-data" class="">
                     {{ csrf_field() }}
-                    <input type="hidden" name="hr_grivance_id" value="{{ $hr_grivance_id }}">
+                    <input type="hidden" name="hr_grievance_id" value="{{ $hr_grievance_id }}">
                     <div class="row">
 
                         {{-- doctitle --}}

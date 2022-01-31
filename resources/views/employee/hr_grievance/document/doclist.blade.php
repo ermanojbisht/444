@@ -1,20 +1,20 @@
 @extends('layouts.type200.main')
 
 @section('sidebarmenu')
-    {{-- @include('layouts.type200._commonpartials._sidebarmenu',['hr_grivance'=>$hr_grivance_id??0]) --}}
+    {{-- @include('layouts.type200._commonpartials._sidebarmenu',['hr_grievance'=>$hr_grievance_id??0]) --}}
 @endsection
 
 @section('pagetitle')
-    Grievance Id -> {{$hr_grivance_id}}  Documents
+    Grievance Id -> {{$hr_grievance_id}}  Documents
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', 
 ['datas'=> [
-    ['label'=> 'Home','active'=>false, 'route'=> 'employee.dashboard'],
+    ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
     ['label'=> 'Grievance','active'=>false],
-    ['label'=> 'List','active'=>false, 'route' => 'employee.hr_grivance'],
-    ['label'=> 'View Document for Grievance Id -> ' . $hr_grivance_id  ,'active'=>true],
+    ['label'=> 'List','active'=>false, 'route' => 'employee.hr_grievance'],
+    ['label'=> 'View Document for Grievance Id -> ' . $hr_grievance_id  ,'active'=>true],
     ]])
 @endsection
 
@@ -25,8 +25,8 @@
                                       :routeParameter="['instance_estimate'=>$instanceEstimate->id]"
                                       routelabel="Back to Estimate Tracking Details"/> --}}
 
-    @if($hr_grivance_id)
-        Docs are editable only for {{config('site.backdate.hrGrivance.allowedno')}} days.   
+    @if($hr_grievance_id)
+        Docs are editable only for {{config('site.backdate.hrGrievance.allowedno')}} days.   
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
@@ -34,7 +34,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                <a href="{{ route("employee.hr_grivance.addDoc",['hr_grivance'=>$hr_grivance_id]) }}"
+                                <a href="{{ route("employee.hr_grievance.addDoc",['hr_grievance'=>$hr_grievance_id]) }}"
                                    class="btn btn-primary btn-flat pull-right mt-2 mr-2">Add Document</a>
                             </div>
                         </div>

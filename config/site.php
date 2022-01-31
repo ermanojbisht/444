@@ -31,6 +31,8 @@ return [
         'docUploadInWorks' => ['calculate_in' => 2, 'allowedno' => 7, ],
         'contractorEdit' => ['calculate_in' => 2, 'allowedno' => 7, ],
         'estimateEdit' => ['calculate_in' => 2, 'allowedno' => 7, ],
+        'hrGrievance' => ['calculate_in' => 2, 'allowedno' => 2, ],
+
     ],
     'workDetails' => [
         'date_field_to_match' => 'created_at', //database table field to be match for backdate checking.

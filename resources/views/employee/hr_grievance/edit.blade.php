@@ -15,9 +15,9 @@
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', 
 ['datas'=> [
-    ['label'=> 'Home','active'=>false, 'route'=> 'employee.dashboard'],
+    ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
     ['label'=> 'Grievance','active'=>false],
-    ['label'=> 'List','active'=>false, 'route' => 'employee.hr_grivance'],
+    ['label'=> 'List','active'=>false, 'route' => 'employee.hr_grievance'],
     ['label'=> 'Edit','active'=>true],
     ]])
 @endsection
@@ -25,7 +25,7 @@
 
 @section('content')
 
-<form action="{{ route('employee.hr_grivance.update') }}" method="POST"
+<form action="{{ route('employee.hr_grievance.update') }}" method="POST"
     onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त समस्या एवं डॉक्यूमेंट के प्रपत्र से में सहमत हूँ  ) ??? ');">
     @csrf
 
@@ -48,12 +48,12 @@
                         <hr />
 
                         <div class="col-md-6">
-                            <label for="grivance_type_id" class="form-label required"> Employee Id (शिकायतकर्ता की ई०
+                            <label for="grievance_type_id" class="form-label required"> Employee Id (शिकायतकर्ता की ई०
                                 डी० ) </label>
                             {{Auth::User()->id}}
                         </div>
                         <div class="col-md-6">
-                            <label for="grivance_type_id" class="form-label required"> Employee Name (शिकायतकर्ता का
+                            <label for="grievance_type_id" class="form-label required"> Employee Name (शिकायतकर्ता का
                                 नाम)* </label>
                             {{Auth::User()->name}}
                         </div>
@@ -71,14 +71,14 @@
 
                 <div class="row">
                     <div class="col-md-4   ">
-                        <label for="grivance_type_id" class="form-label required"> Grievance Type ( शिकायत का प्रकार)
+                        <label for="grievance_type_id" class="form-label required"> Grievance Type ( शिकायत का प्रकार)
                         </label>
                     </div>
                     <div class="col-md-6">
-                        <select class="form-select" id="grivance_type_id" name="grivance_type_id" required>
+                        <select class="form-select" id="grievance_type_id" name="grievance_type_id" required>
                             <option value="0"> Select Grievance Type </option>
-                            @foreach($grivanceTypes as $grivance )
-                            <option value="{{$grivance->id}}" {{ $hr_grivance->grivance_type_id == $grivance->id ? 'selected' : '' }} > {{$grivance->name}}
+                            @foreach($grievanceTypes as $grievance )
+                            <option value="{{$grievance->id}}" {{ $hr_grievance->grievance_type_id == $grievance->id ? 'selected' : '' }} > {{$grievance->name}}
                             </option>
                             @endforeach
                         </select>
@@ -93,12 +93,12 @@
                         <div class="form-group">
                             <select class="form-select" id="office_type" name="office_type" required
                                 onchange="getSetectedOffices()">
-                                <option value="0" {{ $hr_grivance->office_type == 0 ? 'selected' : '' }}>EnC Ofice
+                                <option value="0" {{ $hr_grievance->office_type == 0 ? 'selected' : '' }}>EnC Ofice
                                 </option>
-                                <option value="1" {{ $hr_grivance->office_type == 1 ? 'selected' : '' }}>Zone</option>
-                                <option value="2" {{ $hr_grivance->office_type == 2 ? 'selected' : '' }} >Circle
+                                <option value="1" {{ $hr_grievance->office_type == 1 ? 'selected' : '' }}>Zone</option>
+                                <option value="2" {{ $hr_grievance->office_type == 2 ? 'selected' : '' }} >Circle
                                 </option>
-                                <option value="3" {{ $hr_grivance->office_type == 3 ? 'selected' : '' }} >Division
+                                <option value="3" {{ $hr_grievance->office_type == 3 ? 'selected' : '' }} >Division
                                 </option>
                             </select>
                         </div>
@@ -114,11 +114,11 @@
                             <select class="form-select select2" id="office_id" name="office_id" required>
                                 <option value="">select Office</option>
 
-                                @if($hr_grivance->office_id)
+                                @if($hr_grievance->office_id)
 
 
                                 @foreach($eeOffices as $key=>$eeOffice)
-                                <option value="{{ $eeOffice->id }}" @if($hr_grivance->office_id == $eeOffice->id) selected @endif
+                                <option value="{{ $eeOffice->id }}" @if($hr_grievance->office_id == $eeOffice->id) selected @endif
                                     >{{ $eeOffice->name }}</option>
                                 @endforeach
 
@@ -139,7 +139,7 @@
                     </div>
                     <div class="col-md-6">
                         <textarea class="form-control" id="description" rows="3"
-                            name="description">{{ $hr_grivance->description }}</textarea>
+                            name="description">{{ $hr_grievance->description }}</textarea>
                     </div>
                 </div>
 
@@ -165,7 +165,7 @@
                                     </button>
 
                                 <input type="hidden" id="employee_id" name="employee_id" value="{{Auth::User()->id}}">
-                                <input type="hidden" id="grivance_id" name="grivance_id" value="{{ $hr_grivance->id }}">
+                                <input type="hidden" id="grievance_id" name="grievance_id" value="{{ $hr_grievance->id }}">
 
                             </div>
                         </div>
@@ -175,8 +175,8 @@
                 <br />
                 <div class="text-medium-emphasis small">
                     Note: <br />
-                    This Grievance is editable for {{config('site.backdate.hrGrivance.allowedno')}} days.
-                    ( शिकायत जमा करने के, केवल {{config('site.backdate.hrGrivance.allowedno')}} दिनों तक ही सुधर किया जा
+                    This Grievance is editable for {{config('site.backdate.hrGrievance.allowedno')}} days.
+                    ( शिकायत जमा करने के, केवल {{config('site.backdate.hrGrievance.allowedno')}} दिनों तक ही सुधर किया जा
                     सकेगा | )<br />
                     You can upload related documents in next screen
                     (आप अगली स्क्रीन पर जा कर संबंधित प्रपत्र अपलोड कर सकते हैं | )
