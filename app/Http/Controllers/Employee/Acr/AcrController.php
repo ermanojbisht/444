@@ -56,7 +56,7 @@ class AcrController extends Controller
         return view('employee.acr.create', compact('employee','Officetypes','acrGroups'));
     }
 
- /**
+    /**
      * @param $request 
      * To Store Indivitual ACR
      */
@@ -66,6 +66,12 @@ class AcrController extends Controller
         return redirect(route('acr.myacrs'));
     }
 
+
+    public function addOfficers(Acr $acr)
+    {
+        $appraisalOfficers =  $acr->appraisalOfficers()->get();
+        return view('employee.acr.add_officers', compact('acr','appraisalOfficers'));
+    }
 
 
 }

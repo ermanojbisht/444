@@ -59,7 +59,7 @@ My ACR
 
 				<div class="row">
 					<div class="col-md-6">
-						<label for='from_date' class="required "> Enter Start Date </label>
+						<label for='from_date' class="required "> Enter From Date </label>
 						<input type="date" name="from_date" required class="form-control" />
 					</div>
 					<div class="col-md-6">

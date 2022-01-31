@@ -60,9 +60,7 @@
 				</tr>
 			</thead>
 			<tbody>
-
 				{{--   <td> {{$acr->creator->name}} ({{$acr->creator->designation}})</td> --}}
-
 				@foreach($acrs as $acr)
 				<tr>
 					<td>{{1+$loop->index  }}</td>
@@ -71,10 +69,7 @@
 					<td>{{$acr->employee_id}} </td>
 					<td>{{$acr->from_date}}</td>  
 					<td>{{$acr->to_date }}</td>
-					<td> @if($acr->created_at)
-						 {{$acr->created_at->format('d M Y')}} 
-						@endif
-					</td>
+					<td>{{$acr->created_at->format('d M Y')}} </td>
 					<td>
 						<div class="dropdown dropstart">
 							<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -84,6 +79,23 @@
 								</svg>
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
+								<a class="dropdown-item"
+									href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
+								</a>
+
+								<a class="dropdown-item"
+									href="{{route('acr.addAcrForm', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add ACR Form
+								</a>
+
+								<a class="dropdown-item"
+									href="{{route('acr.submit', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Submit ACR
+								</a>
+								{{-- will be as log out form  --}}
+
+
 								@if($acr->estimate)
 								<a class="dropdown-item"
 									href="{{route('track.estimate.view', ['acr_estimate' => $acr->estimate->id])}}">
