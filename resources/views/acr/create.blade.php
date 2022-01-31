@@ -14,6 +14,7 @@
 				<div>
 					<p class="fw-bold h4">{!!$groupData['head']!!}</p>
 					<p class="fw-bold h6">{{$groupData['head_note']}}</p>
+					<p class="text-danger">*Please Ensure to Select NO on Dropdown for Parameters Not Applicable</p>
 					<p class="fw-bold h6">{{$groupData['foot_note']}}</p>
 				</div>	
 				<div class="form-control">
@@ -82,6 +83,7 @@
 		<form class="form-horizontal" method="POST" action="{{route('temp.store2')}}">
 			@csrf
 			<input type="hidden" name="acr_id" value='{{$data->id}}'>
+			<p class="text-danger">Update to Acr Table Quarry to be build</p>
 			<div class="form-group">
 			  <label for="good_work" class="fw-bold h4">
 			  	2- Exceptionally good works done, if any, apart from routine duties during the period of appraisal (Max. 100 Words)
@@ -100,7 +102,7 @@
 	</div>
 	<div class="card-body">
 		<div class="form-control">
-		<form class="form-horizontal" method="POST" action="{{route('temp.store5')}}">
+		<form class="form-horizontal" method="POST" action="{{route('temp.store3')}}">
 		    @csrf
 					<input type="hidden" name="acr_id" value='{{$acr->id}}'/>
 					@php
@@ -139,7 +141,7 @@
 															@if ($values['input_type'])
 																<input 	class="form-control" 
 																		type="{{$values['input_type']}}" 
-																		name="{{$values['input_name']}}[{{$data->id}}][{{$n}}]"
+																		name="{{$data->id}}[{{$n}}][{{$values['input_name']}}]"
 																/>
 															@else
 																{{$n}}
@@ -169,6 +171,7 @@
 									</thead>
 									<tbody>
 									@foreach($datas as $data)
+									<input type="hidden" name="acr_master_parameter_id[]" value='{{$data->id}}'>
 										<tr>
 											<td>
 												{{$loop->iteration}}
@@ -177,10 +180,14 @@
 												{{$data->description}}
 											</td>
 											<td>
-												<textarea 	class="form-control" 
+												<input 	class="form-control" 
+														type="text" 
+														name="{{$data->id}}[1][col_1]"
+												/>
+												{{-- <textarea 	class="form-control" 
 														rows="2"
-														name="test"
-												></textarea>
+														name="{{$data->id}}[1]['col_1']"
+												></textarea> --}}
 											</td>
 											<td class="text-center align-middle text-info">
 												{{$data->max_marks}}
