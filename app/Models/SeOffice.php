@@ -10,61 +10,13 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
 use \DateTimeInterface;
 
-/**
- * App\Models\SeOffice
- *
- * @property int $id
- * @property int $ce_office_id
- * @property string $name
- * @property string|null $name_h
- * @property string $address
- * @property string|null $district
- * @property string|null $contact_no
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property int|null $is_exist
- * @property int|null $hr_office_id
- * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property string|null $email
- * @property string|null $head_emp_code
- * @property int|null $ddo_code
- * @property int|null $treasury_code
- * @property int|null $period_category
- * @property-read \App\Models\CeOffice $ce_office
- * @property-read \Illuminate\Database\Eloquent\Collection|Media[] $media
- * @property-read int|null $media_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\EeOffice[] $seOfficeEeOffices
- * @property-read int|null $se_office_ee_offices_count
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice newQuery()
- * @method static \Illuminate\Database\Query\Builder|SeOffice onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice query()
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereCeOfficeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereContactNo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereDdoCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereDistrict($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereHeadEmpCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereHrOfficeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereIsExist($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereNameH($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice wherePeriodCategory($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereTreasuryCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SeOffice whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|SeOffice withTrashed()
- * @method static \Illuminate\Database\Query\Builder|SeOffice withoutTrashed()
- * @mixin \Eloquent
- */
+
 class SeOffice extends Model implements HasMedia
 {
     use SoftDeletes, HasMediaTrait, Auditable;
 
     public $table = 'se_offices';
+    public $fulltable = 'mispwd.se_offices';
     protected $connection='mysqlmispwd';
 
     protected $dates = [
@@ -119,5 +71,18 @@ class SeOffice extends Model implements HasMedia
     public function officeHead()
     {
         return $this->belongsTo(Employee::class, 'head_emp_code');
+    }
+
+    public function bulkUpdateHeadEmpAsUserInJobTable()
+    {
+        $data= $this->select('id','head_emp_code')->whereNotNull('head_emp_code')->get();
+        $data->map(function($item){
+            $user=User::where('employee_id',$item->head_emp_code)->first();
+            if($user){
+                OfficeJobDefault::updateOrCreate(
+                    ['job_id'=>3, 'office_id'=>(2000+$item->id)],
+                    ['job_id'=>3, 'office_id'=>(2000+$item->id),'user_id'=>$user->id,'employee_id'=>$user->employee_id]);
+            }
+       });
     }
 }

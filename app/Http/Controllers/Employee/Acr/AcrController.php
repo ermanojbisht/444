@@ -54,7 +54,7 @@ class AcrController extends Controller
     public function index()
     {
         $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->get();
-        return view('acr.my_acr', compact('acrs'))->with('message', 'error|There was an error...');
+        return view('employee.acr.my_acr', compact('acrs'))->with('message', 'error|There was an error...');
     }
 
     /**
@@ -70,7 +70,7 @@ class AcrController extends Controller
         //     abort(403);
         // }
         $eeOffices = EeOffice::select(['id', 'name'])->whereIn('div_type', [1, 2])->get();
-        return view('acr.create', compact('eeOffices', 'instanceMovementAndEstimatePermission'))
+        return view('employee.acr.create', compact('eeOffices', 'instanceMovementAndEstimatePermission'))
             ->with('success', 'Instance added Successfully !!!');
     }
 

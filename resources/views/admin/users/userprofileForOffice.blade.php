@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        @if(count($allowedCeoffice)+count($allowedSeoffice)+count($allowedEeoffice))
+
             @php
                 $class="col-md-4"
             @endphp
@@ -44,32 +44,11 @@
                                 {!! Form::open(['url'=>'/detachOffice','name'=>'detachOfficeFrm','method'=>'POST']) !!}
                                 <div class="form-group">
                                     <ul class="list-group list-group-inline">
-                                        @if(count($allowedEeoffice))
-                                            @foreach($allowedEeoffice as $key=>$value)
+                                        @if(count($jobs))
+                                            @foreach($jobs as $job)
                                                 <li class="list-group-item text-left">
-                                                    {!! Form::checkbox('eeoffice[]', $value['id'], '', ['class'=>'minimal']) !!}
-                                                    EE {{ $value['name'] }}
-                                                </li>
-                                            @endforeach
-                                        @endif
-                                        @if(count($allowedSeoffice))
-                                            @foreach($allowedSeoffice as $key=>$value)
-                                                <li class="list-group-item text-left">
-                                                    <label>
-                                                        {!! Form::checkbox('seoffice[]', $value['id'], '', ['class'=>'minimal']) !!}
-                                                        SE {{ $value['name'] }}
-                                                    </label>
-                                                </li>
-                                            @endforeach
-                                        @endif
-                                        @if(count($allowedCeoffice))
-                                            @foreach($allowedCeoffice as $value)
-
-                                                <li class="list-group-item text-left">
-                                                    <label>
-                                                        {!! Form::checkbox('ceoffice[]', $value['id'], '', ['class'=>'minimal']) !!}
-                                                        CE {{ $value['name'] }}
-                                                    </label>
+                                                    {!! Form::checkbox('job[]', $job->id, '', ['class'=>'minimal']) !!}
+                                                    {{$job->name}} : {{$job->office_name}}
                                                 </li>
                                             @endforeach
                                         @endif
@@ -94,11 +73,7 @@
                     </ul>
                 </div>
             @endif
-            @else
-                @php
-                    $class="col-md-8"
-                @endphp
-            @endif
+
 
 
             <div class="{{ $class }} border-dark">
@@ -109,8 +84,8 @@
                     <div class="box-body">
                         {!! Form::open(['url'=>'/assignOfficeAndJob','name'=>'assignOfficeFrm','method'=>'POST']) !!}
                         <div class="form-group">
-                            {{ Form::label('jobType','Select job Type ') }}
-                            {{ Form::select('jobType',($userJobAllotmentMenu),old('jobType'),['placeholder'=>'Select Job Type','id'=>'jobTypeId','class'=>'form-control']) }}
+                            {{ Form::label('job_id','Select job Type ') }}
+                            {{ Form::select('job_id',($joblist),old('job_id'),['placeholder'=>'Select Job Type','id'=>'job_id','class'=>'form-control']) }}
                         </div>
                         <div class="form-group">
                             {{ Form::label('officeType','Select Office Type ') }}
