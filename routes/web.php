@@ -67,15 +67,17 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
 
     Route::post('submitAcr', 'Employee\Acr\AcrController@submit')->name('submit');
     
-
-    
-
-
-    
     Route::post('/getAcrTypefromAcrGroupId', 'Employee\Acr\AcrController@getAcrTypefromAcrGroupId')->name('getAcrType'); // Gives Acr Type object for drop down
-
-    // 
 });
+
+
+Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['auth']], function () {
+    
+    // OtherAcrController
+    Route::get('/', 'Employee\OthersAcr\OthersAcrController@index')->name('index');
+
+});
+
 
 // GrievanceController
 

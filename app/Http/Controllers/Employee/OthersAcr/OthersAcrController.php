@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Employee\Acr;
+namespace App\Http\Controllers\Employee\OthersAcr;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\StoreAcrRequest;
 use App\Models\Acr\Acr;
+use App\Models\Acr\AcrProcess;
 use App\Models\Employee;
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
@@ -13,7 +14,7 @@ use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;  
 
-class AcrController extends Controller
+class OthersAcrController extends Controller
 {
 
     use OfficeTypeTrait, AcrFormTrait;
@@ -41,8 +42,11 @@ class AcrController extends Controller
      */
     public function index()
     {
-        $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->get();
-        return view('employee.acr.my_acr', compact('acrs'));
+        $reported = Acr::whereIn('id', AcrProcess::where('report_employee_id', $this->user->employee_id)->where('is_active', 1)->whereNull('report_on')->get()->pluck('acr_id'))->get();
+        $reviewed = Acr::whereIn('id', AcrProcess::where('review_employee_id', $this->user->employee_id)->where('is_active', 1)->whereNull('review_on')->get()->pluck('acr_id'))->get();
+        $accepted = Acr::whereIn('id', AcrProcess::where('accept_employee_id', $this->user->employee_id)->where('is_active', 1)->whereNull('accept_on')->get()->pluck('acr_id'))->get();
+
+        return view('employee.other_acr.index', compact('reported','reviewed','accepted'));
     }
 
     /**

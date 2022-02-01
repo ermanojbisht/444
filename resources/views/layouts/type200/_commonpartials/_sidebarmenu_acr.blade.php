@@ -19,7 +19,7 @@
         <x-nav-group icon="book" name="ACR">
             <x-nav-group icon="list-rich" name="ACR List"> 
                 <x-nav-item icon="user-plus" href="{{route('acr.myacrs')}}">My ACR</x-nav-item>
-                <x-nav-item icon="envelope-letter " href="{{route('receivedInstances')}}">Inbox</x-nav-item>
+                <x-nav-item icon="envelope-letter " href="{{route('acr.others.index')}}">Inbox</x-nav-item>
                 <x-nav-item icon="share" href="{{route('sentEstimateInstances')}}">Sent</x-nav-item>
             </x-nav-group>
 
