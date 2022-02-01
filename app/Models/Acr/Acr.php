@@ -35,7 +35,7 @@ class Acr extends Model
         return $this->belongsTo(AcrType::class, 'acr_type_id', 'id');
     }
 
-    public function getEmployeeData()
+    public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id', 'id');
     }
@@ -133,5 +133,10 @@ class Acr extends Model
     public function filledparameters()
     {
         return $this->hasMany(AcrParameter::class);
+    }
+
+    public function process()
+    {
+         return $this->hasOne(AcrProcess::class);
     }
 }
