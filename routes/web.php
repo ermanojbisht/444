@@ -51,6 +51,8 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
     Route::get('/create', 'Employee\Acr\AcrController@create')->name('create');
     Route::post('/store', 'Employee\Acr\AcrController@store')->name('store');
 
+    Route::get('/edit/{acr}/acr', 'Employee\Acr\AcrController@edit')->name('edit');
+    Route::post('/update/acr', 'Employee\Acr\AcrController@update')->name('update');
     
 
     Route::get('/{acr}/view', 'Employee\Acr\AcrController@show')->name('view');

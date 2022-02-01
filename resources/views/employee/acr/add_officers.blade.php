@@ -22,8 +22,8 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 @section('content')
 
 <div class="card">
-	<input type="button" id="assign_Officials" href="javascript:void(0)" 
-	class="btn btn-primary delete" value="Assign Officials" />
+	<input type="button" id="assign_Officials" href="javascript:void(0)" class="btn btn-primary delete"
+		value="Assign Officials" />
 
 	<table class="table datatable table-bordered table-striped table-hover">
 		<thead>
@@ -46,72 +46,102 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 				<td> {{ config('site.yesNo')[$appraisalOfficer->pivot->is_due] }}</td>
 			</tr>
 			@empty
-            <tr>
-                <td colspan="5" rowspan="1" headers="">No Data Found</td>
-            </tr>
-            @endforelse
+			<tr>
+				<td colspan="5" rowspan="1" headers="">No Data Found</td>
+			</tr>
+			@endforelse
 		</tbody>
 	</table>
 </div>
 
 <div>
-    <!-- boostrap model -->
+	<!-- boostrap model -->
 
-    <div class="modal fade" id="hrms-model" aria-hidden="true" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="OfficialType"></h4>
-                </div>
-                <div class="modal-body">
-                    <form action="javascript:void(0)" id="officerInsertUpdateForm" name="officerInsertUpdateForm"
-                        class="form-horizontal" method="POST">
-                        @csrf
+	<div class="modal fade" id="hrms-model" aria-hidden="true" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="OfficialType"></h4>
+				</div>
+				<div class="modal-body">
+					<form action="javascript:void(0)" id="officerInsertUpdateForm" name="officerInsertUpdateForm"
+						class="form-horizontal" method="POST">
+						@csrf
 
-                        <div class="form-group mt-2">
-                            {!! Form::label('Select officer ', '', ['class' => 'required'] ) !!}
-                            <select id="appraisal_officer_type" name="appraisal_officer_type">
-                                <option value="">  Select Officer </option>
-                                <option value="1">Reviewing Officer </option>
-                                <option value="2">Reporting Officer </option>
-                                <option value="3">Accepting Officer </option>
-                            </select>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                {!! Form::label('section', 'Section', []) !!}
-                                {!! Form::select('section', ['All'=>'All','A'=>'A','B'=>'B','C'=>'C','D'=>'D'], 'All', ['id'=>'section','class'=>'form-control']) !!}
-                            </div>
-                            <div class="form-group col-md-6">
-                                {!! Form::label('employeeType', 'Employee Type', []) !!}
-                                {!! Form::select('employeeType', ['All'=>'All','er'=>'Engineer','office'=>'Office','other'=>'Other'], 'All', ['id'=>'employeeType','class'=>'form-control']) !!}
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="required" for="employee_id">Select officer</label>
-                            <select class="form-control select2 {{ $errors->has('employee_id') ? 'is-invalid' : '' }}" name="employee_id" id="employee_id" required>
-                            </select>
-                            @if($errors->has('employee_id'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('employee_id') }}
-                                </div>
-                            @endif
-                            <span class="help-block">User Id</span>
-                        </div>
-                        <div class="form-group mt-2">
-                            <input type="hidden" name="acr_id" value="{{$acr->id}}" />
-                            <input type="submit" class="btn btn-primary " id="btnSave" value="Add Officers " />
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <div id="employee_detail_div"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end bootstrap model -->
-    </div>
+						<div class="form-group mt-2">
+							{!! Form::label('Select officer ', '', ['class' => 'required'] ) !!}
+							<select id="appraisal_officer_type" name="appraisal_officer_type" class="form-select">
+								<option value=""> Select Officer </option>
+								@foreach(config('acr.basic.appraisalOfficerType') as $key => $value)
+								<option value="{{$key}}" {{ old('appraisal_officer_type')==$key ? 'selected' : '' }}>
+									{{$value}}
+								</option>
+								@endforeach
+							</select>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-6">
+								{!! Form::label('section', 'Section', []) !!}
+								{!! Form::select('section', ['All'=>'All','A'=>'A','B'=>'B','C'=>'C','D'=>'D'], 'All',
+								['id'=>'section','class'=>'form-control']) !!}
+							</div>
+							<div class="form-group col-md-6">
+								{!! Form::label('employeeType', 'Employee Type', []) !!}
+								{!! Form::select('employeeType',
+								['All'=>'All','er'=>'Engineer','office'=>'Office','other'=>'Other'], 'All',
+								['id'=>'employeeType','class'=>'form-control']) !!}
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-12">
+								<div class="form-group">
+									<label class="required" for="employee_id">Select officer</label>
+									<select
+										class="form-control select2 {{ $errors->has('employee_id') ? 'is-invalid' : '' }}"
+										name="employee_id" id="employee_id" required>
+									</select>
+									@if($errors->has('employee_id'))
+									<div class="invalid-feedback">
+										{{ $errors->first('employee_id') }}
+									</div>
+									@endif
+									<span class="help-block"></span>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="row">
+							<p> Period of Appraisal : </p>
+
+							<div class="row">
+								<div class="col-md-6">
+									<label for='from_date' class="required "> Enter From Date </label>
+									<input type="date" name="from_date" required class="form-control" />
+								</div>
+								<div class="col-md-6">
+									<label for='to_date' class="required "> Enter To Date </label>
+									<input type="date" name="to_date" required class="form-control" />
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="form-group mt-2">
+								<input type="hidden" name="acr_id" value="{{$acr->id}}" />
+								<input type="submit" class="btn btn-primary " id="btnSave" value="Add Officers " />
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<div id="employee_detail_div"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end bootstrap model -->
+</div>
 
 @endsection
 
