@@ -33,12 +33,29 @@ class AcrFormController extends Controller
      * @param Acr     $acr
      * @param Request $request
      */
-    public function create(Acr $acr, Request $request)
+    public function create1(Acr $acr, Request $request)
     {
         $data_groups = $acr->acrMasterParameters()->where('type',1)->get()->groupBy('config_group');
+        
+        return view('employee.acr.form.create1',compact('acr','data_groups'));
+    }
+    /**
+     * @param Acr     $acr
+     * @param Request $request
+     */
+    public function create2(Acr $acr, Request $request)
+    {
+        return view('employee.acr.form.create2',compact('acr'));
+    }
+    /**
+     * @param Acr     $acr
+     * @param Request $request
+     */
+    public function create3(Acr $acr, Request $request)
+    {
         $negative_groups = $acr->acrMasterParameters()->where('type',0)->get()->groupBy('config_group');
         
-        return view('employee.acr.form.create',compact('acr','data_groups','negative_groups'));
+        return view('employee.acr.form.create3',compact('acr','negative_groups'));
     }
 
     /**

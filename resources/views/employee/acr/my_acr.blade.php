@@ -85,8 +85,16 @@
 								</a>
 
 								<a class="dropdown-item"
-									href="{{route('acr.form.create', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Add ACR Form
+									href="{{route('acr.form.create1', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add ACR Form Part 1
+								</a>
+								<a class="dropdown-item"
+									href="{{route('acr.form.create2', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add ACR Form Part 2
+								</a>
+								<a class="dropdown-item"
+									href="{{route('acr.form.create3', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add ACR Form Part 3
 								</a>
 
 								<a class="dropdown-item"
