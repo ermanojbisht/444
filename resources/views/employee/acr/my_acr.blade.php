@@ -85,7 +85,7 @@
 								</a>
 
 								<a class="dropdown-item"
-									href="{{route('acr.addAcrForm', ['acr' => $acr->id])}}">
+									href="{{route('acr.form.create', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add ACR Form
 								</a>
 

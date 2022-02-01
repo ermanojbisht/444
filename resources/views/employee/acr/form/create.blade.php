@@ -4,7 +4,7 @@
 <hr>
 <div class="card">
 	<div class="card-body">
-		<form class="form-horizontal" method="POST" action="{{route('temp.store')}}">
+		<form class="form-horizontal" method="POST" action="{{route('acr.form.store1')}}">
 		    @csrf
 			<input type="hidden" name="acr_id" value='{{$acr->id}}'/>	
 			@foreach($data_groups as $groupId => $datas)
@@ -80,9 +80,9 @@
 		</form>
 	</div>
 	<div class="card-body">
-		<form class="form-horizontal" method="POST" action="{{route('temp.store2')}}">
+		<form class="form-horizontal" method="POST" action="{{route('acr.form.store2')}}">
 			@csrf
-			<input type="hidden" name="acr_id" value='{{$data->id}}'>
+			<input type="hidden" name="acr_id" value='{{$acr->id}}'>
 			<p class="text-danger">Update to Acr Table Quarry to be build</p>
 			<div class="form-group">
 			  <label for="good_work" class="fw-bold h4">
@@ -102,7 +102,7 @@
 	</div>
 	<div class="card-body">
 		<div class="form-control">
-		<form class="form-horizontal" method="POST" action="{{route('temp.store3')}}">
+		<form class="form-horizontal" method="POST" action="{{route('acr.form.store3')}}">
 		    @csrf
 					<input type="hidden" name="acr_id" value='{{$acr->id}}'/>
 					@php
@@ -203,99 +203,5 @@
 		</form>
 		</div>
 	</div>
-	{{-- <div class="card-body">
-		<div class="form-control">
-		<form class="form-horizontal" method="POST" action="{{route('temp.store3')}}">
-		    @csrf
-					<input type="hidden" name="acr_id" value='{{$acr->id}}'/>
-					@foreach($negative_groups as $groupId => $datas)
-						@php
-							$groupData = config('acr.group')[$groupId];
-						@endphp
-						<input type="hidden" name="acr_master_parameter_id[]" value='{{$datas[0]->id}}'>
-						<p class="fw-bold h5">
-							4.{{$loop->iteration}}- {!!$groupData['head']!!}
-							<span class="float-end small">maximum deduction - {{$datas[0]->max_marks}}</span>
-						</p>
-						<p class="fw-semibold text-primary ">{{$groupData['head_note']}}</p>
-							<table class="table table-bordered">
-								<thead>
-									<tr class="text-center align-middle">
-										@foreach($groupData['columns'] as $key=>$values)
-											<td>{{$values['text']}}</td>
-										@endforeach
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										@foreach($groupData['columns'] as $key=>$values)
-											<td>
-												<input 	class="form-control" 
-														type="{{$values['input_type']}}" 
-														name="{{$values['input_name']}}[{{$datas[0]->id}}]"
-												/>
-											</td>
-										@endforeach
-									</tr>
-								</tbody>
-							</table>
-						<p class="fw-semibold text-muted">{{$groupData['foot_note']}}</p>
-						@if(!$loop->last) <hr> @endif
-					@endforeach
-				    <button type="submit" class="btn btn-primary">Save
-		</form>
-		</div>
-	</div> --}}
-	{{-- @if($training)
-	<div class="card-body">
-		<div class="form-control">
-		<form class="form-horizontal" method="POST" action="{{route('temp.store4')}}">
-			@csrf
-			<input type="hidden" name="acr_id" value='{{$acr->id}}'/>
-			<input type="hidden" name="acr_master_parameter_id" value='{{$training->id}}'>
-			@php
-				$n = 0;
-			@endphp
-			<p class="fw-bold h5">
-				4.Training Program
-				<span class="float-end small">maximum deduction - {{$training->max_marks}}</span>
-			</p>
-			<table class="table table-bordered border-info">
-				<thead>
-					<tr class="text-center">
-						<th>Sl.No</th>
-						<th>Name of Training Program</th>
-						<th>Nominated Man-Days</th>
-						<th>Attended Man-Days</th>							
-						<th>Date of Submission of training reports & copy of Certificate given after Successful training</th>
-					</tr>
-				</thead>
-				<tbody>
-				@while( $n < $numberOfRows )
-					@php  $n = $n+1; @endphp
-					<tr>
-						<td>{{$n}}</td>
-						<td>
-							<input 	class="form-control"  type="text"  name="description[{{$n}}]" />
-						</td>
-						<td>
-							<input 	class="form-control"  type="number"  name="nominated_days[{{$n}}]" />
-						</td>
-						<td>
-							<input 	class="form-control"  type="number"  name="attended_days[{{$n}}]" />
-						</td>
-						<td>
-							<input 	class="form-control"  type="text"  name="remark[{{$n}}]" />
-						</td>
-					</tr>
-				@endwhile
-				</tbody>
-			</table>
-			<button type="submit" class="btn btn-primary">Save
-		</form>
-		</div>
-	</div>
-	@endif --}}
-
 </div>
 @endsection

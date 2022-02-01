@@ -20,10 +20,9 @@ Route::group(['middleware' => ['auth']], function () {
 Auth::routes(['verify' => true]);
 
 //employee system routes-------------------------
-Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'],function(){
+Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], function () {
 
-    Route::group(['middleware' => ['auth','verified']], function () {
-
+    Route::group(['middleware' => ['auth', 'verified']], function () {
     });
 });
 //employee system routes-------------------------------
@@ -31,12 +30,8 @@ Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'],fu
 
 
 //  ACR
-Route::get('create/{acr}', 'TempController@create');
-Route::post('store', 'TempController@store')->name('temp.store');
-Route::post('store2', 'TempController@store2')->name('temp.store2');
-Route::post('store3', 'TempController@store3')->name('temp.store3');
 //  ACR
- 
+
 
 // acr routes-------------------------  // 
 
@@ -44,16 +39,16 @@ Route::post('store3', 'TempController@store3')->name('temp.store3');
 
 
 Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], function () {
-    
+
     // AcrController
-    
+
     Route::get('/', 'Employee\Acr\AcrController@index')->name('myacrs');
     Route::get('/create', 'Employee\Acr\AcrController@create')->name('create');
     Route::post('/store', 'Employee\Acr\AcrController@store')->name('store');
 
     Route::get('/edit/{acr}/acr', 'Employee\Acr\AcrController@edit')->name('edit');
     Route::post('/update/acr', 'Employee\Acr\AcrController@update')->name('update');
-    
+
 
     Route::get('/{acr}/view', 'Employee\Acr\AcrController@show')->name('view');
 
@@ -62,20 +57,25 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
 
     Route::post('deleteAcrOfficers', 'Employee\Acr\AcrController@deleteAcrOfficers')->name('deleteAcrOfficers');
 
-    Route::get('addAcrForm/{acr}', 'Employee\Acr\AcrController@addAcrForm')->name('addAcrForm');
-
-
+ 
     Route::post('submitAcr', 'Employee\Acr\AcrController@submit')->name('submit');
-    
+
     Route::post('/getAcrTypefromAcrGroupId', 'Employee\Acr\AcrController@getAcrTypefromAcrGroupId')->name('getAcrType'); // Gives Acr Type object for drop down
+
+
+    // Employee\Acr\AcrFormController
+
+    Route::get('form/{acr}', 'Employee\Acr\AcrFormController@create')->name('form.create');
+    Route::post('form/store1', 'Employee\Acr\AcrFormController@store')->name('form.store1');
+    Route::post('form/store2', 'Employee\Acr\AcrFormController@store2')->name('form.store2');
+    Route::post('form/store3', 'Employee\Acr\AcrFormController@store3')->name('form.store3');
 });
 
 
 Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['auth']], function () {
-    
+
     // OtherAcrController
     Route::get('/', 'Employee\OthersAcr\OthersAcrController@index')->name('index');
-
 });
 
 
@@ -83,7 +83,7 @@ Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['
 
 //employee system routes-------------------------  // 
 Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['auth']], function () {
-    
+
     Route::get('hr_grievance', 'Employee\HrGrievance\GrievanceController@index')->name('hr_grievance');
 
     Route::get('hr_grievance/create', 'Employee\HrGrievance\GrievanceController@create')->name('hr_grievance.create');
@@ -95,8 +95,6 @@ Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['aut
     Route::get('hr_grievance/{hr_grievance}', 'Employee\HrGrievance\GrievanceController@show')->name('hr_grievance.show');
 
     Route::post('ajaxDataForOffice', 'Employee\HrGrievance\GrievanceController@ajaxDataForOffice')->name('ajaxDataForOffice');
-
-    
 });
 
 
@@ -125,7 +123,7 @@ Route::get('userVerification/{token}', 'UserVerificationController@approve')->na
 
 // Admin
 
-Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth','verified']], function () {
+Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'verified']], function () {
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
     Route::resource('permissions', 'PermissionsController');
@@ -142,7 +140,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::post('/detachOffice', 'UsersController@detachOffice');
     Route::get('/fetchAOffices/{officeType}', 'UsersController@fetchAOffices');  // Gives Html to select multiple Office
     Route::get('/getOfficesfromOfficeType/{officeType}', 'UsersController@getOfficeListAsPerOfficeTypeId'); // Gives json object to select Office in drop down
-  
+
     Route::get('/addTelegramPattern/{user}', 'UsersController@addTelegramPattern')->name('addTelegramPattern');
     Route::post('/storeWorkPatternForTelegram', 'UsersController@storeWorkPatternForTelegram')->name('storeWorkPatternForTelegram');
 
@@ -179,7 +177,6 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
 
     Route::get('getdistrictdetails/{districtid}/{dropdown}', 'AjaxController@districtDetail');
-
 });
 //task
 Route::group(['prefix' => 'task', 'as' => 'task.', 'namespace' => 'MgtTask', 'middleware' => ['auth']], function () {
