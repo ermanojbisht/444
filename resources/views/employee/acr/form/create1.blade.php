@@ -40,7 +40,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach($datas as $data)
+								@foreach($datas as $data)								
 									@php 
 										$total_marks = $total_marks + $data->max_marks;
 									@endphp
@@ -51,11 +51,14 @@
 										<td class="text-center">{{$data->max_marks}}</td>
 								@if($table_type == 1)
 										<td class="text-center">{{$data->unit}}</td>
-										<td><input class="form-control" type="text" name="target[{{$data->id}}]"/></td>
-										<td><input class="form-control" type="text" name="achivement[{{$data->id}}]"/></td>
+										<td><input class="form-control" type="text" name="target[{{$data->id}}]" value="{{$data->user_target}}"/></td>
+										<td><input class="form-control" type="text" name="achivement[{{$data->id}}]" value="{{$data->user_achivement}}" /></td>
+										<input type="hidden" name="status[{{$data->id}}]" value="" />
 								@endif
 								@if($table_type == 2)
-										<td><input class="form-control" type="text" name="status[{{$data->id}}]"/></td>
+										<td><input class="form-control" type="text" name="status[{{$data->id}}]" value="{{$data->status}}" /></td>
+										<input type="hidden" name="target[{{$data->id}}]" value="" />
+										<input type="hidden" name="achivement[{{$data->id}}]" value="" />
 								@endif
 										<td>
 											<select class="form-select" name="applicable[{{$data->id}}]">

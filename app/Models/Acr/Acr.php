@@ -129,4 +129,9 @@ class Acr extends Model
             [config('acr.basic.acrProcessFields')[$appraisal_officer_type] => $responsible_employee_id]
         );
     }
+
+    public function filledparameters()
+    {
+        return $this->hasMany(AcrParameter::class);
+    }
 }

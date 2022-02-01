@@ -8,6 +8,7 @@ use App\Models\Acr\AcrNegativeParameter;
 use App\Models\Acr\AcrParameter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;  
+use Log;
 
 class AcrFormController extends Controller
 {
@@ -35,7 +36,19 @@ class AcrFormController extends Controller
      */
     public function create1(Acr $acr, Request $request)
     {
-        $data_groups = $acr->acrMasterParameters()->where('type',1)->get()->groupBy('config_group');
+        $filledparameters=$acr->filledparameters()->get()->keyBy('acr_master_parameter_id');;
+        $requiredParameters=$acr->acrMasterParameters()->where('type',1)->get();
+        $requiredParameters->map(function($row) use ($filledparameters){
+            if(isset($filledparameters[$row->id])){
+                $row->user_target=$filledparameters[$row->id]->user_target;
+                $row->user_achivement=$filledparameters[$row->id]->user_achivement;
+                $row->status=$filledparameters[$row->id]->status;
+            }else{
+                $row->user_target=$row->user_achivement=$row->status='';
+            }            
+            return $row;
+        });        
+        $data_groups = $requiredParameters->groupBy('config_group');
         
         return view('employee.acr.form.create1',compact('acr','data_groups'));
     }
@@ -63,10 +76,9 @@ class AcrFormController extends Controller
      */
     public function store(Request $request)
     {
-          
         foreach ($request->acr_master_parameter_id as $acr_master_parameter) {
-            if ($request->applicable[$acr_master_parameter] == 1) {
-                AcrParameter::create([
+            if ($request->applicable[$acr_master_parameter] == 1 && ($request->target[$acr_master_parameter] || $request->achivement[$acr_master_parameter] || $request->status[$acr_master_parameter])) {             
+                AcrParameter::UpdateOrCreate([
                     'acr_id' => $request->acr_id,
                     'acr_master_parameter_id' => $acr_master_parameter,
                     'user_target' => $request->target[$acr_master_parameter] ?? '',
@@ -76,7 +88,7 @@ class AcrFormController extends Controller
             }
         }
 
-        return redirect()->back();
+        return redirect()->route('acr.myacrs')->with('success','data saved successfully');
     }
 
     /**
