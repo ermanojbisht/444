@@ -90,8 +90,8 @@ class AcrController extends Controller
 
         $acr = Acr::findOrFail($request->acr_id);
         $appraisal_officer_type = $request->appraisal_officer_type;
-        $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date);
-        $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date);
+        $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
 
         $result = $acr->checkPeriodInput($startDate,$endDate,$appraisal_officer_type); //  give ['status'=>true,'msg'=>'']
         
