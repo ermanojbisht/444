@@ -22,9 +22,44 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 @section('content')
 
 <div class="card">
-	<input type="button" id="assign_Officials" href="javascript:void(0)" class="btn btn-primary delete"
-		value="Assign Officials" />
 
+	@if(!$acr->isSubmitted())
+
+	<div class="row">
+		<div class="col-md-3">
+			<input type="button" id="assign_Officials" class="btn btn-primary " value="Assign Officials" />
+		</div>
+		<div class="col-md-3">
+			@if($acr->hasAppraisalOfficer(1))
+			<form action="{{ route('acr.deleteAcrOfficers', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>1]) }}"
+				method="POST">
+				{{ csrf_field() }}
+				<button type="submit" class="btn btn-danger "> Delete Reporting Officials</button>
+			</form>
+			@endif
+		</div>
+		<div class="col-md-3">
+			@if($acr->hasAppraisalOfficer(2))
+			<form action="{{ route('acr.deleteAcrOfficers', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>2]) }}"
+				method="POST">
+				{{ csrf_field() }}
+				<button type="submit" class="btn btn-danger "> Delete Reviewing Officials</button>
+			</form>
+			@endif
+		</div>
+		<div class="col-md-3">
+			@if($acr->hasAppraisalOfficer(3))
+			<form action="{{ route('acr.deleteAcrOfficers', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>3]) }}"
+				method="POST">
+				{{ csrf_field() }}
+				<button type="submit" class="btn btn-danger "> Delete Accepting Officials</button>
+			</form>
+			@endif
+		</div>
+
+	</div>
+
+	@endif
 	<table class="table datatable table-bordered table-striped table-hover">
 		<thead>
 			<tr>
@@ -32,6 +67,7 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 				<th>Officer Name </th>
 				<th>From Date</th>
 				<th>To Date</th>
+				<th>Period </th>
 				<th>Is Due </th>
 			</tr>
 		</thead>
@@ -43,6 +79,8 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 				<td>{{$appraisalOfficer->name}}</td>
 				<td>{{$appraisalOfficer->pivot->from_date}}</td>
 				<td>{{$appraisalOfficer->pivot->to_date}}</td>
+				<td>{{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->diffInDays(Carbon\Carbon::parse($appraisalOfficer->pivot->to_date))
+					}} Days</td>
 				<td> {{ config('site.yesNo')[$appraisalOfficer->pivot->is_due] }}</td>
 			</tr>
 			@empty
@@ -64,13 +102,13 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 					<h4 class="modal-title" id="OfficialType"></h4>
 				</div>
 				<div class="modal-body">
-					<form action="javascript:void(0)" id="officerInsertUpdateForm" name="officerInsertUpdateForm"
-						class="form-horizontal" method="POST">
+					<form id="officerInsertUpdateForm" name="officerInsertUpdateForm" class="form-horizontal"
+						method="POST" action="{{route('acr.addAcrOfficers')}}">
 						@csrf
-
 						<div class="form-group mt-2">
 							{!! Form::label('Select officer ', '', ['class' => 'required'] ) !!}
-							<select id="appraisal_officer_type" name="appraisal_officer_type" class="form-select">
+							<select id="appraisal_officer_type" name="appraisal_officer_type" class="form-select"
+								required>
 								<option value=""> Select Officer </option>
 								@foreach(config('acr.basic.appraisalOfficerType') as $key => $value)
 								<option value="{{$key}}" {{ old('appraisal_officer_type')==$key ? 'selected' : '' }}>
@@ -83,13 +121,13 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 							<div class="form-group col-md-6">
 								{!! Form::label('section', 'Section', []) !!}
 								{!! Form::select('section', ['All'=>'All','A'=>'A','B'=>'B','C'=>'C','D'=>'D'], 'All',
-								['id'=>'section','class'=>'form-control']) !!}
+								['id'=>'section','class'=>'form-select']) !!}
 							</div>
 							<div class="form-group col-md-6">
 								{!! Form::label('employeeType', 'Employee Type', []) !!}
 								{!! Form::select('employeeType',
 								['All'=>'All','er'=>'Engineer','office'=>'Office','other'=>'Other'], 'All',
-								['id'=>'employeeType','class'=>'form-control']) !!}
+								['id'=>'employeeType','class'=>'form-select']) !!}
 							</div>
 						</div>
 						<div class="row">
@@ -97,7 +135,7 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 								<div class="form-group">
 									<label class="required" for="employee_id">Select officer</label>
 									<select
-										class="form-control select2 {{ $errors->has('employee_id') ? 'is-invalid' : '' }}"
+										class="form-select select2 {{ $errors->has('employee_id') ? 'is-invalid' : '' }}"
 										name="employee_id" id="employee_id" required>
 									</select>
 									@if($errors->has('employee_id'))
@@ -109,23 +147,36 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 								</div>
 							</div>
 						</div>
-
-
 						<div class="row">
 							<p> Period of Appraisal : </p>
-
 							<div class="row">
 								<div class="col-md-6">
 									<label for='from_date' class="required "> Enter From Date </label>
-									<input type="date" name="from_date" required class="form-control" />
+									<input type="date" id="from_date" name="from_date" onblur="findDateDiff()"
+										value="{{ $acr->from_date->format('Y-m-d') }}" required class="form-control" />
 								</div>
 								<div class="col-md-6">
 									<label for='to_date' class="required "> Enter To Date </label>
-									<input type="date" name="to_date" required class="form-control" />
+									<input type="date" id="to_date" name="to_date" onblur="findDateDiff()"
+										value="{{ $acr->to_date->format('Y-m-d') }}" required class="form-control" />
+								</div>
+								
+								<div class="col-md-12">
+									<div class="text-success" id="days_in_number"></div>
 								</div>
 							</div>
 						</div>
-
+						<div class="form-group mt-2">
+							{!! Form::label(' Is Due ', '', ['class' => 'required'] ) !!}
+							<select id="is_due" name="is_due" class="form-select">
+								<option value=""> Select... </option>
+								@foreach(config('site.yesNo') as $key => $value)
+								<option value="{{$key}}" {{ old('is_due')==$key ? 'selected' : '' }}>
+									{{$value}}
+								</option>
+								@endforeach
+							</select>
+						</div>
 						<div class="row">
 							<div class="form-group mt-2">
 								<input type="hidden" name="acr_id" value="{{$acr->id}}" />
@@ -188,6 +239,9 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 	});
  
     $(document).ready(function() {
+
+		findDateDiff();
+		
         let section= $( "#section" ).val();
         let employeeType= $( "#employeeType" ).val();
 
@@ -223,6 +277,20 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
         });
 
     });
+
+	function findDateDiff()
+	{
+		var from_date = new Date($("#from_date").val());
+		var to_date = new Date($("#to_date").val());
+		if(from_date != "" && to_date != "")
+		{
+			const diffTime = Math.abs(to_date - from_date);
+			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+			 
+
+			$("#days_in_number").html("Your Period of Appraisal  is for " + diffDays + " Days");
+		}
+	}
 
 </script>
 

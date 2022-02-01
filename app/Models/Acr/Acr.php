@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
 use  App\Models\Acr\AcrType;
 use Bugsnag\DateTime\Date;
+use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Acr extends Model
@@ -62,32 +63,48 @@ class Acr extends Model
         $acrPeriodEndDate=$this->to_date;
         //$start<$end //return with msg "start/from date can not be less then end/to date"
         if($start>$end){
-            return ['status'=>false,'msg'=>'start/from date'.$start->format('d M y').' can not be less then end/to date'.$end->format('d M y')];
+            return ['status'=>false,'msg'=>'start/from date '.$start->format('d M y').' can not be less then end/to date'.$end->format('d M y')];
         }
         //$start,$end within $acrPeriodStartDate,$acrPeriodEndDate //start and end date should be within ACR period as mentioned by you
 
-        if($start->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)){
-            return ['status'=>false,'msg'=>'start/from date'.$start->format('d M y').' is beyond the ACR period ('.$acrPeriodStartDate->format('d M y').' - '.$acrPeriodEndDate->format('d M y').' )'];
+        if(!$start->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)){
+            return ['status'=>false,'msg'=>'start/from date '.$start->format('d M y').' is beyond the ACR period ('.$acrPeriodStartDate->format('d M y').' - '.$acrPeriodEndDate->format('d M y').' )'];
         }
 
-        if($end->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)){
-            return ['status'=>false,'msg'=>'End/to date'.$end->format('d M y').' is beyond the ACR period ('.$acrPeriodStartDate->format('d M y').' - '.$acrPeriodEndDate->format('d M y').' )'];
+        if(!$end->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)){
+            return ['status'=>false,'msg'=>'End/to date '.$end->format('d M y').' is beyond the ACR period ('.$acrPeriodStartDate->format('d M y').' - '.$acrPeriodEndDate->format('d M y').' )'];
         }
 
         //same officer level it should not intersect // period overlaps with previos line at record no
-        $otherRecords=$this->appraisalOfficerRecords()-where('appraisal_officer_type',$appraisal_officer_type)->get();
+        $otherRecords=$this->appraisalOfficerRecords()->where('appraisal_officer_type',$appraisal_officer_type)->get();
         foreach ($otherRecords as  $record) {
             $recordPeriod = CarbonPeriod::create($record->from_date, $record->to_date);
             if($recordPeriod->overlaps($start, $end)){
-                return ['status'=>false,'msg'=>'Given period ('.$start->format('d M y').'-'.$end->format('d M y').') intersect with period ( '.$record->from_date->format('d M y').' - '.$record->to_date->format('d M y').' ) in our record ID='.$record->id];
+                return ['status'=>false,'msg'=>'Given period ('.$start->format('d M y').' - '.
+                $end->format('d M y').') intersect with period ( '.
+                $record->from_date->format('d M y').' - '. $record->to_date->format('d M y').
+                ' ) in our record Employee ID = '.$record->employee_id];
             }
             //if old record has already period for 90 days then revert
             if($recordPeriod->count()>=90){
-                 return ['status'=>false,'msg'=>'Period ( '.$record->from_date->format('d M y').' - '.$record->to_date->format('d M y').' ) in our record ID='.$record->id. 'already has '.$recordPeriod->count().' days'];
+                 return ['status'=>false,'msg'=>'Period ( '.$record->from_date->format('d M y').' - '.
+                 $record->to_date->format('d M y').' ) in our Employee ID='.$record->employee_id.
+                  ' already has '.$recordPeriod->count().' days'];
             }
         }
         return ['status'=>true,'msg'=>''];
 
+    }
+
+
+    public function hasAppraisalOfficer($appraisal_officer_type)
+    {
+        return $this->appraisalOfficers()->wherePivot('appraisal_officer_type', $appraisal_officer_type)->count();
+    }
+
+    public function isSubmitted()
+    {
+        return ($this->submitted_at) ? true : false;
     }
 
 

@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AppraisalOfficer extends Model
 {
     use HasFactory;
+    protected $dates = [
+        'from_date', 'to_date'
+    ];
+    
 }
