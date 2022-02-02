@@ -36,7 +36,7 @@ class Acr extends Model
         return $this->belongsTo(AcrType::class, 'acr_type_id', 'id');
     }
 
-    public function getEmployeeData()
+    public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id', 'id');
     }
@@ -129,5 +129,22 @@ class Acr extends Model
             ['acr_id'=>$record->acr_id],
             [config('acr.basic.acrProcessFields')[$appraisal_officer_type] => $responsible_employee_id]
         );
+    }
+
+    public function filledparameters()
+    {
+        return $this->hasMany(AcrParameter::class);
+    }
+
+
+    public function process()
+    {
+         return $this->hasOne(AcrProcess::class);
+
+    }
+
+    public function fillednegativeparameters()
+    {
+        return $this->hasMany(AcrNegativeParameter::class);
     }
 }

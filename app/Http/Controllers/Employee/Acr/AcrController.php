@@ -4,14 +4,18 @@ namespace App\Http\Controllers\Employee\Acr;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\StoreAcrRequest;
+use App\Mail\Acr\AcrSumittedMail;
 use App\Models\Acr\Acr;
+use App\Models\Acr\AcrNotification;
 use App\Models\Employee;
+use App\Models\User;
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
 use Helper;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;  
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AcrController extends Controller
 {
@@ -71,6 +75,7 @@ class AcrController extends Controller
 
     public function addOfficers (Acr $acr)
     {
+        //$this->submitNotification($acr);
         $appraisalOfficers =  $acr->appraisalOfficers()->get();
 
         return view('employee.acr.add_officers', compact('acr','appraisalOfficers'));
@@ -120,17 +125,51 @@ class AcrController extends Controller
         return Redirect()->back()->with('success', 'Officer deleted Successfully...');
     }
 
+
     public function submitAcr(Request $request)
     {
-
         $acr = Acr::findOrFail($request->acr_id); 
         $acr->update(['submitted_at' => now()]);
- 
-        return now();
-
-
         return redirect()->back();
-       
-        
     }
+
+    public function submitNotification($acr)
+    {
+        $acruser=User::where('employee_id',$acr->employee_id)->first();
+        $acrProcess=$acr->process;
+        if($acrProcess){
+            $employee_id=$acrProcess->report_employee_id;
+            if($employee_id){
+                $reportingEmployee=User::where('employee_id',$employee_id)->first();
+                if($reportingEmployee){
+                    $previousNotification=AcrNotification::where('employee_id',$reportingEmployee->employee_id)
+                    ->where('acr_id',$acr->id)
+                    ->where('through',1)
+                    ->where('notification_type',2)
+                    ->orderBy('notification_on','DESC')->first();
+
+                    if(!$previousNotification){
+                        Mail::to($reportingEmployee)
+                        ->cc($acruser)
+                        ->send(new AcrSumittedMail($acr,$reportingEmployee));
+
+                        $data=[
+                        'employee_id'=>$reportingEmployee->employee_id,
+                        'acr_id'=>$acr->id,
+                        'notification_on'=>now(),
+                        'through'=>1,
+                        'notification_type'=>2,
+                        'notification_no'=>1
+                        ];
+                        AcrNotification::create($data);
+                    }
+                }
+            }
+        }
+    }
+
+ 
+
+
+       
 }

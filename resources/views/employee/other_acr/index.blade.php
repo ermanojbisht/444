@@ -98,9 +98,6 @@ Acrs','active'=>true]]])
 									@endforeach
 								</tbody>
 							</table>
-
-
-
 						</div>
 						<div class="tab-pane p-3 " role="tabpanel" id="review">
 
@@ -155,11 +152,8 @@ Acrs','active'=>true]]])
 									@endforeach
 								</tbody>
 							</table>
-
-
 						</div>
 						<div class="tab-pane p-3 " role="tabpanel" id="accept">
-
 							<table class="table border mb-0">
 								<thead class="table-light  fw-bold">
 									<tr class="align-middle">
@@ -178,7 +172,6 @@ Acrs','active'=>true]]])
 									<tr>
 										<td>{{1+$loop->index }}</td>
 										<td>{{ $acr->getEmployeeData->name}}</td>
-
 										<td>{{$acr->employee_id}} </td>
 										<td>{{$acr->from_date}}</td>
 										<td>{{$acr->to_date }}</td>
@@ -211,8 +204,6 @@ Acrs','active'=>true]]])
 									@endforeach
 								</tbody>
 							</table>
-
-
 						</div>
 					</div>
 				</div>

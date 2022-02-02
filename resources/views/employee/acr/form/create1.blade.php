@@ -1,6 +1,18 @@
 @extends('layouts.type200.main')
 @section('content')
-{{$acr->type->description}}
+<div class="d-flex justify-content-between">
+	<span>
+		{{$acr->type->description}}
+	</span>
+	<span>
+		<div class="btn-group" role="group" aria-label="Basic outlined example">
+		  <a class="btn btn-outline-primary" href="{{route('acr.form.create1',['acr' => $acr])}}">Part-1</a>
+		  <a class="btn btn-outline-primary" href="{{route('acr.form.create2',['acr' => $acr])}}">Part-2</a>
+		  <a class="btn btn-outline-primary" href="{{route('acr.form.create3',['acr' => $acr])}}">Part-3</a>
+		  <a class="btn btn-outline-primary" href="{{route('acr.form.create4',['acr' => $acr])}}">Part-4</a>
+		</div>
+	</span>
+</div>
 <hr>
 <div class="card">
 	<div class="card-body">
@@ -23,7 +35,7 @@
 						$total_marks = 0;
 					@endphp
 						<table class="table">
-							<thead>
+							<thead class="bg-info">
 								<tr class="text-center">
 									<th>#</th>
 									<th>Parameter</th>
@@ -34,13 +46,13 @@
 									<th>Target Achived</th>
 								@endif
 								@if($table_type == 2)
-									<th>Status of Progress</th>							
+									<th>Status of Progress</th>			
 								@endif
 									<th>Applicable</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach($datas as $data)
+								@foreach($datas as $data)								
 									@php 
 										$total_marks = $total_marks + $data->max_marks;
 									@endphp
@@ -51,11 +63,35 @@
 										<td class="text-center">{{$data->max_marks}}</td>
 								@if($table_type == 1)
 										<td class="text-center">{{$data->unit}}</td>
-										<td><input class="form-control" type="text" name="target[{{$data->id}}]"/></td>
-										<td><input class="form-control" type="text" name="achivement[{{$data->id}}]"/></td>
+										
+										<td>
+											<input class="form-control text-end" type="text" name="target[{{$data->id}}]" 
+												@if(!empty($data->user_target))
+													style="background-color:#F0FFF0;"
+													value="{{$data->user_target}}"
+												@endif
+											/>
+										</td>
+										<td>
+											<input class="form-control text-end" type="text" name="achivement[{{$data->id}}]" 
+												@if(!empty($data->user_achivement))
+													style="background-color:#F0FFF0;"
+													value="{{$data->user_achivement}}"
+												@endif
+											/>
+										</td>
+										<input type="hidden" name="status[{{$data->id}}]" value="" />
 								@endif
 								@if($table_type == 2)
-										<td><input class="form-control" type="text" name="status[{{$data->id}}]"/></td>
+									<td>
+										<input class="form-control" type="text" name="status[{{$data->id}}]" value="{{$data->status}}" 
+										@if(!empty($data->status))
+											style="background-color:#F0FFF0;"
+										@endif
+										/>
+									</td>
+										<input type="hidden" name="target[{{$data->id}}]" value="" />
+										<input type="hidden" name="achivement[{{$data->id}}]" value="" />
 								@endif
 										<td>
 											<select class="form-select" name="applicable[{{$data->id}}]">
