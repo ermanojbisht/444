@@ -210,7 +210,6 @@ Acrs','active'=>true]]])
 			</div>
 		</div>
 	</div>
-
 </div>
 
 @endsection
