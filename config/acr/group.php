@@ -20,7 +20,7 @@ return [
     //'head'=>'Training Program',
     'head_note'=>'',
     'foot_note'=>'Note:- If the officer does not submit the training report and certificate to Executive Engineer, upto 05 marks will be deducted as given on Part-II (Self-Appraisal). except under exceptional substances. This deduction will be decided at Executive Engineer level.',
-    'rows'=>5,
+    'multi_rows'=>true,
     'columns'=>[
          1=>[
                'text'=>'S.No.',
@@ -53,7 +53,7 @@ return [
       //'head'=>'Enquiry Report',
       'head_note'=>'',
       'foot_note'=>'Note :- If the officer does not submit the Enquiry Report within prescribed time, upto max marks shown above will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances.',
-      'rows'=>5,
+      'multi_rows'=>true,
       'columns'=>[
          1=>[
                'text'=>'S.No.',
@@ -90,7 +90,7 @@ return [
       //'head'=>'Inspection Report to Govt.',
       'head_note'=>'',
       'foot_note'=>'Note:- If the officer does not submit the Inspection Report to Govt. in regular way every month, marks will be deducted as given in Part II (Self Appraisal), except under exceptional circumstances.',
-      'rows'=>5,
+      'multi_rows'=>true,
       'columns'=>[
          1=>[
                'text'=>'S.No.',
@@ -117,7 +117,7 @@ return [
       //'head'=>'Quality Assurance of Works under Construction with Sanctioned Cost equal or above 20 crore with Comliance notes. ',
       'head_note'=>'',
       'foot_note'=>'Note:- If the officer does not submit the Comliance Report to Govt. in regular way every month, marks will be deducted as given in Part II (Self Appraisal), except under exceptional circumstances.',
-      'rows'=>5,
+      'multi_rows'=>true,
       'columns'=>[
          1=>[
                'text'=>'S.No.',
@@ -146,7 +146,7 @@ return [
     //'head'=>'',//'Details of Detailed Project Report (DPR) submitted for Technical Sanction (T.S.) to Executive Engineer',
     'head_note'=>'',
     'foot_note'=>'Note: If the officer does not submit the DPR to Executive Engineer as directed by Executive Engineer, upto 10 marks will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances. This deduction will be decided at Executive Engineer level.',
-      'rows'=>1,
+      'multi_rows'=>false,
     'columns'=>[
          1=>[
                'text'=>'No of DPR to be submitted',
@@ -169,7 +169,7 @@ return [
     //'head'=>'Quality Assurance of different Works in progress during current financial year',
     'head_note'=>'',
     'foot_note'=>'Note :- If the officer does not check the work before payment in regular way, upto 10 marks will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances. This deduction will be decided at Executive Engineer level.',
-    'rows'=>1,
+    'multi_rows'=>false,
     'columns'=>[
          1=>[
                'text'=>'No of works in progress',
@@ -192,7 +192,7 @@ return [
     //'head'=>'',//'Reply of audit paras of AG',
     'head_note'=>'',
     'foot_note'=>'',//'Note :- If the officer does not submit the reply of Audit paras of the Sub Division under his Jurisdiction to Executive Engineer as per direction of Executive Engineer, upto OS marks will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances. This deduction will be decided at Executive Engineer level.',
-    'rows'=>1,
+    'multi_rows'=>false,
     'columns'=>[
          1=>[
                'text'=>'No. of Audit paras pending in the Jurisdiction of the Officer',
@@ -220,7 +220,7 @@ return [
    // 'head'=>'',//'Preparing and Uploading of Forest land transfer cases',
     'head_note'=>'',
     'foot_note'=>'',//'Note :- If the officer does not submit the reply of Audit paras of the Sub Division under his Jurisdiction to Executive Engineer as per direction of Executive Engineer, upto O5 marks will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances. This deduction will be decided at Executive Engineer level.',
-    'rows'=>1,
+    'multi_rows'=>false,
     'columns'=>[
          1=>[
                'text'=>'No. of Forest land transfer proposal pending in the Jurisdiction of the Officer',
@@ -248,7 +248,7 @@ return [
    // 'head'=>'',
     'head_note'=>'',
     'foot_note'=>'',//'Note :- If the officer does not submit the reply of Audit paras of the Sub Division under his Jurisdiction to Executive Engineer as per direction of Executive Engineer, upto O5 marks will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances. This deduction will be decided at Executive Engineer level.',
-    'rows'=>5,
+    'multi_rows'=>true,
     'columns'=>[
          1=>[
                'text'=>'S.No.',
@@ -277,7 +277,7 @@ return [
    // 'head'=>'',
     'head_note'=>'',
     'foot_note'=>'',//'Note :- If the officer does not submit the reply of Audit paras of the Sub Division under his Jurisdiction to Executive Engineer as per direction of Executive Engineer, upto O5 marks will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances. This deduction will be decided at Executive Engineer level.',
-    'rows'=>1,
+    'multi_rows'=>false,
     'columns'=>[
          
          1=>[
@@ -313,7 +313,7 @@ return [
    //   'head'=>'submission of charge sheets',
       'head_note'=>'',
       'foot_note'=>'', //'Note :- If the officer does not submit the Enquiry Report within prescribed time, upto max marks shown above will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances.',
-      'rows'=>5,
+      'multi_rows'=>true,
       'columns'=>[
          1=>[
                'text'=>'S.No.',
@@ -345,7 +345,7 @@ return [
     //  'head'=>'submission of charge sheets',
       'head_note'=>'',
       'foot_note'=>'', //'Note :- If the officer does not submit the Enquiry Report within prescribed time, upto max marks shown above will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances.',
-      'rows'=>1,
+      'multi_rows'=>false,
       'columns'=>[
          
          1=>[
@@ -370,7 +370,7 @@ return [
     //  'head'=>'',//'submission of charge sheets',
       'head_note'=>'',
       'foot_note'=>'', //'Note :- If the officer does not submit the Enquiry Report within prescribed time, upto max marks shown above will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances.',
-      'rows'=>1,
+      'multi_rows'=>false,
       'columns'=>[
          
          1=>[
@@ -395,14 +395,14 @@ return [
       'head'=>'Action on Administrative Matters and Policy Implementation',
       'head_note'=>'',
       'foot_note'=>'',
-      'rows'=>1,
+      'multi_rows'=>false,
       'columns'=>[],
    ],
    3002=>[
       'head'=>'Submission of Reports',
       'head_note'=>'',
       'foot_note'=>'',
-      'rows'=>1,
+      'multi_rows'=>false,
       'columns'=>[],
    ],
 

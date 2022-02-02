@@ -36,7 +36,7 @@ class AcrFormController extends Controller
      */
     public function create1(Acr $acr, Request $request)
     {
-        $filledparameters=$acr->filledparameters()->get()->keyBy('acr_master_parameter_id');;
+        $filledparameters=$acr->filledparameters()->get()->keyBy('acr_master_parameter_id');
         $requiredParameters=$acr->acrMasterParameters()->where('type',1)->get();
         $requiredParameters->map(function($row) use ($filledparameters){
             if(isset($filledparameters[$row->id])){
@@ -66,7 +66,30 @@ class AcrFormController extends Controller
      */
     public function create3(Acr $acr, Request $request)
     {
-        $negative_groups = $acr->acrMasterParameters()->where('type',0)->get()->groupBy('config_group');
+
+        $require_negative_parameters=$acr->acrMasterParameters()->where('type',0)->get()->keyBy('id');
+
+        $filled_negative_parameters=$acr->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
+        
+        $require_negative_parameters->map(function($row) use ($filled_negative_parameters){
+            if(isset($filled_negative_parameters[$row->id])){
+                $row->user_filled_data=$filled_negative_parameters[$row->id];
+            }else{
+                $row->user_filled_data=[];
+            }
+
+        /*if(isset($require_negative_parameters[$row->id])){
+                $row->user_target=$filledparameters[$row->id]->user_target;
+                $row->user_achivement=$filledparameters[$row->id]->user_achivement;
+                $row->status=$filledparameters[$row->id]->status;
+            }else{
+                $row->user_target=$row->user_achivement=$row->status='';
+            } */           
+            return $row;
+        });
+        //$negative_groups = $acr->acrMasterParameters()->where('type',0)->get()->groupBy('config_group');
+        $negative_groups = $require_negative_parameters->groupBy('config_group');
+        //return $negative_groups;
         
         return view('employee.acr.form.create3',compact('acr','negative_groups'));
     }
@@ -78,13 +101,17 @@ class AcrFormController extends Controller
     {
         foreach ($request->acr_master_parameter_id as $acr_master_parameter) {
             if ($request->applicable[$acr_master_parameter] == 1 && ($request->target[$acr_master_parameter] || $request->achivement[$acr_master_parameter] || $request->status[$acr_master_parameter])) {             
-                AcrParameter::UpdateOrCreate([
-                    'acr_id' => $request->acr_id,
-                    'acr_master_parameter_id' => $acr_master_parameter,
-                    'user_target' => $request->target[$acr_master_parameter] ?? '',
-                    'user_achivement' => $request->achivement[$acr_master_parameter] ?? '',
-                    'status' => $request->status[$acr_master_parameter] ?? ''
-                ]);
+                AcrParameter::UpdateOrCreate(
+                    [
+                        'acr_id' => $request->acr_id,
+                        'acr_master_parameter_id' => $acr_master_parameter
+                    ],
+                    [
+                        'user_target' => $request->target[$acr_master_parameter] ?? '',
+                        'user_achivement' => $request->achivement[$acr_master_parameter] ?? '',
+                        'status' => $request->status[$acr_master_parameter] ?? ''
+                    ]
+                );
             }
         }
 
@@ -109,20 +136,27 @@ class AcrFormController extends Controller
         //return $request->all();
         foreach ($request->acr_master_parameter_id as $parameter_id) {
             foreach($request->$parameter_id as $rowNo=> $rowData){
-                AcrNegativeParameter::create([
-                    'acr_id' => $request->acr_id,
-                    'acr_master_parameter_id' => $parameter_id??'',
-                    'row_no' => $rowNo,
-                    'col_1' => $rowData['col_1']??'',
-                    'col_2' => $rowData['col_2']??'',
-                    'col_3' => $rowData['col_3']??'',
-                    'col_4' => $rowData['col_4']??'',
-                    'col_5' => $rowData['col_5']??'',
-                    'col_6' => $rowData['col_6']??'',
-                    'col_7' => $rowData['col_7']??'',
-                    'col_8' => $rowData['col_8']??'',
-                    'col_9' => $rowData['col_9']??''
-                ]);
+                if ($rowData['col_1'] ){
+
+                    AcrNegativeParameter::UpdateOrCreate(
+                        [
+                            'acr_id' => $request->acr_id,
+                            'acr_master_parameter_id' => $parameter_id??'',
+                            'row_no' => $rowNo
+                        ],
+                        [
+                            'col_1' => $rowData['col_1']??'',
+                            'col_2' => $rowData['col_2']??'',
+                            'col_3' => $rowData['col_3']??'',
+                            'col_4' => $rowData['col_4']??'',
+                            'col_5' => $rowData['col_5']??'',
+                            'col_6' => $rowData['col_6']??'',
+                            'col_7' => $rowData['col_7']??'',
+                            'col_8' => $rowData['col_8']??'',
+                            'col_9' => $rowData['col_9']??''
+                        ]
+                    );
+                }
             }
         }
 
