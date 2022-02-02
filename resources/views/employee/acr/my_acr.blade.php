@@ -1,5 +1,5 @@
 @extends('layouts.type200.main')
-  
+
 @section('styles')
 @include('cssbundle.datatablefor5',['button'=>true])
 @endsection
@@ -8,7 +8,7 @@
 @endsection
 
 @section('pagetitle')
- My ACR 
+My ACR
 @endsection
 
 @section('breadcrumbNevigationButton')
@@ -29,15 +29,16 @@
 @endsection
 
 @section('breadcrumb')
-@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [['label'=> Auth::User()->name . '\'s' . ' Acrs','active'=>true]]])
+@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [['label'=> Auth::User()->name . '\'s' . '
+Acrs','active'=>true]]])
 @endsection
 
 @section('content')
 <div class="card">
 	<div class="d-flex justify-content-end bg-transparent">
 		{{-- $estimate->id --}}
-		{{-- <a class="btn btn-sm btn-dark m-2 " href="{{route('create', ['acr' => 1 ])}}">  
-			
+		{{-- <a class="btn btn-sm btn-dark m-2 " href="{{route('create', ['acr' => 1 ])}}">
+
 			<svg class="icon">
 				<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-plus')}}"></use>
 			</svg>
@@ -45,7 +46,7 @@
 		</a> --}}
 	</div>
 	{{-- <div class="table-responsive"> --}}
-		
+
 		<table class="table border mb-0">
 			<thead class="table-light  fw-bold">
 				<tr class="align-middle">
@@ -55,19 +56,19 @@
 					<th>From Date</th>
 					<th>To Date</th>
 					<th>Created on</th>
-					<th>Status</th> 
+					<th>Status</th>
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-				{{--   <td> {{$acr->creator->name}} ({{$acr->creator->designation}})</td> --}}
+				{{-- <td> {{$acr->creator->name}} ({{$acr->creator->designation}})</td> --}}
 				@foreach($acrs as $acr)
 				<tr>
-					<td>{{1+$loop->index  }}</td>
+					<td>{{1+$loop->index }}</td>
 					<td>{{ $acr->employee->name}}</td>
-					
+
 					<td>{{$acr->employee_id}} </td>
-					<td>{{$acr->from_date}}</td>  
+					<td>{{$acr->from_date}}</td>
 					<td>{{$acr->to_date }}</td>
 					<td>{{$acr->created_at->format('d M Y')}} </td>
 					<td>
@@ -79,106 +80,93 @@
 								</svg>
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item"
-									href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
+								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
 								</a>
+								@if (!$acr->submitted_at)
 
-								<a class="dropdown-item"
-									href="{{route('acr.form.create1', ['acr' => $acr->id])}}">
+								<a class="dropdown-item" href="{{route('acr.form.create1', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add ACR Form Part 1
 								</a>
-								<a class="dropdown-item"
-									href="{{route('acr.form.create2', ['acr' => $acr->id])}}">
+								<a class="dropdown-item" href="{{route('acr.form.create2', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add ACR Form Part 2
 								</a>
-								<a class="dropdown-item"
-									href="{{route('acr.form.create3', ['acr' => $acr->id])}}">
+								<a class="dropdown-item" href="{{route('acr.form.create3', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add ACR Form Part 3
 								</a>
 
-								<a class="dropdown-item"
-									href="{{route('acr.submit', ['acr' => $acr->id])}}">
-									@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) && $acr->hasAppraisalOfficer(3))
-									<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>3]) }}"
-										method="POST" onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
+								<a class="dropdown-item" href="{{route('acr.submit', ['acr' => $acr->id])}}">
+									@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) &&
+									$acr->hasAppraisalOfficer(3))
+									<form
+										action="{{ route('acr.submit', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>3]) }}"
+										method="POST"
+										onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 										{{ csrf_field() }}
-										<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR </button>
+										<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR
+										</button>
 									</form>
 									@endif
 								</a>
-								{{-- will be as log out form  --}}
-
-								@if($acr->estimate)
-								<a class="dropdown-item"
-									href="{{route('track.estimate.view', ['acr_estimate' => $acr->estimate->id])}}">
-									<i class="cib-twitter"></i>View
-								</a>
-								<a class="dropdown-item"
-									href="{{route('efc.show', ['acr_estimate' => $acr->estimate->id])}}">
-									<i class="cib-twitter"></i>EFC
-								</a>
 								@endif
+
 							</div>
 
 						</div>
 					</td>
 				</tr>
 
-				
+
 				@endforeach
 
 				{{-- <div class="dropdown-menu dropdown-menu-end">
-								@if($acr->estimate)
-								<a class="dropdown-item"
-									href="{{route('track.estimate.view', ['acr_estimate' => $acr->estimate->id])}}">
-									<i class="cib-twitter"></i>View
-								</a>
-								<a class="dropdown-item"
-									href="{{route('efc.show', ['acr_estimate' => $acr->estimate->id])}}">
-									<i class="cib-twitter"></i>EFC
-								</a>
-								@endif
-								@if(($acr->user_id == Auth::user()->id) ||
-								($acr->lastHistory() && $acr->lastHistory()->to_id
-								&& $acr->lastHistory()->to_id == Auth::user()->id))
+					@if($acr->estimate)
+					<a class="dropdown-item"
+						href="{{route('track.estimate.view', ['acr_estimate' => $acr->estimate->id])}}">
+						<i class="cib-twitter"></i>View
+					</a>
+					<a class="dropdown-item" href="{{route('efc.show', ['acr_estimate' => $acr->estimate->id])}}">
+						<i class="cib-twitter"></i>EFC
+					</a>
+					@endif
+					@if(($acr->user_id == Auth::user()->id) ||
+					($acr->lastHistory() && $acr->lastHistory()->to_id
+					&& $acr->lastHistory()->to_id == Auth::user()->id))
 
-								@if(! $acr->estimate)
-								<a class="dropdown-item" href="{{route('estimate.create', ['id' => $acr->id])}}">
-									Add Estimate
-								</a>
-								@else
-								<a class="dropdown-item"
-									href="{{route('estimate.edit', ['estimateId' => $acr->estimate->id])}}">
-									Edit Estimate
-								</a>
-								<a class="dropdown-item"
-									href="{{route('estimate.editDetails', ['acr_estimate' => $acr->estimate->id])}}">
-									Edit Estimate Details
-								</a>
-								<a class="dropdown-item"
-									href="{{route('movement', ['acrId' => $acr->id,'senderId' => Auth::user()->id])}}">
-									Move acr
-								</a>
-								<a class="dropdown-item"
-									href="{{route('editEstimateStatus', ['acrId' => $acr->id])}}">
-									Update acr
-								</a>
-								@endif
-								@endif
-							</div> --}}
+					@if(! $acr->estimate)
+					<a class="dropdown-item" href="{{route('estimate.create', ['id' => $acr->id])}}">
+						Add Estimate
+					</a>
+					@else
+					<a class="dropdown-item" href="{{route('estimate.edit', ['estimateId' => $acr->estimate->id])}}">
+						Edit Estimate
+					</a>
+					<a class="dropdown-item"
+						href="{{route('estimate.editDetails', ['acr_estimate' => $acr->estimate->id])}}">
+						Edit Estimate Details
+					</a>
+					<a class="dropdown-item"
+						href="{{route('movement', ['acrId' => $acr->id,'senderId' => Auth::user()->id])}}">
+						Move acr
+					</a>
+					<a class="dropdown-item" href="{{route('editEstimateStatus', ['acrId' => $acr->id])}}">
+						Update acr
+					</a>
+					@endif
+					@endif
+				</div> --}}
 			</tbody>
 		</table>
-</div>
+	</div>
 
-@endsection
+	@endsection
 
 
 
-@section('footscripts')
-<script src="{{ asset('../plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script type="text/javascript">
-	$(document).ready(function () {
+	@section('footscripts')
+	<script src="{{ asset('../plugins/datatables/jquery.dataTables.min.js') }}"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
         $("#success-alert").fadeTo(5000, 500).slideUp(500, function () {
             $("#success-alert").slideUp(500);
         });
@@ -190,6 +178,6 @@
                 responsive: true
             });
         });
-</script>
+	</script>
 
-@endsection
+	@endsection
