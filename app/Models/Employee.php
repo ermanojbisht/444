@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\HrGrievance\HrGrievance;
+use App\Models\Acr\EmpProposedTraining;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use DB;
@@ -97,6 +98,11 @@ class Employee extends Authenticatable
             Section:$d->section<br>
             Designation_id:$this->designation_id <br>
         ";
+    }
+
+    public function EmployeeProposedTrainings()
+    {
+        return $this->hasMany(EmpProposedTraining::class, "employee_id", "id");
     }
 
     
