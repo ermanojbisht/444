@@ -140,7 +140,8 @@ class Acr extends Model
     {
          return $this->hasOne(AcrProcess::class);
 
-    
+    }
+
     public function fillednegativeparameters()
     {
         return $this->hasMany(AcrNegativeParameter::class);
