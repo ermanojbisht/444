@@ -64,7 +64,7 @@ Acrs','active'=>true]]])
 									@foreach($reported as $acr)
 									<tr>
 										<td>{{1+$loop->index }}</td>
-										<td>{{ $acr->getEmployeeData->name}}</td>
+										<td>{{ $acr->employee->name}}</td>
 
 										<td>{{$acr->employee_id}} </td>
 										<td>{{$acr->from_date}}</td>
@@ -118,7 +118,7 @@ Acrs','active'=>true]]])
 									@foreach($reviewed as $acr)
 									<tr>
 										<td>{{1+$loop->index }}</td>
-										<td>{{ $acr->getEmployeeData->name}}</td>
+										<td>{{ $acr->employee->name}}</td>
 
 										<td>{{$acr->employee_id}} </td>
 										<td>{{$acr->from_date}}</td>
@@ -171,7 +171,7 @@ Acrs','active'=>true]]])
 									@foreach($accepted as $acr)
 									<tr>
 										<td>{{1+$loop->index }}</td>
-										<td>{{ $acr->getEmployeeData->name}}</td>
+										<td>{{ $acr->employee->name}}</td>
 										<td>{{$acr->employee_id}} </td>
 										<td>{{$acr->from_date}}</td>
 										<td>{{$acr->to_date }}</td>

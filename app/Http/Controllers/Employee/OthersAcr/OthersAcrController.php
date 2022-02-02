@@ -42,9 +42,14 @@ class OthersAcrController extends Controller
      */
     public function index()
     {
-        $reported = Acr::whereIn('id', AcrProcess::where('report_employee_id', $this->user->employee_id)->where('is_active', 1)->whereNull('report_on')->get()->pluck('acr_id'))->get();
-        $reviewed = Acr::whereIn('id', AcrProcess::where('review_employee_id', $this->user->employee_id)->where('is_active', 1)->whereNull('review_on')->get()->pluck('acr_id'))->get();
-        $accepted = Acr::whereIn('id', AcrProcess::where('accept_employee_id', $this->user->employee_id)->where('is_active', 1)->whereNull('accept_on')->get()->pluck('acr_id'))->get();
+        $reported = Acr::whereNotNull('submitted_at')->whereIn('id', AcrProcess::where('report_employee_id', $this->user->employee_id)
+        ->where('is_active', 1)->whereNull('report_on')->get()->pluck('acr_id'))->get();
+
+        $reviewed = Acr::whereNotNull('submitted_at')->whereIn('id', AcrProcess::where('review_employee_id', $this->user->employee_id)
+        ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get()->pluck('acr_id'))->get();
+        
+        $accepted = Acr::whereNotNull('submitted_at')->whereIn('id', AcrProcess::where('accept_employee_id', $this->user->employee_id)
+        ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNull('accept_on')->get()->pluck('acr_id'))->get();
 
         return view('employee.other_acr.index', compact('reported','reviewed','accepted'));
     }
