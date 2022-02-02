@@ -42,7 +42,7 @@
 					</p>
 					<p class="fw-semibold text-primary ">{{$groupData['head_note']}}</p>
 					<table class="table table-bordered border-primary">
-						<thead class="table-success fw-bold border-primary">
+						<thead class="table-info fw-bold border-primary">
 							<tr class="text-center align-middle">
 								@foreach($groupData['columns'] as $key=>$values)
 									<th>{{$values['text']}}</th>
@@ -55,7 +55,7 @@
 								@php $n = 0; @endphp
 								@foreach($data->user_filled_data as $filled_data)
 									@php  $n = $n+1; @endphp
-									<tr class="bg-light">
+									<tr style="background-color:#F0FFF0;">
 										@foreach($groupData['columns'] as $key=>$values)
 											<td>
 												@if ($values['input_type'])
@@ -94,7 +94,7 @@
 									</tr>
 							@else
 								@if(!empty($data->user_filled_data[0]))
-									<tr class="bg-light">
+									<tr style="background-color:#F0FFF0;">
 								@else
 									<tr>
 								@endif
@@ -130,7 +130,7 @@
 					@php $slno = $slno+1; @endphp
 					<p class="fw-bold h5 text-info">4.{{$slno}}-  {!!config('acr.group')[$groupId]['head']!!}</p>
 					<table class="table table-bordered border-primary">
-						<thead class="table-success fw-bold border-primary">
+						<thead class="table-info fw-bold border-primary">
 							<tr class="text-center align-middle">
 								<th width="auto">Sl No.</th>
 								<th width="auto">Description</th>
@@ -142,7 +142,7 @@
 							@foreach($datas as $data)
 							<input type="hidden" name="acr_master_parameter_id[]" value='{{$data->id}}'>
 								@if(!empty($data->user_filled_data[0]))
-									<tr class="bg-light">
+									<tr style="background-color:#F0FFF0;">
 								@else
 									<tr>
 								@endif

@@ -35,7 +35,7 @@
 						$total_marks = 0;
 					@endphp
 						<table class="table">
-							<thead>
+							<thead class="bg-info">
 								<tr class="text-center">
 									<th>#</th>
 									<th>Parameter</th>
@@ -46,7 +46,7 @@
 									<th>Target Achived</th>
 								@endif
 								@if($table_type == 2)
-									<th>Status of Progress</th>							
+									<th>Status of Progress</th>			
 								@endif
 									<th>Applicable</th>
 								</tr>
@@ -63,30 +63,33 @@
 										<td class="text-center">{{$data->max_marks}}</td>
 								@if($table_type == 1)
 										<td class="text-center">{{$data->unit}}</td>
-										@if(!empty($data->user_target))
-											<td class="bg-light">
-										@else
-											<td>
-										@endif
-											<input class="form-control" type="text" name="target[{{$data->id}}]" value="{{$data->user_target}}"/>
+										
+										<td>
+											<input class="form-control text-end" type="text" name="target[{{$data->id}}]" 
+												@if(!empty($data->user_target))
+													style="background-color:#F0FFF0;"
+													value="{{$data->user_target}}"
+												@endif
+											/>
 										</td>
-										@if(!empty($data->user_achivement))
-											<td class="bg-light">
-										@else
-											<td>
-										@endif
-											<input class="form-control" type="text" name="achivement[{{$data->id}}]" value="{{$data->user_achivement}}" />
+										<td>
+											<input class="form-control text-end" type="text" name="achivement[{{$data->id}}]" 
+												@if(!empty($data->user_achivement))
+													style="background-color:#F0FFF0;"
+													value="{{$data->user_achivement}}"
+												@endif
+											/>
 										</td>
 										<input type="hidden" name="status[{{$data->id}}]" value="" />
 								@endif
 								@if($table_type == 2)
-									@if(!empty($data->status))
-										<td class="bg-light">
-									@else
-										<td>
-									@endif
-											<input class="form-control" type="text" name="status[{{$data->id}}]" value="{{$data->status}}" />
-										</td>
+									<td>
+										<input class="form-control" type="text" name="status[{{$data->id}}]" value="{{$data->status}}" 
+										@if(!empty($data->status))
+											style="background-color:#F0FFF0;"
+										@endif
+										/>
+									</td>
 										<input type="hidden" name="target[{{$data->id}}]" value="" />
 										<input type="hidden" name="achivement[{{$data->id}}]" value="" />
 								@endif
