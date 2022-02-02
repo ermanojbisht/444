@@ -16,6 +16,8 @@ use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
+use SPDF;
 
 class AcrController extends Controller
 {
@@ -169,11 +171,26 @@ class AcrController extends Controller
                         AcrNotification::create($data);
                     }
                 }
-            }       
+            }
+
     }
 
- 
+    public function show(Acr $acr) {
+        $dataArray=['title'=>'ACR'];
+        $pdf= SPDF::loadview('employee.acr.show',compact('acr'));
+        $pdf->setOption('cover', View::make('employee.acr.pdfcoverpage', $dataArray));
+       /* $pdf->setOption('margin-top',0);
+        $pdf->setOption('margin-bottom',10);
+        $pdf->setOption('margin-left',0);
+        $pdf->setOption('margin-right',0);*/
 
+        $pdf->setOption('footer-html',  View::make('employee.acr.pdffooter'));
+        $pdf->setOption('footer-right', '[page]');
+        //$pdf->setOption('footer-line');
 
+        return $pdf->stream('view.pdf');
+    }
        
 }
+
+

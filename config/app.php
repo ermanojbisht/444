@@ -246,6 +246,8 @@ return [
         'Helper' => App\Helpers\Helper::class,
         'Youtube' => Dawson\Youtube\Facades\Youtube::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'SPDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
 
 
 
