@@ -99,10 +99,15 @@
 
 								<a class="dropdown-item"
 									href="{{route('acr.submit', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Submit ACR
+									@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) && $acr->hasAppraisalOfficer(3))
+									<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>3]) }}"
+										method="POST" onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
+										{{ csrf_field() }}
+										<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR </button>
+									</form>
+									@endif
 								</a>
 								{{-- will be as log out form  --}}
-
 
 								@if($acr->estimate)
 								<a class="dropdown-item"

@@ -18,7 +18,8 @@ class Acr extends Model
     protected $table = 'acrs';
 
     protected $fillable = [
-        'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date', 'prpoerty_return_date', 'good_work', 'difficultie', 'appreciations'
+        'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date', 'prpoerty_return_date', 
+        'good_work', 'difficultie', 'appreciations', 'submitted_at'
     ];
     protected $dates = [
         'from_date', 'to_date'
