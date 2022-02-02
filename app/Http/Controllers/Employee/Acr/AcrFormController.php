@@ -77,27 +77,28 @@ class AcrFormController extends Controller
             }else{
                 $row->user_filled_data=[];
             }
-
-        /*if(isset($require_negative_parameters[$row->id])){
-                $row->user_target=$filledparameters[$row->id]->user_target;
-                $row->user_achivement=$filledparameters[$row->id]->user_achivement;
-                $row->status=$filledparameters[$row->id]->status;
-            }else{
-                $row->user_target=$row->user_achivement=$row->status='';
-            } */           
             return $row;
         });
-        //$negative_groups = $acr->acrMasterParameters()->where('type',0)->get()->groupBy('config_group');
+
         $negative_groups = $require_negative_parameters->groupBy('config_group');
         //return $negative_groups;
         
         return view('employee.acr.form.create3',compact('acr','negative_groups'));
     }
+    /**
+     * @param Acr     $acr
+     * @param Request $request
+     */
+    public function create4(Acr $acr, Request $request)
+    {
+        return view('employee.acr.form.create4',compact('acr'));
+    }
+
 
     /**
      * @param Request $request
      */
-    public function store(Request $request)
+    public function store1(Request $request)
     {
         foreach ($request->acr_master_parameter_id as $acr_master_parameter) {
             if ($request->applicable[$acr_master_parameter] == 1 && ($request->target[$acr_master_parameter] || $request->achivement[$acr_master_parameter] || $request->status[$acr_master_parameter])) {             
@@ -114,8 +115,8 @@ class AcrFormController extends Controller
                 );
             }
         }
-
-        return redirect()->route('acr.myacrs')->with('success','data saved successfully');
+         return redirect()->back();
+        //return redirect()->route('acr.form.create2',compact('acr'))->with('success','data in Form 1 saved successfully');
     }
 
     /**

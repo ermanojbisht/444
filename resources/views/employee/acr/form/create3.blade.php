@@ -1,8 +1,26 @@
 @extends('layouts.type200.main')
 @section('content')
-{{$acr->type->description}}
+<div class="d-flex justify-content-between">
+	<span>
+		{{$acr->type->description}}
+	</span>
+	<span>
+		<div class="btn-group" role="group" aria-label="Basic outlined example">
+		  <a class="btn btn-outline-primary" href="{{route('acr.form.create1',['acr' => $acr])}}">Part-1</a>
+		  <a class="btn btn-outline-primary" href="{{route('acr.form.create2',['acr' => $acr])}}">Part-2</a>
+		  <a class="btn btn-outline-primary" href="{{route('acr.form.create3',['acr' => $acr])}}">Part-3</a>
+		  <a class="btn btn-outline-primary" href="{{route('acr.form.create4',['acr' => $acr])}}">Part-4</a>
+		</div>
+	</span>
+</div>
 <hr>
 <div class="card">
+	<div class="card-header">
+	4- निम्न बिन्दुओ पर उपलब्ध सूचना के आधार पर Reporting अधिकारी तथा Review अधिकारी Negative Marks का निर्धारण करके PAR में अंकित किया जायेगा ।	
+	<p class="text-danger">Rows with Feded Background have data and may be edited </p>
+	<p class="text-danger">Rows start with Sl No means Multi Row Table  </p>
+	<p class="text-danger">Each Question have different Save Button  </p>
+	</div>
 	@php
 		$slno = 0;
 	@endphp
@@ -24,11 +42,12 @@
 					</p>
 					<p class="fw-semibold text-primary ">{{$groupData['head_note']}}</p>
 					<table class="table table-bordered border-primary">
-						<thead class="table-light fw-bold border-primary">
+						<thead class="table-success fw-bold border-primary">
 							<tr class="text-center align-middle">
 								@foreach($groupData['columns'] as $key=>$values)
-									<td>{{$values['text']}}</td>
+									<th>{{$values['text']}}</th>
 								@endforeach
+								<td></td>
 							</tr>
 						</thead>
 						<tbody>
@@ -36,20 +55,27 @@
 								@php $n = 0; @endphp
 								@foreach($data->user_filled_data as $filled_data)
 									@php  $n = $n+1; @endphp
-									<tr>
+									<tr class="bg-light">
 										@foreach($groupData['columns'] as $key=>$values)
 											<td>
 												@if ($values['input_type'])
-													{{$filled_data[$values['input_name']]}}
+													<input 	class="form-control" 
+															type="{{$values['input_type']}}" 
+															name="{{$data->id}}[{{$n}}][{{$values['input_name']}}]"
+															value="{{$filled_data[$values['input_name']]}}"
+													/>
 												@else
 													{{$filled_data->row_no}}
 												@endif
 											</td>
 										@endforeach
+										<td>
+											<button type="submit" id="{{$data->id}}" class="btn btn-outline-primary">Save</button>
+										</td>
 									<tr>
 								@endforeach
 									@php  $n = $n+1; @endphp
-									<tr style="background-color:yellow;">
+									<tr>
 										@foreach($groupData['columns'] as $key=>$values)
 											<td>
 												@if ($values['input_type'])
@@ -62,36 +88,37 @@
 												@endif
 											</td>
 										@endforeach
-									</tr>
-							@else
-								{{-- @php $n = 0; @endphp
-								@foreach($data->user_filled_data as $filled_data)
-									@php  $n = $n+1; @endphp --}}
-									<tr style="background-color:yellow;">
-										@foreach($groupData['columns'] as $key=>$values)
-											<td>
-												@if ($values['input_type'])
-													<input 	class="form-control" 
-															type="{{$values['input_type']}}" 
-															name="{{$data->id}}[1][{{$values['input_name']}}]"
-															value="{{$data->user_filled_data[0][$values['input_name']]??''}}" 
-													/>
-												@else
-													{{-- {{$n}} --}}
-												@endif
-											</td>
-										@endforeach
-									</tr>
-								{{-- @endforeach --}}
-							@endif
-									<tr style="background-color:yellow;">
-										<td colspan="{{count($groupData['columns'])}}" class="text-end">
-											<button type="submit" id="{{$data->id}}" class="btn btn-outline-primary">Save 4.{{$slno}} Details</button>
+										<td>
+											<button type="submit" id="{{$data->id}}" class="btn btn-outline-primary">Save</button>
 										</td>
 									</tr>
+							@else
+								@if(!empty($data->user_filled_data[0]))
+									<tr class="bg-light">
+								@else
+									<tr>
+								@endif
+									@foreach($groupData['columns'] as $key=>$values)
+										<td>
+											@if ($values['input_type'])
+												<input 	class="form-control" 
+														type="{{$values['input_type']}}" 
+														name="{{$data->id}}[1][{{$values['input_name']}}]"
+														value="{{$data->user_filled_data[0][$values['input_name']]??''}}" 
+												/>
+											@else
+												{{-- {{$n}} --}}
+											@endif
+										</td>
+									@endforeach
+										<td>
+											<button type="submit" id="{{$data->id}}" class="btn btn-outline-primary">Save</button>
+										</td>
+									</tr>
+							@endif
 						</tbody>
 					</table>
-					<p class="fw-semibold text-muted">{{$groupData['foot_note']}}</p>
+					{{-- <p class="fw-semibold text-muted">{{$groupData['foot_note']}}</p> --}}
 				</form>
 			</div>
 			@endforeach
@@ -103,18 +130,22 @@
 					@php $slno = $slno+1; @endphp
 					<p class="fw-bold h5 text-info">4.{{$slno}}-  {!!config('acr.group')[$groupId]['head']!!}</p>
 					<table class="table table-bordered border-primary">
-						<thead class="table-light fw-bold border-primary">
+						<thead class="table-success fw-bold border-primary">
 							<tr class="text-center align-middle">
-								<td width="auto">Sl No.</td>
-								<td width="auto">Description</td>
-								<td width="50%">Action Taken</td>
-								<td width="auto" class="text-info">max. deduction</td>
+								<th width="auto">Sl No.</th>
+								<th width="auto">Description</th>
+								<th width="50%">Action Taken</th>
+								<th width="auto" class="text-info">max. deduction</th>
 							</tr>
 						</thead>
 						<tbody>
 							@foreach($datas as $data)
 							<input type="hidden" name="acr_master_parameter_id[]" value='{{$data->id}}'>
-								<tr>
+								@if(!empty($data->user_filled_data[0]))
+									<tr class="bg-light">
+								@else
+									<tr>
+								@endif
 									<td>
 										{{$loop->iteration}}
 									</td>
@@ -125,11 +156,8 @@
 										<input 	class="form-control" 
 												type="text" 
 												name="{{$data->id}}[1][col_1]"
+												value="{{$data->user_filled_data[0]['col_1']??''}}" 
 										/>
-										{{-- <textarea 	class="form-control" 
-												rows="2"
-												name="{{$data->id}}[1]['col_1']"
-										></textarea> --}}
 									</td>
 									<td class="text-center align-middle text-info">
 										{{$data->max_marks}}
@@ -139,7 +167,12 @@
 						</tbody>
 					</table>
 					<div class="text-end">
-						<button type="submit" id="{{$groupId}}" class="btn btn-outline-primary">Save 4.{{$slno}} Details</button>
+						<button type="submit" id="{{$groupId}}" class="btn btn-outline-primary">
+							<svg class="icon icon-lg">
+					            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-save"></use>
+					        </svg>
+							Save
+						</button>
 					</div>
 				</form>
 			</div>
