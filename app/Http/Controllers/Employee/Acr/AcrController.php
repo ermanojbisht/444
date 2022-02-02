@@ -97,6 +97,12 @@ class AcrController extends Controller
 
         $acr = Acr::findOrFail($request->acr_id);
         $appraisal_officer_type = $request->appraisal_officer_type;
+
+        if($this->user->employee_id == $request->appraisal_officer_type)
+        {
+            return Redirect()->back()->with('fail', 'You cannot submit ACR to Yourself...');
+        }
+
         $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
         $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
 
@@ -130,17 +136,16 @@ class AcrController extends Controller
     {
         $acr = Acr::findOrFail($request->acr_id); 
         $acr->update(['submitted_at' => now()]);
+        $this->submitNotification($acr);
         return redirect()->back();
     }
 
     public function submitNotification($acr)
     {
-        $acruser=User::where('employee_id',$acr->employee_id)->first();
-        $acrProcess=$acr->process;
-        if($acrProcess){
-            $employee_id=$acrProcess->report_employee_id;
-            if($employee_id){
-                $reportingEmployee=User::where('employee_id',$employee_id)->first();
+        $acruser=User::where('employee_id',$acr->employee_id)->first();        
+            $reporting_employee_id=$acr->report_employee_id;
+            if($reporting_employee_id){
+                $reportingEmployee=User::where('employee_id',$reporting_employee_id)->first();
                 if($reportingEmployee){
                     $previousNotification=AcrNotification::where('employee_id',$reportingEmployee->employee_id)
                     ->where('acr_id',$acr->id)
@@ -164,8 +169,7 @@ class AcrController extends Controller
                         AcrNotification::create($data);
                     }
                 }
-            }
-        }
+            }       
     }
 
  

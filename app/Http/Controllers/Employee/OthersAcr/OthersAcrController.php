@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Employee\OthersAcr;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\StoreAcrRequest;
 use App\Models\Acr\Acr;
-use App\Models\Acr\AcrProcess;
 use App\Models\Employee;
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
@@ -42,15 +41,16 @@ class OthersAcrController extends Controller
      */
     public function index()
     {
-        $reported = Acr::whereNotNull('submitted_at')->whereIn('id', AcrProcess::where('report_employee_id', $this->user->employee_id)
-        ->where('is_active', 1)->whereNull('report_on')->get()->pluck('acr_id'))->get();
 
-        $reviewed = Acr::whereNotNull('submitted_at')->whereIn('id', AcrProcess::where('review_employee_id', $this->user->employee_id)
-        ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get()->pluck('acr_id'))->get();
+        $reported = Acr::whereNotNull('submitted_at')->where('report_employee_id', $this->user->employee_id)
+        ->where('is_active', 1)->whereNull('report_on')->get();
+
+        $reviewed = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->user->employee_id)
+        ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get();
         
-        $accepted = Acr::whereNotNull('submitted_at')->whereIn('id', AcrProcess::where('accept_employee_id', $this->user->employee_id)
-        ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNull('accept_on')->get()->pluck('acr_id'))->get();
-
+        $accepted = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->user->employee_id)
+        ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNull('accept_on')->get();
+        
         return view('employee.other_acr.index', compact('reported','reviewed','accepted'));
     }
 

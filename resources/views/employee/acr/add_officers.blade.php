@@ -14,7 +14,8 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
-['label'=> 'Acr ','active'=>false],
+['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
 ['label'=> 'My Acr Appraisal Officers','active'=>true]
 ]])
 @endsection
@@ -160,7 +161,7 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 									<input type="date" id="to_date" name="to_date" onblur="findDateDiff()"
 										value="{{ $acr->to_date->format('Y-m-d') }}" required class="form-control" />
 								</div>
-								
+
 								<div class="col-md-12">
 									<div class="text-success" id="days_in_number"></div>
 								</div>

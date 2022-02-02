@@ -19,7 +19,9 @@ class Acr extends Model
 
     protected $fillable = [
         'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date', 'prpoerty_return_date', 
-        'good_work', 'difficultie', 'appreciations', 'submitted_at'
+        'good_work', 'difficultie', 'appreciations', 'submitted_at',
+        'report_employee_id', 'review_employee_id', 'accept_employee_id', 'report_on', 'review_on', 
+        'accept_on', 'is_active'
     ];
     protected $dates = [
         'from_date', 'to_date'
@@ -125,22 +127,12 @@ class Acr extends Model
             }
             $record->save();
         }
-        AcrProcess::updateOrCreate(
-            ['acr_id'=>$record->acr_id],
-            [config('acr.basic.acrProcessFields')[$appraisal_officer_type] => $responsible_employee_id]
-        );
+        $this->update([config('acr.basic.acrProcessFields')[$appraisal_officer_type] => $responsible_employee_id]);
     }
 
     public function filledparameters()
     {
         return $this->hasMany(AcrParameter::class);
-    }
-
-
-    public function process()
-    {
-         return $this->hasOne(AcrProcess::class);
-
     }
 
     public function fillednegativeparameters()

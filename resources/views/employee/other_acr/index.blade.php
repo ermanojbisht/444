@@ -12,8 +12,8 @@ Other's ACR to be Worked Upon
 @endsection
 
 @section('breadcrumb')
-@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [['label'=> Auth::User()->name . '\'s' . '
-Acrs','active'=>true]]])
+@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
+	['label'=> Auth::User()->name . '\'s' . ' Acrs','active'=>true]]])
 @endsection
 
 @section('content')
@@ -70,6 +70,7 @@ Acrs','active'=>true]]])
 										<td>{{$acr->from_date}}</td>
 										<td>{{$acr->to_date }}</td>
 										<td>{{$acr->created_at->format('d M Y')}} </td>
+										<td>{{($acr->submitted_at  == null ? 'Pending' : 'Submitted') }}</td>
 										<td>
 											<div class="dropdown dropstart">
 												<button class="btn btn-transparent p-0" type="button"

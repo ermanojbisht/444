@@ -8,29 +8,18 @@
 @endsection
 
 @section('pagetitle')
-My ACR
+ {{Auth::User()->name}} ACR
 @endsection
 
 @section('breadcrumbNevigationButton')
-{{-- <div class="btn-group" role="group" aria-label="Basic example">
-	<a class="btn btn-outline-dark" href="{{route('index')}}" data-coreui-toggle="tooltip" data-coreui-html="true"
-		data-coreui-placement="bottom" title="<h6>All Estimate</h6>">
-		<svg class="icon icon-lg">
-			<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-storage')}}"></use>
-		</svg>
-	</a>
-	<a class="btn btn-outline-dark" href="{{route('myAcr')}}" data-coreui-toggle="tooltip" data-coreui-html="true"
-		data-coreui-placement="bottom" title="<h6> My Estimate</h6>">
-		<svg class="icon icon-lg">
-			<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-user-plus')}}"></use>
-		</svg>
-	</a>
-</div> --}}
+ 
 @endsection
 
 @section('breadcrumb')
-@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [['label'=> Auth::User()->name . '\'s' . '
-Acrs','active'=>true]]])
+@include('layouts._commonpartials._breadcrumb', 
+[ 'datas'=> [
+	['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+	['label'=> 'My Acrs','active'=>true]]])
 @endsection
 
 @section('content')
@@ -71,6 +60,7 @@ Acrs','active'=>true]]])
 					<td>{{$acr->from_date}}</td>
 					<td>{{$acr->to_date }}</td>
 					<td>{{$acr->created_at->format('d M Y')}} </td>
+					<td>{{($acr->submitted_at == null ? 'Pending' : 'Submitted') }}</td>
 					<td>
 						<div class="dropdown dropstart">
 							<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -99,7 +89,7 @@ Acrs','active'=>true]]])
 									@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) &&
 									$acr->hasAppraisalOfficer(3))
 									<form
-										action="{{ route('acr.submit', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>3]) }}"
+										action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}"
 										method="POST"
 										onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 										{{ csrf_field() }}
