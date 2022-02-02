@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrNegativeParameter;
 use App\Models\Acr\AcrParameter;
+use App\Models\Acr\AcrMasterTraining;
+use App\Models\Acr\EmpProposedTrainings;
+
+use App\Models\Employee;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;  
 use Log;
@@ -91,7 +96,8 @@ class AcrFormController extends Controller
      */
     public function create4(Acr $acr, Request $request)
     {
-        return view('employee.acr.form.create4',compact('acr'));
+        $master_trainings = AcrMasterTraining::all()->groupBy('topic');
+        return view('employee.acr.form.create4',compact('acr','master_trainings'));
     }
 
 
@@ -160,6 +166,33 @@ class AcrFormController extends Controller
                 }
             }
         }
+
+        return redirect()->back();
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function store4(Request $request)
+    {
+        $this->validate($request,[
+            'training' => 'required|array|between:1,4'
+        ]);
+
+        
+        //return $request->all();
+        $employee = Employee::findOrFail($request->employee_id);
+        foreach ($request->training as $training) {
+            EmpProposedTrainings::Create(
+                    [
+                        'employee_id' => $request->employee_id,
+                        'training_id' => $training,
+                    ]
+                );
+
+        }
+        
+        //$acr->save();
 
         return redirect()->back();
     }

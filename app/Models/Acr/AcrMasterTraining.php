@@ -5,9 +5,7 @@ namespace App\Models\Acr;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AcrMasterParameter extends Model
+class AcrMasterTraining extends Model
 {
     use HasFactory;
-    protected  $fillable =['topic','description'];
-    public $timestamps = false;
 }
