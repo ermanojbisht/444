@@ -3,7 +3,7 @@
 	@include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
 @endsection
 @section('pagetitle')
-	Form - 4 <small>Training Required</small>
+	Part -II Self-Appraisal <small>Form -4 Required Trainings</small>
 @endsection
 @section('content')
  	@include('employee.acr.form._formHeader',['acr'=>$acr])
