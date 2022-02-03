@@ -21,7 +21,7 @@ class Acr extends Model
         'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date', 'prpoerty_return_date', 
         'good_work', 'difficultie', 'appreciations', 'submitted_at',
         'report_employee_id', 'review_employee_id', 'accept_employee_id', 'report_on', 'review_on', 
-        'accept_on', 'is_active'
+        'accept_on', 'is_active','appraisal_note_1','appraisal_note_2','appraisal_note_3'
     ];
     protected $dates = [
         'from_date', 'to_date'
@@ -139,4 +139,6 @@ class Acr extends Model
     {
         return $this->hasMany(AcrNegativeParameter::class);
     }
+
+    
 }
