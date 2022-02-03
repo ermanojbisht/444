@@ -100,11 +100,15 @@ class Employee extends Authenticatable
         ";
     }
 
+    public function education()
+    {
+        return $this->hasMany(Education::class, "employee_id", "id");
+    }
+
     public function EmployeeProposedTrainings()
     {
         return $this->hasMany(EmpProposedTraining::class, "employee_id", "id");
     }
-
     
 }
 
