@@ -7,7 +7,7 @@ use App\Models\Acr\Acr;
 use App\Models\Acr\AcrNegativeParameter;
 use App\Models\Acr\AcrParameter;
 use App\Models\Acr\AcrMasterTraining;
-use App\Models\Acr\EmpProposedTrainings;
+use App\Models\Acr\EmpProposedTraining;
 
 use App\Models\Employee;
 
@@ -97,7 +97,10 @@ class AcrFormController extends Controller
     public function create4(Acr $acr, Request $request)
     {
         $master_trainings = AcrMasterTraining::all()->groupBy('topic');
-        return view('employee.acr.form.create4',compact('acr','master_trainings'));
+        
+        $selected_trainings = $acr->employee->EmployeeProposedTrainings->pluck('training_id');
+        
+        return view('employee.acr.form.create4',compact('acr','master_trainings','selected_trainings'));
     }
 
 
@@ -179,11 +182,12 @@ class AcrFormController extends Controller
             'training' => 'required|array|between:1,4'
         ]);
 
-        
+        // delete all previou record
+        //$deleted = EmpProposedTraining::where('employee_id', $request->employee_id)->firstorfail()->delete();
         //return $request->all();
         $employee = Employee::findOrFail($request->employee_id);
         foreach ($request->training as $training) {
-            EmpProposedTrainings::Create(
+            EmpProposedTraining::Create(
                     [
                         'employee_id' => $request->employee_id,
                         'training_id' => $training,

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\HrGrievance\HrGrievance;
+use App\Models\Acr\EmpProposedTraining;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use DB;
@@ -104,6 +105,10 @@ class Employee extends Authenticatable
         return $this->hasMany(Education::class, "employee_id", "id");
     }
 
+    public function EmployeeProposedTrainings()
+    {
+        return $this->hasMany(EmpProposedTraining::class, "employee_id", "id");
+    }
     
 }
 

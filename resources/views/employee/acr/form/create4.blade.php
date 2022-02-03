@@ -1,41 +1,42 @@
 @extends('layouts.type200.main')
+@section('sidebarmenu')
+	@include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
+@endsection
+@section('pagetitle')
+	Part -II Self-Appraisal <small>Form -4 Required Trainings</small>
+@endsection
 @section('content')
-<div class="d-flex justify-content-between">
-	<span>
-		{{$acr->type->description}}
-	</span>
-	<span>
-		<div class="btn-group" role="group" aria-label="Basic outlined example">
-		  <a class="btn btn-outline-primary" href="{{route('acr.form.create1',['acr' => $acr])}}">Part-1</a>
-		  <a class="btn btn-outline-primary" href="{{route('acr.form.create2',['acr' => $acr])}}">Part-2</a>
-		  <a class="btn btn-outline-primary" href="{{route('acr.form.create3',['acr' => $acr])}}">Part-3</a>
-		  <a class="btn btn-outline-primary" href="{{route('acr.form.create4',['acr' => $acr])}}">Part-4</a>
-		</div>
-	</span>
-</div><hr>
-<div class="card form-control">
-	<div class="card-header">
-		Training .. . .. . . . . .
-	</div>
-	<form class="form-horizontal" method="POST" action="{{route('acr.form.store4')}}">
-		@csrf
-		<input type="hidden" name="employee_id" value='{{$acr->employee_id}}'/>
-		@foreach($master_trainings as $key=>$trainings)
-		<div class="card-body">
-			<P class="fw-bold h4">
-				{{$key}}
-			</P>
-			@foreach($trainings as $training)
-				<div class="form-check">
-				  <input class="form-check-input" type="checkbox" value="{{$training->id}}" name="training[]" id="training{{$training->id}}">
-				  <label class="form-check-label" for="training{{$training->id}}">
-				    {{$training->description}}
-				  </label>
+ 	@include('employee.acr.form._formHeader',['acr'=>$acr])
+	<div class="card form-control">
+		<p class="fs-5 fw-bold">5- Please Select training modules for indicate specific areas in which you feel the need to upgrade your skills through training programs (Maximum 4 modules)</p>
+		<form class="form-horizontal" method="POST" action="{{route('acr.form.store4')}}">
+			@csrf
+			<input type="hidden" name="employee_id" value='{{$acr->employee_id}}'/>
+			@foreach($master_trainings as $key=>$trainings)
+			<div class="card-body">
+				<P class="fw-semibold h5 text-muted">
+					{{$key}}
+				</P>
+				<div class="row">
+					@foreach($trainings as $training)
+						<div class="form-check col-md-4  fs-5">
+						  <input class="form-check-input" type="checkbox" value="{{$training->id}}" name="training[]" id="training{{$training->id}}" 
+ 								@if ($selected_trainings->contains($training->id))
+							  		checked
+							  	@endif
+						  >
+						  <label class="form-check-label" for="training{{$training->id}}">
+						    {{$training->description}}
+						  </label>
+						</div>
+					@endforeach
 				</div>
+			</div>
+			<hr>
 			@endforeach
-		</div>
-		@endforeach
-		<button type="submit" class="btn btn-primary">Save
-	</form>
-</div>
+			<div class="text-end">
+				<button type="submit" class="btn btn-primary">Save
+			</div>
+		</form>
+	</div>
 @endsection

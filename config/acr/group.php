@@ -3,15 +3,15 @@
 return [
 
  1001=>[
-    'head'=>'1- Assessment of Performance <br> Assigned Tasks / Works',
+    'head'=>'1- Assessment of Performance',
+    'head_note'=>'Assigned Tasks / Works',
     'foot_note'=>'',
-    'head_note'=>'',
     'table_type'=>1, // 1 mean only Target Achivement Table 
     ],
  1002=>[
-    'head'=>'1- Assessment of Performance <br> Assigned Tasks / Works',
+    'head'=>'1- Assessment of Performance',
+    'head_note'=>'Assigned Tasks / Works',
     'foot_note'=>'',
-    'head_note'=>'',
     'table_type'=>2, // 2 mean only Status Table 
     ],
 
