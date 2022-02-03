@@ -19,107 +19,143 @@ My ACR
 @endsection
 
 @section('content')
-
-
-<hr>
-
 <div class="card">
+	<div class="card-body">
+		<form class="form-horizontal" method="POST" action="{{route('acr.store')}}">
+			@csrf
 
-</div>
-<div class="card">
-	<form class="form-horizontal" method="POST" action="{{route('acr.store')}}">
-		@csrf
-
-		<div class="row">
-
-			<div class="col-md-6">
-				<h5> Select Type of ACR to be Filled : </h5>
-
+			<div class="form-group">
 				<div class="row">
+					<div class="col-md-4">
+						<p class="fw-bold h5"> Name of the officer Reported Upon :- </p>
+					</div>
 					<div class="col-md-6">
-						<label for='acr_group_id' class="required "> Select Designation Group </label>
-						<select id="acr_group_id" name="acr_group_id" required class="form-control">
-							<option value=""> Select ACR Type </option>
-							@foreach ($acrGroups as $key=>$name)
+						<p class="fw-bold"> {{$employee->name }} </p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<p class="fw-bold h5"> Date of Birth :-</p>
+					</div>
+					<div class="col-md-6">
+						<p class="fw-bold "> {{$employee->birth_date->format('d M Y')}} </p>
+					</div>
+				</div>
+			</div>
+			<br />
+
+
+			<div class="row">
+
+				<div class="col-md-5">
+					<p class="fw-bold h5"> Select Type of ACR to be Filled : </p>
+					<div class="row">
+						<div class="col-md-4">
+							<label for='acr_group_id' class="required "> Select Designation Group </label>
+							<select id="acr_group_id" name="acr_group_id" required class="form-select">
+								<option value=""> Select ACR Type </option>
+								@foreach ($acrGroups as $key=>$name)
 								<option value="{{$key}}"> {{$name}} </option>
-							@endforeach
-						</select>
-					</div>
-
-					<div class="col-md-6">
-						<label for='acr_type_id' class="required "> Select Acr Type </label>
-						<select id="acr_type_id" name="acr_type_id" required class="form-control">
-						</select>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-md-6">
-				<h5> Period Of Appraisal : </h5>
-
-				<div class="row">
-					<div class="col-md-6">
-						<label for='from_date' class="required "> Enter From Date </label>
-						<input type="date" name="from_date" required class="form-control" />
-					</div>
-					<div class="col-md-6">
-						<label for='to_date' class="required "> Enter To Date </label>
-						<input type="date" name="to_date" required class="form-control" />
-					</div>
-				</div>
-
-			</div>
-
-
-
-		</div>
-
-
-		<div class="row">
-
-			<div class="col-md-6">
-				<h5> During the Appraisal Period : </h5>
-
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							{{ Form::label('officeType','Place of Posting ',[ 'class'=>'  required']) }}
-							{{ Form::select('officeType',($Officetypes),old('officeType'),['placeholder'=>'Select Office
-							Type','id'=>'officeTypeId','class'=>'form-control', 'required']) }}
+								@endforeach
+							</select>
 						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							{{ Form::label('office_id','Select Office Name',[ 'class'=>'  required']) }}
-							<select id="office_id" name="office_id" required class="form-control">
+						<div class="col-md-8">
+							<label for='acr_type_id' class="required "> Select Acr Type </label>
+							<select id="acr_type_id" name="acr_type_id" required class="form-select">
 							</select>
 						</div>
 					</div>
 				</div>
+
+				<div class="col-md-4">
+					<p class="fw-bold h5"> Period Of Appraisal : </p>
+
+					<div class="row">
+						<div class="col-md-6">
+							<label for='from_date' class="required "> Enter From Date </label>
+							<input type="date" name="from_date" required class="form-control" />
+						</div>
+						<div class="col-md-6">
+							<label for='to_date' class="required "> Enter To Date </label>
+							<input type="date" name="to_date" required class="form-control" />
+						</div>
+					</div>
+
+				</div>
 			</div>
 
-			<div class="col-md-6">
-				<h5>   </h5>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<br/>
-							{{ Form::label('office_id','Date Of Birth ',[ 'class'=>'  required']) }}
-							<label> {{$employee->birth_date->format('d M Y')}} </label>
+			<br />
+			<div class="row">
+				<div class="col-md-5">
+					<p class="fw-bold h5"> During the Appraisal Period : </p>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								{{ Form::label('officeType','Place of Posting ',[ 'class'=>' required']) }}
+								{{ Form::select('officeType',($Officetypes),old('officeType'),['placeholder'=>'Select
+								Office
+								Type','id'=>'officeTypeId','class'=>'form-select', 'required']) }}
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								{{ Form::label('office_id','Select Office Name',[ 'class'=>' required']) }}
+								<select id="office_id" name="office_id" required class="form-select">
+								</select>
+							</div>
 						</div>
 					</div>
 				</div>
-
-
-		</div>
-
-		<div class="row">
-			<div class="col-md-3">
-				<input type="hidden" name="employee_id" value="{{$employee->id}}" />
-				<input type="submit" class="btn btn-primary " value="Save" />
 			</div>
-		</div>
-	</form>
+			<br />
+			<div class="row">
+				<div class="col-md-12">
+					<p class="fw-bold h5"> Education Qualification : </p>
+					@foreach ($employee->education as $education )
+					@if($education->qualifiaction_type_id == 1)
+					<div class="row">
+						<div class="col-md-4">
+							<p class="fw-bold h6"> At the time of Joining in the Department : - </p>
+						</div>
+						<div class="col-md-6">
+							{{$education->qualifiaction }}
+						</div>
+					</div>
+					@endif
+					@if($education->qualifiaction_type_id == 2)
+					<div class="row">
+						<div class="col-md-4">
+							<p class="fw-bold h6"> Qualification acquired during service in the Department : - </p>
+						</div>
+						<div class="col-md-6">
+							{{$education->qualifiaction }}
+						</div>
+					</div>
+					@endif
+					@endforeach
+				</div>
+			</div>
+
+			<br />
+			<div class="row">
+				<div class="col-md-12">
+					<p class="fw-bold h5"> Membership of any Professional Organization : - </p>
+					<input type="text" class="form-control" name="professionalOrganization" >  </textarea>  
+					 {{-- ToDo: to be save in which table in DB  --}}
+				</div>
+			</div>
+			<br />
+			<br />
+			<div class="row">
+				<div class="col-md-3">
+					<input type="hidden" name="employee_id" value="{{$employee->id}}" />
+					<input type="submit" class="btn btn-primary " value="Save" />
+				</div>
+			</div>
+		</form>
+	</div>
+
+
 </div>
 
 
