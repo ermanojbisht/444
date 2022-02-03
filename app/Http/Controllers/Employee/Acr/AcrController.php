@@ -176,7 +176,9 @@ class AcrController extends Controller
     }
 
     public function show(Acr $acr) {
-        $dataArray=['title'=>'ACR'];
+
+        //return view('employee.acr.show',compact('acr'));
+        $dataArray=['acr'=>$acr];
         $pdf= SPDF::loadview('employee.acr.show',compact('acr'));
         $pdf->setOption('cover', View::make('employee.acr.pdfcoverpage', $dataArray));
        /* $pdf->setOption('margin-top',0);
