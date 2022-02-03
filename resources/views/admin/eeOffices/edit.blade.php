@@ -60,7 +60,7 @@
                 <span class="help-block">{{ trans('cruds.eeOffice.fields.se_office_helper') }}</span>
             </div>
             {{-- head_emp_code --}}
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-6" id="hrms-model">
                 <label class="required" for="head_emp_code">Office Head</label>
                 <select class="form-control select2 {{ $errors->has('head_emp_code') ? 'is-invalid' : '' }}" name="head_emp_code" id="head_emp_code" required>
                 </select>
@@ -226,7 +226,7 @@
   }*/
   // CSRF Token
 
-employeeSelect2DropDown('#head_emp_code',minimumInputLength=3,employeeType='er',section='All');
+employeeSelect2DropDown('#head_emp_code',minimumInputLength=3,employeeType='er',section='All',removeLogged='false');
 
 let empSelected = $('#head_emp_code');
 let data1={text:"{{$eeOffice->officeHead->nameemp??''}}",id:"{{$eeOffice->head_emp_code}}",}

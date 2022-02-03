@@ -112,7 +112,7 @@
                     <span class="help-block">{{ trans('cruds.ceOffice.fields.lon_helper') }}</span>
                 </div>
                 {{-- head_emp_code --}}
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-6" id="hrms-model">
                     <label class="required" for="head_emp_code">Office Head</label>
                     <select class="form-control select2 {{ $errors->has('head_emp_code') ? 'is-invalid' : '' }}"
                             name="head_emp_code" id="head_emp_code" required>
@@ -140,7 +140,7 @@
 @include('partials.js._employeeSelect2DropDownJs')
     <script>
         $(document).ready(function () {
-            employeeSelect2DropDown('#head_emp_code',minimumInputLength=3,employeeType='er',section='A');
+            employeeSelect2DropDown('#head_emp_code',minimumInputLength=3,employeeType='er',section='A',removeLogged='false');
 
             let empSelected = $('#head_emp_code');
             let data1 = {text: "{{$ceOffice->officeHead->nameemp??''}}", id: "{{$ceOffice->head_emp_code}}",}

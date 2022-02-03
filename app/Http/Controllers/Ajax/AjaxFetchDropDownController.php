@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\Im\Ulb;
 use App\Models\Im\Village;
 use App\Models\Track\EstimateFeatureType;
+use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Log;
@@ -15,7 +16,7 @@ use Log;
 class AjaxFetchDropDownController extends Controller
 {
     /**
-     * @param Request $request
+     * @param  Request $request
      * @return mixed
      */
     public function index(Request $request)
@@ -47,39 +48,40 @@ class AjaxFetchDropDownController extends Controller
         $data = [];
         if ($request->has('term')) {
             $search = $request->term;
-            $query = Employee::select("id", "name")->where(function($query) use ($search){
+            $query = Employee::select("id", "name")->where(function ($query) use ($search) {
                 $query->where('name', 'LIKE', "%$search%")
-                ->orWhere('id', 'LIKE', "%$search%");
+                    ->orWhere('id', 'LIKE', "%$search%");
             });
-            if ($request->has('employeeType') && ($request->employeeType==='er'|$request->employeeType==='office'|$request->employeeType==='other')) {
+            if ($request->removeLogged==='true') {
+                $query = $query->where('id', '<>', Auth::user()->employee_id);
+            }
+
+            if ($request->has('employeeType') && ($request->employeeType === 'er' | $request->employeeType === 'office' | $request->employeeType === 'other')) {
                 switch ($request->employeeType) {
                     case 'er':
-                        $group_id=1;
+                        $group_id = 1;
                         break;
                     case 'office':
-                        $group_id=2;
+                        $group_id = 2;
                         break;
                     case 'other':
-                        $group_id=0;
+                        $group_id = 0;
                         break;
                 }
-                $designationsList=Designation::where('group_id',$group_id)->get()->pluck('id');
-                $query =$query->whereIn('designation_id',$designationsList);
+                $designationsList = Designation::where('group_id', $group_id)->get()->pluck('id');
+                $query = $query->whereIn('designation_id', $designationsList);
             }
 
-            if ($request->has('section') && ($request->section==='A'|$request->section==='B'|$request->section==='C'|$request->section==='D')) {
-                $designationsList=Designation::where('section',$request->section)->get()->pluck('id');
-                $query =$query->whereIn('designation_id',$designationsList);
+            if ($request->has('section') && ($request->section === 'A' | $request->section === 'B' | $request->section === 'C' | $request->section === 'D')) {
+                $designationsList = Designation::where('section', $request->section)->get()->pluck('id');
+                $query = $query->whereIn('designation_id', $designationsList);
             }
 
-
-            $data=$query->orderBy('name')->get();
+            $data = $query->orderBy('name')->get();
         }
-
 
         return response()->json($data);
     }
-
 
     /**
      * @param Request $request
@@ -92,12 +94,14 @@ class AjaxFetchDropDownController extends Controller
     /**
      * @param Request $request
      */
-    public function villageDropDown(Request $request, $htmloutput=false)
+    public function villageDropDown(Request $request, $htmloutput = false)
     {
         $villageList = Village::where('villages.block_ID_MIS', $request->key)
             ->select('id', 'name')->orderBy('name')->get();
 
-        if(!$htmloutput) return $villageList;
+        if (!$htmloutput) {
+            return $villageList;
+        }
 
         $output = '<option value="">Select Village</option>';
         $preSelected = $request->key; //key is block id already selected in form
@@ -107,14 +111,20 @@ class AjaxFetchDropDownController extends Controller
         }
         echo $output;
     }
-    public function ulbDropDown(Request $request, $htmloutput=false)
+
+    /**
+     * @param  Request       $request
+     * @param  $htmloutput
+     * @return mixed
+     */
+    public function ulbDropDown(Request $request, $htmloutput = false)
     {
-        Log::info("this = ".print_r($request->all(),true));
+        Log::info("this = ".print_r($request->all(), true));
         $ulbList = Ulb::where('type_id', $request->key)
             ->select(DB::raw('id ,title as name'))->orderBy('name')->get();
 
-
-
-        if(!$htmloutput) return $ulbList;
+        if (!$htmloutput) {
+            return $ulbList;
+        }
     }
 }
