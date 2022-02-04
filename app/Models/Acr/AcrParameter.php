@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AcrParameter extends Model
 {   
 
-    protected  $fillable =['acr_master_parameter_id','acr_id','user_target','user_achivement','status','Reporting_marks','Reviewing_marks'];
+    protected  $fillable =['acr_master_parameter_id','acr_id','user_target','user_achivement','status','Reporting_marks','Reviewing_marks','is_applicable'];
     public $timestamps = false;
 
 }

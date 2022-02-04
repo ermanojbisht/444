@@ -65,6 +65,7 @@
                     {{ trans('global.save') }}
                 </button>
             </div>
+            <input id="removeLogged" type="hidden" name="removeLogged" value="false" />
         </form>
     </div>
     <div class="card-footer">
@@ -74,5 +75,6 @@
 @endsection
 @section('footscripts')
     @include('partials.js._employeeSelect2DropDownJs')
+    @include('partials.js._employeeDDProcessHelperJs')
 @endsection
 

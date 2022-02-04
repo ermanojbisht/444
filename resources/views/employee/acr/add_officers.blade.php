@@ -181,6 +181,7 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 						<div class="row">
 							<div class="form-group mt-2">
 								<input type="hidden" name="acr_id" value="{{$acr->id}}" />
+                                <input id="removeLogged" type="hidden" name="removeLogged" value="true" />
 								<input type="submit" class="btn btn-primary " id="btnSave" value="Add Officers " />
 							</div>
 						</div>
@@ -201,6 +202,7 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 @section('footscripts')
 @include('layouts._commonpartials.js._select2')
 @include('partials.js._employeeSelect2DropDownJs')
+@include('partials.js._employeeDDProcessHelperJs')
 <script type="text/javascript">
 	$(document).ready(function () {
         $.fn.modal.Constructor.prototype.enforceFocus = function() {};
@@ -242,40 +244,6 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
     $(document).ready(function() {
 
 		findDateDiff();
-		
-        let section= $( "#section" ).val();
-        let employeeType= $( "#employeeType" ).val();
-
-        $('#section').on('change', function() {
-           section= this.value;
-           employeeType= $( "#employeeType" ).val();
-           employeeSelect2DropDown('#employee_id',minimumInputLength=3,employeeType,section);
-        });
-
-
-        $('#employeeType').on('change', function() {
-           section= $( "#section" ).val();
-           employeeType= this.value;
-           employeeSelect2DropDown('#employee_id',minimumInputLength=3,employeeType,section);
-        });
- 
-        employeeSelect2DropDown('#employee_id',minimumInputLength=3,employeeType='all',section='all');
-
-
-        $('#employee_id').change(function(event) {
-            $.ajax({
-                url: '{{route('employee.basicData')}}',
-                type: 'POST',
-                //dataType: 'default',//causes error if data is not in jSON format
-                data: {employee_id: $('#employee_id').val(),_token : $('meta[name="csrf-token"]').attr('content')},
-                success: function (result,status,xhr) {
-                    $('#employee_detail_div').html(result)
-                },
-                error: function (xhr,status,error) {
-                    console.log("error",error,status);
-                }
-            });
-        });
 
     });
 
@@ -295,8 +263,6 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 
 </script>
 
-
-@include('partials.js._employeeSelect2DropDownJs')
 @include('partials.js._makeDropDown')
 
 @endsection
