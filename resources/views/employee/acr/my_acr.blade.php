@@ -71,10 +71,15 @@
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
 								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
+									<i class="cib-twitter"></i> View ACR
 								</a>
 								@if (!$acr->submitted_at)
-
+								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
+								</a>
+								<a class="dropdown-item" href="{{route('acr.addLeaves', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add Leaves or Period Of Absence
+								</a>
 								<a class="dropdown-item" href="{{route('acr.form.create1', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add ACR Form Part 1
 								</a>

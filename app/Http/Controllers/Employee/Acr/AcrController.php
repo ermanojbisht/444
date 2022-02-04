@@ -140,6 +140,7 @@ class AcrController extends Controller
         $acr = Acr::findOrFail($request->acr_id); 
         $acr->update(['submitted_at' => now()]);
         $this->submitNotification($acr);
+
         return redirect()->back();
     }
 
@@ -215,6 +216,38 @@ class AcrController extends Controller
         //return $pdf->stream('view.pdf');
     }
        
+
+    public function addLeaves (Acr $acr)
+    {
+        return view('employee.acr.add_leaves', compact('acr'));
+    }
+
+    
+    public function addAcrLeaves(Request $request)
+    {
+        $acr = Acr::findOrFail($request->acr_id);
+
+        $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
+        $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
+
+        // if (!$start->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)) {
+        //     return ['status' => false, 'msg' => 'start/from date ' . $start->format('d M y') . ' is beyond the ACR period (' . $acrPeriodStartDate->format('d M y') . ' - ' . $acrPeriodEndDate->format('d M y') . ' )'];
+        // }
+
+        // if (!$end->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)) {
+        //     return ['status' => false, 'msg' => 'End/to date ' . $end->format('d M y') . ' is beyond the ACR period (' . $acrPeriodStartDate->format('d M y') . ' - ' . $acrPeriodEndDate->format('d M y') . ' )'];
+        // }
+
+        $result = $acr->checkPeriodInput($startDate, $endDate, 1);
+        if (!$result['status']) {
+            return Redirect()->back()->with('fail', $result['msg']);
+        }
+        return  $request->all();
+
+    
+    }
+    
+
 }
 
 
