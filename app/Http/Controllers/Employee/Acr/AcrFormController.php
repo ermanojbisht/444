@@ -286,33 +286,31 @@ class AcrFormController extends Controller
         
         $text[] = "<p class='fs-5 fw-semibold my-0'>User Input For </p>";
         $text[] = "<p class='text-info fs-5 fw-bold'>".$AcrMasterParameter->description."</p>";
+       
         if(isset($AcrParameter)){
             if($groupId > 2000 && $groupId < 3000){
-                if(config('acr.group')[$groupId]['multi_rows']){
-                    foreach ($AcrParameter as $Parameter) {
-                        foreach (config('acr.group')[$groupId]['columns'] as $key=>$columns) {
-                            if( $columns['input_type'] === false){
-
-                            }else{
-                                $text[] = "<p>";
-                                $text[] = "<span class='fs-5 fw-semibold'> ".$columns['text']."</span> : ";
-                                $text[] = "<span class='fs-5 fw-bold text-info'> ".$Parameter[$columns['input_name']]."</span>";
-                                $text[] = "</p>";
-
+                $text[] = '<table>';
+                    $text[] = '<thead>';
+                        $text[] = '<tr>';
+                            foreach (config('acr.group')[$groupId]['columns'] as $key=>$columns) {
+                                $text[] = '<th>'.$columns['text'].'</th>';        
                             }
+                        $text[] = '</tr>';
+                    $text[] = '</thead>';
+                    $text[] = '<tbody>';
+                        foreach ($AcrParameter as $Parameter) {
+                            $text[] = '<tr>';
+                            foreach (config('acr.group')[$groupId]['columns'] as $key=>$columns) {
+                                if( $columns['input_type'] === false){
+                                    $text[] = '<td>Sl no</td>';
+                                }else{
+                                    $text[] = '<td>'.$Parameter[$columns['input_name']].'</td>';
+                                }
+                            }
+                            $text[] = "</tr>";
                         }
-                        $text[] = "<hr>";
-                    }
-                    
-                }else{
-                    // Single Row Data
-                    foreach (config('acr.group')[$groupId]['columns'] as $key=>$columns) {
-                        $text[] = "<p>";
-                        $text[] = "<span class='fs-5 fw-semibold'> ".$columns['text']."</span> : ";
-                        $text[] = "<span class='fs-5 fw-bold text-info'> ".$AcrParameter[0][$columns['input_name']]."</span>";
-                        $text[] = "</p>";
-                    }
-                }
+                    $text[] = "</tbody>";
+                $text[] = "</table>";
             }
             elseif($groupId > 3000){
                     $text[] = "<p class='fs-5 fw-semibold text-danger'>to be develop</p>";
