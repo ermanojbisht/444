@@ -37,26 +37,16 @@ class AcrFormController extends Controller
         });
     }
 
+
+
+
     /**
      * @param Acr     $acr
      * @param Request $request
      */
     public function create1(Acr $acr, Request $request)
     {
-        $filledparameters=$acr->filledparameters()->get()->keyBy('acr_master_parameter_id');
-        $requiredParameters=$acr->acrMasterParameters()->where('type',1)->get();
-        $requiredParameters->map(function($row) use ($filledparameters){
-            if(isset($filledparameters[$row->id])){
-                $row->user_target=$filledparameters[$row->id]->user_target;
-                $row->user_achivement=$filledparameters[$row->id]->user_achivement;
-                $row->status=$filledparameters[$row->id]->status;
-            }else{
-                $row->user_target=$row->user_achivement=$row->status='';
-            }            
-            return $row;
-        });        
-        $data_groups = $requiredParameters->groupBy('config_group');
-        
+        $data_groups=$acr->type1RequiremntsWithFilledData();
         return view('employee.acr.form.create1',compact('acr','data_groups'));
     }
     /**

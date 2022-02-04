@@ -140,5 +140,51 @@ class Acr extends Model
         return $this->hasMany(AcrNegativeParameter::class);
     }
 
+    public function type1RequiremntsWithFilledData()
+    {
+       $filledparameters=$this->filledparameters()->get()->keyBy('acr_master_parameter_id');
+        $requiredParameters=$this->acrMasterParameters()->where('type',1)->get();
+        $requiredParameters->map(function($row) use ($filledparameters){
+            if(isset($filledparameters[$row->id])){
+                $row->user_target=$filledparameters[$row->id]->user_target;
+                $row->user_achivement=$filledparameters[$row->id]->user_achivement;
+                $row->status=$filledparameters[$row->id]->status;
+            }else{
+                $row->user_target=$row->user_achivement=$row->status='';
+            }
+            return $row;
+        });
+        return $requiredParameters->groupBy('config_group');
+    }
+
+
+    public function getPdfFilePathAttribute()
+    {
+        return 'acr/'.$this->employee_id.'/'.$this->id.'.pdf';
+    }
+
+    public function getPdfFullFilePathAttribute()
+    {
+        return \Storage::disk('public')->path($this->pdf_file_path);
+    }
+
+
+
+    public function isFileExist()
+    {
+      return \Storage::disk('public')->exists($this->pdf_file_path);
+    }
+
+    public function createPdfFile($pdf,$forced=true)
+    {
+        //$fullpath=\Storage::disk('public')->path($this->pdf_file_path);
+        if( $forced || (!$this->isFileExist()) ){
+            if($this->isFileExist()){
+                \Storage::disk('public')->delete($this->pdf_file_path);
+            }
+            $pdf->save(\Storage::disk('public')->path($this->pdf_file_path));
+        }
+    }
+
     
 }
