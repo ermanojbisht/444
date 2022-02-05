@@ -2,16 +2,20 @@
 
 namespace App\Models\Acr;
 
-use App\Models\Employee;
-use App\Traits\Auditable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use \DateTimeInterface;
 use  App\Models\Acr\AcrType;
+use App\Mail\Acr\AcrSumittedMail;
+use App\Models\Acr\AcrNotification;
+use App\Models\Employee;
+use App\Models\User;
+use App\Traits\Auditable;
 use Bugsnag\DateTime\Date;
 use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Mail;
 use Log;
+use \DateTimeInterface;
 
 class Acr extends Model
 {
@@ -185,6 +189,42 @@ class Acr extends Model
             $pdf->save(\Storage::disk('public')->path($this->pdf_file_path));
         }
     }
+
+    public function submitNotification()
+    {
+        Log::info("in submitNotification $this->id");
+        $acruser=User::where('employee_id',$this->employee_id)->first();
+            $reporting_employee_id=$this->report_employee_id;
+            if($reporting_employee_id){
+                $reportingEmployee=User::where('employee_id',$reporting_employee_id)->first();
+                if($reportingEmployee){
+                    $previousNotification=AcrNotification::where('employee_id',$reportingEmployee->employee_id)
+                    ->where('acr_id',$this->id)
+                    ->where('through',1)
+                    ->where('notification_type',2)
+                    ->orderBy('notification_on','DESC')->first();
+
+                    if(!$previousNotification){
+                        Mail::to($reportingEmployee)
+                        ->cc($acruser)
+                        ->send(new AcrSumittedMail($this,$reportingEmployee));
+
+                        $data=[
+                        'employee_id'=>$reportingEmployee->employee_id,
+                        'acr_id'=>$this->id,
+                        'notification_on'=>now(),
+                        'through'=>1,
+                        'notification_type'=>2,
+                        'notification_no'=>1
+                        ];
+                        AcrNotification::create($data);
+                    }
+                }
+            }
+        Log::info("out submitNotification $this->id");
+
+    }
+
 
     
 }

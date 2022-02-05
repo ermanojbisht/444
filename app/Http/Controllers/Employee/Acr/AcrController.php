@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employee\Acr;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\StoreAcrRequest;
+use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use App\Mail\Acr\AcrSumittedMail;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrNotification;
@@ -12,13 +13,14 @@ use App\Models\User;
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
+use DPDF;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use SPDF;
-use DPDF;
+use Log;
 
 class AcrController extends Controller
 {
@@ -139,42 +141,9 @@ class AcrController extends Controller
     {
         $acr = Acr::findOrFail($request->acr_id); 
         $acr->update(['submitted_at' => now()]);
-        $this->submitNotification($acr);
+        dispatch(new MakeAcrPdfOnSubmit($acr));
 
         return redirect()->back();
-    }
-
-    public function submitNotification($acr)
-    {
-        $acruser=User::where('employee_id',$acr->employee_id)->first();        
-            $reporting_employee_id=$acr->report_employee_id;
-            if($reporting_employee_id){
-                $reportingEmployee=User::where('employee_id',$reporting_employee_id)->first();
-                if($reportingEmployee){
-                    $previousNotification=AcrNotification::where('employee_id',$reportingEmployee->employee_id)
-                    ->where('acr_id',$acr->id)
-                    ->where('through',1)
-                    ->where('notification_type',2)
-                    ->orderBy('notification_on','DESC')->first();
-
-                    if(!$previousNotification){
-                        Mail::to($reportingEmployee)
-                        ->cc($acruser)
-                        ->send(new AcrSumittedMail($acr,$reportingEmployee));
-
-                        $data=[
-                        'employee_id'=>$reportingEmployee->employee_id,
-                        'acr_id'=>$acr->id,
-                        'notification_on'=>now(),
-                        'through'=>1,
-                        'notification_type'=>2,
-                        'notification_no'=>1
-                        ];
-                        AcrNotification::create($data);
-                    }
-                }
-            }
-
     }
 
 
