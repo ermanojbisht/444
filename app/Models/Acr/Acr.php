@@ -203,7 +203,7 @@ class Acr extends Model
                     ->where('through',1)
                     ->where('notification_type',2)
                     ->orderBy('notification_on','DESC')->first();
-
+                    Log::info("fullFilePath = ".print_r($this->pdfFullFilePath,true));
                     if(!$previousNotification){
                         Mail::to($reportingEmployee)
                         ->cc($acruser)
