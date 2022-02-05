@@ -21,9 +21,9 @@
 @section('content')
 <div class="container-fluid">
     {{-- <x-track.instance-estimate-header :instanceEstimate="$instanceEstimate" pagetitle="Estimate's Document List"
-                                      toBackroutename="track.estimate.view"
-                                      :routeParameter="['instance_estimate'=>$instanceEstimate->id]"
-                                      routelabel="Back to Estimate Tracking Details"/> --}}
+        toBackroutename="track.estimate.view"
+        :routeParameter="['instance_estimate'=>$instanceEstimate->id]"
+        routelabel="Back to Estimate Tracking Details"/> --}}
 
     @if($hr_grievance_id)
         Docs are editable only for {{config('site.backdate.hrGrievance.allowedno')}} days.   

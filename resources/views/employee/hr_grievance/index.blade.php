@@ -41,7 +41,7 @@
                 <th class="text-center">Description</th>
                 <th class="text-center">Created on</th>
                 <th>Status</th>
-                <th>Currently With</th>
+                <th>Add Releted Documents</th>
                 <th></th>
             </tr>
         </thead>
@@ -62,24 +62,18 @@
                 <td>
                     {{$grievance->currentStatus()}}
                 </td>
+                @if (Helper::checkBackDate($grievance->created_at, false, 'hrGrievance'))
                 <td>
-                    <a href="{{ route(" employee.hr_grievance.addDoc",['hr_grievance'=>$grievance->id]) }}" >
+                    <a href="{{ route('employee.hr_grievance.addDoc',['hr_grievance'=>$grievance->id]) }}">
                         <i class="cib-twitter"></i> Add Document
                     </a>
                 </td>
                 <td>
-                    @if (Helper::checkBackDate($grievance->created_at, false, 'hrGrievance'))
-                    <a href="{{ route(" employee.hr_grievance.edit",['hr_grievance'=>$grievance->id]) }}" >
+                    <a href="{{ route('employee.hr_grievance.edit',['hr_grievance'=>$grievance->id]) }}">
                         <i class="cib-twitter"></i> Edit
                     </a>
-                    @endif
-
                 </td>
-                {{-- <td>
-                    <a href="{{ route(" employee.hr_grievance.edit",['hr_grievance'=>$grievance->id]) }}" >
-                        <i class="cib-twitter"></i> Action
-                    </a>
-                </td> --}}
+                @endif
             </tr>
             @endforeach
         </tbody>
@@ -99,12 +93,12 @@
         });
     });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            // Datatables Responsive
-            $("#user_Request_Details").DataTable({
-                responsive: true
-            });
+    document.addEventListener("DOMContentLoaded", function () {
+        // Datatables Responsive
+        $("#user_Request_Details").DataTable({
+            responsive: true
         });
+    });
 </script>
 
 @endsection

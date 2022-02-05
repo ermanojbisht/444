@@ -1,8 +1,6 @@
 @extends('layouts.type200.main')
 
 @section('styles')
-@include('cssbundle.datatablefor5',['button'=>true])
-@include('layouts._commonpartials.css._select2')
 @endsection
 @section('sidebarmenu')
 @include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
@@ -199,7 +197,8 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 @endsection
 
 
-@section('footscripts')
+@section('footscripts') 
+
 @include('layouts._commonpartials.js._select2')
 @include('partials.js._employeeSelect2DropDownJs')
 @include('partials.js._employeeDDProcessHelperJs')
@@ -219,7 +218,6 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 				}
 			});
 		});
-
 		
 		$('#acr_group_id').change(function (e) {
 			e.preventDefault(); 
@@ -255,7 +253,6 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 		{
 			const diffTime = Math.abs(to_date - from_date);
 			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-			 
 
 			$("#days_in_number").html("Your Period of Appraisal  is for " + diffDays + " Days");
 		}

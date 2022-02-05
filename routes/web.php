@@ -51,6 +51,7 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
 
 
     Route::get('/{acr}/view', 'Employee\Acr\AcrController@show')->name('view');
+    Route::get('/{acr}/view/part1', 'Employee\Acr\AcrController@showPart1')->name('view.part1');
 
     Route::get('addOfficers/{acr}', 'Employee\Acr\AcrController@addOfficers')->name('addOfficers');
     Route::post('addAcrOfficers', 'Employee\Acr\AcrController@addAcrOfficers')->name('addAcrOfficers');
@@ -109,6 +110,10 @@ Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['aut
     Route::get('hr_grievance/{hr_grievance}', 'Employee\HrGrievance\GrievanceController@show')->name('hr_grievance.show');
 
     Route::post('ajaxDataForOffice', 'Employee\HrGrievance\GrievanceController@ajaxDataForOffice')->name('ajaxDataForOffice');
+
+
+
+
 });
 
 
@@ -126,6 +131,7 @@ Route::get('Resolve/hr_grievance/{hr_grievance}', 'Employee\OthersHrGrievance\Re
 
 
 //ResolveGrievanceController
+
 
 
 

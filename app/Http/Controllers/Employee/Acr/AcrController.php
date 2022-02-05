@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Employee\Acr;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Acr\StoreAcrLeaveRequest;
 use App\Http\Requests\Acr\StoreAcrRequest;
 use App\Mail\Acr\AcrSumittedMail;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrNotification;
+use App\Models\Acr\AcrType;
+use App\Models\Acr\Leave;
 use App\Models\Employee;
+use App\Models\Office;
 use App\Models\User;
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
@@ -57,11 +61,11 @@ class AcrController extends Controller
      * To create Acr
      */
     public function create()
-    {  
+    {
         $employee = Employee::findOrFail($this->user->employee_id);
         $Officetypes = $this->defineOfficeTypes();
         $acrGroups = $this->defineAcrGroup();
-        return view('employee.acr.create', compact('employee','Officetypes','acrGroups'));
+        return view('employee.acr.create', compact('employee', 'Officetypes', 'acrGroups'));
     }
 
     /**
@@ -75,12 +79,84 @@ class AcrController extends Controller
     }
 
 
-    public function addOfficers (Acr $acr)
+    public function edit(Acr $acr)
+    {
+        if ($acr->isSubmitted()) {
+            return Redirect()->back()->with('fail', ' ACR is already Submitted, can not be edited...');
+        }
+
+        $acr_selected_group_type = AcrType::where('id', $acr->acr_type_id)->select('description as name', 'group_id', 'id')->first();
+
+        $acr_Types = AcrType::where('group_id', $acr_selected_group_type->group_id)->select('description as name', 'id')->get();
+
+        $acr_office = Office::where('id', $acr->office_id)->select('office_type', 'name', 'id')->first();
+
+        $Offices = Office::select('name', 'id')->get();
+
+        $employee = Employee::findOrFail($this->user->employee_id);
+        $Officetypes = $this->defineOfficeTypes();
+        $acrGroups = $this->defineAcrGroup();
+        return view('employee.acr.edit', compact(
+            'acr',
+            'acr_selected_group_type',
+            'acr_Types',
+            'acr_office',
+            'Offices',
+            'employee',
+            'Officetypes',
+            'acrGroups'
+        ));
+    }
+
+    public function update(Request $request)
+    {
+        $acr = Acr::findOrFail($request->acr_id);
+
+        $acr->update([
+            'acr_group_id' => $request->acr_group_id,
+            'acr_type_id' => $request->acr_type_id,
+            'from_date' => $request->from_date,
+            'to_date' => $request->to_date,
+            'office_id' => $request->office_id
+        ]);
+
+        return redirect(route('acr.myacrs'));
+    }
+
+
+    public function showPart1(Acr $acr)
+    {
+        $acr_selected_group_type = AcrType::where('id', $acr->acr_type_id)->select('description as name', 'group_id', 'id')->first();
+
+        $acr_Types = AcrType::where('group_id', $acr_selected_group_type->group_id)->select('description as name', 'id')->get();
+
+        $acr_office = Office::where('id', $acr->office_id)->select('office_type', 'name', 'id')->first();
+
+        $Offices = Office::select('name', 'id')->get();
+
+        $employee = Employee::findOrFail($this->user->employee_id);
+        $Officetypes = $this->defineOfficeTypes();
+        $acrGroups = $this->defineAcrGroup();
+        return view('employee.acr.view_part1', compact(
+            'acr',
+            'acr_selected_group_type',
+            'acr_Types',
+            'acr_office',
+            'Offices',
+            'employee',
+            'Officetypes',
+            'acrGroups'
+        ));
+        
+    }
+
+
+    public function addOfficers(Acr $acr)
     {
         //$this->submitNotification($acr);
         $appraisalOfficers =  $acr->appraisalOfficers()->get();
 
-        return view('employee.acr.add_officers', compact('acr','appraisalOfficers'));
+        return view('employee.acr.add_officers', compact('acr', 'appraisalOfficers'));
     }
 
     public function addAcrOfficers(Request $request)
@@ -100,8 +176,7 @@ class AcrController extends Controller
         $acr = Acr::findOrFail($request->acr_id);
         $appraisal_officer_type = $request->appraisal_officer_type;
 
-        if($this->user->employee_id == $request->appraisal_officer_type)
-        {
+        if ($this->user->employee_id == $request->appraisal_officer_type) {
             return Redirect()->back()->with('fail', 'You cannot submit ACR to Yourself...');
         }
 
@@ -136,7 +211,7 @@ class AcrController extends Controller
 
     public function submitAcr(Request $request)
     {
-        $acr = Acr::findOrFail($request->acr_id); 
+        $acr = Acr::findOrFail($request->acr_id);
         $acr->update(['submitted_at' => now()]);
         $this->submitNotification($acr);
 
@@ -145,44 +220,44 @@ class AcrController extends Controller
 
     public function submitNotification($acr)
     {
-        $acruser=User::where('employee_id',$acr->employee_id)->first();        
-            $reporting_employee_id=$acr->report_employee_id;
-            if($reporting_employee_id){
-                $reportingEmployee=User::where('employee_id',$reporting_employee_id)->first();
-                if($reportingEmployee){
-                    $previousNotification=AcrNotification::where('employee_id',$reportingEmployee->employee_id)
-                    ->where('acr_id',$acr->id)
-                    ->where('through',1)
-                    ->where('notification_type',2)
-                    ->orderBy('notification_on','DESC')->first();
+        $acruser = User::where('employee_id', $acr->employee_id)->first();
+        $reporting_employee_id = $acr->report_employee_id;
+        if ($reporting_employee_id) {
+            $reportingEmployee = User::where('employee_id', $reporting_employee_id)->first();
+            if ($reportingEmployee) {
+                $previousNotification = AcrNotification::where('employee_id', $reportingEmployee->employee_id)
+                    ->where('acr_id', $acr->id)
+                    ->where('through', 1)
+                    ->where('notification_type', 2)
+                    ->orderBy('notification_on', 'DESC')->first();
 
-                    if(!$previousNotification){
-                        Mail::to($reportingEmployee)
+                if (!$previousNotification) {
+                    Mail::to($reportingEmployee)
                         ->cc($acruser)
-                        ->send(new AcrSumittedMail($acr,$reportingEmployee));
+                        ->send(new AcrSumittedMail($acr, $reportingEmployee));
 
-                        $data=[
-                        'employee_id'=>$reportingEmployee->employee_id,
-                        'acr_id'=>$acr->id,
-                        'notification_on'=>now(),
-                        'through'=>1,
-                        'notification_type'=>2,
-                        'notification_no'=>1
-                        ];
-                        AcrNotification::create($data);
-                    }
+                    $data = [
+                        'employee_id' => $reportingEmployee->employee_id,
+                        'acr_id' => $acr->id,
+                        'notification_on' => now(),
+                        'through' => 1,
+                        'notification_type' => 2,
+                        'notification_no' => 1
+                    ];
+                    AcrNotification::create($data);
                 }
             }
-
+        }
     }
 
-    public function show(Acr $acr) {
+    public function show(Acr $acr)
+    {
 
         //return view('employee.acr.show',compact('acr'));
-        $dataArray=['acr'=>$acr];
-        $pdf= SPDF::loadview('employee.acr.show',compact('acr'));
+        $dataArray = ['acr' => $acr];
+        $pdf = SPDF::loadview('employee.acr.show', compact('acr'));
         $pdf->setOption('cover', View::make('employee.acr.pdfcoverpage', $dataArray));
-       /* $pdf->setOption('margin-top',0);
+        /* $pdf->setOption('margin-top',0);
         $pdf->setOption('margin-bottom',10);
         $pdf->setOption('margin-left',0);
         $pdf->setOption('margin-right',0);*/
@@ -193,20 +268,24 @@ class AcrController extends Controller
 
         return $pdf->stream('view.pdf');
     }
-       
 
-    public function addLeaves (Acr $acr)
+
+    public function addLeaves(Acr $acr)
     {
+        return $leaves = Leave::where('acr_id', $acr->id)->get();
         return view('employee.acr.add_leaves', compact('acr'));
     }
 
-    
-    public function addAcrLeaves(Request $request)
+
+    public function addAcrLeaves(StoreAcrLeaveRequest $request) // 
     {
+
+         
         $acr = Acr::findOrFail($request->acr_id);
 
-        $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
-        $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
+        //$startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
+        //$endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
+
 
         // if (!$start->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)) {
         //     return ['status' => false, 'msg' => 'start/from date ' . $start->format('d M y') . ' is beyond the ACR period (' . $acrPeriodStartDate->format('d M y') . ' - ' . $acrPeriodEndDate->format('d M y') . ' )'];
@@ -216,16 +295,17 @@ class AcrController extends Controller
         //     return ['status' => false, 'msg' => 'End/to date ' . $end->format('d M y') . ' is beyond the ACR period (' . $acrPeriodStartDate->format('d M y') . ' - ' . $acrPeriodEndDate->format('d M y') . ' )'];
         // }
 
-        $result = $acr->checkPeriodInput($startDate, $endDate, 1);
-        if (!$result['status']) {
-            return Redirect()->back()->with('fail', $result['msg']);
-        }
-        return  $request->all();
+        // $result = $acr->checkPeriodInput($startDate, $endDate, 1);
+        // if (!$result['status']) {
+        //     return Redirect()->back()->with('fail', $result['msg']);
+        // }
 
-    
+        $acr = Leave::create($request->validated());
+
+
+
+        return redirect()->back();
+
+
     }
-    
-
 }
-
-
