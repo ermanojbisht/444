@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employee\Acr;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\StoreAcrLeaveRequest;
 use App\Http\Requests\Acr\StoreAcrRequest;
+use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use App\Mail\Acr\AcrSumittedMail;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrNotification;
@@ -16,12 +17,14 @@ use App\Models\User;
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
+use DPDF;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 use SPDF;
+use Log;
 
 class AcrController extends Controller
 {
@@ -213,60 +216,49 @@ class AcrController extends Controller
     {
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update(['submitted_at' => now()]);
-        $this->submitNotification($acr);
+        dispatch(new MakeAcrPdfOnSubmit($acr));
 
         return redirect()->back();
     }
 
-    public function submitNotification($acr)
-    {
-        $acruser = User::where('employee_id', $acr->employee_id)->first();
-        $reporting_employee_id = $acr->report_employee_id;
-        if ($reporting_employee_id) {
-            $reportingEmployee = User::where('employee_id', $reporting_employee_id)->first();
-            if ($reportingEmployee) {
-                $previousNotification = AcrNotification::where('employee_id', $reportingEmployee->employee_id)
-                    ->where('acr_id', $acr->id)
-                    ->where('through', 1)
-                    ->where('notification_type', 2)
-                    ->orderBy('notification_on', 'DESC')->first();
 
-                if (!$previousNotification) {
-                    Mail::to($reportingEmployee)
-                        ->cc($acruser)
-                        ->send(new AcrSumittedMail($acr, $reportingEmployee));
 
-                    $data = [
-                        'employee_id' => $reportingEmployee->employee_id,
-                        'acr_id' => $acr->id,
-                        'notification_on' => now(),
-                        'through' => 1,
-                        'notification_type' => 2,
-                        'notification_no' => 1
-                    ];
-                    AcrNotification::create($data);
-                }
-            }
-        }
-    }
 
     public function show(Acr $acr)
     {
 
-        //return view('employee.acr.show',compact('acr'));
-        $dataArray = ['acr' => $acr];
-        $pdf = SPDF::loadview('employee.acr.show', compact('acr'));
-        $pdf->setOption('cover', View::make('employee.acr.pdfcoverpage', $dataArray));
-        /* $pdf->setOption('margin-top',0);
-        $pdf->setOption('margin-bottom',10);
-        $pdf->setOption('margin-left',0);
-        $pdf->setOption('margin-right',0);*/
+        $data_groups=$acr->type1RequiremntsWithFilledData();
 
-        $pdf->setOption('footer-html',  View::make('employee.acr.pdffooter'));
-        $pdf->setOption('footer-right', '[page]');
-        //$pdf->setOption('footer-line');
+        $pages = array();
+        $pages[] = view('employee.acr.form.create1', compact('acr','data_groups'));
+        $pages[] = view('employee.acr.show', compact('acr'));
 
-        return $pdf->stream('view.pdf');
+
+        $pdf = \App::make('snappy.pdf.wrapper');
+        $pdf->setOption('margin-top',5);
+        $pdf->setOption('cover', View::make('employee.acr.pdfcoverpage', compact('acr')));
+        $pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
+        $pdf->loadHTML($pages);
+
+        $acr->createPdfFile($pdf,true);
+        return response()->file( $acr->pdfFullFilePath );
+
+
+
+        //View::make() & view() are same
+        //$pdf= SPDF::loadView('employee.acr.form.create1',compact('acr','data_groups'));
+
+        /*//loadFile can be authanticate url link
+        return SPDF::loadFile(url('/cr/form/32/part1'))->inline('github.pdf');*/
+        /*
+        $data = [
+            'title' => 'Welcome to ItSolutionStuff.com',
+            'date' => date('m/d/Y')
+        ];
+
+        $pdf = DPDF::loadView('myPDF', $data);
+        return $pdf->download('itsolutionstuff.pdf');*/
+        //return $pdf->stream('view.pdf');
     }
 
 

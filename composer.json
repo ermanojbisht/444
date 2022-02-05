@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
+        "barryvdh/laravel-dompdf": "^1.0",
         "barryvdh/laravel-snappy": "^1.0",
         "bugsnag/bugsnag-laravel": "^2.18",
         "dawson/youtube": "^6.0",

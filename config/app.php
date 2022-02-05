@@ -248,6 +248,7 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'SPDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'DPDF' => Barryvdh\DomPDF\Facade::class,
 
 
 
