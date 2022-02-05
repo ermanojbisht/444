@@ -79,7 +79,7 @@
 								</a>
 
 								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>
+									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
 								</a>
 								<a class="dropdown-item" href="{{route('acr.addLeaves', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Leaves or Period Of Absence

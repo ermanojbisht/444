@@ -38,6 +38,8 @@ Edit My ACR
 						<p class="fw-bold"> {{$employee->name }} </p>
 					</div>
 				</div>
+
+				
 				<div class="row">
 					<div class="col-md-4">
 						<p class="fw-bold h5"> Date of Birth :-</p>
@@ -58,7 +60,7 @@ Edit My ACR
 							<select id="acr_group_id" name="acr_group_id" required class="form-select">
 								<option value=""> Select ACR Type </option>
 								@foreach ($acrGroups as $key=>$name)
-								<option value="{{$key}}" {{( $acr_selected_group_type->acr_group_id == $key ?
+								<option value="{{$key}}" {{( $acr_selected_group_type->group_id == $key ?
 									'selected' : '' )}} > {{$name}} </option>
 								@endforeach
 							</select>

@@ -1,6 +1,7 @@
 @extends('layouts.type200.main')
 
-@section('styles') 
+@section('styles')
+@include('layouts._commonpartials.css._select2')
 @endsection
 @section('sidebarmenu')
 @include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
@@ -113,7 +114,7 @@ My ACR
 					@if($education->qualifiaction_type_id == 1)
 					<div class="row">
 						<div class="col-md-4">
-							<p class="fw-bold h6"> At the time of Joining in the Department  </p>
+							<p class="fw-bold h6"> At the time of Joining in the Department </p>
 						</div>
 						<div class="col-md-6">
 							{{$education->qualifiaction }}
@@ -123,7 +124,7 @@ My ACR
 					@if($education->qualifiaction_type_id == 2)
 					<div class="row">
 						<div class="col-md-4">
-							<p class="fw-bold h6"> Qualification acquired during service in the Department  </p>
+							<p class="fw-bold h6"> Qualification acquired during service in the Department </p>
 						</div>
 						<div class="col-md-6">
 							{{$education->qualifiaction }}
@@ -138,8 +139,8 @@ My ACR
 			<div class="row">
 				<div class="col-md-12">
 					<p class="fw-bold h5"> Membership of any Professional Organization : - </p>
-					<input type="text" class="form-control" name="professionalOrganization" /> 
-					 {{-- ToDo: to be save in which table in DB  --}}
+					<input type="text" class="form-control" name="professionalOrganization" />
+					{{-- ToDo: to be save in which table in DB --}}
 				</div>
 			</div>
 			<br />
@@ -163,36 +164,42 @@ My ACR
 @section('footscripts')
 <script type="text/javascript">
 	$(document).ready(function () {
-            $('#officeTypeId').change(function (e) {
-                e.preventDefault();
-                $filterParam = $(this).val(); // or $('#officeTypeId').val();
-                $.ajax
-                ({
-                    url: '{{ url('getOfficesfromOfficeType') }}/' + $filterParam,
-                    type: 'GET',
-                    success: function (data) {
-						console.log(data); 
-						bindDdlWithDataAndSetValue("office_id", data, "id", "name", true, "", "Select Office", "");
-                    }
-                });
-            });
 
-			
-            $('#acr_group_id').change(function (e) {
-                e.preventDefault(); 
-                $.ajax
-                ({
-                    url: "{{route('acr.getAcrType')}}",
-                    type: 'POST',
-					data: {acr_group_id: $('#acr_group_id').val(), _token : $('meta[name="csrf-token"]').attr('content') },
-                    success: function (data) {
-						console.log(data); 
-						bindDdlWithDataAndSetValue("acr_type_id", data, "id", "name", true, "", "Select ACR Type", "");
-                    }
-                });
-            });
+		$('.select2').select2({
+		});
 
-        });
+	
+		$('#officeTypeId').change(function (e) {
+			e.preventDefault();
+			$filterParam = $(this).val(); // or $('#officeTypeId').val();
+			$.ajax
+			({
+				url: '{{ url('getOfficesfromOfficeType') }}/' + $filterParam,
+				type: 'GET',
+				success: function (data) {
+					console.log(data); 
+					bindDdlWithDataAndSetValue("office_id", data, "id", "name", true, "", "Select Office", "");
+					
+				}
+			});
+		});
+
+		
+		$('#acr_group_id').change(function (e) {
+			e.preventDefault(); 
+			$.ajax
+			({
+				url: "{{route('acr.getAcrType')}}",
+				type: 'POST',
+				data: {acr_group_id: $('#acr_group_id').val(), _token : $('meta[name="csrf-token"]').attr('content') },
+				success: function (data) {
+					console.log(data); 
+					bindDdlWithDataAndSetValue("acr_type_id", data, "id", "name", true, "", "Select ACR Type", "");
+				}
+			});
+		});
+
+	});
 </script>
 
 

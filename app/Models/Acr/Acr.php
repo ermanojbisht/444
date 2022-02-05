@@ -6,6 +6,7 @@ use  App\Models\Acr\AcrType;
 use App\Mail\Acr\AcrSumittedMail;
 use App\Models\Acr\AcrNotification;
 use App\Models\Employee;
+use App\Models\Office;
 use App\Models\User;
 use App\Traits\Auditable;
 use Bugsnag\DateTime\Date;
@@ -225,6 +226,10 @@ class Acr extends Model
 
     }
 
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
+    }
 
     
 }
