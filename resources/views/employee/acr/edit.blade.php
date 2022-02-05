@@ -39,7 +39,7 @@ Edit My ACR
 					</div>
 				</div>
 
-				
+
 				<div class="row">
 					<div class="col-md-4">
 						<p class="fw-bold h5"> Date of Birth :-</p>
@@ -90,26 +90,19 @@ Edit My ACR
 								class="form-control" />
 						</div>
 					</div>
-
 				</div>
-
 			</div>
-
-
 			<div class="row">
-
 				<div class="col-md-6">
 					<h5> During the Appraisal Period : </h5>
-
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
 								{{ Form::label('officeType','Place of Posting ',[ 'class'=>' required']) }}
-
 								<select id='officeTypeId' class='form-select' required>
 									@foreach ($Officetypes as $key=>$name)
-									<option value="{{$key}}" {{( $key==$acr_office->office_type ?
-										'selected' : '' )}} > {{$name}} </option>
+									<option value="{{$key}}" {{( (old('officeTypeId')==$key || $key==$acr_office->
+										office_type) ? 'selected' : '' )}}> {{$name}} </option>
 									@endforeach
 								</select>
 							</div>
@@ -127,8 +120,21 @@ Edit My ACR
 						</div>
 					</div>
 				</div>
-			</div>
 
+				<div class="col-md-6">
+					<p class="fw-bold h5 required"> Date of filing Property Return for the Calander Year: - </p>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<input type="date" class="form-control" 
+								value="{{$acr->property_filing_return_at->format('Y-m-d') }}" 
+									name="property_filing_return_at" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
 			<br />
 			<div class="row">
 				<div class="col-md-12">
@@ -162,8 +168,8 @@ Edit My ACR
 			<div class="row">
 				<div class="col-md-12">
 					<p class="fw-bold h5"> Membership of any Professional Organization : - </p>
-					<input type="text" class="form-control" name="professionalOrganization"> </textarea>
-					{{-- ToDo: to be save in which table in DB --}}
+					<textarea type="text" class="form-control"
+						name="professional_org_membership"> {{ $acr->professional_org_membership }} {{old('professional_org_membership')}}</textarea>
 				</div>
 			</div>
 			<br />

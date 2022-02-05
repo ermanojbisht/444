@@ -30,7 +30,7 @@ class Acr extends Model
         'professional_org_membership', 'property_filing_return_at'
     ];
     protected $dates = [
-        'from_date', 'to_date'
+        'from_date', 'to_date', 'property_filing_return_at'
     ];
 
 

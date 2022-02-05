@@ -122,7 +122,9 @@ class AcrController extends Controller
             'acr_type_id' => $request->acr_type_id,
             'from_date' => $request->from_date,
             'to_date' => $request->to_date,
-            'office_id' => $request->office_id
+            'office_id' => $request->office_id,
+            'property_filing_return_at' => $request->property_filing_return_at,
+            'professional_org_membership' => $request->professional_org_membership
         ]);
 
         return redirect(route('acr.myacrs'));

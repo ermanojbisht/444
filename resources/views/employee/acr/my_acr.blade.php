@@ -69,7 +69,7 @@
 								</svg>
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
-								
+
 								@if (!$acr->submitted_at)
 
 								<a class="dropdown-item" href="{{route('acr.edit', ['acr' => $acr->id])}}">
@@ -94,24 +94,22 @@
 								<a class="dropdown-item" href="{{route('acr.form.create3', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add ACR Form Part 3
 								</a>
-
+								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) &&
+								$acr->hasAppraisalOfficer(3))
 								<a class="dropdown-item" href="{{route('acr.submit', ['acr' => $acr->id])}}">
-									@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) &&
-									$acr->hasAppraisalOfficer(3))
 									<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST"
 										onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 										{{ csrf_field() }}
 										<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR
 										</button>
 									</form>
-									@endif
 								</a>
+								@endif
 								@endif
 								<a class="dropdown-item" href="{{route('acr.view.part1', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i> View ACR
 								</a>
 							</div>
-
 						</div>
 					</td>
 				</tr>
