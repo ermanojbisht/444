@@ -72,11 +72,13 @@ My ACR
 					<div class="row">
 						<div class="col-md-6">
 							<label for='from_date' class="required "> Enter From Date </label>
-							<input type="date" name="from_date" required class="form-control" />
+							<input type="date" value="{{old('from_date')}}" name="from_date" required
+								class="form-control" />
 						</div>
 						<div class="col-md-6">
 							<label for='to_date' class="required "> Enter To Date </label>
-							<input type="date" name="to_date" required class="form-control" />
+							<input type="date" value="{{old('to_date')}}" name="to_date" required
+								class="form-control" />
 						</div>
 					</div>
 
@@ -101,6 +103,17 @@ My ACR
 								{{ Form::label('office_id','Select Office Name',[ 'class'=>' required']) }}
 								<select id="office_id" name="office_id" required class="form-select select2">
 								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<p class="fw-bold h5 required"> Date of filing Property Return for the Calander Year: - </p>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<input type="date" class="form-control" value="{{old('property_filing_return_at')}}"
+									name="property_filing_return_at" />
 							</div>
 						</div>
 					</div>
@@ -137,11 +150,14 @@ My ACR
 
 			<br />
 			<div class="row">
+
+
 				<div class="col-md-12">
 					<p class="fw-bold h5"> Membership of any Professional Organization : - </p>
-					<input type="text" class="form-control" name="professionalOrganization" />
-					{{-- ToDo: to be save in which table in DB --}}
+					<textarea type="text" class="form-control"
+						name="professional_org_membership"> {{old('professional_org_membership')}}</textarea>
 				</div>
+
 			</div>
 			<br />
 			<br />

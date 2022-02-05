@@ -69,9 +69,7 @@
 								</svg>
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="{{route('acr.view.part1', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i> View ACR
-								</a>
+								
 								@if (!$acr->submitted_at)
 
 								<a class="dropdown-item" href="{{route('acr.edit', ['acr' => $acr->id])}}">
@@ -83,6 +81,9 @@
 								</a>
 								<a class="dropdown-item" href="{{route('acr.addLeaves', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Leaves or Period Of Absence
+								</a>
+								<a class="dropdown-item" href="{{route('acr.addAppreciation', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add Appreciation / Honors
 								</a>
 								<a class="dropdown-item" href="{{route('acr.form.create1', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add ACR Form Part 1
@@ -106,7 +107,9 @@
 									@endif
 								</a>
 								@endif
-
+								<a class="dropdown-item" href="{{route('acr.view.part1', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i> View ACR
+								</a>
 							</div>
 
 						</div>

@@ -27,9 +27,9 @@ class StoreAcrLeaveRequest extends FormRequest
         Log::info($this->worktype_id);
         
         $rules['acr_id'] =  'required';
-        $rules['type_id'] =  'required|numeric|gt:0';
+        $rules['type_id'] =  'required|numeric';
         $rules['from_date'] = 'required|date';
-        $rules['till_date'] = 'required|date'; 
+        $rules['to_date'] = 'required|date'; 
 
         return $rules;
     }
@@ -38,7 +38,7 @@ class StoreAcrLeaveRequest extends FormRequest
     {
 
         return [
-            'instance_type_id.gt:0' => 'Select Instance Type.'
+            
         ];
     }
 }

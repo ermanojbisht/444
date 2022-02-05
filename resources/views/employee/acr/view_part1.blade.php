@@ -131,6 +131,75 @@ My ACR
 					</th>
 					<td> </td>
 				</tr>
+				<tr>
+					<th colspan="2">
+						5. Reporting, Reviewing and Accepting Authorities
+						<table style="width:100%">
+							<tr>
+								<td>
+									<table class="table ">
+										<thead>
+											<tr>
+												<th>
+													Officer
+												</th>
+												<th>
+													Name
+												</th>
+												<th>
+													Designation
+												</th>
+												<th>
+													Period
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											@forelse ($appraisalOfficers as $appraisalOfficer)
+											<tr>
+												@if( config('acr.basic.appraisalOfficerType')
+												[$appraisalOfficer->pivot->appraisal_officer_type] == 'Reporting')
+												<td>
+													Reporting Authority
+												</td>
+												<td>{{$appraisalOfficer->name}}</td>
+												
+												<td> {{ $acr->report_review_Accept_officers('report')->designation->name }} </td>
+												@endif
+												@if( config('acr.basic.appraisalOfficerType')
+												[$appraisalOfficer->pivot->appraisal_officer_type] == 'Reviewing')
+												<td>
+													Reviewing Authority
+												</td>
+												<td>{{$appraisalOfficer->name}}</td>
+												<td> {{ $acr->report_review_Accept_officers('review')->designation->name }} </td>
+												@endif
+												@if( config('acr.basic.appraisalOfficerType')
+												[$appraisalOfficer->pivot->appraisal_officer_type] == 'Accepting')
+												<td>
+													Accepting Authority
+												</td>
+												<td>{{$appraisalOfficer->name}}</td>
+												<td> {{ $acr->report_review_Accept_officers('accept')->designation->name }} </td>
+												@endif
+												<td>{{$appraisalOfficer->pivot->from_date}} -
+													{{$appraisalOfficer->pivot->to_date}}
+													 ({{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->diffInDays
+													(Carbon\Carbon::parse($appraisalOfficer->pivot->to_date))}}  Days)
+												</td>
+											</tr>
+											@empty
+											<tr>
+												<td colspan="5" rowspan="1" headers="">No Data Found</td>
+											</tr>
+											@endforelse
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</th>
+				</tr>
 			</table>
 		</div>
 	</div>

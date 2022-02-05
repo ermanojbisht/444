@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Acr;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 
 class StoreAcrRequest extends FormRequest
 {
@@ -24,22 +23,30 @@ class StoreAcrRequest extends FormRequest
      */
     public function rules()
     {
-        Log::info($this->worktype_id);
-        
-        $rules['employee_id'] =  'required';
-        $rules['from_date'] = 'required';
-        $rules['to_date'] = 'required';
-        $rules['office_id'] =  'required|numeric|gt:0';
-        $rules['acr_type_id'] =  'required|numeric|gt:0';
+        return [
+            'employee_id'   => 'required',
+            'from_date' => 'required|date',
+            'to_date' => 'required|date',
+            'office_id' => 'required|numeric',
+            'acr_type_id' => 'required|numeric',
 
-        return $rules;
+            'property_filing_return_at' => 'required',
+            'professional_org_membership' => 'nullable',
+        ];
+
+        // $rules['employee_id'] =  'required';
+        // $rules['from_date'] = 'required|date';
+        // $rules['to_date'] = 'required|date';
+        // $rules['office_id'] =  'required|numeric|gt:0';
+        // $rules['acr_type_id'] =  'required|numeric|gt:0';
+
+        // $rules['property_filing_return_at'] = 'required';
+        // $rules['professional_org_membership'] = 'nullable';
+
+        // return $rules;
     }
 
     public function messages()
     {
-
-        return [
-            'instance_type_id.gt:0' => 'Select Instance Type.'
-        ];
     }
 }

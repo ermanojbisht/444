@@ -12,7 +12,13 @@ return [
       1=>'report_employee_id',
       2=>'review_employee_id',
       3=>'accept_employee_id'
+   ],
+
+   'acrLeaveType'=>[
+      1=>'Leave',
+      2=>'Absence'
    ] 
+
 
 
 ];

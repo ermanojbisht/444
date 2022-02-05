@@ -10,6 +10,7 @@ use App\Mail\Acr\AcrSumittedMail;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrNotification;
 use App\Models\Acr\AcrType;
+use App\Models\Acr\Appreciation;
 use App\Models\Acr\Leave;
 use App\Models\Employee;
 use App\Models\Office;
@@ -77,7 +78,8 @@ class AcrController extends Controller
      */
     public function store(StoreAcrRequest $request)
     {
-        $acr = Acr::create($request->validated());
+         
+        Acr::create($request->validated());
         return redirect(route('acr.myacrs'));
     }
 
@@ -140,7 +142,11 @@ class AcrController extends Controller
         $employee = Employee::findOrFail($this->user->employee_id);
         $Officetypes = $this->defineOfficeTypes();
         $acrGroups = $this->defineAcrGroup();
+
+        $appraisalOfficers =  $acr->appraisalOfficers()->get();
+
         return view('employee.acr.view_part1', compact(
+            'appraisalOfficers',
             'acr',
             'acr_selected_group_type',
             'acr_Types',
@@ -150,7 +156,6 @@ class AcrController extends Controller
             'Officetypes',
             'acrGroups'
         ));
-        
     }
 
 
@@ -227,21 +232,21 @@ class AcrController extends Controller
     public function show(Acr $acr)
     {
 
-        $data_groups=$acr->type1RequiremntsWithFilledData();
+        $data_groups = $acr->type1RequiremntsWithFilledData();
 
         $pages = array();
-        $pages[] = view('employee.acr.form.create1', compact('acr','data_groups'));
+        $pages[] = view('employee.acr.form.create1', compact('acr', 'data_groups'));
         $pages[] = view('employee.acr.show', compact('acr'));
 
 
         $pdf = \App::make('snappy.pdf.wrapper');
-        $pdf->setOption('margin-top',5);
+        $pdf->setOption('margin-top', 5);
         $pdf->setOption('cover', View::make('employee.acr.pdfcoverpage', compact('acr')));
         $pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
         $pdf->loadHTML($pages);
 
-        $acr->createPdfFile($pdf,true);
-        return response()->file( $acr->pdfFullFilePath );
+        $acr->createPdfFile($pdf, true);
+        return response()->file($acr->pdfFullFilePath);
 
 
 
@@ -264,40 +269,76 @@ class AcrController extends Controller
 
     public function addLeaves(Acr $acr)
     {
-        return $leaves = Leave::where('acr_id', $acr->id)->get();
-        return view('employee.acr.add_leaves', compact('acr'));
+        $leaves = Leave::where('acr_id', $acr->id)->get();
+        return view('employee.acr.add_leaves', compact('acr', 'leaves'));
     }
 
 
     public function addAcrLeaves(StoreAcrLeaveRequest $request) // 
     {
 
-         
         $acr = Acr::findOrFail($request->acr_id);
 
-        //$startDate = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
-        //$endDate = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
+        $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
+        $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
 
+        $result = $acr->checkisDateInBetween($start, $end);
+        if (!$result['status']) {
+            return Redirect()->back()->with('fail', $result['msg']);
+        }
 
-        // if (!$start->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)) {
-        //     return ['status' => false, 'msg' => 'start/from date ' . $start->format('d M y') . ' is beyond the ACR period (' . $acrPeriodStartDate->format('d M y') . ' - ' . $acrPeriodEndDate->format('d M y') . ' )'];
-        // }
+        Leave::create($request->validated());
 
-        // if (!$end->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)) {
-        //     return ['status' => false, 'msg' => 'End/to date ' . $end->format('d M y') . ' is beyond the ACR period (' . $acrPeriodStartDate->format('d M y') . ' - ' . $acrPeriodEndDate->format('d M y') . ' )'];
-        // }
-
-        // $result = $acr->checkPeriodInput($startDate, $endDate, 1);
-        // if (!$result['status']) {
-        //     return Redirect()->back()->with('fail', $result['msg']);
-        // }
-
-        $acr = Leave::create($request->validated());
-
-
-
-        return redirect()->back();
-
-
+        return redirect(route('acr.addLeaves', ['acr' => $acr->id]))->with('success', 'Leave added Sucessfully');
     }
+
+
+
+    public function deleteAcrLeaves(Request $request)
+    {
+        $acr = Acr::findOrFail($request->acr_id);
+        if ($acr->isSubmitted()) {
+            return Redirect()->back()->with('fail', ' ACR is already Submitted, Thus Leaves can not be deleted...');
+        }
+        Leave::find($request->leave_id)->delete();
+
+        return Redirect()->back()->with('success', 'Leave deleted Successfully...');
+    }
+
+    public function addAppreciation(Acr $acr)
+    {
+        $appreciations = Appreciation::where('acr_id', $acr->id)->get();
+
+        return view('employee.acr.add_Appreciation', compact('acr', 'appreciations'));
+    }
+
+    public function addAcrAppreciation(Request $request)
+    {
+        // validate Appreciation_request
+        $this->validate(
+            $request,
+            [
+                'acr_id' => 'required', 
+                'appreciation_type' => 'required',
+                'detail' => 'required'
+            ]
+        );
+
+        Appreciation::create($request->all());
+        
+        return redirect(route('acr.addAppreciation', ['acr' => $request->acr_id]))->with('success', 'Appreciation added Sucessfully');
+    }
+
+    public function deleteAcrAppreciation(Request $request)
+    {
+        $acr = Acr::findOrFail($request->acr_id);
+        if ($acr->isSubmitted()) {
+            return Redirect()->back()->with('fail', ' ACR is already Submitted, Thus Appreciations can not be deleted...');
+        }
+        Appreciation::find($request->appreciation_id)->delete();
+
+        return Redirect()->back()->with('success', 'Appreciation deleted Successfully...');
+    }
+
+
 }

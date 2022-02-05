@@ -58,9 +58,14 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
 
     Route::post('deleteAcrOfficers', 'Employee\Acr\AcrController@deleteAcrOfficers')->name('deleteAcrOfficers');
 
- 
     Route::get('addLeaves/{acr}', 'Employee\Acr\AcrController@addLeaves')->name('addLeaves');
     Route::post('addAcrLeaves', 'Employee\Acr\AcrController@addAcrLeaves')->name('addAcrLeaves');
+    Route::post('deleteAcrLeaves', 'Employee\Acr\AcrController@deleteAcrLeaves')->name('deleteAcrLeaves');
+
+    
+    Route::get('addAppreciation/{acr}', 'Employee\Acr\AcrController@addAppreciation')->name('addAppreciation');
+    Route::post('addAcrAppreciation', 'Employee\Acr\AcrController@addAcrAppreciation')->name('addAcrAppreciation');
+    Route::post('deleteAcrAppreciation', 'Employee\Acr\AcrController@deleteAcrAppreciation')->name('deleteAcrAppreciation');
 
 
     Route::post('submitAcr', 'Employee\Acr\AcrController@submitAcr')->name('submit');

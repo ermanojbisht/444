@@ -23,10 +23,11 @@ class Acr extends Model
     protected $table = 'acrs';
 
     protected $fillable = [
-        'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date', 'prpoerty_return_date', 
+        'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date', 'prpoerty_return_date',
         'good_work', 'difficultie', 'appreciations', 'submitted_at',
-        'report_employee_id', 'review_employee_id', 'accept_employee_id', 'report_on', 'review_on', 
-        'accept_on', 'is_active','appraisal_note_1','appraisal_note_2','appraisal_note_3'
+        'report_employee_id', 'review_employee_id', 'accept_employee_id', 'report_on', 'review_on',
+        'accept_on', 'is_active', 'appraisal_note_1', 'appraisal_note_2', 'appraisal_note_3',
+        'professional_org_membership', 'property_filing_return_at'
     ];
     protected $dates = [
         'from_date', 'to_date'
@@ -65,8 +66,7 @@ class Acr extends Model
     }
 
 
-
-    public function checkPeriodInput($start, $end, $appraisal_officer_type)
+    public function checkisDateInBetween($start, $end)
     {
         $acrPeriodStartDate = $this->from_date;
         $acrPeriodEndDate = $this->to_date;
@@ -83,6 +83,15 @@ class Acr extends Model
         if (!$end->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)) {
             return ['status' => false, 'msg' => 'End/to date ' . $end->format('d M y') . ' is beyond the ACR period (' . $acrPeriodStartDate->format('d M y') . ' - ' . $acrPeriodEndDate->format('d M y') . ' )'];
         }
+
+        return ['status' => true, 'msg' => ''];
+    }
+
+
+
+    public function checkPeriodInput($start, $end, $appraisal_officer_type)
+    {
+        $this->checkisDateInBetween($start, $end);
 
         //same officer level it should not intersect // period overlaps with previos line at record no
         $otherRecords = $this->appraisalOfficerRecords()->where('appraisal_officer_type', $appraisal_officer_type)->get();
@@ -121,7 +130,7 @@ class Acr extends Model
         $records = $this->appraisalOfficerRecords()->whereAppraisalOfficerType($appraisal_officer_type)->orderBy('from_date')->get();
         $responsible_employee_id = '';
         foreach ($records as $key => $record) {
-                
+
             Log::info(print_r($record, true));
 
             if ($record->from_date->diffInDays($record->to_date) >= 90 && $responsible_employee_id === '') {
@@ -147,15 +156,15 @@ class Acr extends Model
 
     public function type1RequiremntsWithFilledData()
     {
-       $filledparameters=$this->filledparameters()->get()->keyBy('acr_master_parameter_id');
-        $requiredParameters=$this->acrMasterParameters()->where('type',1)->get();
-        $requiredParameters->map(function($row) use ($filledparameters){
-            if(isset($filledparameters[$row->id])){
-                $row->user_target=$filledparameters[$row->id]->user_target;
-                $row->user_achivement=$filledparameters[$row->id]->user_achivement;
-                $row->status=$filledparameters[$row->id]->status;
-            }else{
-                $row->user_target=$row->user_achivement=$row->status='';
+        $filledparameters = $this->filledparameters()->get()->keyBy('acr_master_parameter_id');
+        $requiredParameters = $this->acrMasterParameters()->where('type', 1)->get();
+        $requiredParameters->map(function ($row) use ($filledparameters) {
+            if (isset($filledparameters[$row->id])) {
+                $row->user_target = $filledparameters[$row->id]->user_target;
+                $row->user_achivement = $filledparameters[$row->id]->user_achivement;
+                $row->status = $filledparameters[$row->id]->status;
+            } else {
+                $row->user_target = $row->user_achivement = $row->status = '';
             }
             return $row;
         });
@@ -165,7 +174,7 @@ class Acr extends Model
 
     public function getPdfFilePathAttribute()
     {
-        return 'acr/'.$this->employee_id.'/'.$this->id.'.pdf';
+        return 'acr/' . $this->employee_id . '/' . $this->id . '.pdf';
     }
 
     public function getPdfFullFilePathAttribute()
@@ -177,14 +186,14 @@ class Acr extends Model
 
     public function isFileExist()
     {
-      return \Storage::disk('public')->exists($this->pdf_file_path);
+        return \Storage::disk('public')->exists($this->pdf_file_path);
     }
 
-    public function createPdfFile($pdf,$forced=true)
+    public function createPdfFile($pdf, $forced = true)
     {
         //$fullpath=\Storage::disk('public')->path($this->pdf_file_path);
-        if( $forced || (!$this->isFileExist()) ){
-            if($this->isFileExist()){
+        if ($forced || (!$this->isFileExist())) {
+            if ($this->isFileExist()) {
                 \Storage::disk('public')->delete($this->pdf_file_path);
             }
             $pdf->save(\Storage::disk('public')->path($this->pdf_file_path));
@@ -194,36 +203,35 @@ class Acr extends Model
     public function submitNotification()
     {
         Log::info("in submitNotification $this->id");
-        $acruser=User::where('employee_id',$this->employee_id)->first();
-            $reporting_employee_id=$this->report_employee_id;
-            if($reporting_employee_id){
-                $reportingEmployee=User::where('employee_id',$reporting_employee_id)->first();
-                if($reportingEmployee){
-                    $previousNotification=AcrNotification::where('employee_id',$reportingEmployee->employee_id)
-                    ->where('acr_id',$this->id)
-                    ->where('through',1)
-                    ->where('notification_type',2)
-                    ->orderBy('notification_on','DESC')->first();
-                    Log::info("fullFilePath = ".print_r($this->pdfFullFilePath,true));
-                    if(!$previousNotification){
-                        Mail::to($reportingEmployee)
+        $acruser = User::where('employee_id', $this->employee_id)->first();
+        $reporting_employee_id = $this->report_employee_id;
+        if ($reporting_employee_id) {
+            $reportingEmployee = User::where('employee_id', $reporting_employee_id)->first();
+            if ($reportingEmployee) {
+                $previousNotification = AcrNotification::where('employee_id', $reportingEmployee->employee_id)
+                    ->where('acr_id', $this->id)
+                    ->where('through', 1)
+                    ->where('notification_type', 2)
+                    ->orderBy('notification_on', 'DESC')->first();
+                Log::info("fullFilePath = " . print_r($this->pdfFullFilePath, true));
+                if (!$previousNotification) {
+                    Mail::to($reportingEmployee)
                         ->cc($acruser)
-                        ->send(new AcrSumittedMail($this,$reportingEmployee));
+                        ->send(new AcrSumittedMail($this, $reportingEmployee));
 
-                        $data=[
-                        'employee_id'=>$reportingEmployee->employee_id,
-                        'acr_id'=>$this->id,
-                        'notification_on'=>now(),
-                        'through'=>1,
-                        'notification_type'=>2,
-                        'notification_no'=>1
-                        ];
-                        AcrNotification::create($data);
-                    }
+                    $data = [
+                        'employee_id' => $reportingEmployee->employee_id,
+                        'acr_id' => $this->id,
+                        'notification_on' => now(),
+                        'through' => 1,
+                        'notification_type' => 2,
+                        'notification_no' => 1
+                    ];
+                    AcrNotification::create($data);
                 }
             }
+        }
         Log::info("out submitNotification $this->id");
-
     }
 
     public function office()
@@ -231,5 +239,13 @@ class Acr extends Model
         return $this->belongsTo(Office::class);
     }
 
-    
+    public function report_review_Accept_officers($Officer_type)
+    {
+        if ($Officer_type == 'report')
+            return $this->belongsTo(Employee::class, 'report_employee_id', 'id')->first();
+        else if ($Officer_type  == 'review')
+            return $this->belongsTo(Employee::class, 'review_employee_id', 'id')->first();
+        else if ($Officer_type  == 'accept')
+            return $this->belongsTo(Employee::class, 'accept_employee_id', 'id')->first();
+    }
 }

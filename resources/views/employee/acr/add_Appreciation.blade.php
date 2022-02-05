@@ -9,7 +9,7 @@
 @endsection
 
 @section('pagetitle')
-My ACR Leaves for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }}
+My ACR for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }}
 @endsection
 
 @section('breadcrumb')
@@ -29,7 +29,7 @@ My ACR Leaves for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to
 		@if(!$acr->isSubmitted())
 		<div class="row">
 			<div class="col-md-3">
-				<input type="button" id="add_leave" class="btn btn-primary " value="Add Leaves" />
+				<input type="button" id="add_leave" class="btn btn-primary " value="Add Appreciation" />
 			</div>
 		</div>
 		@endif
@@ -37,25 +37,20 @@ My ACR Leaves for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>Leave Type </th>
-					<th>From Date</th>
-					<th>To Date</th> 
+					<th>Appreciation Type</th>
+					<th>Brief Details</th>
 				</tr>
 			</thead>
 			<tbody>
-				@forelse ($leaves as $leave)
+				@forelse ($appreciations as $appreciation)   
 				<tr>
 					<td>{{1+$loop->index }}</td>
-					<td> {{config('acr.basic.acrLeaveType')[$leave->type_id]}}
-						({{Carbon\Carbon::parse($leave->from_date)->
-						diffInDays(Carbon\Carbon::parse($leave->to_date))}} Days)</td>
-					<td>{{$leave->from_date->format('d M Y')}}</td>
-					<td>{{$leave->to_date->format('d M Y')}}
-					</td>
-					@if(!$acr->isSubmitted())
+					<td>{{$appreciation->appreciation_type}}</td>  
+					<td>{{$appreciation->detail}}</td>
+					@if(!$acr->isSubmitted()) 
 					<td>
 						<form
-							action="{{ route('acr.deleteAcrLeaves', [ 'acr_id'=> $acr->id, 'leave_id'=>$leave->id]) }}"
+							action="{{ route('acr.deleteAcrAppreciation', [ 'acr_id'=> $acr->id, 'appreciation_id'=>$appreciation->id]) }}"
 							method="POST">
 							{{ csrf_field() }}
 							<button type="submit" class="btn btn-danger "> Delete </button>
@@ -82,37 +77,25 @@ My ACR Leaves for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to
 					<h4 class="modal-title" id="OfficialType"></h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" method="POST" action="{{route('acr.addAcrLeaves')}}">
+					<form class="form-horizontal" method="POST" action="{{route('acr.addAcrAppreciation')}}">
 						@csrf
-						<p class="h4"> Leave (Other that casual leave) or Period of absence :- </p>
-
-							<br />
-
-						<div class="row">
-							<div class="col-md-4">
-								{!! Form::label('leave_absence', 'Leave or Absence ', []) !!}
-							</div>
-							<div class="col-md-8">
-								{{ Form::select('type_id',(config('acr.basic.acrLeaveType')),old('type_id'),
-								['id'=>'type_id','class'=>'form-select', 'required']) }}
-							</div>
-						</div>
+						<p class="h4"> Appreciation / Honors during the period of appraisal from the department :- </p>
 						<br />
 						<div class="row">
 							<div class="col-md-4">
-								{!! Form::label('from_date', 'From Date', []) !!}
+								{!! Form::label('appreciation_type', 'Type of Appreciation / Honors', []) !!}
 							</div>
 							<div class="col-md-8">
-								<input type="date" name="from_date" class="form-control" />
+								<input type="text" name="appreciation_type" class="form-control" value="{{old('appreciation')}}" />
 							</div>
-						</div>
+						</div> 
 						<br />
 						<div class="row">
 							<div class="col-md-4">
-								{!! Form::label('to_date', 'To Date', []) !!}
+								{!! Form::label('detail', 'Brief Details', []) !!}
 							</div>
 							<div class="col-md-8">
-								<input type="date" name="to_date" class="form-control" />
+								<textarea name="detail" class="form-control" > {{old('detail')}} </textarea>
 							</div>
 						</div>
 
@@ -126,8 +109,7 @@ My ACR Leaves for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to
 					</form>
 				</div>
 				<div class="modal-footer">
-					<p class="h4"> ACR Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M
-						Y') }}) </p>
+					<p class="h6"> My ACR for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }} </p>
 				</div>
 			</div>
 		</div>
