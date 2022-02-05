@@ -128,7 +128,7 @@ class GrievanceDocController extends Controller
             $document = new HrGrievanceDocument;
             $document->hr_grievance_id = $hr_grievance_id;
             $document->name = $doctitle;
-            $document->uploaded_by = Auth::user()->id;  //  todo:: employee logged in Employee Id to be supplied 
+            $document->uploaded_by = Auth::id();  //  todo:: employee logged in Employee Id to be supplied
             $document->address = $doc_address;
             $document->description = $request->input('description');
             $document->save();

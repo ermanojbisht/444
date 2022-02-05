@@ -58,7 +58,7 @@
                             </x-nav-item>
                             <hr>
                             <x-nav-item icon="transfer"
-                                        href="{{route('movement', ['instanceId' => $instance_id,'senderId' => Auth::user()->id])}}">
+                                        href="{{route('movement', ['instanceId' => $instance_id,'senderId' => Auth::id()])}}">
                                 Move 
                             </x-nav-item>
                             <x-nav-item icon="clock"
