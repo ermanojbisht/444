@@ -33,20 +33,13 @@ class StoreAcrRequest extends FormRequest
             'property_filing_return_at' => 'required',
             'professional_org_membership' => 'nullable',
         ];
-
-        // $rules['employee_id'] =  'required';
-        // $rules['from_date'] = 'required|date';
-        // $rules['to_date'] = 'required|date';
-        // $rules['office_id'] =  'required|numeric|gt:0';
-        // $rules['acr_type_id'] =  'required|numeric|gt:0';
-
-        // $rules['property_filing_return_at'] = 'required';
-        // $rules['professional_org_membership'] = 'nullable';
-
-        // return $rules;
+     
     }
 
     public function messages()
     {
+        return [
+            
+        ];
     }
 }
