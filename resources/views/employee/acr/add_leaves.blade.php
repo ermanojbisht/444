@@ -29,28 +29,22 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 			<br />
 
 			<div class="row">
-				<div class="col-md-3">
+				<div class="col-md-4">
 					{!! Form::label('leave_absence', 'Leave or Absence ', []) !!}
-					<select name="leave_absence" class="form-select" >
+					<select name="type_id" class="form-select" >
 						<option value="1"> Leave</option>
 						<option value="0"> Absence</option>
 					</select>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-4">
 					{!! Form::label('from_date', 'From Date', []) !!}
 					<input type="date" name="from_date" class="form-control" />
 				</div>
-				<div class="col-md-3">
-					{!! Form::label('to_date', 'To Date', []) !!}
-					<input type="date" name="to_date" class="form-control" />
+				<div class="col-md-4">
+					{!! Form::label('till_date', 'Till Date', []) !!}
+					<input type="date" name="till_date" class="form-control" />
 				</div>
-				<div class="col-md-3">
-					{!! Form::label('leave_type', 'Leave Type ', []) !!}
-					<select name="leave_type" class="form-select" >
-						<option value="1"> Leave</option>
-						<option value="0"> Absence</option>
-					</select>
-				</div>
+				 
 			</div>
 			<br />
 			<div class="row">
@@ -61,8 +55,6 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 			</div>
 		</form>
 	</div>
-
-
 </div>
 
 

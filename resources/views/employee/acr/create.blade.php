@@ -1,7 +1,6 @@
 @extends('layouts.type200.main')
 
-@section('styles')
-@include('cssbundle.datatablefor5',['button'=>true])
+@section('styles') 
 @endsection
 @section('sidebarmenu')
 @include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
@@ -46,11 +45,10 @@ My ACR
 
 
 			<div class="row">
-
-				<div class="col-md-5">
+				<div class="col-md-6">
 					<p class="fw-bold h5"> Select Type of ACR to be Filled : </p>
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-6">
 							<label for='acr_group_id' class="required "> Select Designation Group </label>
 							<select id="acr_group_id" name="acr_group_id" required class="form-select">
 								<option value=""> Select ACR Type </option>
@@ -59,7 +57,7 @@ My ACR
 								@endforeach
 							</select>
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-6">
 							<label for='acr_type_id' class="required "> Select Acr Type </label>
 							<select id="acr_type_id" name="acr_type_id" required class="form-select">
 							</select>
@@ -67,7 +65,7 @@ My ACR
 					</div>
 				</div>
 
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<p class="fw-bold h5"> Period Of Appraisal : </p>
 
 					<div class="row">
@@ -86,7 +84,7 @@ My ACR
 
 			<br />
 			<div class="row">
-				<div class="col-md-5">
+				<div class="col-md-6">
 					<p class="fw-bold h5"> During the Appraisal Period : </p>
 					<div class="row">
 						<div class="col-md-6">
@@ -100,7 +98,7 @@ My ACR
 						<div class="col-md-6">
 							<div class="form-group">
 								{{ Form::label('office_id','Select Office Name',[ 'class'=>' required']) }}
-								<select id="office_id" name="office_id" required class="form-select">
+								<select id="office_id" name="office_id" required class="form-select select2">
 								</select>
 							</div>
 						</div>
@@ -115,7 +113,7 @@ My ACR
 					@if($education->qualifiaction_type_id == 1)
 					<div class="row">
 						<div class="col-md-4">
-							<p class="fw-bold h6"> At the time of Joining in the Department : - </p>
+							<p class="fw-bold h6"> At the time of Joining in the Department  </p>
 						</div>
 						<div class="col-md-6">
 							{{$education->qualifiaction }}
@@ -125,7 +123,7 @@ My ACR
 					@if($education->qualifiaction_type_id == 2)
 					<div class="row">
 						<div class="col-md-4">
-							<p class="fw-bold h6"> Qualification acquired during service in the Department : - </p>
+							<p class="fw-bold h6"> Qualification acquired during service in the Department  </p>
 						</div>
 						<div class="col-md-6">
 							{{$education->qualifiaction }}
@@ -140,7 +138,7 @@ My ACR
 			<div class="row">
 				<div class="col-md-12">
 					<p class="fw-bold h5"> Membership of any Professional Organization : - </p>
-					<input type="text" class="form-control" name="professionalOrganization" >  </textarea>  
+					<input type="text" class="form-control" name="professionalOrganization" /> 
 					 {{-- ToDo: to be save in which table in DB  --}}
 				</div>
 			</div>
@@ -194,12 +192,13 @@ My ACR
                 });
             });
 
-
-			
-
-
         });
 </script>
+
+
+@include('layouts._commonpartials.js._select2')
+@include('partials.js._employeeSelect2DropDownJs')
+@include('partials.js._employeeDDProcessHelperJs')
 
 @include('partials.js._makeDropDown')
 

@@ -8,18 +8,18 @@
 @endsection
 
 @section('pagetitle')
- {{Auth::User()->name}} ACR
+{{Auth::User()->name}} ACR
 @endsection
 
 @section('breadcrumbNevigationButton')
- 
+
 @endsection
 
 @section('breadcrumb')
-@include('layouts._commonpartials._breadcrumb', 
+@include('layouts._commonpartials._breadcrumb',
 [ 'datas'=> [
-	['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-	['label'=> 'My Acrs','active'=>true]]])
+['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+['label'=> 'My Acrs','active'=>true]]])
 @endsection
 
 @section('content')
@@ -54,8 +54,7 @@
 				@foreach($acrs as $acr)
 				<tr>
 					<td>{{1+$loop->index }}</td>
-					<td>{{ $acr->employee->name}}</td>
-
+					<td>{{$acr->employee->name}}</td>
 					<td>{{$acr->employee_id}} </td>
 					<td>{{$acr->from_date}}</td>
 					<td>{{$acr->to_date }}</td>
@@ -70,12 +69,17 @@
 								</svg>
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
+								<a class="dropdown-item" href="{{route('acr.view.part1', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i> View ACR
 								</a>
 								@if (!$acr->submitted_at)
+
+								<a class="dropdown-item" href="{{route('acr.edit', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Edit ACR
+								</a>
+
 								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
+									<i class="cib-twitter"></i>
 								</a>
 								<a class="dropdown-item" href="{{route('acr.addLeaves', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Leaves or Period Of Absence
@@ -93,9 +97,7 @@
 								<a class="dropdown-item" href="{{route('acr.submit', ['acr' => $acr->id])}}">
 									@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) &&
 									$acr->hasAppraisalOfficer(3))
-									<form
-										action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}"
-										method="POST"
+									<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST"
 										onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 										{{ csrf_field() }}
 										<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR
