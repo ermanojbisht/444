@@ -6,7 +6,6 @@
 	Part -III Appraisal <small>Form -1</small>
 @endsection
 @section('content')
-	@include('employee.acr.form._formHeader',['acr'=>$acr])
 	<div class="card">
 		<div class="card-body border border-2 border-info">
 			<form class="form-horizontal" method="POST" action="{{route('acr.form.storeAppraisal1')}}">

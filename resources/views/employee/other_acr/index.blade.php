@@ -88,7 +88,7 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i> View ACR
 													</a>
 													<a class="dropdown-item"
-														href="{{route('acr.submit', ['acr' => $acr->id])}}">
+														href="{{route('acr.form.appraisal1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Process ACR
 													</a>
 													{{-- ToDo: Made will be as log out form --}}
@@ -142,7 +142,7 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i> View ACR
 													</a>
 													<a class="dropdown-item"
-														href="{{route('acr.submit', ['acr' => $acr->id])}}">
+														href="{{route('acr.form.appraisal1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Process ACR
 													</a>
 													{{-- ToDo: Made will be as log out form --}}
@@ -194,7 +194,7 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i> View ACR
 													</a>
 													<a class="dropdown-item"
-														href="{{route('acr.submit', ['acr' => $acr->id])}}">
+														href="{{route('acr.form.appraisal1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Process ACR
 													</a>
 													{{-- ToDo: Made will be as log out form --}}
