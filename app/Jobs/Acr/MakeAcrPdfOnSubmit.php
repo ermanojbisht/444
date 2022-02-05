@@ -36,7 +36,11 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
     public function handle()
     {
         $pages = array();
-        $pages[] = view('employee.acr.show', ['acr'=>$this->acr]);
+        list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $this->acr->firstFormData();
+
+        $pages[] = view('employee.acr.view_part1', ['acr'=>$this->acr,
+        'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 
+        'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ]);
 
         $pdf = \App::make('snappy.pdf.wrapper');
         $pdf->setOption('margin-top',5);

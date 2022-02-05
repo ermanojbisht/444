@@ -248,4 +248,23 @@ class Acr extends Model
         else if ($Officer_type  == 'accept')
             return $this->belongsTo(Employee::class, 'accept_employee_id', 'id')->first();
     }
+
+    public function firstFormData()
+    {
+        $employee = Employee::findOrFail($this->employee_id);
+        $appraisalOfficers =  $this->appraisalOfficers()->get();
+
+        $leaves = Leave::where('acr_id', $this->id)->get();
+        $appreciations = Appreciation::where('acr_id', $this->id)->get();
+
+        $inbox = Acr::whereNotNull('submitted_at')->where('report_employee_id', $this->employee_id)
+            ->where('is_active', 1)->whereNull('report_on')->get();
+
+        $reviewed = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->employee_id)
+            ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get();
+        $accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->employee_id)
+            ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNull('accept_on')->get();
+
+        return [$employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted];
+    }
 }

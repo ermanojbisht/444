@@ -78,7 +78,7 @@ class AcrController extends Controller
      */
     public function store(StoreAcrRequest $request)
     {
-         
+
         Acr::create($request->validated());
         return redirect(route('acr.myacrs'));
     }
@@ -133,40 +133,17 @@ class AcrController extends Controller
 
     public function showPart1(Acr $acr)
     {
-        $acr_selected_group_type = AcrType::where('id', $acr->acr_type_id)->select('description as name', 'group_id', 'id')->first();
+        list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $acr->firstFormData();
 
-        $acr_Types = AcrType::where('group_id', $acr_selected_group_type->group_id)->select('description as name', 'id')->get();
-
-        $acr_office = Office::where('id', $acr->office_id)->select('office_type', 'name', 'id')->first();
-
-        $Offices = Office::select('name', 'id')->get();
-
-        $employee = Employee::findOrFail($this->user->employee_id);
-        $Officetypes = $this->defineOfficeTypes();
-        $acrGroups = $this->defineAcrGroup();
-
-        $appraisalOfficers =  $acr->appraisalOfficers()->get();
-
-        
-        $leaves = Leave::where('acr_id', $acr->id)->get();
-
-        
-        $appreciations = Appreciation::where('acr_id', $acr->id)->get();
-
-
-        $inbox = Acr::whereNotNull('submitted_at')->where('report_employee_id', $this->user->employee_id)
-        ->where('is_active', 1)->whereNull('report_on')->get();
-
-        $reviewed = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->user->employee_id)
-        ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get();
-        
-        $accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->user->employee_id)
-        ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNull('accept_on')->get();
-
-
-
-        return view('employee.acr.view_part1', compact('inbox','reviewed','accepted', 'appraisalOfficers', 'acr', 'acr_selected_group_type',
-            'acr_Types', 'acr_office',  'Offices', 'employee', 'Officetypes', 'acrGroups','leaves', 'appreciations'
+        return view('employee.acr.view_part1', compact(
+            'acr',
+            'employee',
+            'appraisalOfficers',
+            'leaves',
+            'appreciations',
+            'inbox',
+            'reviewed',
+            'accepted'
         ));
     }
 
@@ -330,14 +307,14 @@ class AcrController extends Controller
         $this->validate(
             $request,
             [
-                'acr_id' => 'required', 
+                'acr_id' => 'required',
                 'appreciation_type' => 'required',
                 'detail' => 'required'
             ]
         );
 
         Appreciation::create($request->all());
-        
+
         return redirect(route('acr.addAppreciation', ['acr' => $request->acr_id]))->with('success', 'Appreciation added Sucessfully');
     }
 
@@ -351,6 +328,4 @@ class AcrController extends Controller
 
         return Redirect()->back()->with('success', 'Appreciation deleted Successfully...');
     }
-
-
 }
