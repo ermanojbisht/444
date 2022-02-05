@@ -28,15 +28,7 @@ Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], f
 //employee system routes-------------------------------
 
 
-
-//  ACR
-//  ACR
-
-
 // acr routes-------------------------  // 
-
-
-
 
 Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], function () {
 
@@ -79,12 +71,20 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
     Route::get('form/{acr}/part2', 'Employee\Acr\AcrFormController@create2')->name('form.create2');
     Route::get('form/{acr}/part3', 'Employee\Acr\AcrFormController@create3')->name('form.create3');
     Route::get('form/{acr}/part4', 'Employee\Acr\AcrFormController@create4')->name('form.create4');
-    Route::get('form/{acr}/appraisal1', 'Employee\Acr\AcrFormController@appraisal1')->name('form.appraisal1');
     
     Route::post('form/store1', 'Employee\Acr\AcrFormController@store1')->name('form.store1');
     Route::post('form/store2', 'Employee\Acr\AcrFormController@store2')->name('form.store2');
     Route::post('form/store3', 'Employee\Acr\AcrFormController@store3')->name('form.store3');
     Route::post('form/store4', 'Employee\Acr\AcrFormController@store4')->name('form.store4');
+
+
+    // Acr Reporting 
+    Route::get('form/{acr}/appraisal1', 'Employee\Acr\AcrReviewController@appraisal1')->name('form.appraisal1');
+
+
+
+
+    
     Route::post('form/appraisal1', 'Employee\Acr\AcrFormController@storeAppraisal1')->name('form.storeAppraisal1');
 
     Route::get('getUserParameterData/{acrId}/{paramId}', 'Employee\Acr\AcrFormController@getUserParameterData')->name('ajax.getUserParameterData');
