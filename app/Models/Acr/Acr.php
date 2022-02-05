@@ -241,12 +241,7 @@ class Acr extends Model
 
     public function report_review_Accept_officers($Officer_type)
     {
-        if ($Officer_type == 'report')
-            return $this->belongsTo(Employee::class, 'report_employee_id', 'id')->first();
-        else if ($Officer_type  == 'review')
-            return $this->belongsTo(Employee::class, 'review_employee_id', 'id')->first();
-        else if ($Officer_type  == 'accept')
-            return $this->belongsTo(Employee::class, 'accept_employee_id', 'id')->first();
+        return $this->belongsTo(Employee::class, $Officer_type.'_employee_id', 'id')->first();
     }
 
     public function firstFormData()
