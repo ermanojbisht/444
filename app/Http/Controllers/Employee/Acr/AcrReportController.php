@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;  
 use Log;
 
-class AcrReviewController extends Controller
+class AcrReportController extends Controller
 {
  
     /**
