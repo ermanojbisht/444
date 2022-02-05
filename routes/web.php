@@ -78,6 +78,12 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
     Route::post('form/store4', 'Employee\Acr\AcrFormController@store4')->name('form.store4');
 
 
+    Route::post('report/{acr}/submit', 'Employee\Acr\AcrReportController@submitReported')->name('report_submit');
+    Route::post('review/{acr}/submit', 'Employee\Acr\AcrReviewController@submitReviewed')->name('review_submit');
+    Route::post('accept/{acr}/submit', 'Employee\Acr\AcrAcceptController@submitAccepted')->name('accept_submit');
+ 
+
+
     // Acr Reporting 
     Route::get('form/{acr}/appraisal1', 'Employee\Acr\AcrReportController@appraisal1')->name('form.appraisal1');
 

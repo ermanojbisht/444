@@ -147,11 +147,8 @@ My ACR
 					@endforeach
 				</div>
 			</div>
-
 			<br />
 			<div class="row">
-
-
 				<div class="col-md-12">
 					<p class="fw-bold h5"> Membership of any Professional Organization : - </p>
 					<textarea type="text" class="form-control"

@@ -13,7 +13,7 @@ Other's ACR to be Worked Upon
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
-	['label'=> Auth::User()->name . '\'s' . ' Acrs','active'=>true]]])
+['label'=> Auth::User()->name . '\'s' . ' Acrs','active'=>true]]])
 @endsection
 
 @section('content')
@@ -22,9 +22,10 @@ Other's ACR to be Worked Upon
 	<div class="row">
 		<div class="col-12">
 			<div class="card mb-4">
-				<div class="card-header"><strong> ACR's in Your Inbox  </strong>
-					<span class="badge badge-sm bg-info ms-auto">   {{ $reported->count() 
-				+ $reviewed->count() + $accepted->count() }} </span></div>
+				<div class="card-header"><strong> ACR's in Your Inbox </strong>
+					<span class="badge badge-sm bg-info ms-auto"> {{ $reported->count()
+						+ $reviewed->count() + $accepted->count() }} </span>
+				</div>
 				<div class="card-body">
 					<ul class="nav nav-tabs" role="tablist">
 						<li class="nav-item">
@@ -60,7 +61,7 @@ Other's ACR to be Worked Upon
 										<th></th>
 									</tr>
 								</thead>
-								<tbody> 
+								<tbody>
 									@foreach($reported as $acr)
 									<tr>
 										<td>{{1+$loop->index }}</td>
@@ -70,7 +71,7 @@ Other's ACR to be Worked Upon
 										<td>{{$acr->from_date}}</td>
 										<td>{{$acr->to_date }}</td>
 										<td>{{$acr->created_at->format('d M Y')}} </td>
-										<td>{{($acr->submitted_at  == null ? 'Pending' : 'Submitted') }}</td>
+										<td>{{($acr->submitted_at == null ? 'Pending' : 'Submitted') }}</td>
 										<td>
 											<div class="dropdown dropstart">
 												<button class="btn btn-transparent p-0" type="button"
@@ -84,14 +85,26 @@ Other's ACR to be Worked Upon
 												</button>
 												<div class="dropdown-menu dropdown-menu-end">
 													<a class="dropdown-item"
-														href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
+														href="{{route('acr.view.part1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i> View ACR
 													</a>
 													<a class="dropdown-item"
 														href="{{route('acr.form.appraisal1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Process ACR
 													</a>
-													{{-- ToDo: Made will be as log out form --}}
+													@if (1 ==1)
+													{{-- // if all data is filled by the reviwer --}}
+													<a class="dropdown-item" href="#">
+														<form method="POST"
+															action="{{ route('acr.report_submit', [ 'acr'=> $acr->id]) }}"
+															onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
+															{{ csrf_field() }}
+															<button type="submit" style="width:100%;"
+																class="btn btn-success "> Submit ACR
+															</button>
+														</form>
+													</a>
+													@endif
 												</div>
 											</div>
 										</td>
@@ -115,7 +128,7 @@ Other's ACR to be Worked Upon
 										<th></th>
 									</tr>
 								</thead>
-								<tbody> 
+								<tbody>
 									@foreach($reviewed as $acr)
 									<tr>
 										<td>{{1+$loop->index }}</td>
@@ -138,7 +151,7 @@ Other's ACR to be Worked Upon
 												</button>
 												<div class="dropdown-menu dropdown-menu-end">
 													<a class="dropdown-item"
-														href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
+														href="{{route('acr.view.part1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i> View ACR
 													</a>
 													<a class="dropdown-item"
@@ -146,6 +159,19 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i>Process ACR
 													</a>
 													{{-- ToDo: Made will be as log out form --}}
+													@if (1 ==1)
+													{{-- // if all data is filled by the reviwer --}}
+													<a class="dropdown-item" href="#">
+														<form method="POST"
+															action="{{ route('acr.report_submit', [ 'acr'=> $acr->id]) }}"
+															onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
+															{{ csrf_field() }}
+															<button type="submit" style="width:100%;"
+																class="btn btn-success "> Submit ACR
+															</button>
+														</form>
+													</a>
+													@endif
 												</div>
 											</div>
 										</td>
@@ -168,7 +194,7 @@ Other's ACR to be Worked Upon
 										<th></th>
 									</tr>
 								</thead>
-								<tbody> 
+								<tbody>
 									@foreach($accepted as $acr)
 									<tr>
 										<td>{{1+$loop->index }}</td>
@@ -190,7 +216,7 @@ Other's ACR to be Worked Upon
 												</button>
 												<div class="dropdown-menu dropdown-menu-end">
 													<a class="dropdown-item"
-														href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
+														href="{{route('acr.view.part1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i> View ACR
 													</a>
 													<a class="dropdown-item"
@@ -198,6 +224,19 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i>Process ACR
 													</a>
 													{{-- ToDo: Made will be as log out form --}}
+													@if (1 ==1)
+													{{-- // if all data is filled by the reviwer --}}
+													<a class="dropdown-item" href="#">
+														<form method="POST"
+															action="{{ route('acr.report_submit', [ 'acr'=> $acr->id]) }}"
+															onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
+															{{ csrf_field() }}
+															<button type="submit" style="width:100%;"
+																class="btn btn-success "> Submit ACR
+															</button>
+														</form>
+													</a>
+													@endif
 												</div>
 											</div>
 										</td>

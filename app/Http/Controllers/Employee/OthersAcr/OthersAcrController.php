@@ -48,7 +48,7 @@ class OthersAcrController extends Controller
         $reviewed = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->user->employee_id)
         ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get();
         
-        $accepted = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->user->employee_id)
+        $accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->user->employee_id)
         ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNull('accept_on')->get();
         
         return view('employee.other_acr.index', compact('reported','reviewed','accepted'));

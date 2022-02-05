@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Employee\Acr; 
+namespace App\Http\Controllers\Employee\OthersAcr; 
 
 use App\Http\Controllers\Controller; 
 use App\Models\Acr\Acr;
@@ -152,5 +152,8 @@ class AcrReportController extends Controller
         return $text;
 
     }
+
+
+    
 
 }

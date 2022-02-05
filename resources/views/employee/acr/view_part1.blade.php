@@ -129,11 +129,13 @@ My ACR
 					<th>
 						<p class=" fw-bold "> 4. Membership of any Professional Organization : - </p>
 					</th>
-					<td> </td>
+					<td> 
+						{{ $acr->professional_org_membership }}
+					</td>
 				</tr>
 				<tr>
 					<th colspan="2">
-						5. Reporting, Reviewing and Accepting Authorities
+						<p class=" fw-bold "> 5. Reporting, Reviewing and Accepting Authorities </p>
 						<table style="width:100%">
 							<tr>
 								<td>
@@ -141,16 +143,19 @@ My ACR
 										<thead>
 											<tr>
 												<th>
-													Officer
+													<p class=" fw-bold "> Officer </p>
 												</th>
 												<th>
-													Name
+													<p class=" fw-bold "> Name </p>
 												</th>
 												<th>
-													Designation
+													<p class=" fw-bold "> Designation </p>
 												</th>
 												<th>
-													Period
+													<p class=" fw-bold "> Period </p>
+												</th>
+												<th>
+													<p class=" fw-bold "> Is Due </p>
 												</th>
 											</tr>
 										</thead>
@@ -163,8 +168,12 @@ My ACR
 													Reporting Authority
 												</td>
 												<td>{{$appraisalOfficer->name}}</td>
-												
-												<td> {{ $acr->report_review_Accept_officers('report')->designation->name }} </td>
+												<td>
+													@if ($appraisalOfficer)
+													{{ $acr->report_review_Accept_officers('report')->designation->name
+													}}
+													@endif
+												</td>
 												@endif
 												@if( config('acr.basic.appraisalOfficerType')
 												[$appraisalOfficer->pivot->appraisal_officer_type] == 'Reviewing')
@@ -172,7 +181,12 @@ My ACR
 													Reviewing Authority
 												</td>
 												<td>{{$appraisalOfficer->name}}</td>
-												<td> {{ $acr->report_review_Accept_officers('review')->designation->name }} </td>
+												<td>
+													@if ($appraisalOfficer)
+													{{ $acr->report_review_Accept_officers('report')->designation->name
+													}}
+													@endif
+												</td>
 												@endif
 												@if( config('acr.basic.appraisalOfficerType')
 												[$appraisalOfficer->pivot->appraisal_officer_type] == 'Accepting')
@@ -180,14 +194,26 @@ My ACR
 													Accepting Authority
 												</td>
 												<td>{{$appraisalOfficer->name}}</td>
-												<td> {{ $acr->report_review_Accept_officers('accept')->designation->name }} </td>
-												@endif
-												<td>{{$appraisalOfficer->pivot->from_date}} -
-													{{$appraisalOfficer->pivot->to_date}}
-													 ({{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->diffInDays
-													(Carbon\Carbon::parse($appraisalOfficer->pivot->to_date))}}  Days)
+												<td>
+													@if ($appraisalOfficer)
+													{{ $acr->report_review_Accept_officers('report')->designation->name
+													}}
+													@endif
 												</td>
+												@endif
+												<td>
+													{{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->format('d M Y')}}
+													-
+													{{Carbon\Carbon::parse($appraisalOfficer->pivot->to_date)->format('d M Y')}} 
+
+													({{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->diffInDays
+													(Carbon\Carbon::parse($appraisalOfficer->pivot->to_date))}} Days)
+												</td>
+												<td>
+													{{config('site.yesNo')[$appraisalOfficer->pivot->is_due]}}
+												</td> 
 											</tr>
+
 											@empty
 											<tr>
 												<td colspan="5" rowspan="1" headers="">No Data Found</td>
@@ -199,6 +225,135 @@ My ACR
 							</tr>
 						</table>
 					</th>
+				</tr>
+				<tr>
+					<th colspan="2">
+						<p class=" fw-bold "> 6. Leave (other then Casual Leave) or period of absence </p>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>
+										Type
+									</th>
+									<th>
+										Period
+									</th>
+								</tr>
+							</thead>
+							@forelse ($leaves as $leave)
+							<tr>
+								<td> {{config('acr.basic.acrLeaveType')[$leave->type_id]}}
+									({{Carbon\Carbon::parse($leave->from_date)->
+									diffInDays(Carbon\Carbon::parse($leave->to_date))}} Days)</td>
+								<td>{{$leave->from_date->format('d M Y')}} - {{$leave->to_date->format('d M Y')}} </td>
+							</tr>
+							@empty
+							<tr>
+								<td colspan="5" rowspan="1" headers="">No Data Found</td>
+							</tr>
+							@endforelse
+							</tbody>
+						</table>
+					</th>
+				</tr>
+				<tr>
+					<th colspan="2">
+						<p class=" fw-bold "> 7. Appreciation/Honors during the period of appraisal from the department
+						</p>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>
+										S No.
+									</th>
+									<th>
+										Type of Appreciation/Honors
+									</th>
+									<th>
+										Brief Details
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								@forelse ($appreciations as $appreciation)
+								<tr>
+									<td> 7.{{1+$loop->index }}</td>
+									<td>{{$appreciation->appreciation_type}}</td>
+									<td>{{$appreciation->detail}}</td>
+								</tr>
+								@empty
+								<tr>
+									<td colspan="3" rowspan="1" headers="">No Data Found</td>
+								</tr>
+								@endforelse
+							</tbody>
+						</table>
+					</th>
+				</tr>
+				<tr>
+					<th colspan="2">
+						<p class=" fw-bold "> 8. Appreciation/Honors during the period of appraisal from the department
+						</p>
+					
+						<table class="table border mb-0">
+							<thead class="table-light  fw-bold">
+								<tr class="align-middle">
+									<th>S No.</th>
+									<th>Employee Name</th>
+									<th>Employee Id</th>
+									<th>From Date</th>
+									<th>To Date</th>
+									<th>Created on</th>
+									<th>Status</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach($inbox as $acr)
+								<tr>
+									<td>8.{{1+$loop->index }}</td>
+									<td>{{$acr->employee->name}}</td>
+									<td>{{$acr->employee_id}} </td>
+									<td>{{$acr->from_date}}</td>
+									<td>{{$acr->to_date }}</td>
+									<td>{{$acr->created_at->format('d M Y')}} </td>
+								</tr>
+								@endforeach
+
+								@foreach($reviewed as $acr)
+								<tr>
+									<td>8.{{1+$loop->index }}</td>
+									<td>{{$acr->employee->name}}</td>
+									<td>{{$acr->employee_id}} </td>
+									<td>{{$acr->from_date}}</td>
+									<td>{{$acr->to_date }}</td>
+									<td>{{$acr->created_at->format('d M Y')}} </td>
+								</tr>
+								@endforeach
+								
+								@foreach($accepted as $acr)
+								<tr>
+									<td>8.{{1+$loop->index }}</td>
+									<td>{{$acr->employee->name}}</td>
+									<td>{{$acr->employee_id}} </td>
+									<td>{{$acr->from_date}}</td>
+									<td>{{$acr->to_date }}</td>
+									<td>{{$acr->created_at->format('d M Y')}} </td>
+								</tr>
+								@endforeach
+							</tbody>
+						</table>
+
+
+					 </th> 
+				</tr>
+				<tr>
+					<th>
+						<p class=" fw-bold "> 9. Date of Filing Property Return for the Calender Year </p>
+					</th>
+					<td>
+						{{ $acr->property_filing_return_at->format('d M Y') }}
+					</td>
 				</tr>
 			</table>
 		</div>
