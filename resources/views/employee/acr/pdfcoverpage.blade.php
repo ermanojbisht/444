@@ -15,31 +15,31 @@
         .appraisal-head {
           position: absolute;
           top: 180px;
-          left: 10px;
+          left: 25;
         }
 
         .employee-name {
           position: absolute;
           top: 700px;
-          left: 10px;
+          left: 25;
         }
         .disclaimer {
           position: absolute;
           top: 1140px;
-          left: 10px;
+          left: 25;
         }
 
         .created_on {
           position: absolute;
           top: 1100px;
-          left: 10px;
+          left: 25;
         }
 
     </style>
 </head>
 <body lang="en-US" >
 <div class="container">
-  <img src="{{ asset('../images/5bb.png') }}" alt="background" style="width:100%;" align="center" height="1350" border="0"/>
+  <img src="{{ asset('../images/5bb.png') }}" alt="background" style="width:100%;" align="center" height="1350" border="1"/>
   <div class="appraisal-head">
     <p style="margin-bottom: 0.7cm; line-height: 100%">
         <font color="#333333" face="Devil Breeze bold, serif" size="7" style="font-size: 60pt">

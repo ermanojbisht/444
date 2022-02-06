@@ -52,7 +52,7 @@ class Acr extends Model
 
     public function personalAttributes()
     {
-        return $this->belongsTo(AcrPersonalAttributes::class);
+        return $this->hasMany(AcrPersonalAttribute::class);
     }
 
 
@@ -232,6 +232,7 @@ class Acr extends Model
     public function peronalAttributeSWithMasterData()
     {
         $personalAttributes = $this->personalAttributes()->get()->keyBy('personal_attribute_id');
+
         return  AcrMasterPersonalAttributes::all()->map(function ($row) use ($personalAttributes) {
             if (isset($personalAttributes[$row->id])) {
                 $row->reporting_marks = $personalAttributes[$row->id]->reporting_marks;

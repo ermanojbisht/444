@@ -10,7 +10,7 @@ use App\Models\Acr\AcrMasterTraining;
 use App\Models\Acr\AcrMasterParameter;
 use App\Models\Acr\EmpProposedTraining;
 use App\Models\Acr\AcrMasterPersonalAttributes;
-use App\Models\Acr\AcrPersonalAttributes;
+use App\Models\Acr\AcrPersonalAttribute;
 
 use App\Models\Employee;
 
@@ -77,7 +77,7 @@ class AcrReportController extends Controller
             );
         }
         foreach($request->personal_attributes as $attributeId => $attribute_mark ){
-            AcrPersonalAttributes::UpdateOrCreate(
+            AcrPersonalAttribute::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
                     'personal_attribute_id' => $attributeId,

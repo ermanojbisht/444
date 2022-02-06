@@ -10,7 +10,7 @@ use App\Models\Acr\AcrMasterTraining;
 use App\Models\Acr\AcrMasterParameter;
 use App\Models\Acr\EmpProposedTraining;
 use App\Models\Acr\AcrMasterPersonalAttributes;
-use App\Models\Acr\AcrPersonalAttributes;
+use App\Models\Acr\AcrPersonalAttribute;
 
 use App\Models\Employee;
 
@@ -47,17 +47,7 @@ class AcrReviewController extends Controller
     {
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
-
-        $AcrPersonalAttributes = AcrPersonalAttributes::where('acr_id',$acr->id)->get()->keyBy('personal_attribute_id');
-        $personal_attributes=  AcrMasterPersonalAttributes::all()->map(function ($row) use ($AcrPersonalAttributes) {
-            if (isset($AcrPersonalAttributes[$row->id])) {
-                $row->reporting_marks = $AcrPersonalAttributes[$row->id]->reporting_marks;
-                $row->reviewing_marks = $AcrPersonalAttributes[$row->id]->reviewing_marks;
-            } else {
-                $row->reporting_marks = $row->reviewing_marks = '';
-            }
-            return $row;
-        });
+        $personal_attributes=  $acr->peronalAttributeSWithMasterData();
 
         $view = true; // make true for view only
         return view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view')); //'notApplicableParameters',
@@ -82,7 +72,7 @@ class AcrReviewController extends Controller
             );
         }
         foreach($request->personal_attributes as $attributeId => $attribute_mark ){
-            AcrPersonalAttributes::UpdateOrCreate(
+            AcrPersonalAttribute::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
                     'personal_attribute_id' => $attributeId,
