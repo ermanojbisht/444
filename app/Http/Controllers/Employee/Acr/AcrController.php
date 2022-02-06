@@ -210,7 +210,7 @@ class AcrController extends Controller
     {
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update(['submitted_at' => now()]);
-        dispatch(new MakeAcrPdfOnSubmit($acr));
+        dispatch(new MakeAcrPdfOnSubmit($acr,'submit'));
 
         return redirect()->back();
     }
@@ -220,11 +220,22 @@ class AcrController extends Controller
 
     public function show(Acr $acr)
     {
-
-        $data_groups = $acr->type1RequiremntsWithFilledData();
-
         $pages = array();
-        $pages[] = view('employee.acr.form.create1', compact('acr', 'data_groups'));
+        //$data_groups = $acr->type1RequiremntsWithFilledData();
+        //$pages[] = view('employee.acr.form.create1', compact('acr', 'data_groups'));
+
+         list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $acr->firstFormData();
+        $pages[] = view('employee.acr.view_part1', ['acr'=>$acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ]);
+
+        $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
+        $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
+        $personal_attributes=  $acr->peronalAttributeSWithMasterData();
+
+        $view = true;
+
+        $pages[] =view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+
+
         $pages[] = view('employee.acr.show', compact('acr'));
 
 

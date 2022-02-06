@@ -14,6 +14,8 @@ use Log;
 class MakeAcrPdfOnSubmit implements ShouldQueue
 {
     public $acr;
+    public $pdf;
+    public $milstone;
 
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -22,9 +24,12 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Acr $acr)
+    public function __construct(Acr $acr,$milstone)
     {
+        //Log::info("in __construct  MakeAcrPdfOnSubmit ");
+
         $this->acr = $acr;
+        $this->milstone = $milstone;
     }
 
     /**
@@ -35,20 +40,30 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
 
     public function handle()
     {
-        $pages = array();
-        list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $this->acr->firstFormData();
 
-        $pages[] = view('employee.acr.view_part1', ['acr'=>$this->acr,
-        'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 
-        'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ]);
 
-        $pdf = \App::make('snappy.pdf.wrapper');
-        $pdf->setOption('margin-top',5);
-        $pdf->setOption('cover', view('employee.acr.pdfcoverpage', ['acr'=>$this->acr]));
-        $pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
-        $pdf->loadHTML($pages);
+        $this->arrangeAcrView();
 
-        $this->acr->createPdfFile($pdf,true);
-        $this->acr->submitNotification();
+        $this->acr->createPdfFile($this->pdf,true);
+
+        //$this->acr->submitNotification();
+    }
+
+    public function arrangeAcrView()
+    {
+        $pages = [];
+
+
+        if($this->milstone=='submit'){
+            list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $this->acr->firstFormData();
+            $pages[] = view('employee.acr.view_part1', ['acr'=>$this->acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ]);
+        }
+
+
+        $this->pdf = \App::make('snappy.pdf.wrapper');
+        $this->pdf->setOption('margin-top',5);
+        $this->pdf->setOption('cover', view('employee.acr.pdfcoverpage', ['acr'=>$this->acr]));
+        $this->pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
+        $this->pdf->loadHTML($pages);
     }
 }

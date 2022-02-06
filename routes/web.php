@@ -232,3 +232,4 @@ Route::get('addEmpCode', 'MgtTask\UserMakingMgtController@addEmpCode')->name('ad
 
 
 Route::get('/temp', 'TempController@temp');
+Route::get('/temp1', 'Employee\Acr\MonitorAcrController@countEsclation');

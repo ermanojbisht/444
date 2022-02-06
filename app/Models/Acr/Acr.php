@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Mail;
 use Log;
 use \DateTimeInterface;
+use File;
 
 class Acr extends Model
 {
@@ -27,10 +28,10 @@ class Acr extends Model
         'good_work', 'difficultie', 'appreciations', 'submitted_at',
         'report_employee_id', 'review_employee_id', 'accept_employee_id', 'report_on', 'review_on',
         'accept_on', 'is_active', 'appraisal_note_1', 'appraisal_note_2', 'appraisal_note_3',
-        'professional_org_membership', 'property_filing_return_at'
+        'professional_org_membership', 'property_filing_return_at','report_duration_lapsed','review_duration_lapsed','accept_duration_lapsed'
     ];
     protected $dates = [
-        'from_date', 'to_date', 'property_filing_return_at'
+        'from_date', 'to_date', 'property_filing_return_at','submitted_at','report_on','review_on','accept_on'
     ];
 
 
@@ -47,6 +48,42 @@ class Acr extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id', 'id');
+    }
+
+    public function personalAttributes()
+    {
+        return $this->belongsTo(AcrPersonalAttributes::class);
+    }
+
+
+    public function scopeLevel($query, $value='submit')
+    {
+        $query=$query->whereNotNull('report_employee_id')->whereNotNull('review_employee_id')->whereNotNull('accept_employee_id')->whereNotNull('submitted_at');
+        switch ($value) {
+            case 'submit':
+                return $query->whereNull('report_on')
+                ->orderBy('submitted_at');
+                break;
+            case 'report':
+                return $query->whereNull('review_on')
+                ->whereNotNull('report_on')
+                ->orderBy('report_on');
+                break;
+            case 'review':
+                return $query->whereNull('accept_on')
+                ->whereNotNull('review_on')
+                ->orderBy('review_on');
+                break;
+            case 'accept':
+                return $query->whereNotNull('accept_on')
+                ->orderBy('review_on');
+                break;
+        }
+    }
+
+    public function isScope($scope, ...$attributes)
+    {
+        return static::$scope(...$attributes)->where($this->getKeyName(), $this->getKey())->exists();
     }
 
     /**
@@ -190,6 +227,21 @@ class Acr extends Model
         //return $requiredParameters->groupBy('config_group');
     }
 
+
+    public function peronalAttributeSWithMasterData()
+    {
+        $personalAttributes = $this->personalAttributes()->get()->keyBy('personal_attribute_id');
+        return  AcrMasterPersonalAttributes::all()->map(function ($row) use ($personalAttributes) {
+            if (isset($personalAttributes[$row->id])) {
+                $row->reporting_marks = $personalAttributes[$row->id]->reporting_marks;
+                $row->reviewing_marks = $personalAttributes[$row->id]->reviewing_marks;
+            } else {
+                $row->reporting_marks = $row->reviewing_marks = '';
+            }
+            return $row;
+        });
+    }
+
     public function getPdfFilePathAttribute()
     {
         return 'acr/' . $this->employee_id . '/' . $this->id . '.pdf';
@@ -209,12 +261,15 @@ class Acr extends Model
 
     public function createPdfFile($pdf, $forced = true)
     {
+        //Log::info("in acr createPdfFile  ");
         //$fullpath=\Storage::disk('public')->path($this->pdf_file_path);
         if ($forced || (!$this->isFileExist())) {
+            $path=$this->pdf_file_path;
+            File::ensureDirectoryExists(dirname($this->pdfFullFilePath),$mode = 0775, $recursive = true);
             if ($this->isFileExist()) {
-                \Storage::disk('public')->delete($this->pdf_file_path);
+                \Storage::disk('public')->delete($path);
             }
-            $pdf->save(\Storage::disk('public')->path($this->pdf_file_path));
+            $pdf->save(\Storage::disk('public')->path($path));
         }
     }
 
@@ -279,5 +334,18 @@ class Acr extends Model
             ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNull('accept_on')->get();
 
         return [$employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted];
+    }
+
+    public function updateEsclationFor($dutyType)
+    {
+        $duty=config('acr.basic.duty')[$dutyType];
+        $duty_duration_lapsed_field=$dutyType.'_duration_lapsed';
+        $duty_triggerDate=$duty['triggerDate'];
+        $this->$duty_duration_lapsed_field=round($this->$duty_triggerDate->diffInDays(now(),false)/$duty['period']*100,0);
+        if($this->$duty_triggerDate->diffInDays(now(),false)>$duty['period']){
+            $finalDateField=$dutyType.'_on';
+            $this->$finalDateField=now();
+        }
+        $this->save();
     }
 }
