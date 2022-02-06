@@ -47,17 +47,7 @@ class AcrReportController extends Controller
     {
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
-
-        $AcrPersonalAttributes = AcrPersonalAttributes::where('acr_id',$acr->id)->get()->keyBy('personal_attribute_id');
-        $personal_attributes=  AcrMasterPersonalAttributes::all()->map(function ($row) use ($AcrPersonalAttributes) {
-            if (isset($AcrPersonalAttributes[$row->id])) {
-                $row->reporting_marks = $AcrPersonalAttributes[$row->id]->reporting_marks;
-                $row->reviewing_marks = $AcrPersonalAttributes[$row->id]->reviewing_marks;
-            } else {
-                $row->reporting_marks = $row->reviewing_marks = '';
-            }
-            return $row;
-        });
+        $personal_attributes=  $acr->peronalAttributeSWithMasterData();
 
         $view = false; // make true for view only
         return view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view')); //'notApplicableParameters',
