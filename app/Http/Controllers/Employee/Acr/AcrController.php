@@ -237,11 +237,16 @@ class AcrController extends Controller
 
 
         $view = true;
-        //report
-        $pages[] =view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
-        //review
 
-        $pages[] = view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+        if($acr->isScope('level','review')){
+            //review
+            $pages[] = view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+        }else{
+            if($acr->isScope('level','report')){
+                //report
+                $pages[] =view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+            }
+        }
         //accept
 
 

@@ -46,18 +46,54 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
 
         $this->acr->createPdfFile($this->pdf,true);
 
-        //$this->acr->submitNotification();
+        if($this->milstone=='submit'){
+            $this->acr->submitNotification();
+        }
+
+        if($this->milstone=='report'){
+            $this->acr-reportNotification();
+        }
+
+        if($this->milstone=='review'){
+            $this->acr->reviewNotification();
+        }
+
+        if($this->milstone=='accept'){
+            $this->acr->acceptNotification();
+        }
+
     }
 
     public function arrangeAcrView()
     {
         $pages = [];
 
-
-        if($this->milstone=='submit'){
+        if(in_array($this->milstone, ['submit','report','review','accept'])){
             list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $this->acr->firstFormData();
             $pages[] = view('employee.acr.view_part1', ['acr'=>$this->acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ]);
         }
+
+        //acr form by user ?//todo
+
+        if(in_array($this->milstone, ['report','review','accept'])){
+            $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
+            $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
+            $personal_attributes=  $acr->peronalAttributeSWithMasterData();
+
+            if(in_array($this->milstone, ['review','accept'])){
+                $pages[] = view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+            }
+
+             if($this->milstone=='report'){
+                $pages[] =view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+            }
+
+        }
+
+        if($this->milstone=='accept'){
+            //todo
+        }
+
 
 
         $this->pdf = \App::make('snappy.pdf.wrapper');

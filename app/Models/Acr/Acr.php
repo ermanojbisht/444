@@ -261,6 +261,38 @@ class Acr extends Model
         return \Storage::disk('public')->exists($this->pdf_file_path);
     }
 
+    public function submitUser()
+    {
+        return $this->userOnBasisOfDuty('submit');
+    }
+
+    public function reportUser()
+    {
+        return $this->userOnBasisOfDuty('report');
+    }
+
+    public function reviewUser()
+    {
+       return $this->userOnBasisOfDuty('review');
+    }
+
+    public function acceptUser()
+    {
+        return $this->userOnBasisOfDuty('accept');
+    }
+
+    public function userOnBasisOfDuty($dutyType)
+    {
+        $target_employee_field=config('acr.basic.duty')[$dutyType]['field'];
+        $target_employee_id = $this->$target_employee_field;
+        if ($target_employee_id) {
+            return User::where('employee_id', $target_employee_id)->first();
+        }
+        return false;
+    }
+
+
+
     public function createPdfFile($pdf, $forced = true)
     {
         //Log::info("in acr createPdfFile  ");
@@ -277,37 +309,106 @@ class Acr extends Model
 
     public function submitNotification()
     {
-        Log::info("in submitNotification $this->id");
-        $acruser = User::where('employee_id', $this->employee_id)->first();
-        $reporting_employee_id = $this->report_employee_id;
-        if ($reporting_employee_id) {
-            $reportingEmployee = User::where('employee_id', $reporting_employee_id)->first();
-            if ($reportingEmployee) {
-                $previousNotification = AcrNotification::where('employee_id', $reportingEmployee->employee_id)
-                    ->where('acr_id', $this->id)
-                    ->where('through', 1)
-                    ->where('notification_type', 2)
-                    ->orderBy('notification_on', 'DESC')->first();
-                Log::info("fullFilePath = " . print_r($this->pdfFullFilePath, true));
-                if (!$previousNotification) {
-                    Mail::to($reportingEmployee)
-                        ->cc($acruser)
-                        ->send(new AcrSumittedMail($this, $reportingEmployee));
+        $this->mailNotificationFor($targetDutyType='report',$notification_type=2);
 
-                    $data = [
-                        'employee_id' => $reportingEmployee->employee_id,
-                        'acr_id' => $this->id,
-                        'notification_on' => now(),
-                        'through' => 1,
-                        'notification_type' => 2,
-                        'notification_no' => 1
-                    ];
-                    AcrNotification::create($data);
+        /*$targetEmployee=$this->userOnBasisOfDuty($dutyType='submit');
+        if ($targetEmployee) {
+            //check if already notified
+            $previousNotification = AcrNotification::where('employee_id', $targetEmployee->employee_id)
+                ->where('acr_id', $this->id)
+                ->where('through', 1)//for mail , may be 2 for sms
+                ->where('notification_type', 2) //2=for report
+                ->orderBy('notification_on', 'DESC')->first();
+
+            if (!$previousNotification) {
+                Mail::to($targetEmployee)
+                    ->cc($this->submitUser)
+                    ->send(new AcrSumittedMail($this, $targetEmployee));
+
+                $data = [
+                    'employee_id' => $targetEmployee->employee_id,
+                    'acr_id' => $this->id,
+                    'notification_on' => now(),
+                    'through' => 1,
+                    'notification_type' => 2,
+                    'notification_no' => 1
+                ];
+                AcrNotification::create($data);
+            }
+        }*/
+
+    }
+
+    public function reportNotification()
+    {
+        $this->mailNotificationFor($targetDutyType='review',$notification_type=3);
+    }
+
+    public function reviewNotification()
+    {
+        $this->mailNotificationFor($targetDutyType='accept',$notification_type=4);
+    }
+
+    public function acceptNotification()
+    {
+        //now target is submit beacause it's just back to user
+        $this->mailNotificationFor($targetDutyType='submit',$notification_type=5);
+    }
+
+    public function mailNotificationFor($targetDutyType,$notification_type)
+    {
+        $targetEmployee=$this->userOnBasisOfDuty($targetDutyType);
+        if ($targetEmployee) {
+            //check if already notified
+            $previousNotification = AcrNotification::where('employee_id', $targetEmployee->employee_id)
+                ->where('acr_id', $this->id)
+                ->where('through', 1)//for mail , may be 2 for sms
+                ->where('notification_type', $notification_type) //2=for report
+                ->orderBy('notification_on', 'DESC')->first();
+
+            if (!$previousNotification) {
+                $mail=Mail::to($targetEmployee);
+
+                switch ($targetDutyType) {
+                    case 'report':  //on submit event  , report is targeted
+                        //reportUser is as target
+                        $mail->cc($this->submitUser);
+                        break;
+                    case 'review': //on report event , review is targeted
+                        //review is as target
+                        $mail->cc($this->userOnBasisOfDuty('report'));
+                        $mail->cc($this->submitUser);
+                        break;
+                    case 'accept': //on review event , accept is targeted
+                        //accept user is as target
+                        $mail->cc($this->userOnBasisOfDuty('review'));
+                        $mail->cc($this->userOnBasisOfDuty('report'));
+                        $mail->cc($this->submitUser);
+                        break;
+
+                    case 'submit': //on accept event , submituser is targeted
+                        $mail->cc($this->userOnBasisOfDuty('review'));
+                        $mail->cc($this->userOnBasisOfDuty('report'));
+                        $mail->cc($this->userOnBasisOfDuty('accept'));
+                        break;
                 }
+
+                $mail->send(new AcrSumittedMail($this, $targetEmployee));
+
+                $data = [
+                    'employee_id' => $targetEmployee->employee_id,
+                    'acr_id' => $this->id,
+                    'notification_on' => now(),
+                    'through' => 1,
+                    'notification_type' => $notification_type,
+                    'notification_no' => 1
+                ];
+                AcrNotification::create($data);
             }
         }
-        Log::info("out submitNotification $this->id");
     }
+
+
 
     public function office()
     {
