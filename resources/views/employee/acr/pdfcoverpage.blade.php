@@ -51,7 +51,9 @@
     <span  style="float: left; border: none; padding: 0cm; >
         <p  align="left" style="margin-bottom: 0.7cm; line-height: 100%">
             <font color="#d01820" face="Devil Breeze bold, serif" style="font-size: 40pt">
-                {{$acr->employee->name}}
+                {{$acr->employee->name}}<br>
+                {{$acr->employee->designation->name}}<br>
+                (ID: {{$acr->employee_id}})
             </font>
         </p>
 
