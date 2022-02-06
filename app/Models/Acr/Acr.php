@@ -163,6 +163,8 @@ class Acr extends Model
                 $row->user_target = $filledparameters[$row->id]->user_target;
                 $row->user_achivement = $filledparameters[$row->id]->user_achivement;
                 $row->status = $filledparameters[$row->id]->status;
+                $row->applicable = $filledparameters[$row->id]->is_applicable;
+                $row->reporting_marks = $filledparameters[$row->id]->reporting_marks;
             } else {
                 $row->user_target = $row->user_achivement = $row->status = '';
             }
@@ -171,6 +173,22 @@ class Acr extends Model
         return $requiredParameters->groupBy('config_group');
     }
 
+    public function type2RequiremntsWithFilledData()
+    {
+        $filledparameters = $this->filledparameters()->get()->keyBy('acr_master_parameter_id');
+        $requiredParameters = $this->acrMasterParameters()->where('type', 0)->get();
+        $requiredParameters->map(function ($row) use ($filledparameters) {
+
+            if (isset($filledparameters[$row->id])) {
+                $row->reporting_marks = $filledparameters[$row->id]->reporting_marks;
+            } else {
+                $row->reporting_marks = '';
+            }
+            return $row;
+        });
+        return $requiredParameters;
+        //return $requiredParameters->groupBy('config_group');
+    }
 
     public function getPdfFilePathAttribute()
     {

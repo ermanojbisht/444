@@ -10,6 +10,7 @@ use App\Models\Acr\AcrMasterTraining;
 use App\Models\Acr\AcrMasterParameter;
 use App\Models\Acr\EmpProposedTraining;
 use App\Models\Acr\AcrMasterPersonalAttributes;
+use App\Models\Acr\AcrPersonalAttributes;
 
 use App\Models\Employee;
 
@@ -44,36 +45,63 @@ class AcrReportController extends Controller
      */
     public function appraisal1(Acr $acr, Request $request)
     {
-        $requiredParameters=$acr->acrMasterParameters()->where('type',1)->get();
-        
-        $notApplicableParameters=$acr->filledparameters()->where('is_applicable',0)->get()->pluck('acr_master_parameter_id');
-        //$data_groups = $requiredParameters->groupBy('config_group');
+        $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
+        $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
 
-        $personal_attributes=  AcrMasterPersonalAttributes::all();
-        
-        $requiredNegativeParameters=$acr->acrMasterParameters()->where('type',0)->get();
-        
-        return view('employee.acr.form.appraisal',compact('acr','requiredParameters','notApplicableParameters','personal_attributes','requiredNegativeParameters'));
+        $AcrPersonalAttributes = AcrPersonalAttributes::where('acr_id',$acr->id)->get()->keyBy('personal_attribute_id');
+        $personal_attributes=  AcrMasterPersonalAttributes::all()->map(function ($row) use ($AcrPersonalAttributes) {
+            if (isset($AcrPersonalAttributes[$row->id])) {
+                $row->reporting_marks = $AcrPersonalAttributes[$row->id]->reporting_marks;
+                $row->reviewing_marks = $AcrPersonalAttributes[$row->id]->reviewing_marks;
+            } else {
+                $row->reporting_marks = $row->reviewing_marks = '';
+            }
+            return $row;
+        });
+
+        $view = false; // make true for view only
+        return view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view')); //'notApplicableParameters',
     }
 
 
     public function storeAppraisal1(Request $request)
     {
-        return $request->all();
+        //return $request->all(); 
+        
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update([
             'appraisal_note_1' => $request->appraisal_note_1,
             'appraisal_note_2' => $request->appraisal_note_2,
             'appraisal_note_3' => $request->appraisal_note_3
         ]);
-        //$acr->save();
 
+        foreach($request->reporting_marks as $parameterId => $reporting_mark ){
+            AcrParameter::UpdateOrCreate(
+                [
+                    'acr_id' => $request->acr_id,
+                    'acr_master_parameter_id' => $parameterId,
+                ],
+                [
+                    'reporting_marks' => $reporting_mark,
+                ]
+            );
+        }
+        foreach($request->personal_attributes as $attributeId => $attribute_mark ){
+            AcrPersonalAttributes::UpdateOrCreate(
+                [
+                    'acr_id' => $request->acr_id,
+                    'personal_attribute_id' => $attributeId,
+                ],
+                [
+                    'reporting_marks' => $attribute_mark,
+                ]
+            );
+        }
         return redirect()->back();
     }
 
     public function getUserParameterData($acrId, $paramId)
     {   
-
         $AcrMasterParameter =  AcrMasterParameter::where('id',$paramId)->first();
        
         $AcrParameter =  AcrParameter::where('acr_master_parameter_id',$paramId)->where('acr_id',$acrId)->first();

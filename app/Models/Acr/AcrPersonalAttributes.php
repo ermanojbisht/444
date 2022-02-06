@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class AcrPersonalAttributes extends Model
 {
-    use HasFactory;
+    protected  $fillable =['acr_id','personal_attribute_id','reporting_marks','reviewing_marks'];
+    public $timestamps = false;
 }
