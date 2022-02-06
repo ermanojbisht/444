@@ -202,6 +202,7 @@ class Acr extends Model
                 $row->status = $filledparameters[$row->id]->status;
                 $row->applicable = $filledparameters[$row->id]->is_applicable;
                 $row->reporting_marks = $filledparameters[$row->id]->reporting_marks;
+                $row->reviewing_marks = $filledparameters[$row->id]->reviewing_marks;
             } else {
                 $row->user_target = $row->user_achivement = $row->status = '';
             }
@@ -215,11 +216,11 @@ class Acr extends Model
         $filledparameters = $this->filledparameters()->get()->keyBy('acr_master_parameter_id');
         $requiredParameters = $this->acrMasterParameters()->where('type', 0)->get();
         $requiredParameters->map(function ($row) use ($filledparameters) {
-
             if (isset($filledparameters[$row->id])) {
                 $row->reporting_marks = $filledparameters[$row->id]->reporting_marks;
+                $row->reviewing_marks = $filledparameters[$row->id]->reviewing_marks;
             } else {
-                $row->reporting_marks = '';
+                $row->reporting_marks = $row->reviewing_marks = '';
             }
             return $row;
         });

@@ -8,7 +8,8 @@
 		  <a class="btn btn-outline-primary" href="{{route('acr.form.create2',['acr' => $acr])}}">Part-2</a>
 		  <a class="btn btn-outline-primary" href="{{route('acr.form.create3',['acr' => $acr])}}">Part-3</a>
 		  <a class="btn btn-outline-primary" href="{{route('acr.form.create4',['acr' => $acr])}}">Part-4</a>
-		  <a class="btn btn-outline-danger" href="{{route('acr.form.appraisal1',['acr' => $acr])}}">Appraisal</a>
+		  <a class="btn btn-outline-danger" href="{{route('acr.form.appraisal1',['acr' => $acr])}}">Report</a>
+		  <a class="btn btn-outline-danger" href="{{route('acr.form.appraisal2',['acr' => $acr])}}">Review</a>
 		</div>
 	</span>
 </div>

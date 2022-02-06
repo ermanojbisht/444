@@ -86,8 +86,15 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
 
     // Acr Reporting 
     Route::get('form/{acr}/appraisal1', 'Employee\OthersAcr\AcrReportController@appraisal1')->name('form.appraisal1');
-    Route::post('form/appraisal1', 'Employee\OthersAcr\AcrReportController@storeAppraisal1')->name('form.storeAppraisal1');
+    Route::post('form/appraisal1', 'Employee\OthersAcr\AcrReportController@storeAppraisal1')->name('form.storeAppraisal1'); 
 
+    // Acr Review 
+    Route::get('form/{acr}/appraisal2', 'Employee\OthersAcr\AcrReviewController@appraisal2')->name('form.appraisal2');
+    Route::post('form/appraisal2', 'Employee\OthersAcr\AcrReviewController@storeAppraisal2')->name('form.storeAppraisal2');
+
+
+
+    // todo these to be shifted 
     Route::get('getUserParameterData/{acrId}/{paramId}', 'Employee\OthersAcr\AcrReportController@getUserParameterData')->name('ajax.getUserParameterData');
     Route::get('getUserNegativeParameterData/{acrId}/{paramId}', 'Employee\OthersAcr\AcrReportController@getUserNegativeParameterData')->name('ajax.getUserNegativeParameterData');
 });

@@ -90,6 +90,7 @@ class AcrReportController extends Controller
         return redirect()->back();
     }
 
+    // todo these function to be shifted in ACR Controller
     public function getUserParameterData($acrId, $paramId)
     {   
         $AcrMasterParameter =  AcrMasterParameter::where('id',$paramId)->first();
