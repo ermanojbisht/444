@@ -103,7 +103,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
             $page = 4;           
             $master_trainings = AcrMasterTraining::all()->groupBy('topic');            
             $selected_trainings = $this->acr->employee->EmployeeProposedTrainings->pluck('training_id');            
-            $pages[] = view('employee.acr.form.create4',compact('acr','master_trainings','selected_trainings','page','view'));
+            //$pages[] = view('employee.acr.form.create4',compact('acr','master_trainings','selected_trainings','page','view'));
         }
 
         //acr form by user ?//todo
