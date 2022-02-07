@@ -3,6 +3,7 @@
 namespace App\Jobs\Acr;
 
 use App\Models\Acr\Acr;
+use App\Models\Acr\AcrMasterTraining;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
