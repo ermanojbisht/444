@@ -75,11 +75,11 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
 
             $data_groups=$this->acr->type1RequiremntsWithFilledData();
             $page = 1;            
-            $pages[] = view('employee.acr.form.create1',compact('acr','data_groups','page','view'));
+            //$pages[] = view('employee.acr.form.create1',compact('acr','data_groups','page','view'));
 
 
             $page = 2;           
-            //$pages[] = view('employee.acr.form.create2',compact('acr','page','view'));
+            $pages[] = view('employee.acr.form.create2',compact('acr','page','view'));
 
             $page = 3;         
             $require_negative_parameters=$this->acr->acrMasterParameters()->where('type',0)->get()->keyBy('id');
