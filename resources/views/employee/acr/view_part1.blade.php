@@ -325,7 +325,7 @@
 								<p class=" fw-bold "> 9. Date of Filing Property Return for the Calender Year </p>
 							</th>
 							<td>
-								{{ $acr->property_filing_return_at->format('d M Y') }}
+                                @mkbdate($acr->property_filing_return_at,'d M Y')
 							</td>
 						</tr>
 					</table>

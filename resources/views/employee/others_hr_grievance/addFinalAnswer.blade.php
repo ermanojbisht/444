@@ -7,7 +7,7 @@
 
 
 @section('sidebarmenu')
-@include('layouts.type200._commonpartials._sidebarmenu',['active'=>'Grievance'])
+@include('layouts.type200._commonpartials._sidebarmenu_hr_gr',['active'=>'Grievance'])
 @endsection
 
 @section('pagetitle')
@@ -158,7 +158,7 @@
                 <div class="text-medium-emphasis small">
                     <input type="hidden" id="hr_grievance_id" name="hr_grievance_id" value="{{ $hr_grievance->id }}" />
                     
-                    {{-- <input type="hidden" id="employee_id" name="employee_id" value="{{Auth::User()->id}}"> --}}
+                    {{-- <input type="hidden" id="employee_id" name="employee_id" value="{{Auth::id()}}"> --}}
                 </div>
 
                 </form>

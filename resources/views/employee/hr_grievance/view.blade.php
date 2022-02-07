@@ -58,7 +58,7 @@
                                 <label for="grievance_type_id" class="form-label required"> Employee Id ( शिकायतकर्ता की ई०  डी० ) </label>
                             </div>
                             <div class="col-md-6">
-                                {{Auth::User()->id}}
+                                {{Auth::id()}}
                             </div>
                         </div>
 
@@ -118,7 +118,7 @@
 
                 <br />
                 <div class="text-medium-emphasis small">
-                    <input type="hidden" id="employee_id" name="employee_id" value="{{Auth::User()->id}}">
+                    <input type="hidden" id="employee_id" name="employee_id" value="{{Auth::id()}}">
                 </div>
 
                 {{-- if has history  --}}

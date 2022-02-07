@@ -51,7 +51,9 @@ class Employee extends Authenticatable
     }*/
     public function designation()
     {
-    	return $this->belongsTo(Designation::class);
+    	return $this->belongsTo(Designation::class)->withDefault(function ($designation) {
+            $designation->name = 'Unknown';
+        });
     }
 
     public function getNameempAttribute()

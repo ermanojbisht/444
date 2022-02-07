@@ -19,7 +19,7 @@
 @endsection
 
 @section('sidebarmenu')
-    @include('layouts.type200._commonpartials._sidebarmenu',['active'=>$selectedMenu])
+    {{-- @include('layouts.type200._commonpartials._sidebarmenu',['active'=>$selectedMenu]) --}}
 @endsection
 
 @section('pagetitle')

@@ -4,11 +4,30 @@
 	</span>
 	<span>
 		<div class="btn-group" role="group" aria-label="Basic outlined example">
-		  <a class="btn btn-outline-primary" href="{{route('acr.form.create1',['acr' => $acr])}}">Part-1</a>
-		  <a class="btn btn-outline-primary" href="{{route('acr.form.create2',['acr' => $acr])}}">Part-2</a>
-		  <a class="btn btn-outline-primary" href="{{route('acr.form.create3',['acr' => $acr])}}">Part-3</a>
-		  <a class="btn btn-outline-primary" href="{{route('acr.form.create4',['acr' => $acr])}}">Part-4</a>
-		  <a class="btn btn-outline-danger" href="{{route('acr.form.appraisal1',['acr' => $acr])}}">Appraisal</a>
+		  	<a href="{{route('acr.form.create1',['acr' => $acr])}}"
+		  		class="btn 
+				  	@if($page ==1 ) btn-primary 
+				  	@else btn-outline-primary
+				  	@endif
+		  		">Page-1</a>
+		  <a href="{{route('acr.form.create2',['acr' => $acr])}}"
+		  	class="btn 
+				  	@if($page ==2 ) btn-primary 
+				  	@else btn-outline-primary
+				  	@endif
+		  		">Page-2</a>
+		  <a href="{{route('acr.form.create3',['acr' => $acr])}}"
+		  	class="btn 
+				  	@if($page ==3 ) btn-primary 
+				  	@else btn-outline-primary
+				  	@endif
+		  		">Page-3</a>
+		  <a href="{{route('acr.form.create4',['acr' => $acr])}}"
+		  	class="btn 
+				  	@if($page ==4 ) btn-primary 
+				  	@else btn-outline-primary
+				  	@endif
+		  		">Page-4</a>
 		</div>
 	</span>
 </div>

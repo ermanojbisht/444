@@ -8,7 +8,9 @@ use App\Http\Requests\Acr\StoreAcrRequest;
 use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use App\Mail\Acr\AcrSumittedMail;
 use App\Models\Acr\Acr;
+use App\Models\Acr\AcrMasterPersonalAttributes;
 use App\Models\Acr\AcrNotification;
+use App\Models\Acr\AcrPersonalAttribute;
 use App\Models\Acr\AcrType;
 use App\Models\Acr\Appreciation;
 use App\Models\Acr\Leave;
@@ -24,8 +26,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
-use SPDF;
 use Log;
+use SPDF;
 
 class AcrController extends Controller
 {
@@ -212,7 +214,7 @@ class AcrController extends Controller
     {
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update(['submitted_at' => now()]);
-        dispatch(new MakeAcrPdfOnSubmit($acr));
+        dispatch(new MakeAcrPdfOnSubmit($acr,'submit'));
 
         return redirect()->back();
     }
@@ -222,12 +224,35 @@ class AcrController extends Controller
 
     public function show(Acr $acr)
     {
-
-        $data_groups = $acr->type1RequiremntsWithFilledData();
-
         $pages = array();
-        $pages[] = view('employee.acr.form.create1', compact('acr', 'data_groups'));
-        $pages[] = view('employee.acr.show', compact('acr'));
+        //$data_groups = $acr->type1RequiremntsWithFilledData();
+        //$pages[] = view('employee.acr.form.create1', compact('acr', 'data_groups'));
+
+        //first page
+        list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $acr->firstFormData();
+        $pages[] = view('employee.acr.view_part1', ['acr'=>$acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ]);
+
+        $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
+        $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
+        $personal_attributes=  $acr->peronalAttributeSWithMasterData();
+
+
+
+        $view = true;
+
+        if($acr->isScope('level','review')){
+            //review
+            $pages[] = view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+        }else{
+            if($acr->isScope('level','report')){
+                //report
+                $pages[] =view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+            }
+        }
+        //accept
+
+
+        //$pages[] = view('employee.acr.show', compact('acr'));
 
 
         $pdf = \App::make('snappy.pdf.wrapper');

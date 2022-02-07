@@ -3,7 +3,7 @@
 	@include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
 @endsection
 @section('pagetitle')
-	Part -II Self-Appraisal <small>Form -3 Report Prameters</small>
+	Part -II Self-Appraisal <small>Page -3 Deduction Parameters</small>
 @endsection
 @section('content')
 	@include('employee.acr.form._formHeader',['acr'=>$acr])

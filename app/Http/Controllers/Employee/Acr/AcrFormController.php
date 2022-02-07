@@ -47,7 +47,9 @@ class AcrFormController extends Controller
     public function create1(Acr $acr, Request $request)
     {
         $data_groups=$acr->type1RequiremntsWithFilledData();
-        return view('employee.acr.form.create1',compact('acr','data_groups'));
+        $page = 1;
+        $view = true;
+        return view('employee.acr.form.create1',compact('acr','data_groups','page','view'));
     }
     /**
      * @param Acr     $acr
@@ -55,7 +57,9 @@ class AcrFormController extends Controller
      */
     public function create2(Acr $acr, Request $request)
     {
-        return view('employee.acr.form.create2',compact('acr'));
+        $page = 2;
+        $view = true;
+        return view('employee.acr.form.create2',compact('acr','page','view'));
     }
     /**
      * @param Acr     $acr
@@ -63,7 +67,8 @@ class AcrFormController extends Controller
      */
     public function create3(Acr $acr, Request $request)
     {
-
+        $page = 3;
+        $view = true;
         $require_negative_parameters=$acr->acrMasterParameters()->where('type',0)->get()->keyBy('id');
 
         $filled_negative_parameters=$acr->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
@@ -80,7 +85,7 @@ class AcrFormController extends Controller
         $negative_groups = $require_negative_parameters->groupBy('config_group');
         //return $negative_groups;
         
-        return view('employee.acr.form.create3',compact('acr','negative_groups'));
+        return view('employee.acr.form.create3',compact('acr','negative_groups','page','view'));
     }
     /**
      * @param Acr     $acr
@@ -88,31 +93,14 @@ class AcrFormController extends Controller
      */
     public function create4(Acr $acr, Request $request)
     {
+        $page = 4;
+        $view = true;
         $master_trainings = AcrMasterTraining::all()->groupBy('topic');
         
         $selected_trainings = $acr->employee->EmployeeProposedTrainings->pluck('training_id');
         
-        return view('employee.acr.form.create4',compact('acr','master_trainings','selected_trainings'));
+        return view('employee.acr.form.create4',compact('acr','master_trainings','selected_trainings','page','view'));
     }
-
-    /**
-     * @param Acr     $acr
-     * @param Request $request
-     */
-    public function appraisal1(Acr $acr, Request $request)
-    {
-        $requiredParameters=$acr->acrMasterParameters()->where('type',1)->get();
-        
-        $notApplicableParameters=$acr->filledparameters()->where('is_applicable',0)->get()->pluck('acr_master_parameter_id');
-        //$data_groups = $requiredParameters->groupBy('config_group');
-
-        $personal_attributes=  AcrMasterPersonalAttributes::all();
-        
-        $requiredNegativeParameters=$acr->acrMasterParameters()->where('type',0)->get();
-        
-        return view('employee.acr.form.appraisal',compact('acr','requiredParameters','notApplicableParameters','personal_attributes','requiredNegativeParameters'));
-    }
-
 
     /**
      * @param Request $request
@@ -224,102 +212,6 @@ class AcrFormController extends Controller
         //$acr->save();
 
         return redirect()->back();
-    }
-
-    public function storeAppraisal1(Request $request)
-    {
-        return $request->all();
-        $acr = Acr::findOrFail($request->acr_id);
-        $acr->update([
-            'appraisal_note_1' => $request->appraisal_note_1,
-            'appraisal_note_2' => $request->appraisal_note_2,
-            'appraisal_note_3' => $request->appraisal_note_3
-        ]);
-        //$acr->save();
-
-        return redirect()->back();
-    }
-
-    public function getUserParameterData($acrId, $paramId)
-    {   
-
-        $AcrMasterParameter =  AcrMasterParameter::where('id',$paramId)->first();
-       
-        $AcrParameter =  AcrParameter::where('acr_master_parameter_id',$paramId)->where('acr_id',$acrId)->first();
-
-        $text = [];
-        $text[] = "<p class='fs-5 fw-semibold my-0'>User Input For </p>";
-        $text[] = "<p class='text-info fs-5 fw-bold'>".$AcrMasterParameter->description."</p>";
-        if(isset($AcrParameter)){
-            if($AcrParameter->is_applicable == 1){
-                if($AcrMasterParameter->config_group == 1001){
-                    $text[] = "<p class='fs-5 fw-semibold'> Target : ".($AcrParameter->user_target??'')." ".$AcrMasterParameter->unit."</p>";
-                    $text[] = "<p class='fs-5 fw-semibold'> Achivement : ".($AcrParameter->user_achivement??'')." ".$AcrMasterParameter->unit."</p>";
-                }elseif($AcrMasterParameter->config_group == 1002){
-                     $text[] = "<p class='fs-5 fw-semibold'> status : ".$AcrParameter->status."</p>";
-                }else{
-                    
-                }
-            }elseif($AcrParameter->is_applicable == 0){
-                    $text[] = "<p class='fs-5 fw-semibold text-danger'> User Declare it as Not Applicable</p>";
-
-            }else{
-
-            }   
-        }else{
-            $text[] = "<p class='fs-5 fw-semibold text-danger'> User not Filled any Data</p>";
-        }
-
-        return $text;
-
-    }
-
-    public function getUserNegativeParameterData($acrId, $paramId)
-    {   
-        $text = [];
-        
-        $AcrMasterParameter =  AcrMasterParameter::where('id',$paramId)->first();
-        
-        $groupId = $AcrMasterParameter->config_group;
-       
-        $AcrParameter =  AcrNegativeParameter::where('acr_master_parameter_id',$paramId)->where('acr_id',$acrId)->get();
-        
-        $text[] = "<p class='fs-5 fw-semibold my-0'>User Input For </p>";
-        $text[] = "<p class='text-info fs-5 fw-bold'>".$AcrMasterParameter->description."</p>";
-       
-        if(isset($AcrParameter)){
-            if($groupId > 2000 && $groupId < 3000){
-                $text[] = '<table>';
-                    $text[] = '<thead>';
-                        $text[] = '<tr>';
-                            foreach (config('acr.group')[$groupId]['columns'] as $key=>$columns) {
-                                $text[] = '<th>'.$columns['text'].'</th>';        
-                            }
-                        $text[] = '</tr>';
-                    $text[] = '</thead>';
-                    $text[] = '<tbody>';
-                        foreach ($AcrParameter as $Parameter) {
-                            $text[] = '<tr>';
-                            foreach (config('acr.group')[$groupId]['columns'] as $key=>$columns) {
-                                if( $columns['input_type'] === false){
-                                    $text[] = '<td>Sl no</td>';
-                                }else{
-                                    $text[] = '<td>'.$Parameter[$columns['input_name']].'</td>';
-                                }
-                            }
-                            $text[] = "</tr>";
-                        }
-                    $text[] = "</tbody>";
-                $text[] = "</table>";
-            }
-            elseif($groupId > 3000){
-                    $text[] = "<p class='fs-5 fw-semibold text-danger'>to be develop</p>";
-            }
-        }else{
-            $text[] = "<p class='fs-5 fw-semibold text-danger'> User not Filled any Data</p>";
-        }
-        return $text;
-
     }
 
 }

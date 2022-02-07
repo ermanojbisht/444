@@ -3,7 +3,7 @@
     @include('layouts._commonpartials.css._select2')
 @endsection
 @section('sidebarmenu')
-    @include('layouts.type200._commonpartials._sidebarmenu',['instance_estimate_id'=>$instanceEstimate->id??0])
+    {{-- @include('layouts.type200._commonpartials._sidebarmenu',['instance_estimate_id'=>$instanceEstimate->id??0]) --}}
 @endsection
 
 @section('pagetitle')

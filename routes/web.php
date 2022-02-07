@@ -79,20 +79,19 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
 
 
 
- 
-
-
     // Acr Reporting 
-    Route::get('form/{acr}/appraisal1', 'Employee\Acr\AcrReportController@appraisal1')->name('form.appraisal1');
+    Route::get('form/{acr}/appraisal1', 'Employee\OthersAcr\AcrReportController@appraisal1')->name('form.appraisal1');
+    Route::post('form/appraisal1', 'Employee\OthersAcr\AcrReportController@storeAppraisal1')->name('form.storeAppraisal1'); 
+
+    // Acr Review 
+    Route::get('form/{acr}/appraisal2', 'Employee\OthersAcr\AcrReviewController@appraisal2')->name('form.appraisal2');
+    Route::post('form/appraisal2', 'Employee\OthersAcr\AcrReviewController@storeAppraisal2')->name('form.storeAppraisal2');
 
 
 
-
-
-    Route::post('form/appraisal1', 'Employee\Acr\AcrFormController@storeAppraisal1')->name('form.storeAppraisal1');
-
-    Route::get('getUserParameterData/{acrId}/{paramId}', 'Employee\Acr\AcrFormController@getUserParameterData')->name('ajax.getUserParameterData');
-    Route::get('getUserNegativeParameterData/{acrId}/{paramId}', 'Employee\Acr\AcrFormController@getUserNegativeParameterData')->name('ajax.getUserNegativeParameterData');
+    // todo these to be shifted 
+    Route::get('getUserParameterData/{acrId}/{paramId}', 'Employee\OthersAcr\AcrReportController@getUserParameterData')->name('ajax.getUserParameterData');
+    Route::get('getUserNegativeParameterData/{acrId}/{paramId}', 'Employee\OthersAcr\AcrReportController@getUserNegativeParameterData')->name('ajax.getUserNegativeParameterData');
 });
 
 
@@ -101,9 +100,6 @@ Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['
     // OtherAcrController
     Route::get('/', 'Employee\OthersAcr\OthersAcrController@index')->name('index');
     
-    Route::post('form/appraisal1', 'Employee\Acr\AcrFormController@storeAppraisal1')->name('form.storeAppraisal1');
-    Route::post('form/appraisal1', 'Employee\Acr\AcrFormController@storeAppraisal1')->name('form.storeAppraisal2');
-
 
     Route::get('report/{acr}/submit', 'Employee\OthersAcr\AcrReportController@submitReported')->name('report.submit');
     Route::post('report', 'Employee\OthersAcr\AcrReportController@saveReportedAcr')->name('report.save');
@@ -220,7 +216,6 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
     Route::get('getdistrictdetails/{districtid}/{dropdown}', 'AjaxController@districtDetail');
 });
- 
 
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
@@ -237,10 +232,8 @@ Route::Post('dynamicdependent', 'Ajax\AjaxFetchDropDownController@index')->name(
 Route::get('client', function () {
     return view('temp');
 });
-//ae from HR employee table
-Route::get('aefromhr', 'Admin\AeToWorkController@updateAeFromEmployee')->name('updateAeFromEmployee');
-Route::get('syncuserFromRoadlue', 'MgtTask\UserMakingMgtController@syncuserFromRoadlue')->name('syncUser');
-Route::get('addEmpCode', 'MgtTask\UserMakingMgtController@addEmpCode')->name('addEmpCode');
+
 
 
 Route::get('/temp', 'TempController@temp');
+Route::get('/temp1', 'Employee\Acr\MonitorAcrController@countEsclation');

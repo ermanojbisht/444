@@ -127,9 +127,9 @@
 						<i class="cib-twitter"></i>EFC
 					</a>
 					@endif
-					@if(($acr->user_id == Auth::user()->id) ||
+					@if(($acr->user_id == Auth::id()) ||
 					($acr->lastHistory() && $acr->lastHistory()->to_id
-					&& $acr->lastHistory()->to_id == Auth::user()->id))
+					&& $acr->lastHistory()->to_id == Auth::id()))
 
 					@if(! $acr->estimate)
 					<a class="dropdown-item" href="{{route('estimate.create', ['id' => $acr->id])}}">
@@ -144,7 +144,7 @@
 						Edit Estimate Details
 					</a>
 					<a class="dropdown-item"
-						href="{{route('movement', ['acrId' => $acr->id,'senderId' => Auth::user()->id])}}">
+						href="{{route('movement', ['acrId' => $acr->id,'senderId' => Auth::id()])}}">
 						Move acr
 					</a>
 					<a class="dropdown-item" href="{{route('editEstimateStatus', ['acrId' => $acr->id])}}">

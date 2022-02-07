@@ -57,7 +57,7 @@ Add Grievance
                         <div class="col-md-6">
                             <label for="grievance_type_id" class="form-label required"> Employee Id (शिकायतकर्ता की ई०
                                 डी० ) </label>
-                            {{Auth::User()->id}}
+                            {{Auth::id()}}
                         </div>
                         <div class="col-md-6">
                             <label for="grievance_type_id" class="form-label required"> Employee Name (शिकायतकर्ता का
@@ -174,7 +174,7 @@ Add Grievance
                                 <input type="submit" confirm("Press a button!"); id="btnAddRegDetails"
                                     class="btn btn-primary" value="Add Grievance ( शिकायत / मांग / सुझाव दर्ज करे)"
                                     </button>
-                                <input type="hidden" id="employee_id" name="employee_id" value="{{Auth::User()->id}}">
+                                <input type="hidden" id="employee_id" name="employee_id" value="{{Auth::id()}}">
                             </div>
                         </div>
                     </div>

@@ -50,7 +50,7 @@
                         <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-pen')}}">Edit Estimate Details</use>
                     </svg>
                 </a>
-                <a class="btn btn-outline-dark" href="{{route('movement', ['instanceId' => $instance_id,'senderId' => Auth::user()->id])}}" 
+                <a class="btn btn-outline-dark" href="{{route('movement', ['instanceId' => $instance_id,'senderId' => Auth::id()])}}"
                     data-coreui-toggle="tooltip" data-coreui-html="true" data-coreui-placement="bottom" title="<h6>Move</h6>">
                     <svg class="icon icon-lg">
                         <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-transfer')}}"></use>

@@ -12,42 +12,69 @@
             padding: 1em;
         }
 
+        .appraisal-head {
+          position: absolute;
+          top: 180px;
+          left: 25;
+        }
+
+        .employee-name {
+          position: absolute;
+          top: 700px;
+          left: 25;
+        }
+        .disclaimer {
+          position: absolute;
+          top: 1140px;
+          left: 25;
+        }
+
+        .created_on {
+          position: absolute;
+          top: 1100px;
+          left: 25;
+        }
+
     </style>
 </head>
 <body lang="en-US" >
-<div>
-<p style="margin-bottom: 0.350cm">&shy;
-    <img src="{{ asset('../images/5bb.png') }}" name="Picture 0" align="center" width="900" height="1056" border="0"/>
+<div class="container">
+  <img src="{{ asset('../images/5bb.png') }}" alt="background" style="width:100%;" align="center" height="1350" border="1"/>
+  <div class="appraisal-head">
+    <p style="margin-bottom: 0.7cm; line-height: 100%">
+        <font color="#333333" face="Devil Breeze bold, serif" size="7" style="font-size: 60pt">
+            Appraisal Report
+        </font>
+    </p>
+  </div>
+  <div class="employee-name">
+    <span  style="float: left; border: none; padding: 0cm; >
+        <p  align="left" style="margin-bottom: 0.7cm; line-height: 100%">
+            <font color="#d01820" face="Devil Breeze bold, serif" style="font-size: 40pt">
+                {{$acr->employee->name}}<br>
+                {{$acr->employee->designation->name}}<br>
+                (ID: {{$acr->employee_id}})
+            </font>
+        </p>
 
-<p style="margin-bottom: 0.7cm; line-height: 100%">
-    <font color="#333333" face="Devil Breeze bold, serif" size="7" style="font-size: 60pt">
-        Appraisal Report
+        <font color="#333333" face="Devil Breeze bold, serif" style="font-size: 20pt">
+           Period:{{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}}
+        </font>
+
+
+    </span>
+  </div>
+  <div class="disclaimer">
+        <font color="#777777"face="Poppins Medium, serif" style="font-size: 14pt">
+            This is appraisal report related to PWD employee . If this is not related to you then do do not use it for any purpose
+        </font>
+  </div>
+  <div class="created_on">
+    <font color="#d01820" face="Poppins Medium, serif" style="font-size: 20">
+        Created On: {{now()->format('d M Y H:i')}}
     </font>
-</p>
-
-
-<span  style="float: left; width: 12.45cm; height: 2.04cm; border: none; padding: 0cm; background: #ffffff">
-    <p  align="right" style="margin-bottom: 0.7cm; line-height: 100%">
-        <font color="#d01820" face="Devil Breeze bold, serif"size="7" style="font-size: 40pt">
-            {{$acr->employee->name}}
-        </font>
-    </p>
-</span>
-<span  style="float: left; width: 16.09cm; height: 2.24cm; border: none; padding: 0cm; background: #ffffff">
-    <p style="margin-bottom: 0.35cm; line-height: 110%">
-        <font color="#777777"face="Poppins Medium, serif" size="4" style="font-size: 14pt">
-            This is appraisal report related to PWD employee . If this is not related to you then do do not use it for any purpose Period:{{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}}
-        </font>
-    </p>
-</span>
-<span  style="float: right; height: 1.85cm; border: none; padding: 0cm; background: #ffffff">
-    <p  style="margin-bottom: 0.35cm; line-height: 100%">
-        <font color="#d01820" face="Devil Breeze medium, serif" size="5" style="font-size: 30pt">
-            {{now()}}
-        </font>
-    </p>
-</span>
-</p>
+  </div>
+</div>
 </body>
 </html>
 
