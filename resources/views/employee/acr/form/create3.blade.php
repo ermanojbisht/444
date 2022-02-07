@@ -6,14 +6,15 @@
 	Part -II Self-Appraisal <small>Page -3 Deduction Parameters</small>
 @endsection
 @section('content')
-	@include('employee.acr.form._formHeader',['acr'=>$acr])
+	@if(!$view)
+		@include('employee.acr.form._formHeader',['acr'=>$acr])
+	@endif
 	<div class="card">
-		<div class="card-body">
-			<p class="fw-semibold fs-5">निम्न  मापदण्डो पर भारी गई सूचना के आधार पर Reporting अधिकारी तथा Review अधिकारी द्वारा Negative Marks का निर्धारण करके PAR में अंकित किया जायेगा। जिन्हे Part-1 के आधार पर आकलित मार्क्स से घटाया जाएगा</p> 	
-			{{-- <p class="text-danger">Rows with Feded Background have data and may be edited </p>
-			<p class="text-danger">Rows start with Sl No means Multi Row Table  </p>
-			<p class="text-danger">Each Question have different Save Button  </p> --}}
-		</div>
+		@if(!$view)
+			<div class="card-body">
+				<p class="fw-semibold fs-5">निम्न  मापदण्डो पर भारी गई सूचना के आधार पर Reporting अधिकारी तथा Review अधिकारी द्वारा Negative Marks का निर्धारण करके PAR में अंकित किया जायेगा। जिन्हे Part-1 के आधार पर आकलित मार्क्स से घटाया जाएगा</p> 	
+			</div>
+		@endif
 		@php
 			$slno = 0;
 		@endphp
@@ -52,39 +53,50 @@
 											@foreach($groupData['columns'] as $key=>$values)
 												<td>
 													@if ($values['input_type'])
-														<input 	class="form-control" 
-																type="{{$values['input_type']}}" 
-																name="{{$data->id}}[{{$n}}][{{$values['input_name']}}]"
-																value="{{$filled_data[$values['input_name']]}}"
-														/>
+														@if(!$view)
+															<input 	class="form-control" 
+																	type="{{$values['input_type']}}" 
+																	name="{{$data->id}}[{{$n}}][{{$values['input_name']}}]"
+																	value="{{$filled_data[$values['input_name']]}}"
+															/>
+														@else
+															{{$filled_data[$values['input_name']]??'--'}}
+														@endif
 													@else
 														{{$filled_data->row_no}}
 													@endif
 												</td>
 											@endforeach
+
 											<td>
-												<button type="submit" id="{{$data->id}}" class="btn btn-outline-primary">Save</button>
+												@if(!$view)
+													<button type="submit" id="{{$data->id}}" class="btn btn-outline-primary">Save</button>
+												@endif
 											</td>
 										<tr>
 									@endforeach
 										@php  $n = $n+1; @endphp
-										<tr>
-											@foreach($groupData['columns'] as $key=>$values)
+										@if(!$view)
+											<tr>
+												@foreach($groupData['columns'] as $key=>$values)
+													<td>
+														@if ($values['input_type'])
+															<input 	class="form-control" 
+																	type="{{$values['input_type']}}" 
+																	name="{{$data->id}}[{{$n}}][{{$values['input_name']}}]"
+															/>
+														@else
+															{{$n}}
+														@endif
+													</td>
+												@endforeach
 												<td>
-													@if ($values['input_type'])
-														<input 	class="form-control" 
-																type="{{$values['input_type']}}" 
-																name="{{$data->id}}[{{$n}}][{{$values['input_name']}}]"
-														/>
-													@else
-														{{$n}}
-													@endif
+													
+													<button type="submit" id="{{$data->id}}" class="btn btn-outline-primary">Save</button>
+													
 												</td>
-											@endforeach
-											<td>
-												<button type="submit" id="{{$data->id}}" class="btn btn-outline-primary">Save</button>
-											</td>
-										</tr>
+											</tr>
+										@endif
 								@else
 									@if(!empty($data->user_filled_data[0]))
 										<tr style="background-color:#F0FFF0;">
@@ -94,18 +106,24 @@
 										@foreach($groupData['columns'] as $key=>$values)
 											<td>
 												@if ($values['input_type'])
-													<input 	class="form-control" 
-															type="{{$values['input_type']}}" 
-															name="{{$data->id}}[1][{{$values['input_name']}}]"
-															value="{{$data->user_filled_data[0][$values['input_name']]??''}}" 
-													/>
+													@if(!$view)
+														<input 	class="form-control" 
+																type="{{$values['input_type']}}" 
+																name="{{$data->id}}[1][{{$values['input_name']}}]"
+																value="{{$data->user_filled_data[0][$values['input_name']]??''}}" 
+														/>
+													@else
+														{{$data->user_filled_data[0][$values['input_name']]??'--'}}
+													@endif
 												@else
 													{{-- {{$n}} --}}
 												@endif
 											</td>
 										@endforeach
 											<td>
+											@if(!$view)
 												<button type="submit" id="{{$data->id}}" class="btn btn-outline-primary">Save</button>
+											@endif
 											</td>
 										</tr>
 								@endif
@@ -146,11 +164,15 @@
 											{{$data->description}}
 										</td>
 										<td>
-											<input 	class="form-control" 
-													type="text" 
-													name="{{$data->id}}[1][col_1]"
-													value="{{$data->user_filled_data[0]['col_1']??''}}" 
-											/>
+											@if(!$view)
+												<input 	class="form-control" 
+														type="text" 
+														name="{{$data->id}}[1][col_1]"
+														value="{{$data->user_filled_data[0]['col_1']??''}}" 
+												/>
+											@else
+												{{$data->user_filled_data[0]['col_1']??''}}
+											@endif
 										</td>
 										<td class="text-center align-middle text-info">
 											{{$data->max_marks}}
@@ -160,12 +182,14 @@
 							</tbody>
 						</table>
 						<div class="text-end">
-							<button type="submit" id="{{$groupId}}" class="btn btn-outline-primary">
-								<svg class="icon icon-lg">
-						            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-save"></use>
-						        </svg>
-								Save
-							</button>
+							@if(!$view)
+								<button type="submit" id="{{$groupId}}" class="btn btn-outline-primary">
+									<svg class="icon icon-lg">
+							            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-save"></use>
+							        </svg>
+									Save
+								</button>
+							@endif
 						</div>
 					</form>
 				</div>
