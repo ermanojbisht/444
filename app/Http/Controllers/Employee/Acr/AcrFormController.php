@@ -48,7 +48,7 @@ class AcrFormController extends Controller
     {
         $data_groups=$acr->type1RequiremntsWithFilledData();
         $page = 1;
-        $view = true;
+        $view = false;
         return view('employee.acr.form.create1',compact('acr','data_groups','page','view'));
     }
     /**
@@ -58,7 +58,7 @@ class AcrFormController extends Controller
     public function create2(Acr $acr, Request $request)
     {
         $page = 2;
-        $view = true;
+        $view = false;
         return view('employee.acr.form.create2',compact('acr','page','view'));
     }
     /**

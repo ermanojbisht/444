@@ -135,9 +135,11 @@
 							</tfoot>
 						</table>
 				@endforeach
-				<div class="text-end">
-			    	<button type="submit" class="btn btn-primary">Save
-				</div>
+				@if(!$view)
+					<div class="text-end">
+				    	<button type="submit" class="btn btn-primary">Save
+					</div>
+				@endif
 			</form>
 		</div>
 	</div>
