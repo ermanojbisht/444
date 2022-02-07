@@ -56,25 +56,13 @@ class OthersAcrController extends Controller
     }
 
     /**
-     * @param $id
-     * $id => Instance Id
-     * To create Estimate
-     */
-    public function create()
-    {  
-        $employee = Employee::findOrFail($this->user->employee_id);
-        $Officetypes = $this->defineOfficeTypes();
-        $acrGroups = $this->defineAcrGroup();
-        return view('employee.acr.create', compact('employee','Officetypes','acrGroups'));
-    }
-
-    /**
      * @param $request 
      * To Store Indivitual ACR
      */
     public function store(StoreAcrRequest $request)
     { 
-        $hrGrievance = Acr::create($request->validated()); 
+        Acr::create($request->validated());
+
         return redirect(route('acr.myacrs'));
     }
 
@@ -88,7 +76,6 @@ class OthersAcrController extends Controller
 
     public function addAcrOfficers (Request $request)
     {
-
         // validate appraisal_officer_type 
         $this->validate($request,
         [
@@ -128,6 +115,11 @@ class OthersAcrController extends Controller
         return Redirect()->back()->with('success', 'Officer deleted Successfully...' );
     }
 
-
+    public function view(Employee $employee)
+    {
+        $acrs = Acr::where('employee_id',$employee->id)->get();
+        
+        return view('employee.acr.employee_acr', compact('acrs','employee'));
+    }
 
 }

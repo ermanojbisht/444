@@ -54,11 +54,9 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
     Route::post('addAcrLeaves', 'Employee\Acr\AcrController@addAcrLeaves')->name('addAcrLeaves');
     Route::post('deleteAcrLeaves', 'Employee\Acr\AcrController@deleteAcrLeaves')->name('deleteAcrLeaves');
 
-    
     Route::get('addAppreciation/{acr}', 'Employee\Acr\AcrController@addAppreciation')->name('addAppreciation');
     Route::post('addAcrAppreciation', 'Employee\Acr\AcrController@addAcrAppreciation')->name('addAcrAppreciation');
     Route::post('deleteAcrAppreciation', 'Employee\Acr\AcrController@deleteAcrAppreciation')->name('deleteAcrAppreciation');
-
 
     Route::post('submitAcr', 'Employee\Acr\AcrController@submitAcr')->name('submit');
 
@@ -80,7 +78,6 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
     Route::post('form/store4', 'Employee\Acr\AcrFormController@store4')->name('form.store4');
 
 
-
     // Acr Reporting 
     Route::get('form/{acr}/appraisal1', 'Employee\OthersAcr\AcrReportController@appraisal1')->name('form.appraisal1');
     Route::post('form/appraisal1', 'Employee\OthersAcr\AcrReportController@storeAppraisal1')->name('form.storeAppraisal1'); 
@@ -88,8 +85,6 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
     // Acr Review 
     Route::get('form/{acr}/appraisal2', 'Employee\OthersAcr\AcrReviewController@appraisal2')->name('form.appraisal2');
     Route::post('form/appraisal2', 'Employee\OthersAcr\AcrReviewController@storeAppraisal2')->name('form.storeAppraisal2');
-
-
 
     // todo these to be shifted 
     Route::get('getUserParameterData/{acrId}/{paramId}', 'Employee\OthersAcr\AcrReportController@getUserParameterData')->name('ajax.getUserParameterData');
@@ -102,7 +97,6 @@ Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['
     // OtherAcrController
     Route::get('/', 'Employee\OthersAcr\OthersAcrController@index')->name('index');
     
-
     Route::get('report/{acr}/submit', 'Employee\OthersAcr\AcrReportController@submitReported')->name('report.submit');
     Route::post('report', 'Employee\OthersAcr\AcrReportController@storeReportedAcr')->name('report.save');
     
@@ -111,7 +105,11 @@ Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['
     Route::get('accept/{acr}/submit', 'Employee\OthersAcr\AcrAcceptController@submitAccepted')->name('accept.submit');
     Route::post('accpet', 'Employee\OthersAcr\AcrAcceptController@storeAcceptedAcr')->name('accept.save');
 
+    
+    Route::get('employee/{employee}/acrs', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view'); 
 });
+
+
 
 
 // GrievanceController
