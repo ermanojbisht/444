@@ -98,7 +98,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
             $negative_groups = $require_negative_parameters->groupBy('config_group');
             //return $negative_groups;
         
-            $pages[] = view('employee.acr.form.create3',compact('acr','negative_groups','page','view'));
+            //$pages[] = view('employee.acr.form.create3',compact('acr','negative_groups','page','view'));
 
             $page = 4;           
             $master_trainings = AcrMasterTraining::all()->groupBy('topic');            
