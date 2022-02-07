@@ -59,6 +59,9 @@ class AcrReviewController extends Controller
         //return $request->all(); 
         
         $acr = Acr::findOrFail($request->acr_id);
+        $acr->update([
+            'review_no'=> $request->final_marks,
+        ]);
 
         foreach($request->reviewing_marks as $parameterId => $reviewing_mark ){
             AcrParameter::UpdateOrCreate(

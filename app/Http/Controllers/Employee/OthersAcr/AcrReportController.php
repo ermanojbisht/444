@@ -62,7 +62,8 @@ class AcrReportController extends Controller
         $acr->update([
             'appraisal_note_1' => $request->appraisal_note_1,
             'appraisal_note_2' => $request->appraisal_note_2,
-            'appraisal_note_3' => $request->appraisal_note_3
+            'appraisal_note_3' => $request->appraisal_note_3,
+            'report_no'=> $request->final_marks,
         ]);
 
         foreach($request->reporting_marks as $parameterId => $reporting_mark ){

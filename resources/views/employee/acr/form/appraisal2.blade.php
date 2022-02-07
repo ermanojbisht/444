@@ -253,6 +253,9 @@
 			</div>
 			<div class="card-body border border-2 border-danger">
 				<p class="fw-semibold h5">5. Summary of Marks awarded</p>
+				<input 	type="hidden" name="final_marks"
+						value="{{$net_reviewing_marksA+ $reviewing_marksB - $reviewing_marksC}}"
+				>
 				<table class="table table-bordered table-sm">
 					<thead>
 						<tr class="text-center align-middle fw-bold bg-light">
@@ -284,7 +287,7 @@
 						<tr class="bg-light fw-bold fs-5">
 							<td class="text-end">Net</td>
 							<td class="text-center">{{80 + $total_marksB}}</td>
-							<td class="text-center">{{$net_reporting_marksA+ $reporting_marksB - $reporting_marksC}}</td>
+							<td class="text-center">{{$acr->report_no}}</td>
 							<td class="text-center" id="Nettotal">{{$net_reviewing_marksA+ $reviewing_marksB - $reviewing_marksC}}</td>
 						</tr>
 					</tbody>

@@ -254,6 +254,9 @@
 			</div>
 			<div class="card-body border border-2 border-danger">
 				<p class="fw-semibold h5">5. Summary of Marks awarded</p>
+				<input 	type="hidden" name="final_marks"
+						value="{{$net_marksA+ $reporting_marksB - $reporting_marksC}}"
+				>
 				<table class="table table-bordered table-sm">
 					<thead>
 						<tr class="text-center align-middle">

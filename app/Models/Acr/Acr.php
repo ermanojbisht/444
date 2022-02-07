@@ -28,7 +28,7 @@ class Acr extends Model
         'good_work', 'difficultie', 'appreciations', 'submitted_at',
         'report_employee_id', 'review_employee_id', 'accept_employee_id', 'report_on', 'review_on',
         'accept_on', 'is_active', 'appraisal_note_1', 'appraisal_note_2', 'appraisal_note_3',
-        'professional_org_membership', 'property_filing_return_at','report_duration_lapsed','review_duration_lapsed','accept_duration_lapsed'
+        'professional_org_membership', 'property_filing_return_at','report_duration_lapsed','review_duration_lapsed','accept_duration_lapsed','report_no','review_no','accept_no'
     ];
     protected $dates = [
         'from_date', 'to_date', 'property_filing_return_at','submitted_at','report_on','review_on','accept_on'
