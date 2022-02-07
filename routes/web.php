@@ -211,11 +211,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
     Route::get('getdistrictdetails/{districtid}/{dropdown}', 'AjaxController@districtDetail');
 });
-//task
-Route::group(['prefix' => 'task', 'as' => 'task.', 'namespace' => 'MgtTask', 'middleware' => ['auth']], function () {
-    Route::get('attach', 'ForestUserMgtCtrl@attachUser')->name('attach');
-    Route::get('detach', 'ForestUserMgtCtrl@detachUser')->name('detach');
-});
+
 
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
