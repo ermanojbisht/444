@@ -228,9 +228,7 @@ Route::Post('dynamicdependent', 'Ajax\AjaxFetchDropDownController@index')->name(
 Route::get('client', function () {
     return view('temp');
 });
-//ae from HR employee table
-Route::get('syncuserFromRoadlue', 'MgtTask\UserMakingMgtController@syncuserFromRoadlue')->name('syncUser');
-Route::get('addEmpCode', 'MgtTask\UserMakingMgtController@addEmpCode')->name('addEmpCode');
+
 
 
 Route::get('/temp', 'TempController@temp');
