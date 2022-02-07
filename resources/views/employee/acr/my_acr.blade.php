@@ -40,8 +40,6 @@
 			<thead class="table-light  fw-bold">
 				<tr class="align-middle">
 					<th>#</th>
-					<th>Employee Name</th>
-					<th>Employee Id</th>
 					<th>From Date</th>
 					<th>To Date</th>
 					<th>Created on</th>
@@ -54,12 +52,11 @@
 				@foreach($acrs as $acr)
 				<tr>
 					<td>{{1+$loop->index }}</td>
-					<td>{{$acr->employee->name}}</td>
-					<td>{{$acr->employee_id}} </td>
-					<td>{{$acr->from_date}}</td>
-					<td>{{$acr->to_date }}</td>
+					<td>{{$acr->from_date->format('d M Y')}}</td>
+					<td>{{$acr->to_date->format('d M Y')}}</td>
 					<td>{{$acr->created_at->format('d M Y')}} </td>
-					<td>{{($acr->submitted_at == null ? 'Pending' : 'Submitted') }}</td>
+					<td>{!!($acr->submitted_at == null ? 'Pending' : 'Submitted on ' . $acr->submitted_at->format('d M
+						Y') ) !!}</td>
 					<td>
 						<div class="dropdown dropstart">
 							<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -69,6 +66,8 @@
 								</svg>
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
+
+								
 
 								@if (!$acr->submitted_at)
 
@@ -106,9 +105,11 @@
 								</a>
 								@endif
 								@endif
+								@if ($acr->isFileExist())
 								<a class="dropdown-item" href="{{route('acr.view.part1', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i> View ACR
 								</a>
+								@endif
 							</div>
 						</div>
 					</td>
