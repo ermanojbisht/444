@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['auth']],function(){
+/*Route::group(['middleware' => ['auth']],function(){
 //InstanceController
 Route::get('instance/create','App\Http\Controllers\Track\InstanceController@create')->name('instance.create');
 Route::post('instance','App\Http\Controllers\Track\InstanceController@store')->name('instance.store');
@@ -66,4 +66,4 @@ Route::get('/dashboard',function(){
     return view('track.estimate.estimate-dashboard');
 } );
 
-});
+});*/
