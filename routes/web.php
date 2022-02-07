@@ -67,10 +67,10 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
 
     // Employee\Acr\AcrFormController
 
-    Route::get('form/{acr}/part1', 'Employee\Acr\AcrFormController@create1')->name('form.create1');
-    Route::get('form/{acr}/part2', 'Employee\Acr\AcrFormController@create2')->name('form.create2');
-    Route::get('form/{acr}/part3', 'Employee\Acr\AcrFormController@create3')->name('form.create3');
-    Route::get('form/{acr}/part4', 'Employee\Acr\AcrFormController@create4')->name('form.create4');
+    Route::get('form/{acr}/part1', 'Employee\Acr\AcrFormController@create1')->name('form.create1');//target/achivement
+    Route::get('form/{acr}/part2', 'Employee\Acr\AcrFormController@create2')->name('form.create2');//difficulty
+    Route::get('form/{acr}/part3', 'Employee\Acr\AcrFormController@create3')->name('form.create3');//deduction
+    Route::get('form/{acr}/part4', 'Employee\Acr\AcrFormController@create4')->name('form.create4');//training
     
     Route::post('form/store1', 'Employee\Acr\AcrFormController@store1')->name('form.store1');
     Route::post('form/store2', 'Employee\Acr\AcrFormController@store2')->name('form.store2');
