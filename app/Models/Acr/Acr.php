@@ -393,7 +393,7 @@ class Acr extends Model
                         break;
                 }
 
-                $mail->send(new AcrSumittedMail($this, $targetEmployee));
+                $mail->send(new AcrSumittedMail($this, $targetEmployee,$targetDutyType));
 
                 $data = [
                     'employee_id' => $targetEmployee->employee_id,

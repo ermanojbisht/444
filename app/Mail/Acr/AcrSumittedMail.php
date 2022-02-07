@@ -12,6 +12,7 @@ class AcrSumittedMail extends Mailable
 {
     public $acr;
     public $reportingEmployee;
+    public $targetDutyType;
 
 
     use Queueable, SerializesModels;
@@ -21,13 +22,14 @@ class AcrSumittedMail extends Mailable
      *
      * @return void
      */
-    public function __construct($acr, $reportingEmployee)
+    public function __construct($acr, $reportingEmployee, $targetDutyType)
     {
         //
         $this->acr = $acr;
         $this->reportingEmployee = $reportingEmployee;
         //Log::info("reportingEmployee = ".print_r($reportingEmployee,true));
 
+        $this->targetDutyType = $targetDutyType;
     }
 
     /**
@@ -37,8 +39,9 @@ class AcrSumittedMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('ACR of '.$this->acr->employee->name. '( '.$this->acr->employee_id.' )')
-        ->markdown('emails.acr.subittedmail')
+        return $this->subject(now()->format('d-m-y').' ACR of '.$this->acr->employee->name. '( '.$this->acr->employee_id.' )')
+        ->markdown('
+            ')
         ->attach($this->acr->pdfFullFilePath,['mime'=>'application/pdf']);;
     }
 }
