@@ -6,9 +6,7 @@
 	Part -II Self-Appraisal <small>Page -1 Assessment of Performance</small>
 @endsection
 @section('content')
-	@if(!$view)
-		@include('employee.acr.form._formHeader',['acr'=>$acr])
-	@endif
+	@include('employee.acr.form._formHeader',['acr'=>$acr])
 	<div class="card">
 		<div class="card-body form-control">
 			<form class="form-horizontal" method="POST" action="{{route('acr.form.store1')}}">
@@ -21,9 +19,7 @@
 					<div>
 						<p class="fw-bold h5">{!!$groupData['head']!!}</p>
 						<p class="fw-semibold h5">{{$groupData['head_note']}}</p>
-						@if(!$view)
-							<p class="text-danger">*Please Ensure to Select NO on Dropdown for Parameters Not Applicable</p>
-						@endif
+						<p class="text-danger">*Please Ensure to Select NO on Dropdown for Parameters Not Applicable</p>
 						<p class="fw-bold h6">{{$groupData['foot_note']}}</p>
 					</div>	
 					@php
@@ -61,67 +57,47 @@
 											<td class="text-center">{{$data->unit}}</td>
 											
 											<td class="text-end">
-												@if(!$view)
-													<input class="form-control text-end" type="text" name="target[{{$data->id}}]" 
-														@if(!empty($data->user_target))
-															style="background-color:#F0FFF0;"
-															value="{{$data->user_target}}"
-														@endif
-													/>
-												@else
-													{{$data->user_target??''}}
-												@endif
+												<input class="form-control text-end" type="text" name="target[{{$data->id}}]" 
+													@if(!empty($data->user_target))
+														style="background-color:#F0FFF0;"
+														value="{{$data->user_target}}"
+													@endif
+												/>
 											</td>
 											<td class="text-end">
-												@if(!$view)
-													<input class="form-control text-end" type="text" name="achivement[{{$data->id}}]" 
-														@if(!empty($data->user_achivement))
-															style="background-color:#F0FFF0;"
-															value="{{$data->user_achivement}}"
-														@endif
-													/>
-												@else
-													{{$data->user_achivement??''}}
-												@endif
+												<input class="form-control text-end" type="text" name="achivement[{{$data->id}}]" 
+													@if(!empty($data->user_achivement))
+														style="background-color:#F0FFF0;"
+														value="{{$data->user_achivement}}"
+													@endif
+												/>
 											</td>
 											<input type="hidden" name="status[{{$data->id}}]" value="" />
 										@endif
 										@if($table_type == 2)
 											<td class="text-end">
-												@if(!$view)
-													<input class="form-control" type="text" name="status[{{$data->id}}]" value="{{$data->status}}" 
-													@if(!empty($data->status))
-														style="background-color:#F0FFF0;"
-													@endif
-													/>
-												@else
-													{{$data->status??''}}
+												<input class="form-control" type="text" name="status[{{$data->id}}]" value="{{$data->status}}" 
+												@if(!empty($data->status))
+													style="background-color:#F0FFF0;"
 												@endif
+												/>
 											</td>
 												<input type="hidden" name="target[{{$data->id}}]" value="" />
 												<input type="hidden" name="achivement[{{$data->id}}]" value="" />
 										@endif
 										<td class="text-center">
-											@if(!$view)
-												<select class="form-select" name="applicable[{{$data->id}}]">
-												  <option value="1" 
-												  	@if($data->applicable != 0)
-												  		selected
-												  	@endif
-												  	>Yes</option>
-												  <option value="0"
-												  	@if($data->applicable === 0)
-												  		selected
-												  	@endif
-												  	>No</option>
-												</select>
-											@else
-												@if($data->applicable != 0)
-													Yes
-												@else
-													No
-												@endif
-											@endif
+											<select class="form-select" name="applicable[{{$data->id}}]">
+											  <option value="1" 
+											  	@if($data->applicable != 0)
+											  		selected
+											  	@endif
+											  	>Yes</option>
+											  <option value="0"
+											  	@if($data->applicable === 0)
+											  		selected
+											  	@endif
+											  	>No</option>
+											</select>
 										</td>
 									</tr>		
 								@endforeach
@@ -135,11 +111,9 @@
 							</tfoot>
 						</table>
 				@endforeach
-				@if(!$view)
-					<div class="text-end">
-				    	<button type="submit" class="btn btn-primary">Save
-					</div>
-				@endif
+				<div class="text-end">
+			    	<button type="submit" class="btn btn-primary">Save
+				</div>
 			</form>
 		</div>
 	</div>

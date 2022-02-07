@@ -96,16 +96,13 @@ class AcrController extends Controller
         }
 
         $acr_selected_group_type = AcrType::where('id', $acr->acr_type_id)->select('description as name', 'group_id', 'id')->first();
-
         $acr_Types = AcrType::where('group_id', $acr_selected_group_type->group_id)->select('description as name', 'id')->get();
-
         $acr_office = Office::where('id', $acr->office_id)->select('office_type', 'name', 'id')->first();
-
         $Offices = Office::select('name', 'id')->get();
-
         $employee = Employee::findOrFail($this->user->employee_id);
         $Officetypes = $this->defineOfficeTypes();
         $acrGroups = $this->defineAcrGroup();
+
         return view('employee.acr.edit', compact(
             'acr',
             'acr_selected_group_type',
