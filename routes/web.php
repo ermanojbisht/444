@@ -78,9 +78,7 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
     Route::post('form/store4', 'Employee\Acr\AcrFormController@store4')->name('form.store4');
 
 
-    Route::post('report/{acr}/submit', 'Employee\Acr\AcrReportController@submitReported')->name('report_submit');
-    Route::post('review/{acr}/submit', 'Employee\Acr\AcrReviewController@submitReviewed')->name('review_submit');
-    Route::post('accept/{acr}/submit', 'Employee\Acr\AcrAcceptController@submitAccepted')->name('accept_submit');
+
  
 
 
@@ -102,6 +100,19 @@ Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['
 
     // OtherAcrController
     Route::get('/', 'Employee\OthersAcr\OthersAcrController@index')->name('index');
+    
+    Route::post('form/appraisal1', 'Employee\Acr\AcrFormController@storeAppraisal1')->name('form.storeAppraisal1');
+    Route::post('form/appraisal1', 'Employee\Acr\AcrFormController@storeAppraisal1')->name('form.storeAppraisal2');
+
+
+    Route::get('report/{acr}/submit', 'Employee\OthersAcr\AcrReportController@submitReported')->name('report.submit');
+    Route::post('report', 'Employee\OthersAcr\AcrReportController@saveReportedAcr')->name('report.save');
+    
+    Route::get('review/{acr}/submit', 'Employee\OthersAcr\AcrReviewController@submitReviewed')->name('review.submit');
+    
+    Route::get('accept/{acr}/submit', 'Employee\OthersAcr\AcrAcceptController@submitAccepted')->name('accept.submit');
+    Route::post('accpet', 'Employee\OthersAcr\AcrAcceptController@saveAcceptedAcr')->name('accept.save');
+
 });
 
 
@@ -209,11 +220,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
     Route::get('getdistrictdetails/{districtid}/{dropdown}', 'AjaxController@districtDetail');
 });
-//task
-Route::group(['prefix' => 'task', 'as' => 'task.', 'namespace' => 'MgtTask', 'middleware' => ['auth']], function () {
-    Route::get('attach', 'ForestUserMgtCtrl@attachUser')->name('attach');
-    Route::get('detach', 'ForestUserMgtCtrl@detachUser')->name('detach');
-});
+ 
 
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {

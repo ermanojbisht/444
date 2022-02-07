@@ -56,6 +56,7 @@ class AcrController extends Controller
     public function index()
     {
         $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->get();
+        
         return view('employee.acr.my_acr', compact('acrs'));
     }
 
@@ -69,6 +70,7 @@ class AcrController extends Controller
         $employee = Employee::findOrFail($this->user->employee_id);
         $Officetypes = $this->defineOfficeTypes();
         $acrGroups = $this->defineAcrGroup();
+        
         return view('employee.acr.create', compact('employee', 'Officetypes', 'acrGroups'));
     }
 
@@ -78,8 +80,8 @@ class AcrController extends Controller
      */
     public function store(StoreAcrRequest $request)
     {
-
         Acr::create($request->validated());
+        
         return redirect(route('acr.myacrs'));
     }
 
