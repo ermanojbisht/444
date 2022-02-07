@@ -68,7 +68,7 @@ class AcrFormController extends Controller
     public function create3(Acr $acr, Request $request)
     {
         $page = 3;
-        $view = true;
+        $view = false;
         $require_negative_parameters=$acr->acrMasterParameters()->where('type',0)->get()->keyBy('id');
 
         $filled_negative_parameters=$acr->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
@@ -94,12 +94,41 @@ class AcrFormController extends Controller
     public function create4(Acr $acr, Request $request)
     {
         $page = 4;
-        $view = true;
+        $view = false;
         $master_trainings = AcrMasterTraining::all()->groupBy('topic');
         
         $selected_trainings = $acr->employee->EmployeeProposedTrainings->pluck('training_id');
         
         return view('employee.acr.form.create4',compact('acr','master_trainings','selected_trainings','page','view'));
+    }
+
+    public function show(Acr $acr, Request $request)
+    {
+        $view = true;
+        // from Create 1
+        $data_groups=$acr->type1RequiremntsWithFilledData();
+        // From Create 2
+        // From Create 3
+        $require_negative_parameters=$acr->acrMasterParameters()->where('type',0)->get()->keyBy('id');
+        $filled_negative_parameters=$acr->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
+        $require_negative_parameters->map(function($row) use ($filled_negative_parameters){
+            if(isset($filled_negative_parameters[$row->id])){
+                $row->user_filled_data=$filled_negative_parameters[$row->id];
+            }else{
+                $row->user_filled_data=[];
+            }
+            return $row;
+        });
+        $negative_groups = $require_negative_parameters->groupBy('config_group');
+
+        // From Create 4
+
+        $selected_trainings = $acr->employee->EmployeeProposedTrainings->pluck('training_id');
+        
+        $master_trainings = AcrMasterTraining::whereIn('id', $selected_trainings)->get()->groupBy('topic');
+        
+        
+        return view('employee.acr.form.show',compact('acr','data_groups','negative_groups','master_trainings','selected_trainings','view'));
     }
 
     /**

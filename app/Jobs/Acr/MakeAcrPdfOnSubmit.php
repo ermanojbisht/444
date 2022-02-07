@@ -73,38 +73,31 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
             list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $this->acr->firstFormData();
             $pages[] = view('employee.acr.view_part1', ['acr'=>$this->acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ]);
 
-            //$data_groups=$this->acr->type1RequiremntsWithFilledData();
-            //$page = 1;            
-            //$pages[] = view('employee.acr.form.create1',compact('acr','data_groups','page','view'));
-
-
-            $page = 2;    
-            $errors=collect([]);       
-            $pages[] = view('employee.acr.form.create2',compact('acr','page','view','errors'));
-
-            //$page = 3;         
-            //$require_negative_parameters=$this->acr->acrMasterParameters()->where('type',0)->get()->keyBy('id');
-
-            //$filled_negative_parameters=$this->acr->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
-        
-            /*$require_negative_parameters->map(function($row) use ($filled_negative_parameters){
+        $acr =$this->acr;
+            // from Create 1
+            $data_groups=$acr->type1RequiremntsWithFilledData();
+            // From Create 2
+            // From Create 3
+            $require_negative_parameters=$acr->acrMasterParameters()->where('type',0)->get()->keyBy('id');
+            $filled_negative_parameters=$acr->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
+            $require_negative_parameters->map(function($row) use ($filled_negative_parameters){
                 if(isset($filled_negative_parameters[$row->id])){
                     $row->user_filled_data=$filled_negative_parameters[$row->id];
                 }else{
                     $row->user_filled_data=[];
                 }
                 return $row;
-            });*/
+            });
+            $negative_groups = $require_negative_parameters->groupBy('config_group');
 
-            //$negative_groups = $require_negative_parameters->groupBy('config_group');
-            //return $negative_groups;
-        
-            //$pages[] = view('employee.acr.form.create3',compact('acr','negative_groups','page','view'));
+            // From Create 4
 
-            //$page = 4;           
-            //$master_trainings = AcrMasterTraining::all()->groupBy('topic');            
-            //$selected_trainings = $this->acr->employee->EmployeeProposedTrainings->pluck('training_id');            
-            //$pages[] = view('employee.acr.form.create4',compact('acr','master_trainings','selected_trainings','page','view'));
+            $selected_trainings = $acr->employee->EmployeeProposedTrainings->pluck('training_id');
+            
+            $master_trainings = AcrMasterTraining::whereIn('id', $selected_trainings)->get()->groupBy('topic');
+            
+            
+            $pages[] =  view('employee.acr.form.show',compact('acr','data_groups','negative_groups','master_trainings','selected_trainings','view'));
         }
 
         //acr form by user ?//todo
@@ -127,6 +120,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
         if($this->milstone=='accept'){
             //todo
         }
+
 
 
 

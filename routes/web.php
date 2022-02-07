@@ -72,6 +72,8 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
     Route::get('form/{acr}/part3', 'Employee\Acr\AcrFormController@create3')->name('form.create3');//deduction
     Route::get('form/{acr}/part4', 'Employee\Acr\AcrFormController@create4')->name('form.create4');//training
     
+    Route::get('form/{acr}/show', 'Employee\Acr\AcrFormController@show')->name('form.show');//training
+    
     Route::post('form/store1', 'Employee\Acr\AcrFormController@store1')->name('form.store1');
     Route::post('form/store2', 'Employee\Acr\AcrFormController@store2')->name('form.store2');
     Route::post('form/store3', 'Employee\Acr\AcrFormController@store3')->name('form.store3');
