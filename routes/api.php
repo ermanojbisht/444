@@ -19,16 +19,6 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Ee Offices
     Route::post('ee-offices/media', 'EeOfficeApiController@storeMedia')->name('ee-offices.storeMedia');
     Route::apiResource('ee-offices', 'EeOfficeApiController');
-
-    // Road Basicdata
-    Route::apiResource('road-basicdata', 'RoadBasicdataApiController');
-
-    // Road Divs
-    Route::apiResource('road-divs', 'RoadDivApiController');
-
-    // Alert Projects
-    Route::apiResource('alert-projects', 'AlertProjectApiController');
-
     Route::apiResource('employee', 'EmployeesApiController');
 });
 Route::post('login', '\App\Http\Controllers\Api\V1\Admin\UsersApiLoginController@login');
@@ -36,6 +26,6 @@ Route::post('login', '\App\Http\Controllers\Api\V1\Admin\UsersApiLoginController
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], function () {
 
-    Route::get('work/{work}','WorkApiController@show')->name('work.show');
+   // Route::get('work/{work}','WorkApiController@show')->name('work.show');
 
 });

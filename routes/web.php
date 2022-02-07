@@ -78,9 +78,9 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
     Route::post('form/store4', 'Employee\Acr\AcrFormController@store4')->name('form.store4');
 
 
-    Route::post('report/{acr}/submit', 'Employee\Acr\AcrReportController@submitReported')->name('report_submit');
-    Route::post('review/{acr}/submit', 'Employee\Acr\AcrReviewController@submitReviewed')->name('review_submit');
-    Route::post('accept/{acr}/submit', 'Employee\Acr\AcrAcceptController@submitAccepted')->name('accept_submit');
+    Route::post('report/{acr}/submit', 'Employee\OthersAcr\AcrReportController@submitReported')->name('report_submit');
+    Route::post('review/{acr}/submit', 'Employee\OthersAcr\AcrReviewController@submitReviewed')->name('review_submit');
+    Route::post('accept/{acr}/submit', 'Employee\OthersAcr\AcrAcceptController@submitAccepted')->name('accept_submit');
  
 
 
@@ -211,11 +211,7 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
     Route::get('getdistrictdetails/{districtid}/{dropdown}', 'AjaxController@districtDetail');
 });
-//task
-Route::group(['prefix' => 'task', 'as' => 'task.', 'namespace' => 'MgtTask', 'middleware' => ['auth']], function () {
-    Route::get('attach', 'ForestUserMgtCtrl@attachUser')->name('attach');
-    Route::get('detach', 'ForestUserMgtCtrl@detachUser')->name('detach');
-});
+
 
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
@@ -232,10 +228,7 @@ Route::Post('dynamicdependent', 'Ajax\AjaxFetchDropDownController@index')->name(
 Route::get('client', function () {
     return view('temp');
 });
-//ae from HR employee table
-Route::get('aefromhr', 'Admin\AeToWorkController@updateAeFromEmployee')->name('updateAeFromEmployee');
-Route::get('syncuserFromRoadlue', 'MgtTask\UserMakingMgtController@syncuserFromRoadlue')->name('syncUser');
-Route::get('addEmpCode', 'MgtTask\UserMakingMgtController@addEmpCode')->name('addEmpCode');
+
 
 
 Route::get('/temp', 'TempController@temp');
