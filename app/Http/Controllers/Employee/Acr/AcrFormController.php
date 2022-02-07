@@ -68,7 +68,7 @@ class AcrFormController extends Controller
     public function create3(Acr $acr, Request $request)
     {
         $page = 3;
-        $view = true;
+        $view = false;
         $require_negative_parameters=$acr->acrMasterParameters()->where('type',0)->get()->keyBy('id');
 
         $filled_negative_parameters=$acr->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
@@ -94,7 +94,7 @@ class AcrFormController extends Controller
     public function create4(Acr $acr, Request $request)
     {
         $page = 4;
-        $view = true;
+        $view = false;
         $master_trainings = AcrMasterTraining::all()->groupBy('topic');
         
         $selected_trainings = $acr->employee->EmployeeProposedTrainings->pluck('training_id');
