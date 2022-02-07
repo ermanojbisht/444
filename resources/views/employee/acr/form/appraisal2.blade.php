@@ -43,13 +43,16 @@
 					@php $total_marksA = $reporting_marksA = $reviewing_marksA = 0; @endphp
 					<table class="table table-bordered table-sm">
 						<thead class="bg-info ">
-
 							<tr class="text-center align-middle ">
 								<th rowspan="2">#</th>
 								<th rowspan="2">Parameter</th>
 								<th rowspan="2">Max Marks</th>
 								<th colspan="2">Marks awarded by</th>
-								<th rowspan="2"> Employee <br> Input </th>
+								<th rowspan="2"> 
+									@if(!$view)
+										Employee <br> Input 
+									@endif
+								</th>
 							</tr>
 							<tr class="text-center align-middle ">
 								<th>Reporting Authority</th>

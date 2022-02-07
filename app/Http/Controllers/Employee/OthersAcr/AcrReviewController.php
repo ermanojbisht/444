@@ -49,7 +49,7 @@ class AcrReviewController extends Controller
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
         $personal_attributes=  $acr->peronalAttributeSWithMasterData();
 
-        $view = true; // make true for view only
+        $view = false; // make true for view only
         return view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view')); //'notApplicableParameters',
     }
 

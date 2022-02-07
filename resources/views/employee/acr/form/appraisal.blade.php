@@ -77,7 +77,11 @@
 								<th>Parameter</th>
 								<th>Max Marks</th>
 								<th>Marks awarded by <br>Reporting Authority</th>
-								<th> Employee<br>Input </th>
+								<th>
+								@if(!$view)
+								 	Employee<br>Input 
+								@endif
+								</th>
 							</tr>
 						</thead>
 						<tbody>
