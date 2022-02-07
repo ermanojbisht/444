@@ -57,8 +57,9 @@ class AcrController extends Controller
      */
     public function index()
     {
-        $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->get();
         
+        $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->get();
+
         return view('employee.acr.my_acr', compact('acrs'));
     }
 
@@ -72,7 +73,7 @@ class AcrController extends Controller
         $employee = Employee::findOrFail($this->user->employee_id);
         $Officetypes = $this->defineOfficeTypes();
         $acrGroups = $this->defineAcrGroup();
-        
+
         return view('employee.acr.create', compact('employee', 'Officetypes', 'acrGroups'));
     }
 
@@ -83,7 +84,7 @@ class AcrController extends Controller
     public function store(StoreAcrRequest $request)
     {
         Acr::create($request->validated());
-        
+
         return redirect(route('acr.myacrs'));
     }
 
@@ -214,7 +215,7 @@ class AcrController extends Controller
     {
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update(['submitted_at' => now()]);
-        dispatch(new MakeAcrPdfOnSubmit($acr,'submit'));
+        dispatch(new MakeAcrPdfOnSubmit($acr, 'submit'));
 
         return redirect()->back();
     }
@@ -224,29 +225,39 @@ class AcrController extends Controller
 
     public function show(Acr $acr)
     {
+
+        
+
+        if ($acr->isFileExist()) {
+            return response()->file($acr->pdfFullFilePath);
+        }else
+        {
+            return Redirect()->back()->with('fail', 'Acr Pdf File does not exist');
+        }
+
         $pages = array();
         //$data_groups = $acr->type1RequiremntsWithFilledData();
         //$pages[] = view('employee.acr.form.create1', compact('acr', 'data_groups'));
 
         //first page
         list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $acr->firstFormData();
-        $pages[] = view('employee.acr.view_part1', ['acr'=>$acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ]);
+        $pages[] = view('employee.acr.view_part1', ['acr' => $acr, 'employee' => $employee, 'appraisalOfficers' => $appraisalOfficers, 'leaves' => $leaves, 'appreciations' => $appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted]);
 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
-        $personal_attributes=  $acr->peronalAttributeSWithMasterData();
+        $personal_attributes =  $acr->peronalAttributeSWithMasterData();
 
 
 
         $view = true;
 
-        if($acr->isScope('level','review')){
+        if ($acr->isScope('level', 'review')) {
             //review
-            $pages[] = view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
-        }else{
-            if($acr->isScope('level','report')){
+            $pages[] = view('employee.acr.form.appraisal2', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view'));
+        } else {
+            if ($acr->isScope('level', 'report')) {
                 //report
-                $pages[] =view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+                $pages[] = view('employee.acr.form.appraisal', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view'));
             }
         }
         //accept
@@ -261,8 +272,6 @@ class AcrController extends Controller
         $pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
         $pdf->loadHTML($pages);
 
-        $acr->createPdfFile($pdf, true);
-        return response()->file($acr->pdfFullFilePath);
 
 
 

@@ -9,14 +9,14 @@
 @endsection
 
 @section('pagetitle')
-My ACR Leaves for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }}
+Part 1 ( Basic Information ) <small> Leaves </small>
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
 ['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
-['label'=> 'My Acr Appraisal Officers','active'=>true]
+['label'=> 'Leaves','active'=>true]
 ]])
 @endsection
 
@@ -127,7 +127,7 @@ My ACR Leaves for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to
 				</div>
 				<div class="modal-footer">
 					<p class="h4"> ACR Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M
-						Y') }}) </p>
+						Y') }} </p>
 				</div>
 			</div>
 		</div>

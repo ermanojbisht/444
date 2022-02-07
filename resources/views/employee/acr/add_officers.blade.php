@@ -9,14 +9,14 @@
 @endsection
 
 @section('pagetitle')
-My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }}
+Part 1 ( Basic Information ) <small> Assign Officers </small>
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
 ['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
-['label'=> 'My Acr Appraisal Officers','active'=>true]
+['label'=> 'Assign Officers','active'=>true]
 ]])
 @endsection
 
@@ -100,7 +100,9 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="OfficialType"></h4>
+					<h4 class="modal-title" id="OfficialType">
+						My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }}
+					</h4>
 				</div>
 				<div class="modal-body">
 					<form id="officerInsertUpdateForm" name="officerInsertUpdateForm" class="form-horizontal"
@@ -154,6 +156,7 @@ My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to
 								<div class="col-md-6">
 									<label for='from_date' class="required "> Enter From Date </label>
 									<input type="date" id="from_date" name="from_date" onblur="findDateDiff()"
+									placeholder="dd-mm-yyyy"
 										value="{{ $acr->from_date->format('Y-m-d') }}" required class="form-control" />
 								</div>
 								<div class="col-md-6">

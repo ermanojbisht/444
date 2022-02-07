@@ -9,14 +9,14 @@
 @endsection
 
 @section('pagetitle')
-My ACR for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }}
+Part 1 ( Basic Information ) <small> Appreciation / Honors </small>
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
 ['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
-['label'=> 'My Acr Appraisal Officers','active'=>true]
+['label'=> 'Appreciation / Honors','active'=>true]
 ]])
 @endsection
 
@@ -74,13 +74,14 @@ My ACR for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="OfficialType"></h4>
+					<h4 class="modal-title" id="OfficialType">
+						Appreciation / Honors during the period of appraisal from the department :-
+					</h4>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" method="POST" action="{{route('acr.addAcrAppreciation')}}">
 						@csrf
-						<p class="h4"> Appreciation / Honors during the period of appraisal from the department :- </p>
-						<br />
+ 
 						<div class="row">
 							<div class="col-md-4">
 								{!! Form::label('appreciation_type', 'Type of Appreciation / Honors', []) !!}
@@ -109,7 +110,7 @@ My ACR for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->
 					</form>
 				</div>
 				<div class="modal-footer">
-					<p class="h6"> My ACR for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }} </p>
+					<p class="h6"> ACR for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }} </p>
 				</div>
 			</div>
 		</div>

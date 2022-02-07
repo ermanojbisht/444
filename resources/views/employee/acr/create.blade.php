@@ -8,13 +8,14 @@
 @endsection
 
 @section('pagetitle')
-My ACR
+Create ACR
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
-['label'=> 'Acr ','active'=>false],
-['label'=> 'Create','active'=>true]
+	['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+	['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
+	['label'=> 'Create','active'=>true]
 ]])
 @endsection
 
@@ -96,13 +97,13 @@ My ACR
 				<div class="col-md-3">
 					<div class="form-group">
 						<input type="date" class="form-control" value="{{old('property_filing_return_at')}}"
-							name="property_filing_return_at" />
+							name="property_filing_return_at" required />
 					</div>
 				</div>
 				<hr class="m-1" style="opacity: 0.1;">
 
 				<div class="col-md-6">
-					<p class="fw-semibold h5 required"> Membership of any Professional Organization : - </p>
+					<p class="fw-semibold h5 "> Membership of any Professional Organization : - </p>
 				</div>
 				<div class="col-md-6">
 					<textarea type="text" class="form-control" name="professional_org_membership">{{old('professional_org_membership')}}</textarea>
@@ -110,7 +111,7 @@ My ACR
 
 				<hr class="m-1" style="opacity: 0.1;">
 				<div class="col-md-4">
-					<p class="fw-semibold h5 required"> Education Qualification : -</p>
+					<p class="fw-semibold h5  "> Education Qualification : -</p>
 				</div>
 				<div class="col-md-8">
 					@foreach ($employee->education as $education )
