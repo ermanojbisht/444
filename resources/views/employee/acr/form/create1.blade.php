@@ -3,10 +3,12 @@
 	@include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
 @endsection
 @section('pagetitle')
-	Part -II Self-Appraisal <small>Form -1 Assessment of Performance</small>
+	Part -II Self-Appraisal <small>Page -1 Assessment of Performance</small>
 @endsection
 @section('content')
-	@include('employee.acr.form._formHeader',['acr'=>$acr])
+	@if(!$view)
+		@include('employee.acr.form._formHeader',['acr'=>$acr])
+	@endif
 	<div class="card">
 		<div class="card-body form-control">
 			<form class="form-horizontal" method="POST" action="{{route('acr.form.store1')}}">
@@ -19,7 +21,9 @@
 					<div>
 						<p class="fw-bold h5">{!!$groupData['head']!!}</p>
 						<p class="fw-semibold h5">{{$groupData['head_note']}}</p>
-						<p class="text-danger">*Please Ensure to Select NO on Dropdown for Parameters Not Applicable</p>
+						@if(!$view)
+							<p class="text-danger">*Please Ensure to Select NO on Dropdown for Parameters Not Applicable</p>
+						@endif
 						<p class="fw-bold h6">{{$groupData['foot_note']}}</p>
 					</div>	
 					@php
@@ -53,43 +57,71 @@
 										<td>{{$loop->iteration}}</td>
 										<td>{{$data->description}}</td>
 										<td class="text-center">{{$data->max_marks}}</td>
-								@if($table_type == 1)
-										<td class="text-center">{{$data->unit}}</td>
-										
-										<td>
-											<input class="form-control text-end" type="text" name="target[{{$data->id}}]" 
-												@if(!empty($data->user_target))
-													style="background-color:#F0FFF0;"
-													value="{{$data->user_target}}"
+										@if($table_type == 1)
+											<td class="text-center">{{$data->unit}}</td>
+											
+											<td class="text-end">
+												@if(!$view)
+													<input class="form-control text-end" type="text" name="target[{{$data->id}}]" 
+														@if(!empty($data->user_target))
+															style="background-color:#F0FFF0;"
+															value="{{$data->user_target}}"
+														@endif
+													/>
+												@else
+													{{$data->user_target??''}}
 												@endif
-											/>
-										</td>
-										<td>
-											<input class="form-control text-end" type="text" name="achivement[{{$data->id}}]" 
-												@if(!empty($data->user_achivement))
-													style="background-color:#F0FFF0;"
-													value="{{$data->user_achivement}}"
+											</td>
+											<td class="text-end">
+												@if(!$view)
+													<input class="form-control text-end" type="text" name="achivement[{{$data->id}}]" 
+														@if(!empty($data->user_achivement))
+															style="background-color:#F0FFF0;"
+															value="{{$data->user_achivement}}"
+														@endif
+													/>
+												@else
+													{{$data->user_achivement??''}}
 												@endif
-											/>
-										</td>
-										<input type="hidden" name="status[{{$data->id}}]" value="" />
-								@endif
-								@if($table_type == 2)
-									<td>
-										<input class="form-control" type="text" name="status[{{$data->id}}]" value="{{$data->status}}" 
-										@if(!empty($data->status))
-											style="background-color:#F0FFF0;"
+											</td>
+											<input type="hidden" name="status[{{$data->id}}]" value="" />
 										@endif
-										/>
-									</td>
-										<input type="hidden" name="target[{{$data->id}}]" value="" />
-										<input type="hidden" name="achivement[{{$data->id}}]" value="" />
-								@endif
-										<td>
-											<select class="form-select" name="applicable[{{$data->id}}]">
-											  <option value="1" selected>Yes</option>
-											  <option value="0">No</option>
-											</select>
+										@if($table_type == 2)
+											<td class="text-end">
+												@if(!$view)
+													<input class="form-control" type="text" name="status[{{$data->id}}]" value="{{$data->status}}" 
+													@if(!empty($data->status))
+														style="background-color:#F0FFF0;"
+													@endif
+													/>
+												@else
+													{{$data->status??''}}
+												@endif
+											</td>
+												<input type="hidden" name="target[{{$data->id}}]" value="" />
+												<input type="hidden" name="achivement[{{$data->id}}]" value="" />
+										@endif
+										<td class="text-center">
+											@if(!$view)
+												<select class="form-select" name="applicable[{{$data->id}}]">
+												  <option value="1" 
+												  	@if($data->applicable != 0)
+												  		selected
+												  	@endif
+												  	>Yes</option>
+												  <option value="0"
+												  	@if($data->applicable === 0)
+												  		selected
+												  	@endif
+												  	>No</option>
+												</select>
+											@else
+												@if($data->applicable != 0)
+													Yes
+												@else
+													No
+												@endif
+											@endif
 										</td>
 									</tr>		
 								@endforeach

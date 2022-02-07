@@ -47,7 +47,9 @@ class AcrFormController extends Controller
     public function create1(Acr $acr, Request $request)
     {
         $data_groups=$acr->type1RequiremntsWithFilledData();
-        return view('employee.acr.form.create1',compact('acr','data_groups'));
+        $page = 1;
+        $view = true;
+        return view('employee.acr.form.create1',compact('acr','data_groups','page','view'));
     }
     /**
      * @param Acr     $acr
@@ -55,7 +57,9 @@ class AcrFormController extends Controller
      */
     public function create2(Acr $acr, Request $request)
     {
-        return view('employee.acr.form.create2',compact('acr'));
+        $page = 2;
+        $view = true;
+        return view('employee.acr.form.create2',compact('acr','page','view'));
     }
     /**
      * @param Acr     $acr
@@ -63,7 +67,8 @@ class AcrFormController extends Controller
      */
     public function create3(Acr $acr, Request $request)
     {
-
+        $page = 3;
+        $view = true;
         $require_negative_parameters=$acr->acrMasterParameters()->where('type',0)->get()->keyBy('id');
 
         $filled_negative_parameters=$acr->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
@@ -80,7 +85,7 @@ class AcrFormController extends Controller
         $negative_groups = $require_negative_parameters->groupBy('config_group');
         //return $negative_groups;
         
-        return view('employee.acr.form.create3',compact('acr','negative_groups'));
+        return view('employee.acr.form.create3',compact('acr','negative_groups','page','view'));
     }
     /**
      * @param Acr     $acr
@@ -88,11 +93,13 @@ class AcrFormController extends Controller
      */
     public function create4(Acr $acr, Request $request)
     {
+        $page = 4;
+        $view = true;
         $master_trainings = AcrMasterTraining::all()->groupBy('topic');
         
         $selected_trainings = $acr->employee->EmployeeProposedTrainings->pluck('training_id');
         
-        return view('employee.acr.form.create4',compact('acr','master_trainings','selected_trainings'));
+        return view('employee.acr.form.create4',compact('acr','master_trainings','selected_trainings','page','view'));
     }
 
     /**
