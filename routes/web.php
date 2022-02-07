@@ -229,7 +229,6 @@ Route::get('client', function () {
     return view('temp');
 });
 //ae from HR employee table
-Route::get('aefromhr', 'Admin\AeToWorkController@updateAeFromEmployee')->name('updateAeFromEmployee');
 Route::get('syncuserFromRoadlue', 'MgtTask\UserMakingMgtController@syncuserFromRoadlue')->name('syncUser');
 Route::get('addEmpCode', 'MgtTask\UserMakingMgtController@addEmpCode')->name('addEmpCode');
 
