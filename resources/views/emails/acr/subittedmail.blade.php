@@ -1,22 +1,22 @@
 @component('mail::message')
 Dear {{$reportingEmployee->name}}
 
-@if('targetDutyType'==report)
+@if($targetDutyType=='report')
 {{$acr->employee->name}} has subitted his/her self appraisal on @mkbdate($acr->submitted_at).
 Please visit your inbox section at HRMS/Track AR portal.
 @endif
 
-@if('targetDutyType'==review)
+@if($targetDutyType=='review')
 {{$acr->employee->name}}'s performance report has been reported by {{$acr->userOnBasisOfDuty('report')->name}} on @mkbdate($acr->report_on).
 Please visit your inbox section at HRMS/Track AR portal.
 @endif
 
-@if('targetDutyType'==accept)
+@if($targetDutyType=='accept')
 {{$acr->employee->name}}'s performance report has been reviewed by {{$acr->userOnBasisOfDuty('review')->name}} on @mkbdate($acr->review_on).
 Please visit your inbox section at HRMS/Track AR portal.
 @endif
 
-@if('targetDutyType'==submit)
+@if($targetDutyType=='submit')
 Your performance report has been acccepted by {{$acr->userOnBasisOfDuty('accept')->name}} on @mkbdate($acr->accept_on).
 Please visit your 'myacr' section .
 @endif

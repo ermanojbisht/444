@@ -322,7 +322,7 @@ class Acr extends Model
 
             if (!$previousNotification) {
                 Mail::to($targetEmployee)
-                    ->cc($this->submitUser)
+                    ->cc($this->submitUser())
                     ->send(new AcrSumittedMail($this, $targetEmployee));
 
                 $data = [
@@ -372,18 +372,18 @@ class Acr extends Model
                 switch ($targetDutyType) {
                     case 'report':  //on submit event  , report is targeted
                         //reportUser is as target
-                        $mail->cc($this->submitUser);
+                        $mail->cc($this->submitUser());
                         break;
                     case 'review': //on report event , review is targeted
                         //review is as target
                         $mail->cc($this->userOnBasisOfDuty('report'));
-                        $mail->cc($this->submitUser);
+                        $mail->cc($this->submitUser());
                         break;
                     case 'accept': //on review event , accept is targeted
                         //accept user is as target
                         $mail->cc($this->userOnBasisOfDuty('review'));
                         $mail->cc($this->userOnBasisOfDuty('report'));
-                        $mail->cc($this->submitUser);
+                        $mail->cc($this->submitUser());
                         break;
 
                     case 'submit': //on accept event , submituser is targeted
