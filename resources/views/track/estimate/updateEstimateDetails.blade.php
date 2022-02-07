@@ -8,7 +8,7 @@
 
 
 @section('sidebarmenu')
-    @include('layouts.type200._commonpartials._sidebarmenu',['instance_estimate_id'=>$instanceEstimate->id??0, 'instance_id'=>$instanceEstimate->instance_id])
+    {{-- @include('layouts.type200._commonpartials._sidebarmenu',['instance_estimate_id'=>$instanceEstimate->id??0, 'instance_id'=>$instanceEstimate->instance_id]) --}}
 @endsection
 
 @section('pagetitle')

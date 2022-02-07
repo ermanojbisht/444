@@ -7,7 +7,7 @@
 
 
 @section('sidebarmenu')
-    @include('layouts.type200._commonpartials._sidebarmenu',['active'=>'estimate.report'])
+    {{-- @include('layouts.type200._commonpartials._sidebarmenu',['active'=>'estimate.report']) --}}
 @endsection
 
 @section('pagetitle')

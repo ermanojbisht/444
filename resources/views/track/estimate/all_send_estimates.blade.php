@@ -8,7 +8,7 @@
 @endsection
 
 @section('sidebarmenu')
-    @include('layouts.type200._commonpartials._sidebarmenu',['active'=>'allEstimateList'])
+    {{-- @include('layouts.type200._commonpartials._sidebarmenu',['active'=>'allEstimateList']) --}}
 @endsection
 
 @section('pagetitle')

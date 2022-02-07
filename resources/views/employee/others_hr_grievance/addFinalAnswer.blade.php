@@ -7,7 +7,7 @@
 
 
 @section('sidebarmenu')
-@include('layouts.type200._commonpartials._sidebarmenu',['active'=>'Grievance'])
+@include('layouts.type200._commonpartials._sidebarmenu_hr_gr',['active'=>'Grievance'])
 @endsection
 
 @section('pagetitle')

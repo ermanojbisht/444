@@ -4,7 +4,7 @@
 @endsection
 
 @section('sidebarmenu')
-    @include('layouts.type200._commonpartials._sidebarmenu',['active'=>'create_Instance'])
+    {{-- @include('layouts.type200._commonpartials._sidebarmenu',['active'=>'create_Instance']) --}}
 @endsection
 
 @section('pagetitle')

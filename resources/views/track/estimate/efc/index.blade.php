@@ -6,7 +6,7 @@
 
 
 @section('sidebarmenu')
-    @include('layouts.type200._commonpartials._sidebarmenu',[])
+    {{-- @include('layouts.type200._commonpartials._sidebarmenu',[]) --}}
 @endsection
 
 @section('pagetitle')

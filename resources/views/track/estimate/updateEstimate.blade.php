@@ -14,7 +14,7 @@
 @endsection
 
 @section('sidebarmenu')
-    @include('layouts.type200._commonpartials._sidebarmenu',['instance_estimate_id'=>$estimate->id??0, 'instance_id'=>$estimate->instance_id])
+    {{-- @include('layouts.type200._commonpartials._sidebarmenu',['instance_estimate_id'=>$estimate->id??0, 'instance_id'=>$estimate->instance_id]) --}}
 @endsection
 
 @section('pagetitle')
