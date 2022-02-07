@@ -101,18 +101,18 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
         }
 
         //acr form by user ?//todo
-
+        $errors=collect([]);
         if(in_array($this->milstone, ['report','review','accept'])){
             $requiredParameters = $this->acr->type1RequiremntsWithFilledData()->first();
             $requiredNegativeParameters = $this->acr->type2RequiremntsWithFilledData();
             $personal_attributes=  $this->acr->peronalAttributeSWithMasterData();
 
             if(in_array($this->milstone, ['review','accept'])){
-                $pages[] = view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+                $pages[] = view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view','errors'));
             }
 
              if($this->milstone=='report'){
-                $pages[] =view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+                $pages[] =view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view','errors'));
             }
 
         }
