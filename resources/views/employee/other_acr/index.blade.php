@@ -13,8 +13,9 @@ Other's ACR to be Worked Upon
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
-['label'=> Auth::User()->name . '\'s' . ' Acrs','active'=>true]]])
-@endsection
+	['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+    ['label'=> 'Inbox','active'=>true]]])
+ @endsection
 
 @section('content')
 <div class="card">
@@ -92,11 +93,15 @@ Other's ACR to be Worked Upon
 														href="{{route('acr.form.appraisal1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Process ACR
 													</a>
+													<a class="dropdown-item"
+														href="{{route('acr.others.report.submit', ['acr' => $acr->id])}}">
+														<i class="cib-twitter"></i>Submit ACR
+													</a>
 													@if (1 ==1)
 													{{-- // if all data is filled by the reviwer --}}
 													<a class="dropdown-item" href="#">
 														<form method="POST"
-															action="{{ route('acr.report_submit', [ 'acr'=> $acr->id]) }}"
+															action="{{ route('acr.others.report.submit', [ 'acr'=> $acr->id]) }}"
 															onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 															{{ csrf_field() }}
 															<button type="submit" style="width:100%;"
@@ -163,7 +168,7 @@ Other's ACR to be Worked Upon
 													{{-- // if all data is filled by the reviwer --}}
 													<a class="dropdown-item" href="#">
 														<form method="POST"
-															action="{{ route('acr.report_submit', [ 'acr'=> $acr->id]) }}"
+															action="{{ route('acr.others.report.submit', [ 'acr'=> $acr->id]) }}"
 															onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 															{{ csrf_field() }}
 															<button type="submit" style="width:100%;"
@@ -223,12 +228,16 @@ Other's ACR to be Worked Upon
 														href="{{route('acr.form.appraisal1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Process ACR
 													</a>
+													<a class="dropdown-item"
+														href="{{route('acr.others.accept.submit', ['acr' => $acr->id])}}">
+														<i class="cib-twitter"></i> Accept ACR
+													</a>
 													{{-- ToDo: Made will be as log out form --}}
 													@if (1 ==1)
 													{{-- // if all data is filled by the reviwer --}}
 													<a class="dropdown-item" href="#">
 														<form method="POST"
-															action="{{ route('acr.report_submit', [ 'acr'=> $acr->id]) }}"
+															action="{{ route('acr.others.report.submit', [ 'acr'=> $acr->id]) }}"
 															onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 															{{ csrf_field() }}
 															<button type="submit" style="width:100%;"

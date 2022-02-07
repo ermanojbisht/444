@@ -67,21 +67,16 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
 
     // Employee\Acr\AcrFormController
 
-    Route::get('form/{acr}/part1', 'Employee\Acr\AcrFormController@create1')->name('form.create1');
-    Route::get('form/{acr}/part2', 'Employee\Acr\AcrFormController@create2')->name('form.create2');
-    Route::get('form/{acr}/part3', 'Employee\Acr\AcrFormController@create3')->name('form.create3');
-    Route::get('form/{acr}/part4', 'Employee\Acr\AcrFormController@create4')->name('form.create4');
+    Route::get('form/{acr}/part1', 'Employee\Acr\AcrFormController@create1')->name('form.create1');//target/achivement
+    Route::get('form/{acr}/part2', 'Employee\Acr\AcrFormController@create2')->name('form.create2');//difficulty
+    Route::get('form/{acr}/part3', 'Employee\Acr\AcrFormController@create3')->name('form.create3');//deduction
+    Route::get('form/{acr}/part4', 'Employee\Acr\AcrFormController@create4')->name('form.create4');//training
     
     Route::post('form/store1', 'Employee\Acr\AcrFormController@store1')->name('form.store1');
     Route::post('form/store2', 'Employee\Acr\AcrFormController@store2')->name('form.store2');
     Route::post('form/store3', 'Employee\Acr\AcrFormController@store3')->name('form.store3');
     Route::post('form/store4', 'Employee\Acr\AcrFormController@store4')->name('form.store4');
 
-
-    Route::post('report/{acr}/submit', 'Employee\OthersAcr\AcrReportController@submitReported')->name('report_submit');
-    Route::post('review/{acr}/submit', 'Employee\OthersAcr\AcrReviewController@submitReviewed')->name('review_submit');
-    Route::post('accept/{acr}/submit', 'Employee\OthersAcr\AcrAcceptController@submitAccepted')->name('accept_submit');
- 
 
 
     // Acr Reporting 
@@ -104,6 +99,16 @@ Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['
 
     // OtherAcrController
     Route::get('/', 'Employee\OthersAcr\OthersAcrController@index')->name('index');
+    
+
+    Route::get('report/{acr}/submit', 'Employee\OthersAcr\AcrReportController@submitReported')->name('report.submit');
+    Route::post('report', 'Employee\OthersAcr\AcrReportController@saveReportedAcr')->name('report.save');
+    
+    Route::get('review/{acr}/submit', 'Employee\OthersAcr\AcrReviewController@submitReviewed')->name('review.submit');
+    
+    Route::get('accept/{acr}/submit', 'Employee\OthersAcr\AcrAcceptController@submitAccepted')->name('accept.submit');
+    Route::post('accpet', 'Employee\OthersAcr\AcrAcceptController@saveAcceptedAcr')->name('accept.save');
+
 });
 
 
@@ -211,7 +216,6 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
     Route::get('getdistrictdetails/{districtid}/{dropdown}', 'AjaxController@districtDetail');
 });
-
 
 
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
