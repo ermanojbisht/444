@@ -5,6 +5,17 @@
 @section('pagetitle')
 	Part -III Appraisal <small>(By Reporting Officer)</small>
 @endsection
+
+@section('breadcrumb')
+@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
+['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+['label'=> 'Inbox','route'=>
+'acr.others.index', 'active'=>false],
+['label'=> 'Appraisal By Reporting Officer','active'=>true]
+]])
+
+@endsection
+
 @section('content')
 	{{-- to be shifted in main style  --}}
     <style>

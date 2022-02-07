@@ -29,13 +29,7 @@ Part - IV ( Assessment by the Accepting Authority)
 			{{--  --}}
 			@csrf
 
-			<div class="row">
-				<div class="col-md-12 text-center ">
-					<p class="fw-bold h3"> Part - IV ( Assessment by the Accepting Authority) </p>
-				</div>
-			</div>
-
-			<br />
+		  
 
 			<div class="form-group">
 				<div class="row">

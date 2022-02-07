@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Employee\OthersAcr; 
+namespace App\Http\Controllers\Employee\OthersAcr;
 
-use App\Http\Controllers\Controller; 
+use App\Http\Controllers\Controller;
+use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrNegativeParameter;
 use App\Models\Acr\AcrParameter;
@@ -15,12 +16,12 @@ use App\Models\Acr\AcrPersonalAttribute;
 use App\Models\Employee;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;  
+use Illuminate\Support\Facades\Auth;
 use Log;
 
 class AcrReviewController extends Controller
 {
- 
+
     /**
      * @var mixed
      */
@@ -47,23 +48,23 @@ class AcrReviewController extends Controller
     {
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
-        $personal_attributes=  $acr->peronalAttributeSWithMasterData();
+        $personal_attributes =  $acr->peronalAttributeSWithMasterData();
 
         $view = false; // make true for view only
-        return view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view')); //'notApplicableParameters',
+        return view('employee.acr.form.appraisal2', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view')); //'notApplicableParameters',
     }
 
 
     public function storeAppraisal2(Request $request)
     {
         //return $request->all(); 
-        
+
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update([
-            'review_no'=> $request->final_marks,
+            'review_no' => $request->final_marks,
         ]);
 
-        foreach($request->reviewing_marks as $parameterId => $reviewing_mark ){
+        foreach ($request->reviewing_marks as $parameterId => $reviewing_mark) {
             AcrParameter::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
@@ -74,7 +75,7 @@ class AcrReviewController extends Controller
                 ]
             );
         }
-        foreach($request->personal_attributes as $attributeId => $attribute_mark ){
+        foreach ($request->personal_attributes as $attributeId => $attribute_mark) {
             AcrPersonalAttribute::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
@@ -88,4 +89,22 @@ class AcrReviewController extends Controller
         return redirect()->back();
     }
 
+
+    public function storeReviewedAcr(Request $request)
+    {
+        $acr = Acr::findOrFail($request->acr_id);
+        
+        if ($acr->review_no <= 0) {
+            return redirect()->back()->with('fail', 'Please process the ACR');
+        }
+
+        $acr->update([
+            'review_on' => now()
+        ]);
+
+        //    make pdf  and mail notification 
+        dispatch(new MakeAcrPdfOnSubmit($acr, 'review'));
+
+        return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');
+    }
 }

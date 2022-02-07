@@ -94,7 +94,8 @@
 									<i class="cib-twitter"></i>Add ACR Form Part 3
 								</a>
 								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) &&
-								$acr->hasAppraisalOfficer(3))
+								$acr->hasAppraisalOfficer(3) ) 
+								{{-- //if part 1 2 3 4 all are filled  --}}
 								<a class="dropdown-item" href="#">
 									<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST"
 										onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
@@ -106,7 +107,7 @@
 								@endif
 								@endif
 								@if ($acr->isFileExist())
-								<a class="dropdown-item" href="{{route('acr.view.part1', ['acr' => $acr->id])}}">
+								<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i> View ACR
 								</a>
 								@endif

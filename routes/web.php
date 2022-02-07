@@ -102,12 +102,12 @@ Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['
     
 
     Route::get('report/{acr}/submit', 'Employee\OthersAcr\AcrReportController@submitReported')->name('report.submit');
-    Route::post('report', 'Employee\OthersAcr\AcrReportController@saveReportedAcr')->name('report.save');
+    Route::post('report', 'Employee\OthersAcr\AcrReportController@storeReportedAcr')->name('report.save');
     
-    Route::get('review/{acr}/submit', 'Employee\OthersAcr\AcrReviewController@submitReviewed')->name('review.submit');
+    Route::post('review', 'Employee\OthersAcr\AcrReviewController@storeReviewedAcr')->name('review.save');
     
     Route::get('accept/{acr}/submit', 'Employee\OthersAcr\AcrAcceptController@submitAccepted')->name('accept.submit');
-    Route::post('accpet', 'Employee\OthersAcr\AcrAcceptController@saveAcceptedAcr')->name('accept.save');
+    Route::post('accpet', 'Employee\OthersAcr\AcrAcceptController@storeAcceptedAcr')->name('accept.save');
 
 });
 

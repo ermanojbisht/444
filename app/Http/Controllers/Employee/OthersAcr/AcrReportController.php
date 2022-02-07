@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Employee\OthersAcr;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrNegativeParameter;
 use App\Models\Acr\AcrParameter;
@@ -178,9 +179,8 @@ class AcrReportController extends Controller
         return view('employee.other_acr.report_acr', compact('acr'));
     }
 
-    public function saveReportedAcr(Request $request)
+    public function storeReportedAcr(Request $request)
     {
-
         // validate appraisal_officer_type 
         $this->validate(
             $request,
@@ -197,8 +197,13 @@ class AcrReportController extends Controller
 
         $acr->update([
             'report_on' => now(),
-            'report_remark' => $request->remark
+            'report_remark' => $request->reason
         ]);
+
+        //    make pdf  and mail notification 
+
+        dispatch(new MakeAcrPdfOnSubmit($acr, 'accept'));
+
 
         return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');
     }
