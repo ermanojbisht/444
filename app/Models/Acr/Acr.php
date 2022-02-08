@@ -26,10 +26,16 @@ class Acr extends Model
     protected $fillable = [
         'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date', 'prpoerty_return_date',
         'good_work', 'difficultie', 'appreciations', 'submitted_at',
-        'report_employee_id', 'review_employee_id', 'accept_employee_id', 'report_on', 'review_on',
-        'accept_on', 'is_active', 'appraisal_note_1', 'appraisal_note_2', 'appraisal_note_3',
-        'professional_org_membership', 'property_filing_return_at','report_duration_lapsed','review_duration_lapsed','accept_duration_lapsed','report_no','review_no','accept_no'
+        'report_employee_id', 'review_employee_id', 'accept_employee_id',
+        'is_active', 'appraisal_note_1', 'appraisal_note_2', 'appraisal_note_3',
+        'professional_org_membership', 'property_filing_return_at','report_duration_lapsed',
+        'review_duration_lapsed','accept_duration_lapsed',
+        'report_no','report_on', 'report_remark',
+        'review_no','review_on', 'review_remark',
+        'accept_no','accept_on', 'accept_remark'
     ];
+
+
     protected $dates = [
         'from_date', 'to_date', 'property_filing_return_at','submitted_at','report_on','review_on','accept_on'
     ];

@@ -8,14 +8,14 @@
 @endsection
 
 @section('pagetitle')
-Edit My ACR
+Part 1 ( Basic Information ) <small> Edit ACR  </small>
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
 ['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
-['label'=> 'Edit Acr','active'=>true]
+['label'=> 'Edit ACR','active'=>true]
 ]])
 @endsection
 

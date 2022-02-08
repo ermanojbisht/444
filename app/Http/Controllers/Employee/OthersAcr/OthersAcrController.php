@@ -122,4 +122,18 @@ class OthersAcrController extends Controller
         return view('employee.acr.employee_acr', compact('acrs','employee'));
     }
 
+    public function viewIntegrity(Acr $acr)
+    {
+         
+        return view('employee.other_acr.view_reported_acr', compact('acr'));
+    }
+
+    
+    public function viewAccepted(Acr $acr)
+    {
+         
+        return view('employee.other_acr.view_accepted_acr', compact('acr'));
+    }
+    
+
 }

@@ -35,7 +35,7 @@ class AcrAcceptController extends Controller
      */
     public function submitAccepted(Acr $acr)
     {
-       
+
         return view('employee.other_acr.accept_acr', compact('acr'));
     }
 
@@ -47,11 +47,19 @@ class AcrAcceptController extends Controller
             return redirect()->back()->with('fail', 'Please process the ACR');
         }
 
-        $acr->update([
-            'accept_no' => $request->marks,
-            'accept_on' => now(),
-            'accept_remark' => $request->reason
-        ]);
+        if ($request->acr_agree == 0) {
+            $acr->update([
+                'accept_no' => $request->marks,
+                'accept_on' => now(),
+                'accept_remark' => $request->reason
+            ]);
+        } else {
+            $acr->update([
+                'accept_no' => $request->marks,
+                'accept_on' => now()
+            ]);
+        }
+
 
         return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');
     }

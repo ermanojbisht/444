@@ -120,6 +120,7 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 								@endforeach
 							</select>
 						</div>
+						<br />
 						<div class="row">
 							<div class="form-group col-md-6">
 								{!! Form::label('section', 'Section', []) !!}
@@ -132,14 +133,15 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 								['All'=>'All','er'=>'Engineer','office'=>'Office','other'=>'Other'], 'All',
 								['id'=>'employeeType','class'=>'form-select']) !!}
 							</div>
-						</div>
+						</div> 
+						<br />
 						<div class="row">
 							<div class="form-group col-md-12">
 								<div class="form-group">
 									<label class="required" for="employee_id">Select officer</label>
-									<select
-										class="form-select select2 {{ $errors->has('employee_id') ? 'is-invalid' : '' }}"
-										name="employee_id" id="employee_id" required>
+									<br />
+									<select  name="employee_id" id="employee_id" required
+									class="form-select select2 {{ $errors->has('employee_id') ? 'is-invalid' : '' }}" >
 									</select>
 									@if($errors->has('employee_id'))
 									<div class="invalid-feedback">
@@ -150,6 +152,7 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 								</div>
 							</div>
 						</div>
+						<br />
 						<div class="row">
 							<p> Period of Appraisal : </p>
 							<div class="row">
@@ -164,7 +167,6 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 									<input type="date" id="to_date" name="to_date" onblur="findDateDiff()"
 										value="{{ $acr->to_date->format('Y-m-d') }}" required class="form-control" />
 								</div>
-
 								<div class="col-md-12">
 									<div class="text-success" id="days_in_number"></div>
 								</div>

@@ -67,13 +67,14 @@
 		<thead class="table-light  fw-bold">
 			<tr style="border:1px solid grey" class="align-middle text-center">
 				<th rowspan="2">#</th>
+				<th rowspan="2">Acr Id</th>
 				<th colspan="2">Period</th>
 				<th rowspan="2">Submitted on</th>
 				<th colspan="2">Reported</th>
 				<th colspan="2">Reviewed</th>
 				<th colspan="2">Accepted</th>
 			</tr>
-			<tr style="border:1px solid grey">
+			<tr style="border:1px solid grey" class="align-middle text-center">
 				<th>From </th>
 				<th>To </th>
 				<th>By </th>
@@ -88,43 +89,30 @@
 			@foreach($acrs as $acr)
 			<tr>
 				<td>{{1+$loop->index }}</td>
+				<td>{{$acr->id }} </td>
 				<td>{{$acr->from_date->format('d M Y')}}</td>
 				<td>{{$acr->to_date->format('d M Y')}}</td>
 				<td>{{$acr->created_at->format('d M Y')}} </td>
 
-				<td>{{$acr->report_employee_id ? $acr->reportUser()->name . '<br />' : '' }} </td>
-				<td>{{Carbon\Carbon::parse($acr->report_on)->format('d M Y') }} </td>   
-				{{-- // pending since from submitted  --}}
 
+				<td>{{$acr->report_employee_id ? $acr->reportUser()->name : '' }} </td>
+				<td> @if ($acr->submitted_at)
+					{{ $acr->report_on ? Carbon\Carbon::parse($acr->report_on)->format('d M Y')
+					: 'Pending since ' .
+					Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->submitted_at)). ' days' }} @endif
+				</td>
 				<td>{{$acr->review_employee_id ? $acr->reviewUser()->name : '' }} </td>
-				<td>{{Carbon\Carbon::parse($acr->review_on)->format('d M Y') }} </td>
-				{{-- // pending since from report_on --}}
-
+				<td> @if ($acr->report_on)
+					{{ $acr->review_on ? Carbon\Carbon::parse($acr->review_on)->format('d M Y') :
+					'Pending since ' . Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->report_on)). '
+					days' }} @endif
+				</td>
 				<td>{{$acr->accept_employee_id ? $acr->acceptUser()->name : '' }} </td>
-				<td>{{Carbon\Carbon::parse($acr->accept_on)->format('d M Y') }} </td>
-				{{-- // pending since from review_on --}}
-
-
-				{{-- <td>
-					<div class="dropdown dropstart">
-						<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
-							aria-haspopup="true" aria-expanded="false">
-							<svg class="icon icon-xl">
-								<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-options')}}"></use>
-							</svg>
-						</button>
-						<div class="dropdown-menu dropdown-menu-end">
-							@if ($acr->isFileExist())
-							<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
-								<i class="cib-twitter"></i> View ACR
-							</a>
-							@endif
-						</div>
-					</div>
-				</td> --}}
+				<td>@if ($acr->review_on)
+					{{ $acr->accept_on ? Carbon\Carbon::parse($acr->accept_on)->format('d M Y') :
+					'Pending since ' . Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->review_on)).
+					' days' }} @endif </td>
 			</tr>
-
-
 			@endforeach
 		</tbody>
 	</table>

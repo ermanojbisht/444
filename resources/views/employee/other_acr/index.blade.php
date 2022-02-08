@@ -69,8 +69,8 @@ Other's ACR to be Worked Upon
 										<td>{{ $acr->employee->name}}</td>
 
 										<td>{{$acr->employee_id}} </td>
-										<td>{{$acr->from_date}}</td>
-										<td>{{$acr->to_date }}</td>
+										<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
+										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td> 
 										<td>{{$acr->created_at->format('d M Y')}} </td>
 										<td>{{($acr->submitted_at == null ? 'Pending' : 'Submitted') }}</td>
 										<td>
@@ -95,23 +95,10 @@ Other's ACR to be Worked Upon
 														href="{{route('acr.form.appraisal1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Process ACR
 													</a>
-													<a class="dropdown-item"
+													<a class="btn btn-success " style="width: 100%;"
 														href="{{route('acr.others.report.submit', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Submit ACR
 													</a>
-													@if (1 ==1)
-													{{-- // if all data is filled by the reviwer --}}
-													<a class="dropdown-item" href="#">
-														<form method="POST"
-															action="{{ route('acr.others.report.submit', [ 'acr'=> $acr->id]) }}"
-															onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
-															{{ csrf_field() }}
-															<button type="submit" style="width:100%;"
-																class="btn btn-success "> Submit ACR
-															</button>
-														</form>
-													</a>
-													@endif
 												</div>
 											</div>
 										</td>
@@ -142,8 +129,8 @@ Other's ACR to be Worked Upon
 										<td>{{ $acr->employee->name}}</td>
 
 										<td>{{$acr->employee_id}} </td>
-										<td>{{$acr->from_date}}</td>
-										<td>{{$acr->to_date }}</td>
+										<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
+										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td> 
 										<td>{{$acr->created_at->format('d M Y')}} </td>
 										<td>
 											<div class="dropdown dropstart">
@@ -210,8 +197,8 @@ Other's ACR to be Worked Upon
 										<td>{{1+$loop->index }}</td>
 										<td>{{ $acr->employee->name}}</td>
 										<td>{{$acr->employee_id}} </td>
-										<td>{{$acr->from_date}}</td>
-										<td>{{$acr->to_date }}</td>
+										<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
+										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td> 
 										<td>{{$acr->created_at->format('d M Y')}} </td>
 										<td>
 											<div class="dropdown dropstart">
@@ -234,7 +221,7 @@ Other's ACR to be Worked Upon
 													@endif
 
 													@if ($acr->review_no > 0)
-													<a class="dropdown-item" class="btn btn-success "
+													<a class="btn btn-success " style="width: 100%;"
 														href="{{route('acr.others.accept.submit', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i> Process and Submit ACR
 													</a>
