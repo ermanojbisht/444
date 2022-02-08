@@ -104,9 +104,6 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
             $pages[] =view('employee.other_acr.view_accepted_acr', compact('acr'));
         }
 
-
-
-
         $this->pdf = \App::make('snappy.pdf.wrapper');
         $this->pdf->setOption('margin-top',5);
         $this->pdf->setOption('cover', view('employee.acr.pdfcoverpage', ['acr'=>$this->acr]));
