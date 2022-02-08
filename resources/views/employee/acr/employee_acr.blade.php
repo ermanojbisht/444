@@ -63,7 +63,7 @@
 			@foreach($acrs as $acr)
 			<tr>
 				<td>{{1+$loop->index }}</td>
-				<td>{{$acr->id }} </td>
+				<td><a href="{{route('employee.acr.view',['employee'=>$employee])}}">{{$acr->id }}</a></td>
 				<td>{!! $acr->from_date->format('d&#160;M&#160;Y') !!}</td>
 				<td>{!! $acr->to_date->format('d&#160;M&#160;Y') !!}</td>
 				<td>{!! $acr->created_at->format('d&#160;M&#160;Y') !!} </td>
