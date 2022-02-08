@@ -222,15 +222,18 @@ class AcrController extends Controller
 
     public function show(Acr $acr)
     {
+        //own or some admin
+        if($this->user->hasPermissionTo(['acr-special']) || $this->user->employee_id==$acr->employee_id){
 
-        
-
-        if ($acr->isFileExist()) {
-            return response()->file($acr->pdfFullFilePath);
-        }else
-        {
-            return Redirect()->back()->with('fail', 'Acr Pdf File does not exist');
+            if ($acr->isFileExist()) {
+                return response()->file($acr->pdfFullFilePath);
+            }else
+            {
+                return Redirect()->back()->with('fail', 'Acr File does not exist');
+            }
         }
+        return abort(403, 'Unauthorized action.You are not authorised to see this ACR details');
+
 
         $pages = array();
         //$data_groups = $acr->type1RequiremntsWithFilledData();
