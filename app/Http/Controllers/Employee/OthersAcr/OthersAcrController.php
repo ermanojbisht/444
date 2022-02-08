@@ -131,8 +131,47 @@ class OthersAcrController extends Controller
     
     public function viewAccepted(Acr $acr)
     {
-         
-        return view('employee.other_acr.view_accepted_acr', compact('acr'));
+        $grades= "";
+        $marks = $acr->accept_no;
+		 
+        switch (true)
+        {
+            case ($marks > 80.0) :
+            {
+                $grades = 'Out Standing';
+                break;
+            } 
+            case ($marks > 60.0 &&  $marks <= 80.0) :
+            {
+                $grades = 'Very Good';
+                break;
+            } 
+            case ($marks > 40.0 &&  $marks <= 60.0) :
+            {
+                $grades ='Good';
+                break;
+            } 
+            case ($marks > 20.0 &&  $marks <= 40.0) :
+            {
+                $grades = 'Satisfactory';
+                break;
+            } 
+            case ($marks <= 20.0) :
+            {
+                $grades = 'Unsatisfactory';
+                break;
+            } 
+            default : 
+            {
+                $grades = '';
+                break;
+            }
+
+        }
+        
+
+
+        return view('employee.other_acr.view_accepted_acr', compact('acr', 'grades'));
     }
     
 

@@ -3,12 +3,10 @@
 @section('styles')
 @include('cssbundle.datatablefor5',['button'=>true])
 @endsection
-@section('sidebarmenu')
-@include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
-@endsection
+ 
 
 @section('pagetitle')
-{{Auth::User()->name}} ACR Details
+{{$employee->name }} ACR Details
 @endsection
 
 @section('breadcrumbNevigationButton')
@@ -29,43 +27,19 @@
 
 
 	<div class="row">
-		<div class="col-md-4">
-			<div class="row">
-				<div class="col-md-6">
-					<p class="fw-bold h5"> Employee Code :- </p>
-				</div>
-				<div class="col-md-6">
-					<p class="fw-bold h5 text-info"> {{$employee->id }} </p>
-				</div>
-			</div>
+		<div class="col-md-6">
+					<p class="fw-bold h5"> Employee Code :  {{$employee->id }} </p>
 		</div>
-		<div class="col-md-4">
-			<div class="row">
-				<div class="col-md-3">
-					<p class="fw-bold h5"> Name :-</p>
-				</div>
-				<div class="col-md-9">
-					<p class="fw-bold h5 text-info"> {{$employee->name }} </p>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="row">
-				<div class="col-md-5">
-					<p class="fw-bold h5"> Designation :-</p>
-				</div>
-				<div class="col-md-7">
-					<p class="fw-bold h5 text-info"> {{$employee->designation->name }} </p>
-				</div>
-			</div>
+		<div class="col-md-6"> 
+					<p class="fw-bold h5"> Designation :  {{$employee->designation->name }} </p>
 		</div>
 	</div>
 	<hr>
 
 
-	<table class="table border mb-0">
-		<thead class="table-light  fw-bold">
-			<tr style="border:1px solid grey" class="align-middle text-center">
+	<table class="table mb-0 table-bordered ">
+		<thead class="table-light fw-bold">
+			<tr class="align-middle text-center">
 				<th rowspan="2">#</th>
 				<th rowspan="2">Acr Id</th>
 				<th colspan="2">Period</th>
@@ -74,7 +48,7 @@
 				<th colspan="2">Reviewed</th>
 				<th colspan="2">Accepted</th>
 			</tr>
-			<tr style="border:1px solid grey" class="align-middle text-center">
+			<tr class="align-middle text-center">
 				<th>From </th>
 				<th>To </th>
 				<th>By </th>
@@ -90,9 +64,9 @@
 			<tr>
 				<td>{{1+$loop->index }}</td>
 				<td>{{$acr->id }} </td>
-				<td>{{$acr->from_date->format('d M Y')}}</td>
-				<td>{{$acr->to_date->format('d M Y')}}</td>
-				<td>{{$acr->created_at->format('d M Y')}} </td>
+				<td>{!! $acr->from_date->format('d&#160;M&#160;Y') !!}</td>
+				<td>{!! $acr->to_date->format('d&#160;M&#160;Y') !!}</td>
+				<td>{!! $acr->created_at->format('d&#160;M&#160;Y') !!} </td>
 
 
 				<td>{{$acr->report_employee_id ? $acr->reportUser()->name : '' }} </td>

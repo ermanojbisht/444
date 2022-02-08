@@ -22,12 +22,12 @@
                 <x-nav-item icon="envelope-letter " href="{{route('acr.others.index')}}">Inbox</x-nav-item>
             </x-nav-group>
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)" onclick="
+                <a class="nav-link" href="javascript:void(0)" target="_blank" onclick="
                 let text;
                 let employee_code = prompt('Please enter Employee Code:', '');
                 if (employee_code == null || employee_code == '')
                 { text = 'Invalid.'; }
-                else { text='cr/others/employee/' + employee_code + '/acrs'; window.location=text;}">
+                else { text='/acrs/' + employee_code; window.location=text;}">
                     <svg class="nav-icon">
                         <use xlink:href="http://localhost:8080/hr/vendors/@coreui/icons/svg/free.svg#cil-user-plus"></use>
                       </svg>
