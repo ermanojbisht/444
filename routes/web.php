@@ -30,7 +30,7 @@ Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], f
 
 // acr routes-------------------------  // 
 
-Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth']], function () {
 
     // AcrController
 
@@ -94,7 +94,7 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
 });
 
 
-Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => ['auth']], function () {
 
     // OtherAcrController
     Route::get('/', 'Employee\OthersAcr\OthersAcrController@index')->name('index');
@@ -115,7 +115,7 @@ Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['
 
 
     
-Route::get('acrs/{employee}', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view');
+Route::get('acr/{employee}', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view');
 
 
 
