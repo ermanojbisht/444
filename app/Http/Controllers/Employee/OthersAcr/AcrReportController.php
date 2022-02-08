@@ -54,6 +54,15 @@ class AcrReportController extends Controller
         return view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view')); //'notApplicableParameters',
     }
 
+    public function show(Acr $acr, Request $request)
+    {
+        $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
+        $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
+        $personal_attributes=  $acr->peronalAttributeSWithMasterData();
+        
+        return view('employee.acr.form.appraisalShow',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters'));
+    }
+
 
     public function storeAppraisal1(Request $request)
     {

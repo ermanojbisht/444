@@ -204,7 +204,7 @@ class Acr extends Model
                 $row->reporting_marks = $filledparameters[$row->id]->reporting_marks;
                 $row->reviewing_marks = $filledparameters[$row->id]->reviewing_marks;
             } else {
-                $row->user_target = $row->user_achivement = $row->status = '';
+                $row->user_target = $row->user_achivement = $row->status = 0;
             }
             return $row;
         });
@@ -220,12 +220,27 @@ class Acr extends Model
                 $row->reporting_marks = $filledparameters[$row->id]->reporting_marks;
                 $row->reviewing_marks = $filledparameters[$row->id]->reviewing_marks;
             } else {
-                $row->reporting_marks = $row->reviewing_marks = '';
+                $row->reporting_marks = $row->reviewing_marks = 0;
             }
             return $row;
         });
         return $requiredParameters;
         //return $requiredParameters->groupBy('config_group');
+    }
+
+    public function negative_groups()
+    {
+        $require_negative_parameters=$this->acrMasterParameters()->where('type',0)->get()->keyBy('id');
+        $filled_negative_parameters=$this->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
+        $require_negative_parameters->map(function($row) use ($filled_negative_parameters){
+            if(isset($filled_negative_parameters[$row->id])){
+                $row->user_filled_data=$filled_negative_parameters[$row->id];
+            }else{
+                $row->user_filled_data=[];
+            }
+            return $row;
+        });
+        return $require_negative_parameters->groupBy('config_group');
     }
 
 
@@ -238,7 +253,7 @@ class Acr extends Model
                 $row->reporting_marks = $personalAttributes[$row->id]->reporting_marks;
                 $row->reviewing_marks = $personalAttributes[$row->id]->reviewing_marks;
             } else {
-                $row->reporting_marks = $row->reviewing_marks = '';
+                $row->reporting_marks = $row->reviewing_marks = 0;
             }
             return $row;
         });
@@ -299,7 +314,7 @@ class Acr extends Model
         //$fullpath=\Storage::disk('public')->path($this->pdf_file_path);
         if ($forced || (!$this->isFileExist())) {
             $path=$this->pdf_file_path;
-            File::ensureDirectoryExists(dirname($this->pdfFullFilePath),$mode = 0775, $recursive = true);
+            File::ensureDirectoryExists(dirname($this->pdfFullFilePath),$mode = 0755, $recursive = true);
             if ($this->isFileExist()) {
                 \Storage::disk('public')->delete($path);
             }

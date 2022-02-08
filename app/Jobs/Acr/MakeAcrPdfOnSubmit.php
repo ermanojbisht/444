@@ -73,52 +73,42 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
             list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $this->acr->firstFormData();
             $pages[] = view('employee.acr.view_part1', ['acr'=>$this->acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ]);
 
-        $acr =$this->acr;
             // from Create 1
             $data_groups=$acr->type1RequiremntsWithFilledData();
             // From Create 2
             // From Create 3
-            $require_negative_parameters=$acr->acrMasterParameters()->where('type',0)->get()->keyBy('id');
-            $filled_negative_parameters=$acr->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
-            $require_negative_parameters->map(function($row) use ($filled_negative_parameters){
-                if(isset($filled_negative_parameters[$row->id])){
-                    $row->user_filled_data=$filled_negative_parameters[$row->id];
-                }else{
-                    $row->user_filled_data=[];
-                }
-                return $row;
-            });
-            $negative_groups = $require_negative_parameters->groupBy('config_group');
-
+            $negative_groups = $acr->negative_groups;
             // From Create 4
-
             $selected_trainings = $acr->employee->EmployeeProposedTrainings->pluck('training_id');
             
             $master_trainings = AcrMasterTraining::whereIn('id', $selected_trainings)->get()->groupBy('topic');
-            
             
             $pages[] =  view('employee.acr.form.show',compact('acr','data_groups','negative_groups','master_trainings','selected_trainings','view'));
         }
 
         //acr form by user ?//todo
-
+        //$errors=collect([]);
         if(in_array($this->milstone, ['report','review','accept'])){
             $requiredParameters = $this->acr->type1RequiremntsWithFilledData()->first();
             $requiredNegativeParameters = $this->acr->type2RequiremntsWithFilledData();
             $personal_attributes=  $this->acr->peronalAttributeSWithMasterData();
 
-            if(in_array($this->milstone, ['review','accept'])){
-                $pages[] = view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
+
+            $pages[] = view('employee.acr.form.appraisalShow',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters'));
+
+            /*if(in_array($this->milstone, ['review','accept'])){
+                $pages[] = view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view','errors'));
             }
 
-             if($this->milstone=='report'){
-                $pages[] =view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view'));
-            }
+            if($this->milstone=='report'){
+                $pages[] =view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view','errors'));
+            }*/
+            //integirty view
 
         }
 
         if($this->milstone=='accept'){
-            //todo
+            //todo accept view
         }
 
 
