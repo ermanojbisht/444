@@ -174,18 +174,26 @@ class Acr extends Model
         $responsible_employee_id = '';
         foreach ($records as $key => $record) {
 
-            Log::info(print_r($record, true));
+            //Log::info(print_r($record, true));
 
             if ($record->from_date->diffInDays($record->to_date) >= 90 && $responsible_employee_id === '') {
                 $record->is_due = 1;
                 $responsible_employee_id = $record->employee_id;
             } else {
-                $record->is_due = 0;
+                if($record->to_date==$this->to_date){
+                    //if last record to_date is same as period last date then although acr is not due but still responsible officer will be last person
+                    $record->is_due = 0; $responsible_employee_id = $record->employee_id;
+                }else{
+                    $record->is_due = 0;
+                }
             }
+
             $record->save();
         }
         $this->update([config('acr.basic.acrProcessFields')[$appraisal_officer_type] => $responsible_employee_id]);
     }
+
+
 
     public function filledparameters()
     {
