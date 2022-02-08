@@ -23,6 +23,10 @@ class TempController extends Controller
      */
     public function temp()
     {
+        $acr = Acr::findOrFail(32);
+
+        return $acr->reportUser();
+
         return view('temp');
 
         return User::find(600)->canDoJobInOffice('office-head', 2001);

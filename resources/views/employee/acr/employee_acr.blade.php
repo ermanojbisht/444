@@ -19,7 +19,7 @@
 @include('layouts._commonpartials._breadcrumb',
 [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-['label'=>  'My Acrs','active'=>true]]])
+['label'=> 'My Acrs','active'=>true]]])
 @endsection
 
 @section('content')
@@ -73,7 +73,7 @@
 				<th colspan="2">Reviewed</th>
 				<th colspan="2">Accepted</th>
 			</tr>
-			<tr style="border:1px solid grey" >
+			<tr style="border:1px solid grey">
 				<th>From </th>
 				<th>To </th>
 				<th>By </th>
@@ -92,14 +92,19 @@
 				<td>{{$acr->to_date->format('d M Y')}}</td>
 				<td>{{$acr->created_at->format('d M Y')}} </td>
 
-				<td>{{$acr->report_employee_id}} </td>
-				<td>{{$acr->report_on}} </td>
+				<td>{{$acr->report_employee_id ? $acr->reportUser()->name . '<br />' : '' }} </td>
+				<td>{{Carbon\Carbon::parse($acr->report_on)->format('d M Y') }} </td>   
+				{{-- // pending since from submitted  --}}
 
-				<td>{{$acr->review_employee_id}} </td>
-				<td>{{$acr->review_on}} </td>
+				<td>{{$acr->review_employee_id ? $acr->reviewUser()->name : '' }} </td>
+				<td>{{Carbon\Carbon::parse($acr->review_on)->format('d M Y') }} </td>
+				{{-- // pending since from report_on --}}
 
-				<td>{{$acr->accept_employee_id}} </td>
-				<td>{{$acr->accept_on}} </td>
+				<td>{{$acr->accept_employee_id ? $acr->acceptUser()->name : '' }} </td>
+				<td>{{Carbon\Carbon::parse($acr->accept_on)->format('d M Y') }} </td>
+				{{-- // pending since from review_on --}}
+
+
 				{{-- <td>
 					<div class="dropdown dropstart">
 						<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
