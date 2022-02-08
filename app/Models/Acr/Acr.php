@@ -228,6 +228,21 @@ class Acr extends Model
         //return $requiredParameters->groupBy('config_group');
     }
 
+    public function negative_groups()
+    {
+        $require_negative_parameters=$this->acrMasterParameters()->where('type',0)->get()->keyBy('id');
+        $filled_negative_parameters=$this->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
+        $require_negative_parameters->map(function($row) use ($filled_negative_parameters){
+            if(isset($filled_negative_parameters[$row->id])){
+                $row->user_filled_data=$filled_negative_parameters[$row->id];
+            }else{
+                $row->user_filled_data=[];
+            }
+            return $row;
+        });
+        return $require_negative_parameters->groupBy('config_group');
+    }
+
 
     public function peronalAttributeSWithMasterData()
     {
