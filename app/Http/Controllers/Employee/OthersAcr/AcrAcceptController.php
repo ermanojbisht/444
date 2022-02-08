@@ -60,6 +60,9 @@ class AcrAcceptController extends Controller
             ]);
         }
 
+        //    make pdf  and mail notification
+        dispatch(new MakeAcrPdfOnSubmit($acr, 'accept'));
+
 
         return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');
     }

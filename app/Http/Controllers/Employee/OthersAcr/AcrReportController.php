@@ -219,7 +219,7 @@ class AcrReportController extends Controller
 
         //    make pdf  and mail notification 
 
-        dispatch(new MakeAcrPdfOnSubmit($acr, 'accept'));
+        dispatch(new MakeAcrPdfOnSubmit($acr, 'report'));
 
 
         return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');
