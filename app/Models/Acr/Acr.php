@@ -270,6 +270,46 @@ class Acr extends Model
         return 'acr/' . $this->employee_id . '/' . $this->id . '.pdf';
     }
 
+    public function getGradeAttribute()
+    {
+        $marks = $this->accept_no;
+        switch (true)
+        {
+            case ($marks > 80.0) :
+            {
+                $grades = 'Out Standing';
+                break;
+            }
+            case ($marks > 60.0 &&  $marks <= 80.0) :
+            {
+                $grades = 'Very Good';
+                break;
+            }
+            case ($marks > 40.0 &&  $marks <= 60.0) :
+            {
+                $grades ='Good';
+                break;
+            }
+            case ($marks > 20.0 &&  $marks <= 40.0) :
+            {
+                $grades = 'Satisfactory';
+                break;
+            }
+            case ($marks <= 20.0) :
+            {
+                $grades = 'Unsatisfactory';
+                break;
+            }
+            default :
+            {
+                $grades = 'Unknown / Not decided';
+                break;
+            }
+
+        }
+        return $marks;
+    }
+
     public function getPdfFullFilePathAttribute()
     {
         return \Storage::disk('public')->path($this->pdf_file_path);

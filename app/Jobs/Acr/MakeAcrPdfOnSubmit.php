@@ -77,7 +77,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
             $data_groups=$acr->type1RequiremntsWithFilledData();
             // From Create 2
             // From Create 3
-            $negative_groups = $acr->negative_groups;
+            $negative_groups = $acr->negative_groups();
             // From Create 4
             $selected_trainings = $acr->employee->EmployeeProposedTrainings->pluck('training_id');
             
@@ -95,20 +95,13 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
 
 
             $pages[] = view('employee.acr.form.appraisalShow',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters'));
-
-            /*if(in_array($this->milstone, ['review','accept'])){
-                $pages[] = view('employee.acr.form.appraisal2',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view','errors'));
-            }
-
-            if($this->milstone=='report'){
-                $pages[] =view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view','errors'));
-            }*/
             //integirty view
+            $pages[] = view('employee.other_acr.view_reported_acr', compact('acr'));
 
         }
 
         if($this->milstone=='accept'){
-            //todo accept view
+            $pages[] =view('employee.other_acr.view_accepted_acr', compact('acr'));
         }
 
 

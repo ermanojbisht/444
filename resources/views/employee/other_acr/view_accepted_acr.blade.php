@@ -54,7 +54,7 @@
 						<p class="fw-semibold "> Marks : {{$acr->accept_no }} </p>
 					</div>
 					<div class="col-md-6">
-						<p class="fw-semibold"> Grade : {{$grades}} </p>
+						<p class="fw-semibold"> Grade : {{$acr->grade}} </p>
 					</div>
 				</div>
 			</div>
