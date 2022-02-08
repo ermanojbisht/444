@@ -20,6 +20,7 @@ use App\Models\User;
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
+use Response;
 use DPDF;
 use Helper;
 use Illuminate\Http\Request;
@@ -226,7 +227,15 @@ class AcrController extends Controller
         if($this->user->hasPermissionTo(['acr-special']) || $this->user->employee_id==$acr->employee_id){
 
             if ($acr->isFileExist()) {
-                return response()->file($acr->pdfFullFilePath);
+                $headers = [
+                    'Content-Description' => 'File Transfer',
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="'.$acr->id.'.pdf"'
+                ];
+
+                //return Response::make(file_get_contents($acr->pdfFullFilePath), 200, $headers);
+
+                return response()->file($acr->pdfFullFilePath,$headers);
             }else
             {
                 return Redirect()->back()->with('fail', 'Acr File does not exist');
