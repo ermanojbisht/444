@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Mail;
 use Log;
 use \DateTimeInterface;
 use File;
+use Auth;
 
 class Acr extends Model
 {
@@ -527,6 +528,28 @@ class Acr extends Model
         }
                  
         return ['status' => true, 'msg' => ''];
+    }
+
+    public function permissionForPdf()
+    {
+        $user=Auth::user();
+
+        if ($user->hasPermissionTo(['acr-special']) || ($user->employee_id == $this->employee_id)) {
+            return true;
+        }
+
+        if($user->employee_id==$this->report_employee_id && (!$this->report_on)){
+            return true;
+        }
+
+        if($user->employee_id==$this->review_employee_id && (!$this->review_on)){
+            return true;
+        }
+
+        if($user->employee_id==$this->accept_employee_id && (!$this->accept_on)){
+            return true;
+        }
+        return false;
     }
 
 }

@@ -226,7 +226,7 @@ class AcrController extends Controller
     public function show(Acr $acr)
     {
         //own or some admin
-        if ($this->user->hasPermissionTo(['acr-special']) || $this->user->employee_id == $acr->employee_id) {
+        if ($acr->permissionForPdf()) {
 
             if ($acr->isFileExist()) {
                 $headers = [
