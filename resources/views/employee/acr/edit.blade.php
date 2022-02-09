@@ -1,7 +1,7 @@
 @extends('layouts.type200.main')
 
 @section('styles')
-@include('cssbundle.datatablefor5',['button'=>true])
+@include('layouts._commonpartials.css._select2')
 @endsection
 @section('sidebarmenu')
 @include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
@@ -27,7 +27,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 				<p class="fw-bold"> Name of the officer Reported Upon :- </p>
 			</div>
 			<div class="col-md-6">
-				<p class="fw-semibold"> {{$employee->name }} </p>
+				<p class="fw-semibold  text-info"> {{$employee->name }} </p>
 			</div>
 		</div>
 		<div class="row">
@@ -35,7 +35,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 				<p class="fw-bold"> Date of Birth :-</p>
 			</div>
 			<div class="col-md-6">
-				<p class="fw-semibold "> {{$employee->birth_date->format('d M Y')}} </p>
+				<p class="fw-semibold  text-info"> {{$employee->birth_date->format('d M Y')}} </p>
 			</div>
 		</div>
 		<hr />
@@ -66,28 +66,25 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 				</div>
 				<hr class="m-1" style="opacity: 0.1;">
 
-			</div>
-			<div class="col-md-6">
-				<p class="fw-bold"> Period Of Appraisal : </p>
-				<div class="row">
-					<div class="col-md-6">
-						<label for='from_date' class="required "> Enter From Date </label>
-						<input type="date" name="from_date" value="{{$acr->from_date->format('Y-m-d') }}" required
-							class="form-control" />
-					</div>
-					<div class="col-md-6">
-						<label for='to_date' class="required "> Enter To Date </label>
-						<input type="date" name="to_date" value="{{$acr->to_date->format('Y-m-d') }}" required
-							class="form-control" />
-					</div>
+				<div class="col-md-4">
+					<p class="fw-semibold"> Period Of Appraisal : </p>
 				</div>
-			</div>
-	</div>
-	<div class="row">
-		<div class="col-md-6">
-			<h5> During the Appraisal Period : </h5>
-			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-4">
+					<label for='from_date' class="required "> Enter From Date </label>
+					<input type="date" name="from_date" value="{{$acr->from_date->format('Y-m-d') }}" required
+						class="form-control" />
+				</div>
+				<div class="col-md-4">
+					<label for='to_date' class="required "> Enter To Date </label>
+					<input type="date" name="to_date" value="{{$acr->to_date->format('Y-m-d') }}" required
+						class="form-control" />
+				</div>
+
+				<hr class="m-1" style="opacity: 0.1;">
+				<div class="col-md-4">
+					<p class="fw-semibold"> Place of Posting During the Appraisal Period : </p>
+				</div>
+				<div class="col-md-4">
 					<div class="form-group">
 						{{ Form::label('officeType','Place of Posting ',[ 'class'=>' required']) }}
 						<select id='officeTypeId' class='form-select' required>
@@ -98,10 +95,10 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 						</select>
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="form-group">
 						{{ Form::label('office_id','Select Office Name',[ 'class'=>' required']) }}
-						<select id="office_id" name="office_id" required class="form-select">
+						<select id="office_id" name="office_id" required class="form-select select2">
 							@foreach ($Offices as $office)
 							<option value="{{$office->id}}" {{( $acr_office->id == $office->id ?
 								'selected' : '' )}} > {{$office->name}} </option>
@@ -109,74 +106,59 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 						</select>
 					</div>
 				</div>
-			</div>
-		</div>
+				<hr class="m-1" style="opacity: 0.1;">
 
-		<div class="col-md-6">
-			<p class="fw-bold required"> Date of filing Property Return for the Calander Year: - </p>
-			<div class="row">
 				<div class="col-md-6">
+					<p class="fw-semibold required"> Date of filing Property Return for the Calander Year: - </p>
+				</div>
+				<div class="col-md-3">
 					<div class="form-group">
 						<input type="date" class="form-control"
 							value="{{$acr->property_filing_return_at ? $acr->property_filing_return_at->format('Y-m-d') : '' }}"
 							name="property_filing_return_at" />
 					</div>
 				</div>
-			</div>
-		</div>
-
-		<br />
-		<div class="row">
-			<div class="col-md-12">
-				<p class="fw-bold"> Membership of any Professional Organization : - </p>
-				<textarea type="text" class="form-control"
-					name="professional_org_membership"> {{ $acr->professional_org_membership }} {{old('professional_org_membership')}}</textarea>
-			</div>
-		</div>
-		<br />
-
-	</div>
-	<br />
-	<div class="row">
-		<div class="col-md-12">
-			<p class="fw-bold"> Education Qualification : </p>
-			@foreach ($employee->education as $education )
-			@if($education->qualifiaction_type_id == 1)
-			<div class="row">
-				<div class="col-md-4">
-					<p class="fw-bold h6"> At the time of Joining in the Department : - </p>
+				<hr class="m-1" style="opacity: 0.1;">
+				<div class="col-md-6">
+					<p class="fw-semibold"> Membership of any Professional Organization : - </p>
 				</div>
 				<div class="col-md-6">
-					{{$education->qualifiaction }}
+					<textarea type="text" class="form-control"
+						name="professional_org_membership"> {{ $acr->professional_org_membership }} {{old('professional_org_membership')}}</textarea>
 				</div>
-			</div>
-			@endif
-			@if($education->qualifiaction_type_id == 2)
-			<div class="row">
+
+				<hr class="m-1" style="opacity: 0.1;">
 				<div class="col-md-4">
-					<p class="fw-bold h6"> Qualification acquired during service in the Department : - </p>
+					<p class="fw-semibold  "> Education Qualification : -</p>
 				</div>
-				<div class="col-md-6">
-					{{$education->qualifiaction }}
+				<div class="col-md-8">
+					@foreach ($employee->education as $education )
+					@if($education->qualifiaction_type_id == 1)
+					<p> <span class="fw-semibold h6"> At the time of Joining in the Department : - </span>
+						<span class="text-info"> {{$education->qualifiaction }} </span>
+					</p>
+					@endif
+					@if($education->qualifiaction_type_id == 2)
+					<p>
+						<span class="fw-semibold h6"> Acquired during service in the Department : - </span>
+						<span class="text-info"> {{$education->qualifiaction }} </span>
+					</p>
+					@endif
+					@endforeach
+				</div>
+				<hr class="m-1" style="opacity: 0.1;">
+				<p>Note:- Text in <span class="text-info">Blue color</span> from HRMS Data, if any Correction contact to
+					Office Administrator</p>
+			</div>
+			<div class="row">
+				<div class="col-md-3">
+					<input type="hidden" name="employee_id" value="{{$employee->id}}" />
+					<input type="hidden" name="acr_id" value="{{$acr->id}}" />
+					<input type="submit" class="btn btn-primary " value="Update ACR" />
 				</div>
 			</div>
-			@endif
-			@endforeach
-		</div>
+		</form>
 	</div>
-
-
-	<br />
-
-	<div class="row">
-		<div class="col-md-3">
-			<input type="hidden" name="employee_id" value="{{$employee->id}}" />
-			<input type="hidden" name="acr_id" value="{{$acr->id}}" />
-			<input type="submit" class="btn btn-primary " value="Update ACR" />
-		</div>
-	</div>
-	</form>
-</div>
 </div>
 
 
@@ -186,6 +168,10 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 @section('footscripts')
 <script type="text/javascript">
 	$(document).ready(function () {
+
+		$('.select2').select2({
+		});
+
             $('#officeTypeId').change(function (e) {
                 e.preventDefault();
                 $filterParam = $(this).val(); // or $('#officeTypeId').val();
@@ -214,11 +200,6 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
                     }
                 });
             });
-
-
-			
-
-
         });
 </script>
 

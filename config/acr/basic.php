@@ -24,6 +24,11 @@ return [
    'acrLeaveType'=>[
       1=>'Leave',
       2=>'Absence'
+   ],
+
+   'acrRejectionReason'=>[
+      1=>'Wrong Period',
+      2=>'Wrong Officer Selection'
    ] 
 
 

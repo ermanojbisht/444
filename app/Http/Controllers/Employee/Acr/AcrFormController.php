@@ -132,6 +132,10 @@ class AcrFormController extends Controller
      */
     public function store1(Request $request)
     {
+
+
+        $acr = Acr::findOrFail($request->acr_id);
+
         foreach ($request->acr_master_parameter_id as $acr_master_parameter) {
             if ($request->applicable[$acr_master_parameter] == 1 && ($request->target[$acr_master_parameter] || $request->achivement[$acr_master_parameter] || $request->status[$acr_master_parameter])) {             
                 AcrParameter::UpdateOrCreate(
@@ -162,8 +166,15 @@ class AcrFormController extends Controller
                 );
             }
         }
-         return redirect()->back();
-        //return redirect()->route('acr.form.create2',compact('acr'))->with('success','data in Form 1 saved successfully');
+
+        $result = $acr->checkSelfAppraisalFilled();
+        
+        if (!$result['status']) {
+            return Redirect()->back()->with('fail', 'Please Fill the data or Select NO for Parameters Not Applicable.');
+        }
+
+         
+        return redirect()->route('acr.form.create2',compact('acr'))->with('success','Part -II Self-Appraisal Page -1 saved successfully');
     }
 
     /**
@@ -174,14 +185,13 @@ class AcrFormController extends Controller
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update(['good_work' => $request->good_work,
             'difficultie' => $request->difficultie]);
-        //$acr->save();
-
-        return redirect()->back();
+ 
+        return redirect()->route('acr.form.create3',compact('acr'))->with('success','Part -II Self-Appraisal Page -2 saved successfully');
     }
 
     public function store3(Request $request)
     {
-        //return $request->all();
+        $acr = Acr::findOrFail($request->acr_id);
         foreach ($request->acr_master_parameter_id as $parameter_id) {
             foreach($request->$parameter_id as $rowNo=> $rowData){
                 if ($rowData['col_1'] ){
@@ -207,8 +217,9 @@ class AcrFormController extends Controller
                 }
             }
         }
-
-        return redirect()->back();
+   
+        return redirect()->route('acr.form.addTrainningToEmployee',compact('acr'))->with('success','Part -II Self-Appraisal Page -3 Deduction Parameters saved successfully');
+   
     }
 
     /**
@@ -222,7 +233,9 @@ class AcrFormController extends Controller
 
         Employee::findOrFail($request->employee_id)->trainnings()->sync($request->training);
 
-        return redirect()->back()->with('success','trainning details are updated');
+        // return redirect()->back()->with('success','trainning details are updated');
+        return redirect()->route('acr.myacrs')->with('success','Part -II Self-Appraisal Trainning Details are updated successfully');
+   
     }
 
 }

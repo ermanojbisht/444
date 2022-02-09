@@ -24,36 +24,32 @@ Part - IV ( Assessment by the Accepting Authority)
 @section('content')
 <div class="card">
 	<div class="card-body">
-		<form class="form-horizontal" method="POST" action="{{route('acr.others.accept.save')}}"
-		onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
-			{{--  --}}
-			@csrf
 
-		  
-
-			<div class="form-group">
-				<div class="row">
-					<div class="col-md-4">
-						<p class="fw-bold h5"> Name of the officer Reported Upon :- </p>
-					</div>
-					<div class="col-md-6">
-						<p class="fw-bold"> {{$acr->employee->name }} </p>
-					</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-4">
+					<p class="fw-bold"> Name of the officer Reported Upon :- </p>
 				</div>
-				<div class="row">
-					<div class="col-md-4">
-						<p class="fw-bold h5"> Date of Birth :-</p>
-					</div>
-					<div class="col-md-6">
-						<p class="fw-bold "> {{$acr->employee->birth_date->format('d M Y')}} </p>
-					</div>
+				<div class="col-md-6">
+					<p class="fw-semibold text-info"> {{$acr->employee->name }} </p>
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<p class="fw-bold"> Date of Birth :-</p>
+				</div>
+				<div class="col-md-6">
+					<p class="fw-semibold text-info"> {{$acr->employee->birth_date->format('d M Y')}} </p>
+				</div>
+			</div>
+		</div>
 
-			<br />
+		<form class="form-horizontal" method="POST" action="{{route('acr.others.accept.save')}}"
+		onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
+			@csrf
 			<div class="row">
 				<div class="col-md-6">
-					<p class="fw-bold h5">1. Do you agree with the remarks of the reporting/reviewing authority ? </p>
+					<p class="fw-semibold">1. Do you agree with the remarks of the reporting/reviewing authority ? </p>
 				</div>
 				<div class="col-md-2">
 					{!! Form::select('acr_agree', config('site.yesNo'), '1',
@@ -64,24 +60,24 @@ Part - IV ( Assessment by the Accepting Authority)
 			<br />
 			<div class="row">
 				<div class="col-md-12">
-					<p id="lbl_reason" class="fw-bold h5">2. In Case of difference of opinion details and resaons for the
+					<p id="lbl_reason" class="fw-semibold">2. In Case of difference of opinion details and resaons for the
 						same may be
 						given </p>
 				</div>
 				<div class="col-md-12">
-					<input type="text" id="reason" name="reason" rows="4" class="form-control" />
+					<textarea type="text" id="reason" name="reason" rows="4" class="form-control" ></textarea>
 				</div>
 			</div>
 			<br />
 			<br />
 			<div class="row">
 				<div class="col-md-6">
-					<p class="fw-bold h5">3. Overall Grade & Marks (On a score of 1 - 100) </p>
+					<p class="fw-semibold">3. Overall Grade & Marks (On a score of 1 - 100) </p>
 				</div>
 				<div class="col-md-3">
 					<div class="row">
 						<div class="col-md-6">
-							<p class="fw-bold h5"> Marks </p>
+							<p class="fw-semibold"> Marks </p>
 						</div>
 						<div class="col-md-6">
 							<input id="marks" name="marks" type="number" step="0.01" onblur="findGrades()" maxlength="3"
@@ -91,10 +87,10 @@ Part - IV ( Assessment by the Accepting Authority)
 					<br />
 					<div class="row">
 						<div class="col-md-6">
-							<p class="fw-bold h5"> Grade </p>
+							<p class="fw-semibold"> Grade </p>
 						</div>
 						<div class="col-md-6">
-							<label class="fw-bold h5" id="grades"> </label>
+							<label class="fw-semibold" id="grades"> </label>
 						</div>
 					</div>
 				</div>
@@ -103,7 +99,7 @@ Part - IV ( Assessment by the Accepting Authority)
 			<br />
 			<div class="row">
 				<div class="col-md-12">
-					<p class="fw-bold h5"> Reference table for Grading </p>
+					<p class="fw-semibold"> Reference table for Grading </p>
 				</div>
 				<div class="col-md-12">
 					<table class="table">

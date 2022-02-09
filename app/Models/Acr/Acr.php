@@ -156,7 +156,6 @@ class Acr extends Model
         return ['status' => true, 'msg' => ''];
     }
 
-
     public function hasAppraisalOfficer($appraisal_officer_type)
     {
         return $this->appraisalOfficers()->wherePivot('appraisal_officer_type', $appraisal_officer_type)->count();
@@ -166,7 +165,6 @@ class Acr extends Model
     {
         return ($this->submitted_at) ? true : false;
     }
-
 
     public function updateIsDue($appraisal_officer_type)
     {
@@ -192,8 +190,6 @@ class Acr extends Model
         }
         $this->update([config('acr.basic.acrProcessFields')[$appraisal_officer_type] => $responsible_employee_id]);
     }
-
-
 
     public function filledparameters()
     {
@@ -520,4 +516,17 @@ class Acr extends Model
         }
         $this->save();
     }
+
+
+    public function checkSelfAppraisalFilled()
+    {
+        // check table 1
+        if(AcrParameter::where('acr_id',$this->id)->count() == 0) 
+        {
+            return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR ']; 
+        }
+                 
+        return ['status' => true, 'msg' => ''];
+    }
+
 }

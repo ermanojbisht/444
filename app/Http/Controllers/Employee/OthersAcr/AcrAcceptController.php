@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employee\OthersAcr;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\AcceptedAcrRequest;
+use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Acr\Acr;
 use Illuminate\Support\Facades\Request;

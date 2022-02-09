@@ -24,55 +24,55 @@ My ACR
 @section('content')
 <div class="card">
 	<div class="card-body">
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-4">
+					<p class="fw-bold"> Name of the officer Reported Upon :- </p>
+				</div>
+				<div class="col-md-6">
+					<p class="fw-semibold text-info"> {{$acr->employee->name }} </p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<p class="fw-bold"> Date of Birth :-</p>
+				</div>
+				<div class="col-md-6">
+					<p class="fw-semibold text-info"> {{$acr->employee->birth_date->format('d M Y')}} </p>
+				</div>
+			</div>
+		</div>
+
+
 		<form class="form-horizontal" method="POST" action="{{route('acr.others.report.save')}}"
 		onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 			@csrf
-
-			<div class="form-group">
-				<div class="row">
-					<div class="col-md-4">
-						<p class="fw-bold h5"> Name of the officer Reported Upon :- </p>
-					</div>
-					<div class="col-md-6">
-						<p class="fw-bold"> {{$acr->employee->name }} </p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4">
-						<p class="fw-bold h5"> Date of Birth :-</p>
-					</div>
-					<div class="col-md-6">
-						<p class="fw-bold "> {{$acr->employee->birth_date->format('d M Y')}} </p>
-					</div>
-				</div>
-			</div>
-
 			<div class="row">
 				<div class="col-md-12  ">
 					<p class="fw-bold h3"> 6. Integrity Certificate : </p>
 				</div>
 			</div>
-
-
 			<br />
 			<div class="row">
 				<div class="col-md-12">
-					<input type="radio" name="integrity" checked="true" id="integrity_yes" value='true' " />
-					<label for="integrity_yes" class="fw-bold"> a. The general reputation of Sri/ Ms
+					<input type="radio" class="align-middle" name="integrity" checked="true" id="integrity_yes" value='true' " />
+					<label for="integrity_yes" class="fw-semibold align-middle"> a. The general reputation of Sri/ Ms
 						<u> _ _ _ <span id="employee_name_yes"> {{$acr->employee->name }} </span> _ _ _ </u> for honesty
-						is good and I certify his / her integrity. </p>
+						is good and I certify his / her integrity. </label>
 				</div>
+				<hr/>
 				<div class="col-md-12">
-					<input type="radio" name="integrity" id="integrity_no" value='false'" />
-					<label for="integrity_no" class="fw-bold"> b. The general reputation of Sri/ Ms
-						<u> _ _ _ <span id="employee_name_no"> _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </span> _ _ _ </u>
-						for honesty is not good and  I withhold his / her integrity on account of the following reasons. </p>
+					<input type="radio" class="align-middle" name="integrity" id="integrity_no" value='false'" />
+					<label for="integrity_no" class="fw-semibold align-middle"> b. The general reputation of Sri/ Ms
+						<u> _ _ _ <span id="employee_name_no"> _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </span> _ _ _ </u> <br/>
+						for honesty is not good and  I withhold his / her integrity on account of the following reasons. </label>
 				</div>
 			</div>
 			<br/>
 			<div class="row">
 				<div class="col-md-12">
-					<p id="lbl_reason" class="fw-bold h5"> In Case of difference of opinion, details may be given </p>
+					<p id="lbl_reason" class="fw-bold"> In Case of difference of opinion, details may be given </p>
 					<textarea type="text" id="reason" name="reason" rows="4" class="form-control" ></textarea>
 				</div>
 			</div>
@@ -102,10 +102,9 @@ My ACR
 			{
 				$("#employee_name_yes").html("{{$acr->employee->name }}");
 				$("#employee_name_no").html(" _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ");
-				
 				$("#lbl_reason").removeClass('required');
 				$("#reason").removeAttr('required');
-				$("#reason").removeAttr('style');
+				$("#reason").val('');
 			}
 			else
 			{

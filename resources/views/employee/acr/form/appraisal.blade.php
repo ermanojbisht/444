@@ -127,7 +127,9 @@
 											{{$required_parameter->reporting_marks??''}}
 										</span>
 										@else
-											<input class="form-control form-control-sm text-end reportingPositiveNo" type="number" step="0.01" name="reporting_marks[{{$required_parameter->id}}]" {{$classButton??''}}
+											<input class="form-control form-control-sm text-end reportingPositiveNo" type="number" step="0.01" 
+											 min="0" max="{{$required_parameter->max_marks}}"
+											name="reporting_marks[{{$required_parameter->id}}]" {{$classButton??''}}
 												@if($required_parameter->reporting_marks)
 													value="{{$required_parameter->reporting_marks}}"
 												@endif
@@ -368,7 +370,7 @@
 		{
 			$.ajax
 			({
-				url: '{{ url('cr/getUserParameterData') }}/' + {{$acr->id}} + '/' + paramId,
+				url: '{{ url('acr/getUserParameterData') }}/' + {{$acr->id}} + '/' + paramId,
 				type: 'GET',
 				success: function (data) {
 					 $("#user_input_data").html(data);
@@ -381,7 +383,7 @@
 		{
 			$.ajax
 			({
-				url: '{{ url('cr/getUserNegativeParameterData') }}/' + {{$acr->id}} + '/' + paramId,
+				url: '{{ url('acr/getUserNegativeParameterData') }}/' + {{$acr->id}} + '/' + paramId,
 				type: 'GET',
 				success: function (data) {
 					 $("#user_input_data").html(data);

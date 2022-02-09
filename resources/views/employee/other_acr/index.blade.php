@@ -91,13 +91,17 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i> View ACR
 													</a>
 													@endif
-													<a class="dropdown-item"
+													<a class="dropdown-item   bg-info"
 														href="{{route('acr.form.appraisal1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Process ACR
 													</a>
-													<a class="btn btn-success " style="width: 100%;"
+													<a class="dropdown-item text-white bg-success" style="width: 100%;"
 														href="{{route('acr.others.report.submit', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Submit ACR
+													</a>
+													<a class="dropdown-item text-white bg-danger" style="width: 100%;"
+														href="{{route('acr.reject', ['acr' => $acr->id, 'officerType' => 'report'])}}">
+														<i class="cib-twitter"></i>Reject ACR
 													</a>
 												</div>
 											</div>

@@ -11,6 +11,7 @@ use App\Models\Acr\Acr;
 use App\Models\Acr\AcrMasterPersonalAttributes;
 use App\Models\Acr\AcrNotification;
 use App\Models\Acr\AcrPersonalAttribute;
+use App\Models\Acr\AcrRejection;
 use App\Models\Acr\AcrType;
 use App\Models\Acr\Appreciation;
 use App\Models\Acr\Leave;
@@ -39,7 +40,7 @@ class AcrController extends Controller
      * @var mixed
      */
     protected $user;
-    protected $msg403='Unauthorized action.You are not authorised to see this ACR details';
+    protected $msg403 = 'Unauthorized action.You are not authorised to see this ACR details';
 
     /**
      * @return mixed
@@ -59,8 +60,7 @@ class AcrController extends Controller
      */
     public function index()
     {
-
-        $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->get();
+        $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->orderBy('id', 'DESC')->get();
 
         return view('employee.acr.my_acr', compact('acrs'));
     }
@@ -85,14 +85,13 @@ class AcrController extends Controller
      */
     public function store(StoreAcrRequest $request)
     {
-
         $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
         $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
 
         if ($start > $end) {
             return Redirect()->back()->with('fail', ' From date ' . $start->format('d M y') . ' can not be less then To Date ' . $end->format('d M y'));
         }
- 
+
         Acr::create($request->validated());
 
         return redirect(route('acr.myacrs'));
@@ -100,7 +99,7 @@ class AcrController extends Controller
 
     public function edit(Acr $acr)
     {
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         if ($acr->isSubmitted()) {
             return Redirect()->back()->with('fail', ' ACR is already Submitted, can not be edited...');
         }
@@ -129,7 +128,7 @@ class AcrController extends Controller
     {
 
         $acr = Acr::findOrFail($request->acr_id);
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         $acr->update([
             'acr_group_id' => $request->acr_group_id,
             'acr_type_id' => $request->acr_type_id,
@@ -143,10 +142,9 @@ class AcrController extends Controller
         return redirect(route('acr.myacrs'));
     }
 
-
     public function showPart1(Acr $acr)
     {
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $acr->firstFormData();
 
         return view('employee.acr.view_part1', compact(
@@ -161,10 +159,9 @@ class AcrController extends Controller
         ));
     }
 
-
     public function addOfficers(Acr $acr)
     {
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         $appraisalOfficers =  $acr->appraisalOfficers()->get();
 
         return view('employee.acr.add_officers', compact('acr', 'appraisalOfficers'));
@@ -172,7 +169,6 @@ class AcrController extends Controller
 
     public function addAcrOfficers(Request $request)
     {
-
         // validate appraisal_officer_type 
         $this->validate(
             $request,
@@ -185,7 +181,7 @@ class AcrController extends Controller
         );
 
         $acr = Acr::findOrFail($request->acr_id);
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         $appraisal_officer_type = $request->appraisal_officer_type;
 
         if ($this->user->employee_id == $request->appraisal_officer_type) {
@@ -213,7 +209,7 @@ class AcrController extends Controller
     public function deleteAcrOfficers(Request $request)
     {
         $acr = Acr::findOrFail($request->acr_id);
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         if ($acr->isSubmitted()) {
             return Redirect()->back()->with('fail', ' ACR is already Submitted, Thus No Offcials can be deleted...');
         }
@@ -221,11 +217,17 @@ class AcrController extends Controller
         return Redirect()->back()->with('success', 'Officer deleted Successfully...');
     }
 
-
     public function submitAcr(Request $request)
     {
         $acr = Acr::findOrFail($request->acr_id);
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
+
+        $result = $acr->checkSelfAppraisalFilled();
+
+        if (!$result['status']) {
+            return Redirect()->back()->with('fail', $result['msg']);
+        }
+
         $acr->update(['submitted_at' => now()]);
         dispatch(new MakeAcrPdfOnSubmit($acr, 'submit'));
 
@@ -236,20 +238,19 @@ class AcrController extends Controller
     public function show(Acr $acr)
     {
         //own or some admin
-        if($this->user->hasPermissionTo(['acr-special']) || $this->user->employee_id==$acr->employee_id){
+        if ($this->user->hasPermissionTo(['acr-special']) || $this->user->employee_id == $acr->employee_id) {
 
             if ($acr->isFileExist()) {
                 $headers = [
                     'Content-Description' => 'File Transfer',
                     'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'inline; filename="'.$acr->id.'.pdf"'
+                    'Content-Disposition' => 'inline; filename="' . $acr->id . '.pdf"'
                 ];
 
                 //return Response::make(file_get_contents($acr->pdfFullFilePath), 200, $headers);
 
-                return response()->file($acr->pdfFullFilePath,$headers);
-            }else
-            {
+                return response()->file($acr->pdfFullFilePath, $headers);
+            } else {
                 return Redirect()->back()->with('fail', 'Acr File does not exist');
             }
         }
@@ -315,7 +316,7 @@ class AcrController extends Controller
 
     public function addLeaves(Acr $acr)
     {
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         $leaves = Leave::where('acr_id', $acr->id)->get();
         return view('employee.acr.add_leaves', compact('acr', 'leaves'));
     }
@@ -325,7 +326,7 @@ class AcrController extends Controller
     {
 
         $acr = Acr::findOrFail($request->acr_id);
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
 
         $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
         $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
@@ -345,7 +346,7 @@ class AcrController extends Controller
     public function deleteAcrLeaves(Request $request)
     {
         $acr = Acr::findOrFail($request->acr_id);
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         if ($acr->isSubmitted()) {
             return Redirect()->back()->with('fail', ' ACR is already Submitted, Thus Leaves can not be deleted...');
         }
@@ -356,7 +357,7 @@ class AcrController extends Controller
 
     public function addAppreciation(Acr $acr)
     {
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         $appreciations = Appreciation::where('acr_id', $acr->id)->get();
 
         return view('employee.acr.add_Appreciation', compact('acr', 'appreciations'));
@@ -374,7 +375,7 @@ class AcrController extends Controller
             ]
         );
         $acr = Acr::findOrFail($request->acr_id);
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
 
         Appreciation::create($request->all());
 
@@ -384,12 +385,39 @@ class AcrController extends Controller
     public function deleteAcrAppreciation(Request $request)
     {
         $acr = Acr::findOrFail($request->acr_id);
-        abort_if($this->user->employee_id<>$acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         if ($acr->isSubmitted()) {
             return Redirect()->back()->with('fail', ' ACR is already Submitted, Thus Appreciations can not be deleted...');
         }
         Appreciation::find($request->appreciation_id)->delete();
 
         return Redirect()->back()->with('success', 'Appreciation deleted Successfully...');
+    }
+
+    public function reject(Acr $acr, $officerType)
+    {
+        if ($officerType == 'report') {
+            $officer = $acr->reportUser();
+        } else if ($officerType == 'review') {
+            $officer = $acr->reviewUser();
+        } else if ($officerType == 'accept') {
+            $officer = $acr->acceptUser();
+        } else {
+            return Redirect()->back()->with('fail', 'Cannot reject ACR...');
+        }
+
+        return view('employee.acr.reject_acr', compact('acr', 'officer'));
+    }
+
+    public function storeReject(Request $request)
+    {
+        $acr = Acr::findOrFail($request->acr_id);
+
+        
+
+        AcrRejection::create($request->all());
+
+
+        $acr->update(['is_active' => 0]);
     }
 }

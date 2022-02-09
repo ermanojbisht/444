@@ -52,7 +52,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
         }
 
         if($this->milstone=='report'){
-            $this->acr-reportNotification();
+            $this->acr->reportNotification();
         }
 
         if($this->milstone=='review'){
