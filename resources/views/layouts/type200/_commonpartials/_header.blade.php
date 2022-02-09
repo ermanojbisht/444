@@ -44,7 +44,7 @@
             <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button"
                                              aria-haspopup="true" aria-expanded="false">
                     @if(Auth::check())
-                        <div class="avatar avatar-md"><img class="avatar-img" src="{{asset('assets/img/avatars/8.jpg')}}"
+                        <div class="avatar avatar-md"><img class="avatar-img" src="{{asset('../assets/img/avatars/8.jpg')}}"
                                                        alt="{{Auth::user()->name}}"></div>
                     @else
                         <div class="avatar avatar-md">
@@ -53,10 +53,10 @@
                     @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-end pt-0">
-                   {{--  <div class="dropdown-header bg-light py-2">
-                        <div class="fw-semibold">Account</div>
+                    <div class="dropdown-header bg-light py-2">
+                        <div class="fw-semibold">{{Auth::user()->name}}</div>
                     </div>
-                    <a class="dropdown-item" href="#">
+                    {{-- <a class="dropdown-item" href="#">
                         <svg class="icon me-2">
                             <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
                         </svg>
@@ -94,8 +94,8 @@
                         <svg class="icon me-2">
                             <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-file"></use>
                         </svg>
-                        Projects<span class="badge badge-sm bg-primary ms-2">42</span></a>
-                    <div class="dropdown-divider"></div> --}}
+                        Projects<span class="badge badge-sm bg-primary ms-2">42</span></a> --}}
+                    <div class="dropdown-divider"></div>
                 
                      <a href="#" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                         {{-- <svg class="icon me-2">

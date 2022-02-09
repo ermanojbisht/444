@@ -48,6 +48,11 @@ class AcrController extends Controller
      */
     public function index()
     {
+
+        if($this->user->fromShashan()){
+            return redirect()->route('acr.others.index');
+        }
+
         $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->orderBy('id', 'DESC')->get();
 
         return view('employee.acr.my_acr', compact('acrs'));
