@@ -22,12 +22,12 @@
 				  	@else btn-outline-primary
 				  	@endif
 		  		">Page-3</a>
-		  <a href="{{route('acr.form.create4',['acr' => $acr])}}"
+		  <a href="{{route('acr.form.addTrainningToEmployee',['acr' => $acr])}}"
 		  	class="btn 
 				  	@if($page ==4 ) btn-primary 
 				  	@else btn-outline-primary
 				  	@endif
-		  		">Page-4</a>
+		  		">Trainnings</a>
 		</div>
 	</span>
 </div>

@@ -48,35 +48,35 @@ class AcrReportController extends Controller
     {
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
-        $personal_attributes=  $acr->peronalAttributeSWithMasterData();
+        $personal_attributes =  $acr->peronalAttributeSWithMasterData();
 
         $view = false; // make true for view only
-        return view('employee.acr.form.appraisal',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters','view')); //'notApplicableParameters',
+        return view('employee.acr.form.appraisal', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view')); //'notApplicableParameters',
     }
 
     public function show(Acr $acr, Request $request)
     {
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
-        $personal_attributes=  $acr->peronalAttributeSWithMasterData();
-        
-        return view('employee.acr.form.appraisalShow',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters'));
+        $personal_attributes =  $acr->peronalAttributeSWithMasterData();
+
+        return view('employee.acr.form.appraisalShow', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters'));
     }
 
 
     public function storeAppraisal1(Request $request)
     {
         //return $request->all(); 
-        
+
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update([
             'appraisal_note_1' => $request->appraisal_note_1,
             'appraisal_note_2' => $request->appraisal_note_2,
             'appraisal_note_3' => $request->appraisal_note_3,
-            'report_no'=> $request->final_marks,
+            'report_no' => $request->final_marks,
         ]);
 
-        foreach($request->reporting_marks as $parameterId => $reporting_mark ){
+        foreach ($request->reporting_marks as $parameterId => $reporting_mark) {
             AcrParameter::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
@@ -87,7 +87,7 @@ class AcrReportController extends Controller
                 ]
             );
         }
-        foreach($request->personal_attributes as $attributeId => $attribute_mark ){
+        foreach ($request->personal_attributes as $attributeId => $attribute_mark) {
             AcrPersonalAttribute::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
@@ -103,10 +103,10 @@ class AcrReportController extends Controller
 
     // todo these function to be shifted in ACR Controller
     public function getUserParameterData($acrId, $paramId)
-    {   
-        $AcrMasterParameter =  AcrMasterParameter::where('id',$paramId)->first();
-       
-        $AcrParameter =  AcrParameter::where('acr_master_parameter_id',$paramId)->where('acr_id',$acrId)->first();
+    {
+        $AcrMasterParameter =  AcrMasterParameter::where('id', $paramId)->first();
+
+        $AcrParameter =  AcrParameter::where('acr_master_parameter_id', $paramId)->where('acr_id', $acrId)->first();
 
         $text = [];
         $text[] = "<p class='fs-5 fw-semibold my-0'>User Input For </p>";
@@ -196,22 +196,30 @@ class AcrReportController extends Controller
             [
                 'acr_id' => 'required|numeric',
                 'integrity' => 'required',
+                'report_remark' => 'nullable',
             ]
         );
 
-        if ($request->integrity == 'false' && $request->remark == "") {
+        if ($request->integrity == 'false' && $request->reason == "") {
             return Redirect()->back()->with('fail', 'Remark is Mandatory, for integrity reasons...');
         }
+
         $acr = Acr::findOrFail($request->acr_id);
 
-        $acr->update([
-            'report_on' => now(),
-            'report_remark' => $request->reason
-        ]);
+        if ($request->integrity == 'false') {
+            $acr->update([
+                'report_on' => now(),
+                'report_remark' => $request->reason
+            ]);
+        } else {
+            $acr->update([
+                'report_on' => now() 
+            ]);
+        }
 
         //    make pdf  and mail notification 
 
-        dispatch(new MakeAcrPdfOnSubmit($acr, 'accept'));
+        dispatch(new MakeAcrPdfOnSubmit($acr, 'report'));
 
 
         return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');

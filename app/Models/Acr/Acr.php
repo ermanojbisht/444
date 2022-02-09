@@ -26,10 +26,16 @@ class Acr extends Model
     protected $fillable = [
         'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date', 'prpoerty_return_date',
         'good_work', 'difficultie', 'appreciations', 'submitted_at',
-        'report_employee_id', 'review_employee_id', 'accept_employee_id', 'report_on', 'review_on',
-        'accept_on', 'is_active', 'appraisal_note_1', 'appraisal_note_2', 'appraisal_note_3',
-        'professional_org_membership', 'property_filing_return_at','report_duration_lapsed','review_duration_lapsed','accept_duration_lapsed','report_no','review_no','accept_no'
+        'report_employee_id', 'review_employee_id', 'accept_employee_id',
+        'is_active', 'appraisal_note_1', 'appraisal_note_2', 'appraisal_note_3',
+        'professional_org_membership', 'property_filing_return_at','report_duration_lapsed',
+        'review_duration_lapsed','accept_duration_lapsed',
+        'report_no','report_on', 'report_remark',
+        'review_no','review_on', 'review_remark',
+        'accept_no','accept_on', 'accept_remark'
     ];
+
+
     protected $dates = [
         'from_date', 'to_date', 'property_filing_return_at','submitted_at','report_on','review_on','accept_on'
     ];
@@ -168,18 +174,26 @@ class Acr extends Model
         $responsible_employee_id = '';
         foreach ($records as $key => $record) {
 
-            Log::info(print_r($record, true));
+            //Log::info(print_r($record, true));
 
             if ($record->from_date->diffInDays($record->to_date) >= 90 && $responsible_employee_id === '') {
                 $record->is_due = 1;
                 $responsible_employee_id = $record->employee_id;
             } else {
-                $record->is_due = 0;
+                if($record->to_date==$this->to_date){
+                    //if last record to_date is same as period last date then although acr is not due but still responsible officer will be last person
+                    $record->is_due = 0; $responsible_employee_id = $record->employee_id;
+                }else{
+                    $record->is_due = 0;
+                }
             }
+
             $record->save();
         }
         $this->update([config('acr.basic.acrProcessFields')[$appraisal_officer_type] => $responsible_employee_id]);
     }
+
+
 
     public function filledparameters()
     {
@@ -228,6 +242,21 @@ class Acr extends Model
         //return $requiredParameters->groupBy('config_group');
     }
 
+    public function negative_groups()
+    {
+        $require_negative_parameters=$this->acrMasterParameters()->where('type',0)->get()->keyBy('id');
+        $filled_negative_parameters=$this->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
+        $require_negative_parameters->map(function($row) use ($filled_negative_parameters){
+            if(isset($filled_negative_parameters[$row->id])){
+                $row->user_filled_data=$filled_negative_parameters[$row->id];
+            }else{
+                $row->user_filled_data=[];
+            }
+            return $row;
+        });
+        return $require_negative_parameters->groupBy('config_group');
+    }
+
 
     public function peronalAttributeSWithMasterData()
     {
@@ -247,6 +276,46 @@ class Acr extends Model
     public function getPdfFilePathAttribute()
     {
         return 'acr/' . $this->employee_id . '/' . $this->id . '.pdf';
+    }
+
+    public function getGradeAttribute()
+    {
+        $marks = $this->accept_no;
+        switch (true)
+        {
+            case ($marks > 80.0) :
+            {
+                $grades = 'Out Standing';
+                break;
+            }
+            case ($marks > 60.0 &&  $marks <= 80.0) :
+            {
+                $grades = 'Very Good';
+                break;
+            }
+            case ($marks > 40.0 &&  $marks <= 60.0) :
+            {
+                $grades ='Good';
+                break;
+            }
+            case ($marks > 20.0 &&  $marks <= 40.0) :
+            {
+                $grades = 'Satisfactory';
+                break;
+            }
+            case ($marks <= 20.0) :
+            {
+                $grades = 'Unsatisfactory';
+                break;
+            }
+            default :
+            {
+                $grades = 'Unknown / Not decided';
+                break;
+            }
+
+        }
+        return $marks;
     }
 
     public function getPdfFullFilePathAttribute()

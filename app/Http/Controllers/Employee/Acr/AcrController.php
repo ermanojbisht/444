@@ -20,6 +20,7 @@ use App\Models\User;
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
+use Response;
 use DPDF;
 use Helper;
 use Illuminate\Http\Request;
@@ -222,15 +223,26 @@ class AcrController extends Controller
 
     public function show(Acr $acr)
     {
+        //own or some admin
+        if($this->user->hasPermissionTo(['acr-special']) || $this->user->employee_id==$acr->employee_id){
 
-        
+            if ($acr->isFileExist()) {
+                $headers = [
+                    'Content-Description' => 'File Transfer',
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="'.$acr->id.'.pdf"'
+                ];
 
-        if ($acr->isFileExist()) {
-            return response()->file($acr->pdfFullFilePath);
-        }else
-        {
-            return Redirect()->back()->with('fail', 'Acr Pdf File does not exist');
+                //return Response::make(file_get_contents($acr->pdfFullFilePath), 200, $headers);
+
+                return response()->file($acr->pdfFullFilePath,$headers);
+            }else
+            {
+                return Redirect()->back()->with('fail', 'Acr File does not exist');
+            }
         }
+        return abort(403, 'Unauthorized action.You are not authorised to see this ACR details');
+
 
         $pages = array();
         //$data_groups = $acr->type1RequiremntsWithFilledData();

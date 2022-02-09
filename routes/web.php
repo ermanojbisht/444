@@ -30,7 +30,7 @@ Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], f
 
 // acr routes-------------------------  // 
 
-Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth']], function () {
 
     // AcrController
 
@@ -68,14 +68,14 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
     Route::get('form/{acr}/part1', 'Employee\Acr\AcrFormController@create1')->name('form.create1');//target/achivement
     Route::get('form/{acr}/part2', 'Employee\Acr\AcrFormController@create2')->name('form.create2');//difficulty
     Route::get('form/{acr}/part3', 'Employee\Acr\AcrFormController@create3')->name('form.create3');//deduction
-    Route::get('form/{acr}/part4', 'Employee\Acr\AcrFormController@create4')->name('form.create4');//training
+    Route::get('form/{acr}/part4', 'Employee\Acr\AcrFormController@addTrainningToEmployee')->name('form.addTrainningToEmployee');//training
     
     Route::get('form/{acr}/show', 'Employee\Acr\AcrFormController@show')->name('form.show');//training
     
     Route::post('form/store1', 'Employee\Acr\AcrFormController@store1')->name('form.store1');
     Route::post('form/store2', 'Employee\Acr\AcrFormController@store2')->name('form.store2');
     Route::post('form/store3', 'Employee\Acr\AcrFormController@store3')->name('form.store3');
-    Route::post('form/store4', 'Employee\Acr\AcrFormController@store4')->name('form.store4');
+    Route::post('form/storeTrainning', 'Employee\Acr\AcrFormController@storeTrainning')->name('form.storeTrainning');
 
 
     // Acr Reporting 
@@ -94,7 +94,7 @@ Route::group(['prefix' => 'cr', 'as' => 'acr.', 'middleware' => ['auth']], funct
 });
 
 
-Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => ['auth']], function () {
 
     // OtherAcrController
     Route::get('/', 'Employee\OthersAcr\OthersAcrController@index')->name('index');
@@ -107,10 +107,15 @@ Route::group(['prefix' => 'cr/others', 'as' => 'acr.others.', 'middleware' => ['
     Route::get('accept/{acr}/submit', 'Employee\OthersAcr\AcrAcceptController@submitAccepted')->name('accept.submit');
     Route::post('accpet', 'Employee\OthersAcr\AcrAcceptController@storeAcceptedAcr')->name('accept.save');
 
+
+    Route::get('view/{acr}/integrity', 'Employee\OthersAcr\OthersAcrController@viewIntegrity')->name('acr.view.integrity'); 
+    Route::get('view/{acr}/accepted', 'Employee\OthersAcr\OthersAcrController@viewAccepted')->name('acr.view.accepted'); 
     
-    Route::get('employee/{employee}/acrs', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view'); 
 });
 
+
+    
+Route::get('acr/{employee}', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view');
 
 
 

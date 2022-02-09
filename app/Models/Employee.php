@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\HrGrievance\HrGrievance;
+use App\Models\Acr\AcrMasterTraining;
 use App\Models\Acr\EmpProposedTraining;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\HrGrievance\HrGrievance;
 use DB;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 
@@ -110,6 +111,12 @@ class Employee extends Authenticatable
     public function EmployeeProposedTrainings()
     {
         return $this->hasMany(EmpProposedTraining::class, "employee_id", "id");
+    }
+
+    public function trainnings()
+    {
+        return $this->belongsToMany(AcrMasterTraining::class, 'emp_proposed_trainings', 'employee_id','training_id')
+            ->withPivot('is_active')->withTimestamps();
     }
     
 }

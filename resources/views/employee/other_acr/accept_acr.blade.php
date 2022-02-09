@@ -53,7 +53,7 @@ Part - IV ( Assessment by the Accepting Authority)
 			<br />
 			<div class="row">
 				<div class="col-md-6">
-					<p class="fw-bold h5"> Do you agree with the remarks of the reporting/reviewing authority ? </p>
+					<p class="fw-bold h5">1. Do you agree with the remarks of the reporting/reviewing authority ? </p>
 				</div>
 				<div class="col-md-2">
 					{!! Form::select('acr_agree', config('site.yesNo'), '1',
@@ -64,7 +64,7 @@ Part - IV ( Assessment by the Accepting Authority)
 			<br />
 			<div class="row">
 				<div class="col-md-12">
-					<p id="lbl_reason" class="fw-bold h5"> In Case of difference of opinion details and resaons for the
+					<p id="lbl_reason" class="fw-bold h5">2. In Case of difference of opinion details and resaons for the
 						same may be
 						given </p>
 				</div>
@@ -76,7 +76,7 @@ Part - IV ( Assessment by the Accepting Authority)
 			<br />
 			<div class="row">
 				<div class="col-md-6">
-					<p class="fw-bold h5"> Overall Grade & Marks (On a score of 1 - 100) </p>
+					<p class="fw-bold h5">3. Overall Grade & Marks (On a score of 1 - 100) </p>
 				</div>
 				<div class="col-md-3">
 					<div class="row">

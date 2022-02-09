@@ -5,6 +5,14 @@
 @section('pagetitle')
 	Part -II Self-Appraisal <small>Page -2</small>
 @endsection
+@section('breadcrumb')
+@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
+['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
+['label'=> 'Assessment of Performance','active'=>true]
+]])
+@endsection
+
 @section('content')
 	@include('employee.acr.form._formHeader',['acr'=>$acr])
 	<div class="card">

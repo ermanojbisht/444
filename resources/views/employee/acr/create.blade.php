@@ -8,14 +8,14 @@
 @endsection
 
 @section('pagetitle')
-Create ACR
+Part 1 ( Basic Information ) <small> Create ACR  </small>
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 	['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
 	['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
-	['label'=> 'Create','active'=>true]
+	['label'=> 'Create ACR','active'=>true]
 ]])
 @endsection
 

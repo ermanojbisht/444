@@ -5,11 +5,19 @@
 @section('pagetitle')
 	Part -II Self-Appraisal <small>Page -4 Required Trainings</small>
 @endsection
+@section('breadcrumb')
+@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
+['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
+['label'=> 'Required Trainings','active'=>true]
+]])
+@endsection
+
 @section('content')
  	@include('employee.acr.form._formHeader',['acr'=>$acr])
 	<div class="card form-control">
 		<p class="fs-5 fw-bold">5- Please Select training modules for indicate specific areas in which you feel the need to upgrade your skills through training programs (Maximum 4 modules)</p>
-		<form class="form-horizontal" method="POST" action="{{route('acr.form.store4')}}">
+		<form class="form-horizontal" method="POST" action="{{route('acr.form.storeTrainning')}}">
 			@csrf
 			<input type="hidden" name="employee_id" value='{{$acr->employee_id}}'/>
 			@foreach($master_trainings as $key=>$trainings)
