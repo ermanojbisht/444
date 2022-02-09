@@ -115,16 +115,16 @@ class Acr extends Model
         $acrPeriodEndDate = $this->to_date;
         //$start<$end //return with msg "start/from date can not be less then end/to date"
         if ($start > $end) {
-            return ['status' => false, 'msg' => 'start/from date ' . $start->format('d M y') . ' can not be less then end/to date' . $end->format('d M y')];
+            return ['status' => false, 'msg' => 'From date ' . $start->format('d M y') . ' can not be less then To date' . $end->format('d M y')];
         }
         //$start,$end within $acrPeriodStartDate,$acrPeriodEndDate //start and end date should be within ACR period as mentioned by you
 
         if (!$start->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)) {
-            return ['status' => false, 'msg' => 'start/from date ' . $start->format('d M y') . ' is beyond the ACR period (' . $acrPeriodStartDate->format('d M y') . ' - ' . $acrPeriodEndDate->format('d M y') . ' )'];
+            return ['status' => false, 'msg' => 'From date ' . $start->format('d M y') . ' is beyond the ACR period (' . $acrPeriodStartDate->format('d M y') . ' - ' . $acrPeriodEndDate->format('d M y') . ' )'];
         }
 
         if (!$end->betweenIncluded($acrPeriodStartDate, $acrPeriodEndDate)) {
-            return ['status' => false, 'msg' => 'End/to date ' . $end->format('d M y') . ' is beyond the ACR period (' . $acrPeriodStartDate->format('d M y') . ' - ' . $acrPeriodEndDate->format('d M y') . ' )'];
+            return ['status' => false, 'msg' => 'To date ' . $end->format('d M y') . ' is beyond the ACR period (' . $acrPeriodStartDate->format('d M y') . ' - ' . $acrPeriodEndDate->format('d M y') . ' )'];
         }
 
         return ['status' => true, 'msg' => ''];

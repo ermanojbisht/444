@@ -8,14 +8,14 @@
 @endsection
 
 @section('pagetitle')
-Part 1 ( Basic Information ) <small> Create ACR  </small>
+Part 1 ( Basic Information ) <small> Create ACR </small>
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
-	['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-	['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
-	['label'=> 'Create ACR','active'=>true]
+['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
+['label'=> 'Create ACR','active'=>true]
 ]])
 @endsection
 
@@ -24,18 +24,18 @@ Part 1 ( Basic Information ) <small> Create ACR  </small>
 	<div class="card-body">
 		<div class="row">
 			<div class="col-md-4">
-				<p class="fw-bold h5"> Name of the officer Reported Upon :- </p>
+				<p class="fw-bold"> Name of the officer Reported Upon :- </p>
 			</div>
 			<div class="col-md-6">
-				<p class="fw-bold h5 text-info"> {{$employee->name }} </p>
+				<p class="fw-semibold text-info"> {{$employee->name }} </p>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-4">
-				<p class="fw-bold h5"> Date of Birth :-</p>
+				<p class="fw-bold"> Date of Birth :-</p>
 			</div>
 			<div class="col-md-6">
-				<p class="fw-bold h5 text-info"> {{$employee->birth_date->format('d M Y')}} </p>
+				<p class="fw-semibold text-info"> {{$employee->birth_date->format('d M Y')}} </p>
 			</div>
 		</div>
 		<hr>
@@ -43,7 +43,7 @@ Part 1 ( Basic Information ) <small> Create ACR  </small>
 			@csrf
 			<div class="row">
 				<div class="col-md-4">
-					<p class="fw-semibold h5"> Select Type of ACR to be Filled : </p>
+					<p class="fw-semibold "> Select Type of ACR to be Filled : </p>
 				</div>
 				<div class="col-md-4">
 					<label for='acr_group_id' class="required "> Select Designation Group </label>
@@ -61,7 +61,7 @@ Part 1 ( Basic Information ) <small> Create ACR  </small>
 				</div>
 				<hr class="m-1" style="opacity: 0.1;">
 				<div class="col-md-4">
-					<p class="fw-semibold h5"> Period Of Appraisal : </p>
+					<p class="fw-semibold"> Period Of Appraisal : </p>
 				</div>
 				<div class="col-md-4">
 					<label for='from_date' class="required "> Enter From Date </label>
@@ -73,7 +73,7 @@ Part 1 ( Basic Information ) <small> Create ACR  </small>
 				</div>
 				<hr class="m-1" style="opacity: 0.1;">
 				<div class="col-md-4">
-					<p class="fw-semibold h5"> Place of Posting During the Appraisal Period : </p>
+					<p class="fw-semibold"> Place of Posting During the Appraisal Period : </p>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
@@ -92,7 +92,7 @@ Part 1 ( Basic Information ) <small> Create ACR  </small>
 				</div>
 				<hr class="m-1" style="opacity: 0.1;">
 				<div class="col-md-6">
-					<p class="fw-semibold h5 required"> Date of filing Property Return for the Calander Year: - </p>
+					<p class="fw-semibold required"> Date of filing Property Return for the Calander Year: - </p>
 				</div>
 				<div class="col-md-3">
 					<div class="form-group">
@@ -103,34 +103,36 @@ Part 1 ( Basic Information ) <small> Create ACR  </small>
 				<hr class="m-1" style="opacity: 0.1;">
 
 				<div class="col-md-6">
-					<p class="fw-semibold h5 "> Membership of any Professional Organization : - </p>
+					<p class="fw-semibold "> Membership of any Professional Organization : - </p>
 				</div>
 				<div class="col-md-6">
-					<textarea type="text" class="form-control" name="professional_org_membership">{{old('professional_org_membership')}}</textarea>
+					<textarea type="text" class="form-control"
+						name="professional_org_membership">{{old('professional_org_membership')}}</textarea>
 				</div>
 
 				<hr class="m-1" style="opacity: 0.1;">
 				<div class="col-md-4">
-					<p class="fw-semibold h5  "> Education Qualification : -</p>
+					<p class="fw-semibold  "> Education Qualification : -</p>
 				</div>
 				<div class="col-md-8">
 					@foreach ($employee->education as $education )
-						@if($education->qualifiaction_type_id == 1)
-							<p>
-								<span class="fw-semibold h6"> At the time of Joining in the Department : - </span>
-								<span class="text-info"> {{$education->qualifiaction }} </span>
-							</p>
-						@endif
-						@if($education->qualifiaction_type_id == 2)
-							<p>
-								<span class="fw-semibold h6">Acquired during service in the Department : - </span>
-								<span class="text-info">{{$education->qualifiaction }}</span>
-							</p>
-						@endif
+					@if($education->qualifiaction_type_id == 1)
+					<p>
+						<span class="fw-semibold h6"> At the time of Joining in the Department : - </span>
+						<span class="text-info"> {{$education->qualifiaction }} </span>
+					</p>
+					@endif
+					@if($education->qualifiaction_type_id == 2)
+					<p>
+						<span class="fw-semibold h6">Acquired during service in the Department : - </span>
+						<span class="text-info">{{$education->qualifiaction }}</span>
+					</p>
+					@endif
 					@endforeach
 				</div>
 				<hr class="m-1" style="opacity: 0.1;">
-				<p>Note:- Text in <span class="text-info">Blue color</span> from HRMS Data, if any Correction contact to Office Administrator</p>
+				<p>Note:- Text in <span class="text-info">Blue color</span> from HRMS Data, if any Correction contact to
+					Office Administrator</p>
 			</div>
 			<div class="row">
 				<div class="col-md-3">

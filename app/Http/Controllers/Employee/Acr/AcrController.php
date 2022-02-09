@@ -57,7 +57,7 @@ class AcrController extends Controller
      */
     public function index()
     {
-        
+
         $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->get();
 
         return view('employee.acr.my_acr', compact('acrs'));
@@ -83,11 +83,18 @@ class AcrController extends Controller
      */
     public function store(StoreAcrRequest $request)
     {
+
+        $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
+        $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
+
+        if ($start > $end) {
+            return Redirect()->back()->with('fail', ' From date ' . $start->format('d M y') . ' can not be less then To Date ' . $end->format('d M y'));
+        }
+ 
         Acr::create($request->validated());
 
         return redirect(route('acr.myacrs'));
     }
-
 
     public function edit(Acr $acr)
     {
@@ -218,17 +225,12 @@ class AcrController extends Controller
     }
 
 
-
-
     public function show(Acr $acr)
     {
 
-        
-
         if ($acr->isFileExist()) {
             return response()->file($acr->pdfFullFilePath);
-        }else
-        {
+        } else {
             return Redirect()->back()->with('fail', 'Acr Pdf File does not exist');
         }
 
