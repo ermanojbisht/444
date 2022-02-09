@@ -92,7 +92,7 @@ class Employee extends Authenticatable
         $designation=($this->designation)?$this->designation->name:'Not found';
 
         $d=$this->designation;
-        $dob=$this->birth_date->format('d M y');
+        $dob=($this->birth_date)?$this->birth_date->format('d M y'):'unknown';
         return "
             Name:$this->name <br>
             Father/Spouse:$this->father_name <br>

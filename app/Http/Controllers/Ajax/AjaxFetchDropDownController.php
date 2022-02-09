@@ -77,6 +77,8 @@ class AjaxFetchDropDownController extends Controller
                 $query = $query->whereIn('designation_id', $designationsList);
             }
 
+            $query = $query->where('retirement_date', '>=', today()->subMonths(2)->format('Y-m-d'));
+
             $data = $query->orderBy('name')->get();
         }
 
