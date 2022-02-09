@@ -44,7 +44,7 @@
             <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button"
                                              aria-haspopup="true" aria-expanded="false">
                     @if(Auth::check())
-                        <div class="avatar avatar-md"><img class="avatar-img" src="{{asset('../assets/img/avatars/8.jpg')}}"
+                        <div class="avatar avatar-md"><img class="avatar-img" src="{{asset('../images/user_profile_pics/male.jpg')}}"
                                                        alt="{{Auth::user()->name}}"></div>
                     @else
                         <div class="avatar avatar-md">
