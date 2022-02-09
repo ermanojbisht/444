@@ -88,14 +88,14 @@ class AcrFormController extends Controller
      * @param Acr     $acr
      * @param Request $request
      */
-    public function create4(Acr $acr, Request $request)
+    public function addTrainningToEmployee(Acr $acr, Request $request)
     {
         $page = 4;
         $master_trainings = AcrMasterTraining::all()->groupBy('topic');
         
-        $selected_trainings = $acr->employee->EmployeeProposedTrainings->pluck('training_id');
+        $selected_trainings = $acr->employee->trainnings->pluck('id');
         
-        return view('employee.acr.form.create4',compact('acr','master_trainings','selected_trainings','page'));
+        return view('employee.acr.form.add_trainning_to_employee',compact('acr','master_trainings','selected_trainings','page'));
     }
 
     public function show(Acr $acr, Request $request)
@@ -214,29 +214,15 @@ class AcrFormController extends Controller
     /**
      * @param Request $request
      */
-    public function store4(Request $request)
+    public function storeTrainning(Request $request)
     {
         $this->validate($request,[
             'training' => 'required|array|between:1,4'
         ]);
 
-        // delete all previou record
-        //$deleted = EmpProposedTraining::where('employee_id', $request->employee_id)->firstorfail()->delete();
-        //return $request->all();
-        $employee = Employee::findOrFail($request->employee_id);
-        foreach ($request->training as $training) {
-            EmpProposedTraining::Create(
-                    [
-                        'employee_id' => $request->employee_id,
-                        'training_id' => $training,
-                    ]
-                );
+        Employee::findOrFail($request->employee_id)->trainnings()->sync($request->training);
 
-        }
-        
-        //$acr->save();
-
-        return redirect()->back();
+        return redirect()->back()->with('success','trainning details are updated');
     }
 
 }

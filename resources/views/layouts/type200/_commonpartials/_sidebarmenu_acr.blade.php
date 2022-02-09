@@ -7,7 +7,7 @@
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
     <div class="sidebar-brand d-none d-md-flex p-0">
         <svg class="sidebar-brand-full p-0" width="100%" height="46" alt="PWD Logo" style="fill:powderblue;">
-            {!!config('mis_entry.svgIcon')['misentry']!!}
+            {!!config('mis_entry.svgIcon')['acrs']!!}
         </svg>
         <svg class="sidebar-brand-narrow p-0" width="46" height="46" alt="PWD Logo" style="fill:powderblue;">
             {!!config('mis_entry.svgIcon')['pwd']!!}
@@ -22,15 +22,18 @@
                 <x-nav-item icon="envelope-letter " href="{{route('acr.others.index')}}">Inbox</x-nav-item>
             </x-nav-group>
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)" target="_blank" onclick="
-                let text;
-                let employee_code = prompt('Please enter Employee Code:', '');
-                if (employee_code == null || employee_code == '')
-                { text = 'Invalid.'; }
-                else { text='/acrs/' + employee_code; window.location=text;}">
+                <a class="nav-link" href="javascript:void(0)" onclick="
+                    let text;
+                    let employee_code = prompt('Please enter Employee Code:', '');
+                    if (employee_code == null || employee_code == '')
+                    { text = 'Invalid.'; }
+                    else { text='{{url('acr')}}' +'/'+ employee_code;
+                            window.open(text, '_blank');
+                    }">
                     <svg class="nav-icon">
-                        <use xlink:href="http://localhost:8080/hr/vendors/@coreui/icons/svg/free.svg#cil-user-plus"></use>
-                      </svg>
+                        <use
+                            xlink:href="http://localhost:8080/hr/vendors/@coreui/icons/svg/free.svg#cil-user-plus"></use>
+                    </svg>
                     <span> Employee's ACR </span>
                 </a>
             </li>

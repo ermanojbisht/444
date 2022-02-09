@@ -174,18 +174,26 @@ class Acr extends Model
         $responsible_employee_id = '';
         foreach ($records as $key => $record) {
 
-            Log::info(print_r($record, true));
+            //Log::info(print_r($record, true));
 
             if ($record->from_date->diffInDays($record->to_date) >= 90 && $responsible_employee_id === '') {
                 $record->is_due = 1;
                 $responsible_employee_id = $record->employee_id;
             } else {
-                $record->is_due = 0;
+                if($record->to_date==$this->to_date){
+                    //if last record to_date is same as period last date then although acr is not due but still responsible officer will be last person
+                    $record->is_due = 0; $responsible_employee_id = $record->employee_id;
+                }else{
+                    $record->is_due = 0;
+                }
             }
+
             $record->save();
         }
         $this->update([config('acr.basic.acrProcessFields')[$appraisal_officer_type] => $responsible_employee_id]);
     }
+
+
 
     public function filledparameters()
     {
@@ -268,6 +276,46 @@ class Acr extends Model
     public function getPdfFilePathAttribute()
     {
         return 'acr/' . $this->employee_id . '/' . $this->id . '.pdf';
+    }
+
+    public function getGradeAttribute()
+    {
+        $marks = $this->accept_no;
+        switch (true)
+        {
+            case ($marks > 80.0) :
+            {
+                $grades = 'Out Standing';
+                break;
+            }
+            case ($marks > 60.0 &&  $marks <= 80.0) :
+            {
+                $grades = 'Very Good';
+                break;
+            }
+            case ($marks > 40.0 &&  $marks <= 60.0) :
+            {
+                $grades ='Good';
+                break;
+            }
+            case ($marks > 20.0 &&  $marks <= 40.0) :
+            {
+                $grades = 'Satisfactory';
+                break;
+            }
+            case ($marks <= 20.0) :
+            {
+                $grades = 'Unsatisfactory';
+                break;
+            }
+            default :
+            {
+                $grades = 'Unknown / Not decided';
+                break;
+            }
+
+        }
+        return $marks;
     }
 
     public function getPdfFullFilePathAttribute()

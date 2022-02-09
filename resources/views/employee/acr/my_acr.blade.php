@@ -72,27 +72,27 @@
 								@if (!$acr->submitted_at)
 
 								<a class="dropdown-item" href="{{route('acr.edit', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Edit ACR
+									<i class="cib-twitter"></i>Edit Basic Detail
 								</a>
 
 								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
 								</a>
 								<a class="dropdown-item" href="{{route('acr.addLeaves', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Add Leaves or Period Of Absence
+									<i class="cib-twitter"></i>Add Leaves / Absence
 								</a>
 								<a class="dropdown-item" href="{{route('acr.addAppreciation', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Appreciation / Honors
 								</a>
 								<a class="dropdown-item" href="{{route('acr.form.create1', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Add ACR Form Part 1
+									<i class="cib-twitter"></i>Add Part -II Self-Appraisal
 								</a>
-								<a class="dropdown-item" href="{{route('acr.form.create2', ['acr' => $acr->id])}}">
+								{{-- <a class="dropdown-item" href="{{route('acr.form.create2', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add ACR Form Part 2
 								</a>
 								<a class="dropdown-item" href="{{route('acr.form.create3', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add ACR Form Part 3
-								</a>
+								</a> --}}
 								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) &&
 								$acr->hasAppraisalOfficer(3) ) 
 								{{-- //if part 1 2 3 4 all are filled  --}}
