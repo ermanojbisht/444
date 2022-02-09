@@ -19,7 +19,7 @@ Route::group(['middleware' => ['auth']], function () {
 //Auth::routes();
 Auth::routes(['verify' => true]);
 
-Route::get('acr/{employee}', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view');
+Route::get('acrs/{employee}', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view');
 
 //employee system routes-------------------------
 Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], function () {
