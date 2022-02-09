@@ -44,8 +44,6 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth','verifi
     Route::post('/update/acr', 'Employee\Acr\AcrController@update')->name('update');
 
 
-    Route::get('{acr}/reject/{officerType}', 'Employee\Acr\AcrController@reject')->name('reject');
-    Route::post('/reject/acr', 'Employee\Acr\AcrController@storeReject')->name('storeReject');
 
 
     Route::get('/{acr}/view', 'Employee\Acr\AcrController@show')->name('view');
@@ -116,6 +114,9 @@ Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => [
 
     Route::get('view/{acr}/integrity', 'Employee\OthersAcr\OthersAcrController@viewIntegrity')->name('acr.view.integrity'); 
     Route::get('view/{acr}/accepted', 'Employee\OthersAcr\OthersAcrController@viewAccepted')->name('acr.view.accepted'); 
+    
+    Route::get('{acr}/reject/{officerType}', 'Employee\OthersAcr\OthersAcrController@reject')->name('reject');
+    Route::post('/reject/acr', 'Employee\OthersAcr\OthersAcrController@storeReject')->name('storeReject');
     
 });
 

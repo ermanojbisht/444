@@ -5,31 +5,19 @@ namespace App\Http\Controllers\Employee\Acr;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\StoreAcrLeaveRequest;
 use App\Http\Requests\Acr\StoreAcrRequest;
-use App\Jobs\Acr\MakeAcrPdfOnSubmit;
-use App\Mail\Acr\AcrSumittedMail;
-use App\Models\Acr\Acr;
-use App\Models\Acr\AcrMasterPersonalAttributes;
-use App\Models\Acr\AcrNotification;
-use App\Models\Acr\AcrPersonalAttribute;
-use App\Models\Acr\AcrRejection;
+use App\Jobs\Acr\MakeAcrPdfOnSubmit; 
+use App\Models\Acr\Acr; 
 use App\Models\Acr\AcrType;
 use App\Models\Acr\Appreciation;
 use App\Models\Acr\Leave;
 use App\Models\Employee;
-use App\Models\Office;
-use App\Models\User;
+use App\Models\Office; 
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
-use Carbon\Carbon;
-use Response;
-use DPDF;
-use Helper;
+use Carbon\Carbon; 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\View;
-use Log;
-use SPDF;
+use Illuminate\Support\Facades\Auth;  
+use Illuminate\Support\Facades\View; 
 
 class AcrController extends Controller
 {
@@ -394,30 +382,5 @@ class AcrController extends Controller
         return Redirect()->back()->with('success', 'Appreciation deleted Successfully...');
     }
 
-    public function reject(Acr $acr, $officerType)
-    {
-        if ($officerType == 'report') {
-            $officer = $acr->reportUser();
-        } else if ($officerType == 'review') {
-            $officer = $acr->reviewUser();
-        } else if ($officerType == 'accept') {
-            $officer = $acr->acceptUser();
-        } else {
-            return Redirect()->back()->with('fail', 'Cannot reject ACR...');
-        }
-
-        return view('employee.acr.reject_acr', compact('acr', 'officer'));
-    }
-
-    public function storeReject(Request $request)
-    {
-        $acr = Acr::findOrFail($request->acr_id);
-
-        
-
-        AcrRejection::create($request->all());
-
-
-        $acr->update(['is_active' => 0]);
-    }
+    
 }

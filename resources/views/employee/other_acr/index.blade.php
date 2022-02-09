@@ -100,7 +100,7 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i>Submit ACR
 													</a>
 													<a class="dropdown-item text-white bg-danger" style="width: 100%;"
-														href="{{route('acr.reject', ['acr' => $acr->id, 'officerType' => 'report'])}}">
+														href="{{route('acr.others.reject', ['acr' => $acr->id, 'officerType' => 'report'])}}">
 														<i class="cib-twitter"></i>Reject ACR
 													</a>
 												</div>

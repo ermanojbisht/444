@@ -39,7 +39,7 @@
 					>{{$acr->difficultie??''}}</textarea>
 				</div>
 				<div class="form-group mt-2 text-end">
-			        <button type="submit" class="btn btn-primary">Save
+			        <button type="submit" class="btn btn-primary">Save and Continue
 			    </div>
 			</form>
 		</div>

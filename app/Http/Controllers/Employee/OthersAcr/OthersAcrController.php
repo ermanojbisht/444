@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employee\OthersAcr;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\StoreAcrRequest;
 use App\Models\Acr\Acr;
+use App\Models\Acr\AcrRejection;
 use App\Models\Employee;
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
@@ -134,5 +135,29 @@ class OthersAcrController extends Controller
         return view('employee.other_acr.view_accepted_acr', compact('acr'));
     }
     
+    public function reject(Acr $acr, $officerType)
+    {
+        if ($officerType == 'report') {
+            $officer = $acr->reportUser();
+        } else if ($officerType == 'review') {
+            $officer = $acr->reviewUser();
+        } else if ($officerType == 'accept') {
+            $officer = $acr->acceptUser();
+        } else {
+            return Redirect()->back()->with('fail', 'Cannot reject ACR...');
+        }
+
+        return view('employee.acr.reject_acr', compact('acr', 'officer'));
+    }
+
+    public function storeReject(Request $request)
+    {
+        $acr = Acr::findOrFail($request->acr_id);
+        AcrRejection::create($request->all());
+        $acr->update(['is_active' => 0]);
+
+        return redirect(route('acr.others.index')); 
+    }
+
 
 }

@@ -121,7 +121,7 @@
 						</table>
 				@endforeach
 				<div class="text-end">
-			    	<button type="submit" class="btn btn-primary">Save
+			    	<button type="submit" class="btn btn-primary">Save and Continue
 				</div>
 			</form>
 		</div>

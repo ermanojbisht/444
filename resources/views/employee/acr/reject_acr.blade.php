@@ -44,7 +44,7 @@ Part - IV ( Assessment by the Accepting Authority)
 			</div>
 		</div>
 
-		<form class="form-horizontal" method="POST" action="{{route('acr.others.accept.save')}}"
+		<form class="form-horizontal" method="POST" action="{{route('acr.others.storeReject')}}"
 		onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 			@csrf
 			<div class="row">
@@ -52,8 +52,8 @@ Part - IV ( Assessment by the Accepting Authority)
 					<p class="fw-semibold"> Reason for Rejection of the ACR ? </p>
 				</div>
 				<div class="col-md-3">
-					{!! Form::select('acr_agree', config('acr.basic.acrRejectionReason'), '1',
-					['id'=>'acr_rejection_reason','class'=>'form-select'], ) !!}
+					{!! Form::select('rejection_type_id', config('acr.basic.acrRejectionReason'), '1',
+					['id'=>'rejection_type_id','class'=>'form-select'], ) !!}
 				</div>
 			</div>
 			<br />
