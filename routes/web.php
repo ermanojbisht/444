@@ -19,6 +19,8 @@ Route::group(['middleware' => ['auth']], function () {
 //Auth::routes();
 Auth::routes(['verify' => true]);
 
+Route::get('acrs/{employee}', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view');
+
 //employee system routes-------------------------
 Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], function () {
 
@@ -30,7 +32,7 @@ Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], f
 
 // acr routes-------------------------  // 
 
-Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth','verified']], function () {
 
     // AcrController
 
@@ -94,7 +96,7 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth']], func
 });
 
 
-Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => ['auth','verified']], function () {
 
     // OtherAcrController
     Route::get('/', 'Employee\OthersAcr\OthersAcrController@index')->name('index');
@@ -115,7 +117,7 @@ Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => [
 
 
     
-Route::get('acr/{employee}', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view');
+
 
 
 
