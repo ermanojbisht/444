@@ -7,7 +7,7 @@
 <div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
     <div class="sidebar-brand d-none d-md-flex p-0">
         <svg class="sidebar-brand-full p-0" width="100%" height="46" alt="PWD Logo" style="fill:powderblue;">
-            {!!config('mis_entry.svgIcon')['misentry']!!}
+            {!!config('mis_entry.svgIcon')['acrs']!!}
         </svg>
         <svg class="sidebar-brand-narrow p-0" width="46" height="46" alt="PWD Logo" style="fill:powderblue;">
             {!!config('mis_entry.svgIcon')['pwd']!!}
