@@ -26,10 +26,9 @@
 
     <div class="c-sidebar-brand d-md-down-none">
         <a class="c-sidebar-brand-full h4" href="#">
-            <span class="iconlogo">{!!config('mis_entry.svgIcon')['misentry']!!}</span>
+            <span class="iconlogo">{!!config('mis_entry.svgIcon')['employee']!!}</span>
         </a>
     </div>
-
     <ul class="c-sidebar-nav">
         <li class="c-sidebar-nav-item">
             <a href="{{ route("employee.home") }}" class="c-sidebar-nav-link">
