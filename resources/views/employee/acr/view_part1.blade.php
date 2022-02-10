@@ -193,7 +193,7 @@
 									</tr>
 									@empty
 									<tr>
-										<td colspan="5" rowspan="1" headers="">No Data Found</td>
+										<td colspan="5" rowspan="1" headers="">Nill</td>
 									</tr>
 									@endforelse
 									</tbody>
@@ -228,7 +228,7 @@
 										</tr>
 										@empty
 										<tr>
-											<td colspan="3" rowspan="1" headers="">No Data Found</td>
+											<td colspan="3" rowspan="1" headers="">Nill</td>
 										</tr>
 										@endforelse
 									</tbody>
