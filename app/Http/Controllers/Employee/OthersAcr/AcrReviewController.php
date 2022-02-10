@@ -61,19 +61,19 @@ class AcrReviewController extends Controller
         $this->validate($request,
             [
                 'final_marks' => 'required | numeric | gt:0',
-                'reviewing_marks'=> 'array',
+                /*'reviewing_marks'=> 'array',
                 'reviewing_marks.*' => 'numeric | nullable',
                 'personal_attributes'=> 'array',
-                'personal_attributes.*' => 'numeric | nullable',
+                'personal_attributes.*' => 'numeric | nullable',*/
             ]
         );
-        
-        $acr = Acr::findOrFail($request->acr_id);
-        $acr->update([
-            'review_no' => $request->final_marks,
-        ]);
 
-        foreach ($request->reviewing_marks as $parameterId => $reviewing_mark) {
+        $review_no = 0;
+
+        $acr = Acr::findOrFail($request->acr_id);
+        
+
+        foreach ($request->reviewing_marks[1] as $parameterId => $reviewing_mark) {
             AcrParameter::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
@@ -83,6 +83,19 @@ class AcrReviewController extends Controller
                     'reviewing_marks' => $reviewing_mark,
                 ]
             );
+            $review_no = $review_no + $reviewing_mark;
+        }
+        foreach ($request->reviewing_marks[0] as $parameterId => $reviewing_mark) {
+            AcrParameter::UpdateOrCreate(
+                [
+                    'acr_id' => $request->acr_id,
+                    'acr_master_parameter_id' => $parameterId,
+                ],
+                [
+                    'reviewing_marks' => $reviewing_mark,
+                ]
+            );
+            $review_no = $review_no - $reviewing_mark;
         }
         foreach ($request->personal_attributes as $attributeId => $attribute_mark) {
             AcrPersonalAttribute::UpdateOrCreate(
@@ -94,7 +107,12 @@ class AcrReviewController extends Controller
                     'reviewing_marks' => $attribute_mark,
                 ]
             );
+            $review_no = $review_no + $attribute_mark;
         }
+
+        $acr->update([
+            'review_no' => $review_no,
+        ]);
         return redirect()->back();
     }
 

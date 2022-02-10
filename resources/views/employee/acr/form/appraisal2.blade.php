@@ -113,7 +113,7 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 								</span>
 								@else
 								<input class="form-control form-control-sm text-end reviewingPositiveNo" type="number"
-									step="0.01" name="reviewing_marks[{{$required_parameter->id}}]" {{$classButton??''}}
+									step="0.01" name="reviewing_marks[1][{{$required_parameter->id}}]" {{$classButton??''}}
 									@if($required_parameter->reviewing_marks)
 								value="{{$required_parameter->reviewing_marks}}"
 								@else
@@ -239,7 +239,7 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 								{{$requiredNegativeParameter->reviewing_marks??'0'}}
 								@else
 								<input class="form-control form-control-sm text-end reportingNegativeNo" type="number"
-									step="0.01" name="reviewing_marks[{{$requiredNegativeParameter->id}}]"
+									step="0.01" name="reviewing_marks[0][{{$requiredNegativeParameter->id}}]"
 									@if($requiredNegativeParameter->reviewing_marks)
 								value="{{$requiredNegativeParameter->reviewing_marks}}"
 								@else

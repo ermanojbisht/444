@@ -70,12 +70,14 @@ class AcrReportController extends Controller
 
         $this->validate($request,
             [
-                'final_marks' => 'required | numeric | gt:0',
+                //'final_marks' => 'required | numeric | gt:0',
                 'appraisal_note_1' => 'nullable',
                 'appraisal_note_2' => 'nullable',
                 'appraisal_note_3' => 'nullable',
-                'reporting_marks'=> 'array',
+                /*'reporting_marks[0]'=> 'array',
                 'reporting_marks.*' => 'numeric | nullable',
+                'reporting_marks[1]'=> 'array',
+                'reporting_marks.*' => 'numeric | nullable',*/
                 'personal_attributes'=> 'array',
                 'personal_attributes.*' => 'numeric | nullable',
             ]
@@ -84,14 +86,11 @@ class AcrReportController extends Controller
 
 
         $acr = Acr::findOrFail($request->acr_id);
-        $acr->update([
-            'appraisal_note_1' => $request->appraisal_note_1,
-            'appraisal_note_2' => $request->appraisal_note_2,
-            'appraisal_note_3' => $request->appraisal_note_3,
-            'report_no' => $request->final_marks,
-        ]);
+        
 
-        foreach ($request->reporting_marks as $parameterId => $reporting_mark) {
+        $report_no = 0;
+
+        foreach ($request->reporting_marks[1] as $parameterId => $reporting_mark) {
             AcrParameter::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
@@ -101,6 +100,19 @@ class AcrReportController extends Controller
                     'reporting_marks' => $reporting_mark,
                 ]
             );
+            $report_no = $report_no + $reporting_mark;
+        }
+        foreach ($request->reporting_marks[0] as $parameterId => $reporting_mark) {
+            AcrParameter::UpdateOrCreate(
+                [
+                    'acr_id' => $request->acr_id,
+                    'acr_master_parameter_id' => $parameterId,
+                ],
+                [
+                    'reporting_marks' => $reporting_mark,
+                ]
+            );
+            $report_no = $report_no - $reporting_mark;
         }
         foreach ($request->personal_attributes as $attributeId => $attribute_mark) {
             AcrPersonalAttribute::UpdateOrCreate(
@@ -112,7 +124,16 @@ class AcrReportController extends Controller
                     'reporting_marks' => $attribute_mark,
                 ]
             );
+            $report_no = $report_no + $attribute_mark;
         }
+
+        $acr->update([
+            'appraisal_note_1' => $request->appraisal_note_1,
+            'appraisal_note_2' => $request->appraisal_note_2,
+            'appraisal_note_3' => $request->appraisal_note_3,
+            'report_no' => $report_no,
+        ]);
+
         return redirect()->back();
     }
 
