@@ -85,7 +85,7 @@
                     <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
                     </i>
-                    {{ trans('cruds.ourOffice.title') }}
+                    <span class="iconText">{{ trans('cruds.ourOffice.title') }}</span>
                 </a>
                 <ul class="c-sidebar-nav-dropdown-items">
                     @can('ce_office_access')
@@ -94,7 +94,7 @@
                                 <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
                                 </i>
-                                {{ trans('cruds.ceOffice.title') }}
+                                <span class="iconText">{{ trans('cruds.ceOffice.title') }}</span>
                             </a>
                         </li>
                     @endcan
@@ -104,7 +104,7 @@
                                 <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
                                 </i>
-                                {{ trans('cruds.seOffice.title') }}
+                                <span class="iconText">{{ trans('cruds.seOffice.title') }}</span>
                             </a>
                         </li>
                     @endcan
@@ -114,7 +114,7 @@
                                 <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
                                 </i>
-                                {{ trans('cruds.eeOffice.title') }}
+                                <span class="iconText">{{ trans('cruds.eeOffice.title') }}</span>
                             </a>
                         </li>
                     @endcan
@@ -135,7 +135,7 @@
                                 <i class="fa-fw fas fa-shield-alt c-sidebar-nav-icon">
 
                                 </i>
-                                {{ trans('cruds.officeJob.title') }}
+                                <span class="iconText">{{ trans('cruds.officeJob.title') }}</span>
                             </a>
                         </li>
                     @endcan    
@@ -145,7 +145,7 @@
                                 <i class="fa-fw fas fa-shield-alt c-sidebar-nav-icon">
 
                                 </i>
-                                {{ trans('cruds.officeJobDefault.title') }}
+                                <span class="iconText">{{ trans('cruds.officeJobDefault.title') }}</span>
                             </a>
                         </li>
                     @endcan
@@ -155,7 +155,7 @@
                                 <i class="fa-fw fas fa-file-alt c-sidebar-nav-icon">
 
                                 </i>
-                                {{ trans('cruds.auditLog.title') }}
+                                <span class="iconText">{{ trans('cruds.auditLog.title') }}</span>
                             </a>
                         </li>
                     @endcan 
@@ -173,7 +173,7 @@
                     <a class="c-sidebar-nav-link {{ request()->is('profile/password') || request()->is('profile/password/*') ? 'active' : '' }}" href="{{ route('profile.password.edit') }}">
                         <i class="fa-fw fas fa-key c-sidebar-nav-icon">
                         </i>
-                        {{ trans('global.change_password') }}
+                        <span class="iconText">{{ trans('global.change_password') }}</span>
                     </a>
                 </li>
             {{-- @endcan --}}
@@ -211,10 +211,10 @@
         </li>
         @if(Auth::check())
         @if(Auth::user()->chat_id <= 10000)
-        <li>
-          <a href="{{ route('telegram.connect') }}">
+        <li class="c-sidebar-nav-item">
+          <a href="{{ route('telegram.connect') }}" class="c-sidebar-nav-link">
             @include('icon.icon',['icon'=>'telegram','width'=>25,'height'=>25])
-            <span>Telegtam Integeration</span>
+            <span class="iconText">Telegtam Integeration</span>
           </a>
         </li>
         @endif

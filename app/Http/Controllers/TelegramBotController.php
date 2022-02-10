@@ -14,6 +14,57 @@ use pschocke\TelegramLoginWidget\Facades\TelegramLoginWidget;
 
 class TelegramBotController extends Controller
 {
+    public function connect()
+    {
+        return view('telegram.connect');
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function callback(Request $request)
+    {
+        /*Log::info("request = ".print_r($request->all(), true));*/
+        if (!$telegramUser = TelegramLoginWidget::validate($request)) {
+            return redirect()->route('employee.home')->with('error', 'Telegram Response not valid');
+        }
+        if (Auth::user()->chat_id <= 10000) {
+            //check if provided chat id already used
+            $alreadyUserExistForThisChatID=User::where('chat_id', $telegramUser->get('id'))->first();
+            if( $alreadyUserExistForThisChatID){
+                 return redirect()->route('employee.home')->with('error', "Sorry provided Telegram credential / user is already affiliated with user:".$alreadyUserExistForThisChatID->name);
+            }
+            Auth::user()->update(['chat_id' => $telegramUser->get('id')]);
+            return redirect()->route('employee.home')->with('success', 'Telegram id updated , now next time you may login through telegram and process sms will be delevier through mkb_bg_bot');
+        }
+
+        if (Auth::user()->chat_id == $telegramUser->get('id')) {
+            return redirect()->route('employee.home')->with('message', 'User Telegram id already exist and same as now');
+        }
+
+        return Redirect::back();//not needed , just for safety
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function telegramLogged(Request $request)
+    {
+        if (!$telegramUser = TelegramLoginWidget::validate($request)) {
+            return redirect()->back()->with('message', "Telegram Response not valid");
+        } else {
+            $user = User::where('chat_id', $telegramUser->get('id'))->first();
+            if ($user) {
+                Auth::login($user);
+
+                return redirect()->intended('home');
+            }
+
+            return back()->withErrors([
+                'email' => 'The provided credentials do not match our records.'
+            ]);
+        }
+    }
     /*public function __construct() {
     $this->middleware('auth');
     }*/
@@ -142,59 +193,6 @@ class TelegramBotController extends Controller
         }
     }*/
 
-    public function connect()
-    {
-        return view('telegram.connect');
-    }
-
-    /**
-     * @param Request $request
-     */
-    public function callback(Request $request)
-    {
-        /*Log::info("request = ".print_r($request->all(), true));*/
-        if (!$telegramUser = TelegramLoginWidget::validate($request)) {
-            return 'Telegram Response not valid';
-        }
-        if (Auth::user()->chat_id <= 10000) {
-            //check if provided chat id already used
-            $alreadyUserExistForThisChatID=User::where('chat_id', $telegramUser->get('id'))->first();
-            if( $alreadyUserExistForThisChatID){
-                return "Sorry provided Telegram credential / user is already affiliated with user:".$alreadyUserExistForThisChatID->name;
-            }
-            Auth::user()->update(['chat_id' => $telegramUser->get('id')]);
-
-            return 'Telegram id updated , now next time you may login through telegram';
-        }
-
-        if (Auth::user()->chat_id == $telegramUser->get('id')) {
-            return "User Telegram id already exist and same as now";
-        }
-
-        return Redirect::back();
-    }
-
-    /**
-     * @param Request $request
-     */
-    public function telegramLogged(Request $request)
-    {
-        Log::info("request = ".print_r($request->all(), true));
-        if (!$telegramUser = TelegramLoginWidget::validate($request)) {
-            return 'Telegram Response not valid';
-        } else {
-            $user = User::where('chat_id', $telegramUser->get('id'))->first();
-            if ($user) {
-                Auth::login($user);
-
-                return redirect()->intended('home');
-            }
-
-            return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.'
-            ]);
-        }
-    }
 
 //$exifcom = 'cd /home/manoj/tg/ && ./bin/telegram-cli -k tg-server.pub -W -e msg Pooja  hello123';
     //$exifcom = 'sh telegram1.sh user#665326725 h0000';
