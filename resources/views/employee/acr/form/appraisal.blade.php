@@ -129,7 +129,7 @@
 										@else
 											<input class="form-control form-control-sm text-end reportingPositiveNo" type="number" step="0.01" 
 											 min="0" max="{{$required_parameter->max_marks}}"
-											name="reporting_marks[{{$required_parameter->id}}]" {{$classButton??''}}
+											name="reporting_marks[1][{{$required_parameter->id}}]" {{$classButton??''}}
 												@if($required_parameter->reporting_marks)
 													value="{{$required_parameter->reporting_marks}}"
 												@endif
@@ -232,7 +232,7 @@
 										@if($view)
 											{{$requiredNegativeParameter->reporting_marks??'--'}}
 										@else
-											<input class="form-control form-control-sm text-end reportingNegativeNo" type="number" step="0.01" name="reporting_marks[{{$requiredNegativeParameter->id}}]"
+											<input class="form-control form-control-sm text-end reportingNegativeNo" type="number" step="0.01" name="reporting_marks[0][{{$requiredNegativeParameter->id}}]"
 											@if($requiredNegativeParameter->reporting_marks)
 												value="{{$requiredNegativeParameter->reporting_marks}}"
 											@endif
@@ -267,6 +267,7 @@
 			</div>
 			<div class="card-body border border-2 border-danger">
 				<p class="fw-semibold h5">5. Summary of Marks awarded</p>
+				{{$net_marksA+ $reporting_marksB - $reporting_marksC}}
 				<input 	type="hidden" name="final_marks"
 						value="{{$net_marksA+ $reporting_marksB - $reporting_marksC}}"
 				>
