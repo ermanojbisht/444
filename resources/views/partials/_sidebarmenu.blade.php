@@ -209,6 +209,16 @@
                 <span class="iconText">&#160;Google Input Tool</span>                
             </a>
         </li>
+        @if(Auth::check())
+        @if(Auth::user()->chat_id <= 10000)
+        <li>
+          <a href="{{ route('telegram.connect') }}">
+            @include('icon.icon',['icon'=>'telegram','width'=>25,'height'=>25])
+            <span>Telegtam Integeration</span>
+          </a>
+        </li>
+        @endif
+        @endif
     </ul>
     <div class="btn-toolbar p-0" role="toolbar" aria-label="Toolbar with button groups">
       <div class="btn-group m-0" role="group" aria-label="First group">

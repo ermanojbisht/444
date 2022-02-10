@@ -251,3 +251,6 @@ Route::get('client', function () {
 
 Route::get('/temp', 'TempController@temp');
 Route::get('/temp1', 'Employee\Acr\MonitorAcrController@countEsclation');
+Route::get('/telegram/connect', 'TelegramBotController@connect')->name('telegram.connect');
+Route::get('/telegram/callback', 'TelegramBotController@callback')->name('telegram.callback');
+Route::get('/telegram/telegramLogged', 'TelegramBotController@telegramLogged')->name('telegram.telegramLogged');

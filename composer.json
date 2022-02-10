@@ -25,6 +25,7 @@
         "luigel/laravel-passport-views": "^0.0.1",
         "lukeraymonddowning/honey": "^0.3.1",
         "nuovo/spreadsheet-reader": "^0.5.11",
+        "pschocke/laravel-telegram-login-widget": "^1.2",
         "spatie/laravel-medialibrary": "^7.19",
         "wulfheart/pretty_routes": "^0.3.0",
         "yajra/laravel-datatables-oracle": "^9.9"

@@ -24,4 +24,5 @@
     </div>
 </div>
 </body>
+@yield('footscripts')
 </html>
