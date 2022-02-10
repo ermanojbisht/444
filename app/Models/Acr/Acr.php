@@ -29,16 +29,16 @@ class Acr extends Model
         'good_work', 'difficultie', 'appreciations', 'submitted_at',
         'report_employee_id', 'review_employee_id', 'accept_employee_id',
         'is_active', 'appraisal_note_1', 'appraisal_note_2', 'appraisal_note_3',
-        'professional_org_membership', 'property_filing_return_at','report_duration_lapsed',
-        'review_duration_lapsed','accept_duration_lapsed',
-        'report_no','report_on', 'report_remark',
-        'review_no','review_on', 'review_remark',
-        'accept_no','accept_on', 'accept_remark'
+        'professional_org_membership', 'property_filing_return_at', 'report_duration_lapsed',
+        'review_duration_lapsed', 'accept_duration_lapsed',
+        'report_no', 'report_on', 'report_remark',
+        'review_no', 'review_on', 'review_remark',
+        'accept_no', 'accept_on', 'accept_remark'
     ];
 
 
     protected $dates = [
-        'from_date', 'to_date', 'property_filing_return_at','submitted_at','report_on','review_on','accept_on'
+        'from_date', 'to_date', 'property_filing_return_at', 'submitted_at', 'report_on', 'review_on', 'accept_on'
     ];
 
 
@@ -63,27 +63,27 @@ class Acr extends Model
     }
 
 
-    public function scopeLevel($query, $value='submit')
+    public function scopeLevel($query, $value = 'submit')
     {
-        $query=$query->whereNotNull('report_employee_id')->whereNotNull('review_employee_id')->whereNotNull('accept_employee_id')->whereNotNull('submitted_at');
+        $query = $query->whereNotNull('report_employee_id')->whereNotNull('review_employee_id')->whereNotNull('accept_employee_id')->whereNotNull('submitted_at');
         switch ($value) {
             case 'submit':
                 return $query->whereNull('report_on')
-                ->orderBy('submitted_at');
+                    ->orderBy('submitted_at');
                 break;
             case 'report':
                 return $query->whereNull('review_on')
-                ->whereNotNull('report_on')
-                ->orderBy('report_on');
+                    ->whereNotNull('report_on')
+                    ->orderBy('report_on');
                 break;
             case 'review':
                 return $query->whereNull('accept_on')
-                ->whereNotNull('review_on')
-                ->orderBy('review_on');
+                    ->whereNotNull('review_on')
+                    ->orderBy('review_on');
                 break;
             case 'accept':
                 return $query->whereNotNull('accept_on')
-                ->orderBy('review_on');
+                    ->orderBy('review_on');
                 break;
         }
     }
@@ -179,10 +179,11 @@ class Acr extends Model
                 $record->is_due = 1;
                 $responsible_employee_id = $record->employee_id;
             } else {
-                if($record->to_date==$this->to_date){
+                if ($record->to_date == $this->to_date) {
                     //if last record to_date is same as period last date then although acr is not due but still responsible officer will be last person
-                    $record->is_due = 0; $responsible_employee_id = $record->employee_id;
-                }else{
+                    $record->is_due = 0;
+                    $responsible_employee_id = $record->employee_id;
+                } else {
                     $record->is_due = 0;
                 }
             }
@@ -241,13 +242,13 @@ class Acr extends Model
 
     public function negative_groups()
     {
-        $require_negative_parameters=$this->acrMasterParameters()->where('type',0)->get()->keyBy('id');
-        $filled_negative_parameters=$this->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
-        $require_negative_parameters->map(function($row) use ($filled_negative_parameters){
-            if(isset($filled_negative_parameters[$row->id])){
-                $row->user_filled_data=$filled_negative_parameters[$row->id];
-            }else{
-                $row->user_filled_data=[];
+        $require_negative_parameters = $this->acrMasterParameters()->where('type', 0)->get()->keyBy('id');
+        $filled_negative_parameters = $this->fillednegativeparameters()->get()->groupBy('acr_master_parameter_id');
+        $require_negative_parameters->map(function ($row) use ($filled_negative_parameters) {
+            if (isset($filled_negative_parameters[$row->id])) {
+                $row->user_filled_data = $filled_negative_parameters[$row->id];
+            } else {
+                $row->user_filled_data = [];
             }
             return $row;
         });
@@ -278,39 +279,31 @@ class Acr extends Model
     public function getGradeAttribute()
     {
         $marks = $this->accept_no;
-        switch (true)
-        {
-            case ($marks > 80.0) :
-            {
-                $grades = 'Out Standing';
-                break;
-            }
-            case ($marks > 60.0 &&  $marks <= 80.0) :
-            {
-                $grades = 'Very Good';
-                break;
-            }
-            case ($marks > 40.0 &&  $marks <= 60.0) :
-            {
-                $grades ='Good';
-                break;
-            }
-            case ($marks > 20.0 &&  $marks <= 40.0) :
-            {
-                $grades = 'Satisfactory';
-                break;
-            }
-            case ($marks <= 20.0) :
-            {
-                $grades = 'Unsatisfactory';
-                break;
-            }
-            default :
-            {
-                $grades = 'Unknown / Not decided';
-                break;
-            }
-
+        switch (true) {
+            case ($marks > 80.0): {
+                    $grades = 'Out Standing';
+                    break;
+                }
+            case ($marks > 60.0 &&  $marks <= 80.0): {
+                    $grades = 'Very Good';
+                    break;
+                }
+            case ($marks > 40.0 &&  $marks <= 60.0): {
+                    $grades = 'Good';
+                    break;
+                }
+            case ($marks > 20.0 &&  $marks <= 40.0): {
+                    $grades = 'Satisfactory';
+                    break;
+                }
+            case ($marks <= 20.0): {
+                    $grades = 'Unsatisfactory';
+                    break;
+                }
+            default: {
+                    $grades = 'Unknown / Not decided';
+                    break;
+                }
         }
         return $marks;
     }
@@ -339,7 +332,7 @@ class Acr extends Model
 
     public function reviewUser()
     {
-       return $this->userOnBasisOfDuty('review');
+        return $this->userOnBasisOfDuty('review');
     }
 
     public function acceptUser()
@@ -349,7 +342,7 @@ class Acr extends Model
 
     public function userOnBasisOfDuty($dutyType)
     {
-        $target_employee_field=config('acr.basic.duty')[$dutyType]['field'];
+        $target_employee_field = config('acr.basic.duty')[$dutyType]['field'];
         $target_employee_id = $this->$target_employee_field;
         if ($target_employee_id) {
             return User::where('employee_id', $target_employee_id)->first();
@@ -364,8 +357,8 @@ class Acr extends Model
         //Log::info("in acr createPdfFile  ");
         //$fullpath=\Storage::disk('public')->path($this->pdf_file_path);
         if ($forced || (!$this->isFileExist())) {
-            $path=$this->pdf_file_path;
-            File::ensureDirectoryExists(dirname($this->pdfFullFilePath),$mode = 0755, $recursive = true);
+            $path = $this->pdf_file_path;
+            File::ensureDirectoryExists(dirname($this->pdfFullFilePath), $mode = 0755, $recursive = true);
             if ($this->isFileExist()) {
                 \Storage::disk('public')->delete($path);
             }
@@ -375,7 +368,7 @@ class Acr extends Model
 
     public function submitNotification()
     {
-        $this->mailNotificationFor($targetDutyType='report',$notification_type=2);
+        $this->mailNotificationFor($targetDutyType = 'report', $notification_type = 2);
 
         /*$targetEmployee=$this->userOnBasisOfDuty($dutyType='submit');
         if ($targetEmployee) {
@@ -402,38 +395,37 @@ class Acr extends Model
                 AcrNotification::create($data);
             }
         }*/
-
     }
 
     public function reportNotification()
     {
-        $this->mailNotificationFor($targetDutyType='review',$notification_type=3);
+        $this->mailNotificationFor($targetDutyType = 'review', $notification_type = 3);
     }
 
     public function reviewNotification()
     {
-        $this->mailNotificationFor($targetDutyType='accept',$notification_type=4);
+        $this->mailNotificationFor($targetDutyType = 'accept', $notification_type = 4);
     }
 
     public function acceptNotification()
     {
         //now target is submit beacause it's just back to user
-        $this->mailNotificationFor($targetDutyType='submit',$notification_type=5);
+        $this->mailNotificationFor($targetDutyType = 'submit', $notification_type = 5);
     }
 
-    public function mailNotificationFor($targetDutyType,$notification_type)
+    public function mailNotificationFor($targetDutyType, $notification_type)
     {
-        $targetEmployee=$this->userOnBasisOfDuty($targetDutyType);
+        $targetEmployee = $this->userOnBasisOfDuty($targetDutyType);
         if ($targetEmployee) {
             //check if already notified
             $previousNotification = AcrNotification::where('employee_id', $targetEmployee->employee_id)
                 ->where('acr_id', $this->id)
-                ->where('through', 1)//for mail , may be 2 for sms
+                ->where('through', 1) //for mail , may be 2 for sms
                 ->where('notification_type', $notification_type) //2=for report
                 ->orderBy('notification_on', 'DESC')->first();
 
             if (!$previousNotification) {
-                $mail=Mail::to($targetEmployee);
+                $mail = Mail::to($targetEmployee);
 
                 switch ($targetDutyType) {
                     case 'report':  //on submit event  , report is targeted
@@ -459,7 +451,7 @@ class Acr extends Model
                         break;
                 }
 
-                $mail->send(new AcrSumittedMail($this, $targetEmployee,$targetDutyType));
+                $mail->send(new AcrSumittedMail($this, $targetEmployee, $targetDutyType));
 
                 $data = [
                     'employee_id' => $targetEmployee->employee_id,
@@ -475,6 +467,19 @@ class Acr extends Model
     }
 
 
+    public function smsNotificationFor($mobileNo, $message)
+    {
+   
+        $ch = curl_init('https://www.yousms.in/smsclient/api.php?');
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "username=pwditcell&password=98993689&source=EICPWD&dmobile=". 
+                    $mobileNo ."&message=" . $message);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        $data = curl_exec($ch);
+        return $data;
+            
+    }
+
 
     public function office()
     {
@@ -483,7 +488,7 @@ class Acr extends Model
 
     public function report_review_Accept_officers($Officer_type)
     {
-        return $this->belongsTo(Employee::class, $Officer_type.'_employee_id', 'id')->first();
+        return $this->belongsTo(Employee::class, $Officer_type . '_employee_id', 'id')->first();
     }
 
     public function firstFormData()
@@ -507,13 +512,13 @@ class Acr extends Model
 
     public function updateEsclationFor($dutyType)
     {
-        $duty=config('acr.basic.duty')[$dutyType];
-        $duty_duration_lapsed_field=$dutyType.'_duration_lapsed';
-        $duty_triggerDate=$duty['triggerDate'];
-        $this->$duty_duration_lapsed_field=round($this->$duty_triggerDate->diffInDays(now(),false)/$duty['period']*100,0);
-        if($this->$duty_triggerDate->diffInDays(now(),false)>$duty['period']){
-            $finalDateField=$dutyType.'_on';
-            $this->$finalDateField=now();
+        $duty = config('acr.basic.duty')[$dutyType];
+        $duty_duration_lapsed_field = $dutyType . '_duration_lapsed';
+        $duty_triggerDate = $duty['triggerDate'];
+        $this->$duty_duration_lapsed_field = round($this->$duty_triggerDate->diffInDays(now(), false) / $duty['period'] * 100, 0);
+        if ($this->$duty_triggerDate->diffInDays(now(), false) > $duty['period']) {
+            $finalDateField = $dutyType . '_on';
+            $this->$finalDateField = now();
         }
         $this->save();
     }
@@ -522,11 +527,10 @@ class Acr extends Model
     public function checkSelfAppraisalFilled()
     {
         // check table 1
-        if(AcrParameter::where('acr_id',$this->id)->count() == 0) 
-        {
-            return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR ']; 
+        if (AcrParameter::where('acr_id', $this->id)->count() == 0) {
+            return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
         }
-                 
+
         return ['status' => true, 'msg' => ''];
     }
 
