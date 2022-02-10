@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramChannel;
+use NotificationChannels\Telegram\TelegramFile;
 use NotificationChannels\Telegram\TelegramMessage;
 
 class AcrSubmittedNotification extends Notification implements ShouldQueue
@@ -105,16 +106,19 @@ class AcrSubmittedNotification extends Notification implements ShouldQueue
             "You are hereby intimated for futher action."."\n".
             'Please regularly monitor relevent website/documents and take necessery action. Thank you for being with us!.'."\n";
 
-        return TelegramMessage::create()
+        //return TelegramMessage::create()
         // Optional recipient user id.
         //->to($notifiable->chat_id)
         // Markdown supported.
-            ->content($msg)
-            ->document($acr->pdfFullFilePath, 'acr_'.$acr->employee_id.'_id_'.$acr->id.'.pdf');
+         //   ->content($msg)
         //->button('Visit Timeline', $url);
         // (Optional) Blade template for the content.
         // ->view('notification', ['url' => $url])
         // (Optional) Inline Buttons
+        //
+        return TelegramFile::create()
+        ->content($msg)
+        ->document($acr->pdfFullFilePath, 'acr_'.$acr->employee_id.'_id_'.$acr->id.'.pdf');
     }
 
     public function makeMsg()
