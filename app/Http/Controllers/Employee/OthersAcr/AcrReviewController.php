@@ -58,7 +58,16 @@ class AcrReviewController extends Controller
     public function storeAppraisal2(Request $request)
     {
         //return $request->all(); 
-
+        $this->validate($request,
+            [
+                'final_marks' => 'required | numeric | gt:0',
+                'reviewing_marks'=> 'array',
+                'reviewing_marks.*' => 'numeric | nullable',
+                'personal_attributes'=> 'array',
+                'personal_attributes.*' => 'numeric | nullable',
+            ]
+        );
+        
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update([
             'review_no' => $request->final_marks,

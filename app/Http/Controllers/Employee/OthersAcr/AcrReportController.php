@@ -68,6 +68,21 @@ class AcrReportController extends Controller
     {
         //return $request->all(); 
 
+        $this->validate($request,
+            [
+                'final_marks' => 'required | numeric | gt:0',
+                'appraisal_note_1' => 'nullable',
+                'appraisal_note_2' => 'nullable',
+                'appraisal_note_3' => 'nullable',
+                'reporting_marks'=> 'array',
+                'reporting_marks.*' => 'numeric | nullable',
+                'personal_attributes'=> 'array',
+                'personal_attributes.*' => 'numeric | nullable',
+            ]
+        );
+
+
+
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update([
             'appraisal_note_1' => $request->appraisal_note_1,
