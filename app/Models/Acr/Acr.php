@@ -8,15 +8,15 @@ use App\Models\Acr\AcrNotification;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Models\User;
-use App\Traits\Auditable;
-use Bugsnag\DateTime\Date;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Http;
+
+use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+
 use Log;
-use \DateTimeInterface;
 use File;
 use Auth;
 
@@ -305,7 +305,7 @@ class Acr extends Model
                     break;
                 }
         }
-        return $marks;
+        return $grades;
     }
 
     public function getPdfFullFilePathAttribute()
@@ -369,32 +369,6 @@ class Acr extends Model
     public function submitNotification()
     {
         $this->mailNotificationFor($targetDutyType = 'report', $notification_type = 2);
-
-        /*$targetEmployee=$this->userOnBasisOfDuty($dutyType='submit');
-        if ($targetEmployee) {
-            //check if already notified
-            $previousNotification = AcrNotification::where('employee_id', $targetEmployee->employee_id)
-                ->where('acr_id', $this->id)
-                ->where('through', 1)//for mail , may be 2 for sms
-                ->where('notification_type', 2) //2=for report
-                ->orderBy('notification_on', 'DESC')->first();
-
-            if (!$previousNotification) {
-                Mail::to($targetEmployee)
-                    ->cc($this->submitUser())
-                    ->send(new AcrSumittedMail($this, $targetEmployee));
-
-                $data = [
-                    'employee_id' => $targetEmployee->employee_id,
-                    'acr_id' => $this->id,
-                    'notification_on' => now(),
-                    'through' => 1,
-                    'notification_type' => 2,
-                    'notification_no' => 1
-                ];
-                AcrNotification::create($data);
-            }
-        }*/
     }
 
     public function reportNotification()
@@ -411,6 +385,11 @@ class Acr extends Model
     {
         //now target is submit beacause it's just back to user
         $this->mailNotificationFor($targetDutyType = 'submit', $notification_type = 5);
+    }
+
+    public function rejectNotification()
+    {
+        $this->mailNotificationFor($targetDutyType = 'reject', $notification_type = 6);
     }
 
     public function mailNotificationFor($targetDutyType, $notification_type)
@@ -449,6 +428,14 @@ class Acr extends Model
                         $mail->cc($this->userOnBasisOfDuty('report'));
                         $mail->cc($this->userOnBasisOfDuty('accept'));
                         break;
+
+                        
+                    case 'reject': //on reject event , submituser is targeted
+                        $mail->cc($this->userOnBasisOfDuty('review'));
+                        $mail->cc($this->userOnBasisOfDuty('report'));
+                        $mail->cc($this->userOnBasisOfDuty('accept'));
+                        break;
+
                 }
 
                 $mail->send(new AcrSumittedMail($this, $targetEmployee, $targetDutyType));
@@ -469,15 +456,27 @@ class Acr extends Model
 
     public function smsNotificationFor($mobileNo, $message)
     {
-   
-        $ch = curl_init('https://www.yousms.in/smsclient/api.php?');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "username=pwditcell&password=98993689&source=EICPWD&dmobile=". 
-                    $mobileNo ."&message=" . $message);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-        $data = curl_exec($ch);
-        return $data;
-            
+        //  $url = 'https://www.yousms.in/smsclient/api.php?
+        //  username=pwditcell&password=98993689&source=EICPWD&dmobile=918868945220&
+        //  message=Hello Ankit';
+        // $response = Http::async()->get($url);
+        
+        $response = Http::async()->post('https://www.yousms.in/smsclient/api.php?', [
+            'username' => 'pwditcell',
+            'password' => '98993689',
+            'source' => 'EICPWD',
+            'dmobile' => '918868945220',
+            'message' => 'Hello Ankit ',
+        ]);
+
+        // $ch = curl_init('https://www.yousms.in/smsclient/api.php?');
+        // curl_setopt($ch, CURLOPT_POST, 1);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, "username=pwditcell&password=98993689&source=EICPWD&dmobile=" .
+        //     $mobileNo . "&message=" . $message);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // $data = curl_exec($ch);
+
+        return $response;
     }
 
 
@@ -536,24 +535,53 @@ class Acr extends Model
 
     public function permissionForPdf()
     {
-        $user=Auth::user();
+        $user = Auth::user();
 
         if ($user->hasPermissionTo(['acr-special']) || ($user->employee_id == $this->employee_id)) {
             return true;
         }
 
-        if($user->employee_id==$this->report_employee_id && (!$this->report_on)){
+        if ($user->employee_id == $this->report_employee_id && (!$this->report_on)) {
             return true;
         }
 
-        if($user->employee_id==$this->review_employee_id && (!$this->review_on)){
+        if ($user->employee_id == $this->review_employee_id && (!$this->review_on)) {
             return true;
         }
 
-        if($user->employee_id==$this->accept_employee_id && (!$this->accept_on)){
+        if ($user->employee_id == $this->accept_employee_id && (!$this->accept_on)) {
             return true;
         }
         return false;
     }
+
+    public function status()
+    {
+        if($this->is_active == 0)
+        {
+            return 'Rejected';
+        }
+        else if($this->accept_on)
+        {
+            return 'Accepted';
+        }
+        else if($this->review_on)
+        {
+            return 'Reviewed';
+        }
+        else if($this->report_on)
+        {
+            return 'Reported';
+        }
+        else if($this->submitted_at)
+        {
+            return  'Submitted on ' . $this->submitted_at->format('d M Y');
+        }
+        else
+        {
+            return 'New Created';
+        }
+    }
+
 
 }

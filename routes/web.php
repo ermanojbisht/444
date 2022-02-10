@@ -115,7 +115,7 @@ Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => [
     Route::get('view/{acr}/integrity', 'Employee\OthersAcr\OthersAcrController@viewIntegrity')->name('acr.view.integrity'); 
     Route::get('view/{acr}/accepted', 'Employee\OthersAcr\OthersAcrController@viewAccepted')->name('acr.view.accepted'); 
     
-    Route::get('{acr}/reject/{officerType}', 'Employee\OthersAcr\OthersAcrController@reject')->name('reject');
+    Route::get('{acr}/reject/{dutyType}', 'Employee\OthersAcr\OthersAcrController@reject')->name('reject');
     Route::post('/reject/acr', 'Employee\OthersAcr\OthersAcrController@storeReject')->name('storeReject');
     
 });

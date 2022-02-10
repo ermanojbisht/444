@@ -27,8 +27,18 @@
 
 		@endif
 
+		<hr class="m-1" style="opacity: 0.1;">
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-3">
+				
+			</div>
+			<div class="col-md-3">
+
+			</div>
+			<div class="col-md-3">
+
+			</div>
+			<div class="col-md-3">
 				<p class="fw-semibold"> By
 					<span class="text-info"> {!! $acr->reportUser()->name !!} </span>
 				</p>
@@ -37,13 +47,8 @@
 					<span class="text-info"> {!! $acr->report_on->format('d&#160;M&#160;Y') !!} </span>
 				</p>
 			</div>
-			<div class="col-md-4">
-
-			</div>
-			<div class="col-md-4">
-
-			</div>
 		</div>
+
 
 	</div>
 </div>

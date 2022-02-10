@@ -72,6 +72,7 @@ Part - IV ( Assessment by the Accepting Authority)
 				<div class="col-md-3">
 					{{-- employee_id will be of reporting / rejecting or accepting officer --}}
 					<input type="hidden" name="employee_id" value="{{$officer->employee_id}}" />
+					<input type="hidden" name="dutyType" value="{{$dutyType}}" />
 					<input type="hidden" name="acr_id" value="{{$acr->id}}" />
 					<input type="submit" class="btn text-white btn-danger" value="Reject ACR" />
 				</div>

@@ -39,7 +39,7 @@ Part 1 ( Basic Information ) <small> Leaves </small>
 					<th>#</th>
 					<th>Leave Type </th>
 					<th>From Date</th>
-					<th>To Date</th> 
+					<th>To Date</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -48,7 +48,7 @@ Part 1 ( Basic Information ) <small> Leaves </small>
 					<td>{{1+$loop->index }}</td>
 					<td> {{config('acr.basic.acrLeaveType')[$leave->type_id]}}
 						({{Carbon\Carbon::parse($leave->from_date)->
-						diffInDays(Carbon\Carbon::parse($leave->to_date))}} Days)</td>
+						diffInDays(Carbon\Carbon::parse($leave->to_date)) +1 }} Days)</td>
 					<td>{{$leave->from_date->format('d M Y')}}</td>
 					<td>{{$leave->to_date->format('d M Y')}}
 					</td>
@@ -86,7 +86,7 @@ Part 1 ( Basic Information ) <small> Leaves </small>
 						@csrf
 						<p class="h4"> Leave (Other that casual leave) or Period of absence :- </p>
 
-							<br />
+						<br />
 
 						<div class="row">
 							<div class="col-md-4">

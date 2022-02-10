@@ -5,19 +5,19 @@ namespace App\Http\Controllers\Employee\Acr;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\StoreAcrLeaveRequest;
 use App\Http\Requests\Acr\StoreAcrRequest;
-use App\Jobs\Acr\MakeAcrPdfOnSubmit; 
-use App\Models\Acr\Acr; 
+use App\Jobs\Acr\MakeAcrPdfOnSubmit;
+use App\Models\Acr\Acr;
 use App\Models\Acr\AcrType;
 use App\Models\Acr\Appreciation;
 use App\Models\Acr\Leave;
 use App\Models\Employee;
-use App\Models\Office; 
+use App\Models\Office;
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
-use Carbon\Carbon; 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;  
-use Illuminate\Support\Facades\View; 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class AcrController extends Controller
 {
@@ -49,7 +49,7 @@ class AcrController extends Controller
     public function index()
     {
 
-        if($this->user->fromShashan()){
+        if ($this->user->fromShashan()) {
             return redirect()->route('acr.others.index');
         }
 
@@ -221,6 +221,12 @@ class AcrController extends Controller
             return Redirect()->back()->with('fail', $result['msg']);
         }
 
+        // $mobileNo = '91' . $acr->reportUser()->contact_no;
+        // $message = $acr->submitUser()->name  . ' has marked his ACR to you as Reviewing officer for the period of ' .
+        //     $acr->from_date->format('d M Y') . ' - ' . $acr->to_date->format('d M Y');
+
+        // reviewUser
+
         $acr->update(['submitted_at' => now()]);
         dispatch(new MakeAcrPdfOnSubmit($acr, 'submit'));
 
@@ -386,6 +392,4 @@ class AcrController extends Controller
 
         return Redirect()->back()->with('success', 'Appreciation deleted Successfully...');
     }
-
-    
 }
