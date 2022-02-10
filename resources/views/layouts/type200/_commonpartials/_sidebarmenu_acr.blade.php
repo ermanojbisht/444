@@ -25,7 +25,7 @@
                 let employee_code = prompt('Please enter Employee Code:', '');
                 if (employee_code == null || employee_code == '')
                 { text = 'Invalid.'; }
-                else { text='{{url('acr')}}' +'/'+ employee_code;
+                else { text='{{url('acrs')}}' +'/'+ employee_code;
                         window.open(text, '_blank');
                 }">
                 <svg class="nav-icon">
