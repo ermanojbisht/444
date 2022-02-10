@@ -70,7 +70,7 @@ Other's ACR to be Worked Upon
 
 										<td>{{$acr->employee_id}} </td>
 										<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
-										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td> 
+										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>
 										<td>{{$acr->created_at->format('d M Y')}} </td>
 										<td>{{($acr->submitted_at == null ? 'Pending' : 'Submitted') }}</td>
 										<td>
@@ -100,7 +100,7 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i>Submit ACR
 													</a>
 													<a class="dropdown-item text-white bg-danger" style="width: 100%;"
-														href="{{route('acr.others.reject', ['acr' => $acr->id, 'officerType' => 'report'])}}">
+														href="{{route('acr.others.reject', ['acr' => $acr->id, 'dutyType' => 'report'])}}">
 														<i class="cib-twitter"></i>Reject ACR
 													</a>
 												</div>
@@ -134,7 +134,7 @@ Other's ACR to be Worked Upon
 
 										<td>{{$acr->employee_id}} </td>
 										<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
-										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td> 
+										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>
 										<td>{{$acr->created_at->format('d M Y')}} </td>
 										<td>
 											<div class="dropdown dropstart">
@@ -161,7 +161,7 @@ Other's ACR to be Worked Upon
 													</a>
 
 													@if ($acr->review_no > 0)
-													<a class="dropdown-item" href="#">
+													<a class="dropdown-item text-white bg-success" href="#">
 														<form method="POST"
 															action="{{ route('acr.others.review.save') }}"
 															onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
@@ -172,6 +172,13 @@ Other's ACR to be Worked Upon
 															</button>
 														</form>
 													</a>
+
+													<a class="dropdown-item text-white bg-danger" style="width: 100%;"
+														href="{{route('acr.others.reject', ['acr' => $acr->id, 'dutyType' => 'review'])}}">
+														<i class="cib-twitter"></i>Reject ACR
+													</a>
+
+
 													@endif
 												</div>
 											</div>
@@ -202,7 +209,7 @@ Other's ACR to be Worked Upon
 										<td>{{ $acr->employee->name}}</td>
 										<td>{{$acr->employee_id}} </td>
 										<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
-										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td> 
+										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>
 										<td>{{$acr->created_at->format('d M Y')}} </td>
 										<td>
 											<div class="dropdown dropstart">
@@ -225,10 +232,17 @@ Other's ACR to be Worked Upon
 													@endif
 
 													@if ($acr->review_no > 0)
-													<a class="btn btn-success " style="width: 100%;"
+													<a class="dropdown-item text-white bg-success " style="width: 100%;"
 														href="{{route('acr.others.accept.submit', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i> Process and Submit ACR
 													</a>
+
+
+													<a class="dropdown-item text-white bg-danger" style="width: 100%;"
+														href="{{route('acr.others.reject', ['acr' => $acr->id, 'dutyType' => 'accept'])}}">
+														<i class="cib-twitter"></i>Reject ACR
+													</a>
+
 													@endif
 												</div>
 											</div>

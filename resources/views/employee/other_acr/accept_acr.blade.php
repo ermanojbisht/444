@@ -72,7 +72,10 @@ Part - IV ( Assessment by the Accepting Authority)
 			<br />
 			<div class="row">
 				<div class="col-md-6">
-					<p class="fw-semibold">3. Overall Grade & Marks (On a score of 1 - 100) </p>
+					<p class="fw-semibold">3. Overall Grade & Marks (On a score of 1 - 100) 
+						<br />
+						Marks given by Reviewing Officer are : <span class="text-info"> {{$acr->review_no}} </span> 
+					</p>
 				</div>
 				<div class="col-md-3">
 					<div class="row">
@@ -81,7 +84,7 @@ Part - IV ( Assessment by the Accepting Authority)
 						</div>
 						<div class="col-md-6">
 							<input id="marks" name="marks" type="number" step="0.01" onblur="findGrades()" maxlength="3"
-								class="form-control" required value="{{$acr->review_no}}" />
+								class="form-control" required placeholder="{{$acr->review_no}}" />
 						</div>
 					</div>
 					<br />

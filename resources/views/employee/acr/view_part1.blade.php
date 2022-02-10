@@ -10,30 +10,30 @@
 				<div class="col-md-12">
 					<table class="table">
 						<tr>
-							<th>
-								<p class=" fw-bold "> Name of the officer Reported Upon :-</p>
-							</th>
 							<td>
-								<p class="data"> {{$employee->name }} </p>
+								<span class=" fw-bold "> Name of the officer Reported Upon :-</span>
+							</td>
+							<td>
+								<span class="data"> {{$employee->name }} </span>
 							</td>
 						</tr>
 						<tr>
-							<th>
-								<p class=" fw-bold "> Period Of Appraisal :-</p>
-							</th>
 							<td>
-								<p class="data"> {{$acr->from_date->format('d M Y') }} - {{$acr->to_date->format('d
-									M Y') }} </p>
+								<p class=" fw-bold "> Period Of Appraisal :-</p>
+							</td>
+							<td>
+								<span class="data"> {{$acr->from_date->format('d M Y') }} - {{$acr->to_date->format('d
+									M Y') }} </span>
 							</td>
 						</tr>
 					</table>
 				</div>
-				</p>
+				</span>
 			</div>
 
 			<div class="row">
 				<div class="col-md-12 text-center ">
-					<p class="fw-bold h3"> Part - 1 ( Basic Information ) </p>
+					<span class="fw-bold h3"> Part - 1 ( Basic Information ) </span>
 				</div>
 			</div>
 
