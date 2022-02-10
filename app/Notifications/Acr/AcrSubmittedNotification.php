@@ -79,6 +79,7 @@ class AcrSubmittedNotification extends Notification implements ShouldQueue
     {
         $targetDutyType = $this->targetDutyType;
         $acr = $this->acr;
+        $body='';
         switch ($targetDutyType) {
             case 'report':
                 $body .= $acr->employee->name.' has subitted his/her self appraisal on '.$acr->submitted_at->format('d M Y').'Please visit your inbox section at HRMS/Track AR portal.';
