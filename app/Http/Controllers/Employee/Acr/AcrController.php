@@ -48,6 +48,11 @@ class AcrController extends Controller
      */
     public function index()
     {
+
+        if($this->user->fromShashan()){
+            return redirect()->route('acr.others.index');
+        }
+
         $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->orderBy('id', 'DESC')->get();
 
         return view('employee.acr.my_acr', compact('acrs'));
@@ -226,7 +231,7 @@ class AcrController extends Controller
     public function show(Acr $acr)
     {
         //own or some admin
-        if ($this->user->hasPermissionTo(['acr-special']) || $this->user->employee_id == $acr->employee_id) {
+        if ($acr->permissionForPdf()) {
 
             if ($acr->isFileExist()) {
                 $headers = [

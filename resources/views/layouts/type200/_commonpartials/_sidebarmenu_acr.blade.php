@@ -14,8 +14,10 @@
         </svg>
     </div>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
+        @if(!Auth::user()->fromShashan())
         <x-nav-item icon="plus" href="{{route('acr.create')}}">Add New ACR</x-nav-item>
         <x-nav-item icon="user-plus" href="{{route('acr.myacrs')}}">My ACR</x-nav-item>
+        @endif
         <x-nav-item icon="envelope-letter " href="{{route('acr.others.index')}}">Inbox</x-nav-item>
         <li class="nav-item">
             <a class="nav-link" href="javascript:void(0)" onclick="

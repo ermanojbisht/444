@@ -333,4 +333,10 @@ class User extends Authenticatable implements MustVerifyEmail
             return "User is not designated as employee";
         }
     }
+
+    public function fromShashan()
+    {
+       return substr($this->employee_id, 1, 3)=='sec';
+
+    }
 }

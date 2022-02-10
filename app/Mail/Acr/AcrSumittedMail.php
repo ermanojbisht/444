@@ -39,7 +39,7 @@ class AcrSumittedMail extends Mailable
      */
     public function build()
     {
-        return $this->subject(now()->format('d-m-y').' ACR of '.$this->acr->employee->name. '( '.$this->acr->employee_id.' )')
+        return $this->subject('ACR of '.$this->acr->employee->name. '( '.$this->acr->employee_id.' )'.now()->format('d-m-y H:i:s'))
         ->markdown('emails.acr.subittedmail')
         ->attach($this->acr->pdfFullFilePath,['mime'=>'application/pdf']);;
     }
