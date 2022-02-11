@@ -83,16 +83,16 @@ class AcrSubmittedNotification extends Notification implements ShouldQueue
         $body='';
         switch ($targetDutyType) {
             case 'report':
-                $body .= $acr->employee->name.' has subitted his/her self appraisal on '.$acr->submitted_at->format('d M Y').'Please visit your inbox section at HRMS/Track AR portal.';
+                $body .= $acr->employee->name.' has submiited his/her self appraisal on '.$acr->submitted_at->format('d M Y').'. Please visit your inbox section at HRMS/Track AR portal.';
                 break;
             case 'review':
-                $body .= $acr->employee->name.'\'s performance report has been reported by '.$acr->userOnBasisOfDuty('report')->name.'  on '.$acr->report_on->format('d M Y ').'Please visit your inbox section at HRMS/Track AR portal.';
+                $body .= $acr->employee->name.'\'s performance report has been reported by '.$acr->userOnBasisOfDuty('report')->name.'  on '.$acr->report_on->format('d M Y ').' . Please visit your inbox section at HRMS/Track AR portal.';
                 break;
             case 'accept':
-                $body .= $acr->employee->name.'\'s performance report has been reviewed by '.$acr->userOnBasisOfDuty('review')->name.'  on '.$acr->review_on->format('d M Y ').'Please visit your inbox section at HRMS/Track AR portal.';
+                $body .= $acr->employee->name.'\'s performance report has been reviewed by '.$acr->userOnBasisOfDuty('review')->name.'  on '.$acr->review_on->format('d M Y ').' . Please visit your inbox section at HRMS/Track AR portal.';
                 break;
             case 'submit':
-                $body .= 'Your performance report has been acccepted by '.$acr->userOnBasisOfDuty('accept')->name.'  on '.$acr->accept_on->format('d M Y ').'Please visit your myacr section at HRMS/Track AR portal.';
+                $body .= 'Your performance report has been acccepted by '.$acr->userOnBasisOfDuty('accept')->name.'  on '.$acr->accept_on->format('d M Y ').' . Please visit your myacr section at HRMS/Track AR portal.';
                 break;
 
             default:
