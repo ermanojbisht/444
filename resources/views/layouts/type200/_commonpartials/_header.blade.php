@@ -40,12 +40,17 @@
                 </a>
             </li> --}}
         </ul>
+
+
+
+
         <ul class="header-nav ms-3">
-            <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button"
-                                             aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown">
+                <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button"  aria-haspopup="true" aria-expanded="false">
                     @if(Auth::check())
-                        <div class="avatar avatar-md"><img class="avatar-img" src="{{asset('../images/user_profile_pics/male.jpg')}}"
-                                                       alt="{{Auth::user()->name}}"></div>
+                        <div class="avatar avatar-md">
+                            <img class="avatar-img" src="{{asset('../images/user_profile_pics/male.jpg')}}" alt="{{Auth::user()->name}}">
+                        </div>
                     @else
                         <div class="avatar avatar-md">
                             <a href="{{route('login')}}">LogIn </a>
@@ -54,13 +59,26 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-end pt-0">
                     <div class="dropdown-header bg-light py-2">
+                        @if(Auth::check())
                         <div class="fw-semibold">{{Auth::user()->name}}</div>
+                        @endif
                     </div>
+                    @if(Auth::check())
+                    @if(Auth::user()->chat_id <= 10000)
+
+                      <a href="{{ route('telegram.connect') }}" class="dropdown-item">
+                        @include('icon.icon',['icon'=>'telegram','width'=>25,'height'=>25])
+                        <span class="iconText">Telegtam Integeration</span>
+                      </a>
+
+                    @endif
+                    @endif
                     {{-- <a class="dropdown-item" href="#">
                         <svg class="icon me-2">
                             <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
                         </svg>
-                        Updates<span class="badge badge-sm bg-info ms-2">42</span></a><a class="dropdown-item" href="#">
+                        Updates<span class="badge badge-sm bg-info ms-2">42</span></a>
+                        <a class="dropdown-item" href="#">
                         <svg class="icon me-2">
                             <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
                         </svg>

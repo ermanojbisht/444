@@ -8,17 +8,16 @@ use App\Models\Acr\AcrNotification;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Models\User;
-use Carbon\CarbonPeriod;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Http;
-
-use Illuminate\Http\Request;
-use GuzzleHttp\Client;
-
-use Log;
-use File;
+use App\Notifications\Acr\AcrSubmittedNotification;
 use Auth;
+use Carbon\CarbonPeriod;
+use File;
+use GuzzleHttp\Client;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Log;
 
 class Acr extends Model
 {
@@ -405,6 +404,9 @@ class Acr extends Model
 
             if (!$previousNotification) {
                 $mail = Mail::to($targetEmployee);
+                if($targetEmployee->chat_id>90000){
+                    $response = $targetEmployee->notify(new AcrSubmittedNotification($this, $targetEmployee, $targetDutyType));
+                }
 
                 switch ($targetDutyType) {
                     case 'report':  //on submit event  , report is targeted

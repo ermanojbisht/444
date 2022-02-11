@@ -129,7 +129,7 @@
 										@else
 											<input class="form-control form-control-sm text-end reportingPositiveNo" type="number" step="0.01" 
 											 min="0" max="{{$required_parameter->max_marks}}"
-											name="reporting_marks[1][{{$required_parameter->id}}]" {{$classButton??''}}
+											name="reporting_marks_positive[{{$required_parameter->id}}]" {{$classButton??''}}
 												@if($required_parameter->reporting_marks)
 													value="{{$required_parameter->reporting_marks}}"
 												@endif
@@ -150,11 +150,13 @@
 							@endforeach
 							@php
 								if($total_marksA>0){
-									$net_marksA = 80*$reporting_marksA/$total_marksA;
+									$positive_factor = 80/$total_marksA; 
 								}else{
-									$net_marksA = 0;
+									$factor = 0;
 								}
+								$net_marksA = $positive_factor*$reporting_marksA;
 							@endphp
+							<input type="hidden" name="positive_factor" value="{{$positive_factor}}">
 							<tr class="bg-light fw-bold">
 								<td></td>
 								<td class="text-end">Sum for 4- A</td>
@@ -167,7 +169,7 @@
 								<td class="text-end">Say</td>
 								<td class="text-center">80</td>
 								<td class="text-end reportingPositiveNetSum">
-									{{$net_marksA}}
+									{{number_format(round($net_marksA,2), 2)}}
 								</td>
 								<td></td>
 							</tr>
@@ -232,7 +234,7 @@
 										@if($view)
 											{{$requiredNegativeParameter->reporting_marks??'--'}}
 										@else
-											<input class="form-control form-control-sm text-end reportingNegativeNo" type="number" step="0.01" name="reporting_marks[0][{{$requiredNegativeParameter->id}}]"
+											<input class="form-control form-control-sm text-end reportingNegativeNo" type="number" step="0.01" name="reporting_marks_negative[{{$requiredNegativeParameter->id}}]"
 											@if($requiredNegativeParameter->reporting_marks)
 												value="{{$requiredNegativeParameter->reporting_marks}}"
 											@endif
@@ -267,10 +269,10 @@
 			</div>
 			<div class="card-body border border-2 border-danger">
 				<p class="fw-semibold h5">5. Summary of Marks awarded</p>
-				{{$net_marksA+ $reporting_marksB - $reporting_marksC}}
+				{{-- {{$net_marksA+ $reporting_marksB - $reporting_marksC}}
 				<input 	type="hidden" name="final_marks"
 						value="{{$net_marksA+ $reporting_marksB - $reporting_marksC}}"
-				>
+				> --}}
 				<table class="table table-bordered table-sm">
 					<thead>
 						<tr class="text-center align-middle">
@@ -403,7 +405,7 @@
 			});
 			$("#reportingPositiveSum").html(sum);
 			if (marksA > 0) {
-				$(".reportingPositiveNetSum").html( (80*sum/marksA).toFixed(0) );
+				$(".reportingPositiveNetSum").html( (80*sum/marksA).toFixed(2) );
 			} 
 		}
 

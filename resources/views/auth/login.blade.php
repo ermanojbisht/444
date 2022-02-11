@@ -1,12 +1,15 @@
 @extends('layouts.type50.app')
 @section('content')
 <div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card mx-4">
-            <div class="card-body p-4">
+
+  <div class="col-lg-10">
+    <div class="card-group d-block d-md-flex row">
+
+        <div class="card col-md-6 p-4 mb-0">
+            <div class="card-body ">
                 <h1>{{ trans('panel.site_title') }}</h1>
 
-                <p class="text-muted">{{ trans('global.login') }}</p>
+                <p class="text-medium-emphasis">{{ trans('global.login') }}</p>
 
                 @if(session('message'))
                     <div class="alert alert-info" role="alert">
@@ -17,7 +20,7 @@
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
 
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-4">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
                                 <i class="fa fa-user"></i>
@@ -33,12 +36,12 @@
                         @endif
                     </div>
 
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-4">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-lock"></i></span>
                         </div>
 
-                        <input id="password" name="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required placeholder="{{ trans('global.login_password') }}">
+                        <input id="password" name="password" type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" required placeholder="{{ trans('global.login_password') }}">
 
                         @if($errors->has('password'))
                             <div class="invalid-feedback">
@@ -46,7 +49,6 @@
                             </div>
                         @endif
                     </div>
-
                     <div class="input-group mb-4">
                         <div class="form-check checkbox">
                             <input class="form-check-input" name="remember" type="checkbox" id="remember" style="vertical-align: middle;" />
@@ -78,6 +80,25 @@
                 </form>
             </div>
         </div>
+        <div class="card col-md-6 text-white bg-primary py-5">
+            <div class="card-body text-center">
+                <div>
+                  <p>@include('icon.icon',['icon'=>'telegram','width'=>80,'height'=>80])</p>
+                  If you have informed the system about your Telegram integration then you may Login through Telegram. Otherwise after login with credentials you may like to integerate yourself with telegram
+                    <script
+                        async
+                        type="application/javascript"
+                        src="https://telegram.org/js/telegram-widget.js?7"
+                        data-telegram-login="{{ config('services.telegram-bot-api.name') }}"
+                        data-size="large"
+                        data-auth-url="{{ route('telegram.telegramLogged') }}"
+                        data-request-access="write"
+                    ></script>
+                    {{-- <button class="btn btn-lg btn-outline-light mt-3" type="button">Register Now!</button> --}}
+                </div>
+            </div>
+        </div>
     </div>
+  </div>
 </div>
 @endsection
