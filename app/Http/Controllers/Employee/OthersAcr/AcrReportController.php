@@ -66,55 +66,42 @@ class AcrReportController extends Controller
 
     public function storeAppraisal1(Request $request)
     {
-        //return $request->all(); 
 
         $this->validate($request,
             [
-                //'final_marks' => 'required | numeric | gt:0',
+                'reporting_marks_positive'=> 'array',
+                'reporting_marks_positive.*' => 'numeric | nullable',
+                'positive_factor'=>'numeric',
+                'reporting_marks_negative'=> 'array',
+                'reporting_marks_negative.*' => 'numeric | nullable',
+                'personal_attributes'=> 'array',
+                'personal_attributes.*' => 'numeric | nullable',
                 'appraisal_note_1' => 'nullable',
                 'appraisal_note_2' => 'nullable',
                 'appraisal_note_3' => 'nullable',
-                /*'reporting_marks[0]'=> 'array',
-                'reporting_marks.*' => 'numeric | nullable',
-                'reporting_marks[1]'=> 'array',
-                'reporting_marks.*' => 'numeric | nullable',*/
-                'personal_attributes'=> 'array',
-                'personal_attributes.*' => 'numeric | nullable',
             ]
         );
 
-
-
         $acr = Acr::findOrFail($request->acr_id);
-        
-
         $report_no = 0;
 
-        foreach ($request->reporting_marks[1] as $parameterId => $reporting_mark) {
+        foreach ($request->reporting_marks_positive as $parameterId => $reporting_mark_positive) {
+            $report_no = $report_no + $reporting_mark_positive * $request->positive_factor;
+            
             AcrParameter::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
                     'acr_master_parameter_id' => $parameterId,
                 ],
                 [
-                    'reporting_marks' => $reporting_mark,
+                    'reporting_marks' => $reporting_mark_positive,
                 ]
             );
-            $report_no = $report_no + $reporting_mark;
         }
-        foreach ($request->reporting_marks[0] as $parameterId => $reporting_mark) {
-            AcrParameter::UpdateOrCreate(
-                [
-                    'acr_id' => $request->acr_id,
-                    'acr_master_parameter_id' => $parameterId,
-                ],
-                [
-                    'reporting_marks' => $reporting_mark,
-                ]
-            );
-            $report_no = $report_no - $reporting_mark;
-        }
+
         foreach ($request->personal_attributes as $attributeId => $attribute_mark) {
+            $report_no = $report_no + $attribute_mark*1;
+
             AcrPersonalAttribute::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
@@ -124,7 +111,20 @@ class AcrReportController extends Controller
                     'reporting_marks' => $attribute_mark,
                 ]
             );
-            $report_no = $report_no + $attribute_mark;
+        }
+
+        foreach ($request->reporting_marks_negative as $parameterId => $reporting_mark_negative) {
+            $report_no = $report_no - $reporting_mark_negative*1;
+
+            AcrParameter::UpdateOrCreate(
+                [
+                    'acr_id' => $request->acr_id,
+                    'acr_master_parameter_id' => $parameterId,
+                ],
+                [
+                    'reporting_marks' => $reporting_mark_negative,
+                ]
+            );
         }
 
         $acr->update([
@@ -133,6 +133,8 @@ class AcrReportController extends Controller
             'appraisal_note_3' => $request->appraisal_note_3,
             'report_no' => $report_no,
         ]);
+        
+       // return $request->all(); 
 
         return redirect()->back();
     }

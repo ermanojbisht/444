@@ -30,7 +30,8 @@
                 }">
                 <svg class="nav-icon">
                     <use
-                        xlink:href="http://localhost:8080/hr/vendors/@coreui/icons/svg/free.svg#cil-user-plus"></use>
+                        xlink:href="{{url('vendors/@coreui/icons/svg/free.svg#cil-user')}}">
+                    </use>
                 </svg>
                 <span> Employee's ACR </span>
             </a>
