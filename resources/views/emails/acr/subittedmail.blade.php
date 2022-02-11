@@ -2,7 +2,7 @@
 Dear {{$reportingEmployee->name}}
 
 @if($targetDutyType=='report')
-{{$acr->employee->name}} has subitted his/her self appraisal on @mkbdate($acr->submitted_at).
+{{$acr->employee->name}} has submitted his/her self appraisal on @mkbdate($acr->submitted_at).
 Please visit your inbox section at HRMS/Track AR portal.
 @endif
 
