@@ -214,4 +214,64 @@ class TempController extends Controller
 
         return $queries = DB::getQueryLog();
     }
+
+
+    public function temp1()
+    {
+
+        $pages = array();
+        //$data_groups = $acr->type1RequiremntsWithFilledData();
+        //$pages[] = view('employee.acr.form.create1', compact('acr', 'data_groups'));
+
+        //first page
+        list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $acr->firstFormData();
+        $pages[] = view('employee.acr.view_part1', ['acr' => $acr, 'employee' => $employee, 'appraisalOfficers' => $appraisalOfficers, 'leaves' => $leaves, 'appreciations' => $appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted]);
+
+        $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
+        $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
+        $personal_attributes =  $acr->peronalAttributeSWithMasterData();
+
+
+
+        $view = true;
+
+        if ($acr->isScope('level', 'review')) {
+            //review
+            $pages[] = view('employee.acr.form.appraisal2', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view'));
+        } else {
+            if ($acr->isScope('level', 'report')) {
+                //report
+                $pages[] = view('employee.acr.form.appraisal', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view'));
+            }
+        }
+        //accept
+
+
+        //$pages[] = view('employee.acr.show', compact('acr'));
+
+
+        $pdf = \App::make('snappy.pdf.wrapper');
+        $pdf->setOption('margin-top', 5);
+        $pdf->setOption('cover', View::make('employee.acr.pdfcoverpage', compact('acr')));
+        $pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
+        $pdf->loadHTML($pages);
+
+
+
+
+        //View::make() & view() are same
+        //$pdf= SPDF::loadView('employee.acr.form.create1',compact('acr','data_groups'));
+
+        /*//loadFile can be authanticate url link
+        return SPDF::loadFile(url('/cr/form/32/part1'))->inline('github.pdf');*/
+        /*
+        $data = [
+            'title' => 'Welcome to ItSolutionStuff.com',
+            'date' => date('m/d/Y')
+        ];
+
+        $pdf = DPDF::loadView('myPDF', $data);
+        return $pdf->download('itsolutionstuff.pdf');*/
+        //return $pdf->stream('view.pdf');
+    }
 }

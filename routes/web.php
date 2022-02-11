@@ -19,7 +19,8 @@ Route::group(['middleware' => ['auth']], function () {
 //Auth::routes();
 Auth::routes(['verify' => true]);
 
-Route::get('acrs/{employee}', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view');
+Route::get('acrs/{employee}', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view')
+->missing(fn($request)=>response()->view('errors.employee_not_found'));
 
 //employee system routes-------------------------
 Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], function () {
