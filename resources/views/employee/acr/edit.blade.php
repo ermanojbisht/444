@@ -124,7 +124,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 				</div>
 				<div class="col-md-6">
 					<textarea type="text" class="form-control"
-						name="professional_org_membership"> {{ $acr->professional_org_membership }} {{old('professional_org_membership')}}</textarea>
+						name="professional_org_membership">   {{old('professional_org_membership') ? old('professional_org_membership') : $acr->professional_org_membership }}</textarea>
 				</div>
 
 				<hr class="m-1" style="opacity: 0.1;">

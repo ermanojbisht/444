@@ -583,5 +583,33 @@ class Acr extends Model
         }
     }
 
+    public function status_bg_color()
+    {
+        if($this->is_active == 0)
+        {
+            return ' bg-danger ';
+        }
+        else if($this->accept_on)
+        {
+            return 'bg-success ';
+        }
+        else if($this->review_on)
+        {
+            return 'bg-info ';
+        }
+        else if($this->report_on)
+        {
+            return 'br-primary';
+        }
+        else if($this->submitted_at)
+        {
+            return  'bg-teal';
+        }
+        else
+        {
+            return ' bg-green';
+        }
+    }
+    
 
 }

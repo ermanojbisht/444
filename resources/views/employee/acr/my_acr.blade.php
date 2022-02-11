@@ -50,7 +50,7 @@
 			<tbody>
 				{{-- <td> {{$acr->creator->name}} ({{$acr->creator->designation}})</td> --}}
 				@foreach($acrs as $acr)
-				<tr>
+				<tr class="{!! $acr->status_bg_color() !!}">
 					<td>{{1+$loop->index }}</td>
 					<td>{{$acr->from_date->format('d M Y')}}</td>
 					<td>{{$acr->to_date->format('d M Y')}}</td>

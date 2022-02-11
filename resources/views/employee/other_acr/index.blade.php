@@ -5,6 +5,7 @@
 @endsection
 @section('sidebarmenu')
 @include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
+
 @endsection
 
 @section('pagetitle')
@@ -155,7 +156,7 @@ Other's ACR to be Worked Upon
 													</a>
 													@endif
 
-													<a class="dropdown-item"
+													<a class="dropdown-item bg-info"
 														href="{{route('acr.form.appraisal2', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Process ACR
 													</a>
@@ -172,14 +173,11 @@ Other's ACR to be Worked Upon
 															</button>
 														</form>
 													</a>
-
+													@endif
 													<a class="dropdown-item text-white bg-danger" style="width: 100%;"
 														href="{{route('acr.others.reject', ['acr' => $acr->id, 'dutyType' => 'review'])}}">
 														<i class="cib-twitter"></i>Reject ACR
 													</a>
-
-
-													@endif
 												</div>
 											</div>
 										</td>
