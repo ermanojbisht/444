@@ -117,7 +117,7 @@ class AcrReviewController extends Controller
             'review_no' => $review_no,
         ]);
 
-        return $request->all(); 
+        //return $request->all(); 
         
         return redirect()->back();
     }
