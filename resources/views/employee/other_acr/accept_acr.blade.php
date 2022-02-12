@@ -45,7 +45,7 @@ Part - IV ( Assessment by the Accepting Authority)
 		</div>
 
 		<form class="form-horizontal" method="POST" action="{{route('acr.others.accept.save')}}"
-		onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
+			onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 			@csrf
 			<div class="row">
 				<div class="col-md-6">
@@ -60,21 +60,23 @@ Part - IV ( Assessment by the Accepting Authority)
 			<br />
 			<div class="row">
 				<div class="col-md-12">
-					<p id="lbl_reason" class="fw-semibold">2. In Case of difference of opinion details and resaons for the
+					<p id="lbl_reason" class="fw-semibold">2. In Case of difference of opinion details and resaons for
+						the
 						same may be
 						given </p>
 				</div>
 				<div class="col-md-12">
-					<textarea type="text" id="reason" name="reason" rows="4" class="form-control" ></textarea>
+					<textarea type="text" id="reason" name="reason" rows="4" class="form-control"></textarea>
 				</div>
 			</div>
 			<br />
 			<br />
 			<div class="row">
 				<div class="col-md-6">
-					<p class="fw-semibold">3. Overall Grade & Marks (On a score of 1 - 100) 
-						<br />
-						Marks given by Reviewing Officer are : <span class="text-info"> {{$acr->review_no}} </span> 
+					<p class="fw-semibold mb-2">3. Overall Grade & Marks (On a score of 1 - 100)
+					</p>
+					<p class="p-4"> Marks given by Reviewing Officer are :
+						<span class=" fw-semibold text-info"> {{$acr->review_no}} </span>
 					</p>
 				</div>
 				<div class="col-md-3">
@@ -120,7 +122,8 @@ Part - IV ( Assessment by the Accepting Authority)
 							<td> > 60.0 upto 80.0</td>
 							<td> > 40.0 upto 60.0</td>
 							<td> > 20.0 upto 40.0</td>
-							<td> < 20.0</td>
+							<td>
+								< 20.0</td>
 						</tr>
 					</table>
 				</div>

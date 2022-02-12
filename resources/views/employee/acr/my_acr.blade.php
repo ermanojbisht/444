@@ -1,7 +1,6 @@
 @extends('layouts.type200.main')
 
 @section('styles')
-@include('cssbundle.datatablefor5',['button'=>true])
 @endsection
 @section('sidebarmenu')
 @include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
@@ -50,12 +49,16 @@
 			<tbody>
 				{{-- <td> {{$acr->creator->name}} ({{$acr->creator->designation}})</td> --}}
 				@foreach($acrs as $acr)
-				<tr class="{!! $acr->status_bg_color() !!}">
+				<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 					<td>{{1+$loop->index }}</td>
 					<td>{{$acr->from_date->format('d M Y')}}</td>
 					<td>{{$acr->to_date->format('d M Y')}}</td>
 					<td>{{$acr->created_at->format('d M Y')}} </td>
-					<td>{!! $acr->status() !!}</td>
+					<td>{!! $acr->status() !!} 
+					@if (!$acr->is_active)
+						{{$acr->rejected}}
+					@endif
+					</td>
 					<td>
 						<div class="dropdown dropstart">
 							<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"

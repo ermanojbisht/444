@@ -84,9 +84,9 @@ class ResolveGrievanceController extends Controller
         if ($office_job_default) {
             $Office_id = $office_job_default[0]->ee_office_id;  // can work for All EE, SE and CE Offices ?? TODO :: ask the issue.  
             foreach ($office_job_default as $office_job) {
-                if ($office_job->job_id == 4)
+                if ($office_job->job_id == 1)
                     $canCreateDefaultAnswer = true;
-                if ($office_job->job_id == 5)
+                if ($office_job->job_id == 2)
                     $canCreateFinalAnswer = true;
             }
         }

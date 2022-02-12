@@ -456,32 +456,6 @@ class Acr extends Model
     }
 
 
-    public function smsNotificationFor($mobileNo, $message)
-    {
-        //  $url = 'https://www.yousms.in/smsclient/api.php?
-        //  username=pwditcell&password=98993689&source=EICPWD&dmobile=918868945220&
-        //  message=Hello Ankit';
-        // $response = Http::async()->get($url);
-        
-        $response = Http::async()->post('https://www.yousms.in/smsclient/api.php?', [
-            'username' => 'pwditcell',
-            'password' => '98993689',
-            'source' => 'EICPWD',
-            'dmobile' => '918868945220',
-            'message' => 'Hello Ankit ',
-        ]);
-
-        // $ch = curl_init('https://www.yousms.in/smsclient/api.php?');
-        // curl_setopt($ch, CURLOPT_POST, 1);
-        // curl_setopt($ch, CURLOPT_POSTFIELDS, "username=pwditcell&password=98993689&source=EICPWD&dmobile=" .
-        //     $mobileNo . "&message=" . $message);
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        // $data = curl_exec($ch);
-
-        return $response;
-    }
-
-
     public function office()
     {
         return $this->belongsTo(Office::class);
@@ -557,23 +531,30 @@ class Acr extends Model
         return false;
     }
 
+    public function rejected()
+    {
+        return $this->belongsTo(AcrRejection::class);
+    }
+
+
+
     public function status()
     {
         if($this->is_active == 0)
         {
-            return 'Rejected';
+            return 'Rejected on ';
         }
         else if($this->accept_on)
         {
-            return 'Accepted';
+            return 'Accepted on '. $this->accept_on->format('d M Y');
         }
         else if($this->review_on)
         {
-            return 'Reviewed';
+            return 'Reviewed on '. $this->review_on->format('d M Y');
         }
         else if($this->report_on)
         {
-            return 'Reported';
+            return 'Reported on '. $this->report_on->format('d M Y');
         }
         else if($this->submitted_at)
         {
@@ -589,27 +570,27 @@ class Acr extends Model
     {
         if($this->is_active == 0)
         {
-            return ' bg-danger ';
+            return ' bg-danger bg-gradient ';
         }
         else if($this->accept_on)
         {
-            return 'bg-success ';
+            return ' bg-success bg-gradient  ';
         }
         else if($this->review_on)
         {
-            return 'bg-info ';
+            return 'bg-info bg-gradient ';
         }
         else if($this->report_on)
         {
-            return 'br-primary';
+            return 'bg-primary bg-gradient ';
         }
         else if($this->submitted_at)
         {
-            return  'bg-teal';
+            return  'bg-info bg-gradient ';
         }
         else
         {
-            return ' bg-green';
+            return ' bg-info bg-gradient';
         }
     }
     

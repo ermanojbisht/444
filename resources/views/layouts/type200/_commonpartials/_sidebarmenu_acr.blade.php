@@ -19,6 +19,12 @@
         <x-nav-item icon="user-plus" href="{{route('acr.myacrs')}}">My ACR</x-nav-item>
         @endif
         <x-nav-item icon="envelope-letter " href="{{route('acr.others.index')}}">Inbox</x-nav-item>
+
+        @if (1 == 1) {{-- // can create others ACR --}}
+        <x-nav-item icon="user-plus" href="{{route('acr.others.create',['acr_id' => 0])}}">Create Others ACR</x-nav-item>
+        @endif
+
+
         <li class="nav-item">
             <a class="nav-link" href="javascript:void(0)" onclick="
                 let text;

@@ -56,15 +56,75 @@ class OthersAcrController extends Controller
         return view('employee.other_acr.index', compact('reported', 'reviewed', 'accepted'));
     }
 
+
+    /**
+     * @param $id
+     * $id => Instance Id
+     * To create Acr
+     */
+    public function create($acr_id)
+    {
+        $acr = 0;
+        $appraisalOfficers = 0;
+
+        if ($acr_id > 0) {
+            $acr = Acr::findorFail($acr_id);
+            $appraisalOfficers = $acr->appraisalOfficers()->get();
+        }
+
+        return view('employee.acr.create_others_acr', compact('acr_id', 'acr', 'appraisalOfficers'));
+    }
+
+
     /**
      * @param $request 
      * To Store Indivitual ACR
      */
-    public function store(StoreAcrRequest $request)
+    public function store(Request $request)
     {
-        Acr::create($request->validated());
+        // validate appraisal_officer_type 
+        $this->validate(
+            $request,
+            [
+                'appraisal_officer_type' => 'required',
+                'from_date' => 'required|date',
+                'to_date' => 'required|date',
+                'employee_id' => 'required' // in AppraisalOfficer acr_id , appraisal_officer_type, employee_id should not be repeated 
+            ]
+        );
 
-        return redirect(route('acr.myacrs'));
+        if ($request->acr_id == 0) {
+            $acr = Acr::create([
+                'employee_id' => $request->employee_id,
+                'acr_type_id' => 0,
+                'from_date' =>  $request->from_date,
+                'to_date' =>  $request->to_date
+            ]);
+            $acr_id = $acr->id;
+            return redirect(route('acr.others.create', ['acr_id' => $acr_id]));
+        } else {
+
+            $acr = Acr::findOrFail($request->acr_id);
+            $appraisal_officer_type = $request->appraisal_officer_type;
+            $startDate = Carbon::createFromFormat('Y-m-d', $request->from_date);
+            $endDate = Carbon::createFromFormat('Y-m-d', $request->to_date);
+
+            $result = $acr->checkPeriodInput($startDate, $endDate, $appraisal_officer_type); //  give ['status'=>true,'msg'=>'']
+
+            if (!$result['status']) {
+                return Redirect()->back()->with('fail', $result['msg']);
+            }
+
+            $acr->appraisalOfficers()->attach($request->employee_id, array(
+                'appraisal_officer_type' => $appraisal_officer_type,
+                'from_date' => $request->from_date, 'to_date' => $request->to_date
+            ));
+
+            $acr->updateIsDue($appraisal_officer_type);
+            return Redirect()->back()->with('success', 'Officer has been Added to ACR Successfully...');
+        }
+
+        // return redirect(route('acr.myacrs'));
     }
 
 
@@ -143,7 +203,7 @@ class OthersAcrController extends Controller
 
         if (in_array($dutyType, ['report', 'review', 'accept'])) {
             $officer = $acr->userOnBasisOfDuty($dutyType);
-            return view('employee.acr.reject_acr', compact('acr', 'officer','dutyType'));
+            return view('employee.acr.reject_acr', compact('acr', 'officer', 'dutyType'));
         }
 
         return Redirect()->back()->with('fail', 'Cannot reject ACR...');

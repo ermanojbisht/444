@@ -26,10 +26,28 @@
 									M Y') }} </span>
 							</td>
 						</tr>
+						<tr>
+							<td>
+								<p class=" fw-bold "> ACR Type :-</p>
+							</td>
+							<td>
+								<span class="data"> {{$acr->type->description }} </span>
+							</td>
+						</tr>
 					</table>
 				</div>
 				</span>
 			</div>
+
+			<div class="row">
+				<div class="col-md-12 ">
+					@if ($acr->is_active)
+					<div style="width:100%" class=" text-center bg-danger text-white fw-bold h3"> This ACR has been
+						Rejected </div>
+					@endif
+				</div>
+			</div>
+
 
 			<div class="row">
 				<div class="col-md-12 text-center ">
@@ -122,45 +140,46 @@
 												</thead>
 												<tbody>
 													@forelse ($appraisalOfficers as $appraisalOfficer)
-                                                    <tr><td>
-                                                        @if( config('acr.basic.appraisalOfficerType')
-                                                        [$appraisalOfficer->pivot->appraisal_officer_type] ==
-                                                        'Reporting')
-                                                        Reporting Authority
-                                                        @endif
-                                                        @if( config('acr.basic.appraisalOfficerType')
-                                                        [$appraisalOfficer->pivot->appraisal_officer_type] ==
-                                                        'Reviewing')Reviewing Authority
-                                                        @endif
-                                                        @if( config('acr.basic.appraisalOfficerType')
-                                                        [$appraisalOfficer->pivot->appraisal_officer_type] ==
-                                                        'Accepting')
-                                                        Accepting Authority
-                                                        @endif
-                                                        </td>
-                                                        <td>{{$appraisalOfficer->name}}</td>
-                                                        <td>{{$appraisalOfficer->designation->name}}</td>
-                                                        <td>
-                                                            {{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->format('d
-                                                            M Y')}}
-                                                            -
-                                                            {{Carbon\Carbon::parse($appraisalOfficer->pivot->to_date)->format('d
-                                                            M Y')}}
+													<tr>
+														<td>
+															@if( config('acr.basic.appraisalOfficerType')
+															[$appraisalOfficer->pivot->appraisal_officer_type] ==
+															'Reporting')
+															Reporting Authority
+															@endif
+															@if( config('acr.basic.appraisalOfficerType')
+															[$appraisalOfficer->pivot->appraisal_officer_type] ==
+															'Reviewing')Reviewing Authority
+															@endif
+															@if( config('acr.basic.appraisalOfficerType')
+															[$appraisalOfficer->pivot->appraisal_officer_type] ==
+															'Accepting')
+															Accepting Authority
+															@endif
+														</td>
+														<td>{{$appraisalOfficer->name}}</td>
+														<td>{{$appraisalOfficer->designation->name}}</td>
+														<td>
+															{{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->format('d
+															M Y')}}
+															-
+															{{Carbon\Carbon::parse($appraisalOfficer->pivot->to_date)->format('d
+															M Y')}}
 
-                                                            ({{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->diffInDays
-                                                            (Carbon\Carbon::parse($appraisalOfficer->pivot->to_date))}}
-                                                            Days)
-                                                        </td>
-                                                        <td>
-                                                            {{config('site.yesNo')[$appraisalOfficer->pivot->is_due]}}
-                                                        </td>
-                                                    </tr>
+															({{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->diffInDays
+															(Carbon\Carbon::parse($appraisalOfficer->pivot->to_date))}}
+															Days)
+														</td>
+														<td>
+															{{config('site.yesNo')[$appraisalOfficer->pivot->is_due]}}
+														</td>
+													</tr>
 
-                                                    @empty
-                                                    <tr>
-                                                        <td colspan="5" rowspan="1" headers="">No Data Found</td>
-                                                    </tr>
-                                                    @endforelse
+													@empty
+													<tr>
+														<td colspan="5" rowspan="1" headers="">No Data Found</td>
+													</tr>
+													@endforelse
 												</tbody>
 											</table>
 										</td>
@@ -297,7 +316,7 @@
 								<p class=" fw-bold "> 9. Date of Filing Property Return for the Calender Year </p>
 							</th>
 							<td>
-                                @mkbdate($acr->property_filing_return_at,'d M Y')
+								@mkbdate($acr->property_filing_return_at,'d M Y')
 							</td>
 						</tr>
 					</table>
