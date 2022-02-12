@@ -205,5 +205,22 @@
 			</tr>
 		</table>
 	</div>
+	<div class="d-flex justify-content-around">
+		@if($acr->report_on)
+		<div>
+			<p> Repored By : (name to be added)</p>
+			<p> on : {{$acr->report_on->format('d M Y')}}</p>
+
+		</div>
+		@endif
+		@if($acr->report_no)
+		<div>
+			<p> Reviewed By : (name to be added)</p>
+			<p> On : {{$acr->review_on->format('d M Y')}}</p>
+			
+		</div>
+		@endif
+		
+	</div>
 </div>
 @endsection
