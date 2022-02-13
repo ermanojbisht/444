@@ -14,6 +14,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+['label'=> 'View All Defaulters Acrs', 'route'=>'acr.others.defaulters' ,'routefielddata' => 0,'active'=>false],
 ['label'=> 'Edit Defaulters ACR','active'=>true]
 ]])
 @endsection
@@ -63,6 +64,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 					<div class="form-group">
 						{{ Form::label('office_id','Select Office Name',[ 'class'=>' required']) }}
 						<select id="office_id" name="office_id" required class="form-select select2">
+							<option value=""> Select Office </option>
 							@foreach ($Offices as $key => $values)
 							<option value="{{$key}}"> {{$values}} </option>
 							@endforeach

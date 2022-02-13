@@ -161,11 +161,12 @@ Add Defaulter Employee's ACR
 						<div class="row">
 							<div class="col-md-12">
 								<label for='office_id' class="required "> Select Office </label>
+								
 								<select name="office_id" id="office_id" required class="form-select ">
+									<option value=""> Select Office </option>
 									@foreach ($Offices as $key => $values)
 										<option value="{{$key}}" > {{$values}} </option>
 									@endforeach
-
 								</select>
 							</div>
 

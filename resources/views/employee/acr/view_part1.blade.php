@@ -29,7 +29,7 @@
 	</tr>
 </table>
 @if ($acr->is_active)
-<p style="width:100%" class="fw-semibold bg-danger text-white text-center text-info my-0">
+<p style="width:100%;" class="fw-semibold bg-danger text-white text-center text-info my-0">
 	This ACR has been Rejected</p>
 @endif
 <p class="fw-semibold text-center text-info my-0">Part - 1 (Basic Information)</p>

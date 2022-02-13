@@ -9,15 +9,35 @@
 @endsection
 
 @section('pagetitle')
+@if ($acr->acr_type_id == 0)
+
+<small> Assign Officers </small>  Defaulters ACR
+
+@else
 Part 1 ( Basic Information ) <small> Assign Officers </small>
+
+@endif
 @endsection
 
 @section('breadcrumb')
+
+
+@if ($acr->acr_type_id == 0)
+
+@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
+['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+['label'=> 'View All Defaulters Acrs', 'route'=>'acr.others.defaulters' ,'routefielddata' => 0,'active'=>false],
+['label'=> 'Assign Officers','active'=>true]
+]])
+@else
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
 ['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
 ['label'=> 'Assign Officers','active'=>true]
 ]])
+
+@endif
+
 @endsection
 
 @section('content')

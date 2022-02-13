@@ -21,7 +21,8 @@
         <x-nav-item icon="envelope-letter " href="{{route('acr.others.index')}}">Inbox</x-nav-item>
 
         @if(Auth::user()->hasAccess(['create-others-acr']))
-        <x-nav-item icon="user-plus" href="{{route('acr.others.defaulters',['office_id' => 0])}}">Create Others ACR</x-nav-item>
+        <x-nav-item icon="user-plus" href="{{route('acr.others.defaulters',['office_id' => 0])}}">
+            Create Defaulters ACR</x-nav-item>
         @endif
 
         <li class="nav-item">

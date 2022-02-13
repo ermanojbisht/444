@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employee\OthersAcr;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\StoreAcrRequest;
+use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrRejection;
 use App\Models\Employee;
@@ -113,6 +114,8 @@ class AcrInboxController extends Controller
             $officer = $acr->userOnBasisOfDuty($dutyType);
             return view('employee.acr.reject_acr', compact('acr', 'officer', 'dutyType'));
         }
+        
+        dispatch(new MakeAcrPdfOnSubmit($acr, 'reject'));
 
         return Redirect()->back()->with('fail', 'Cannot reject ACR...');
     }

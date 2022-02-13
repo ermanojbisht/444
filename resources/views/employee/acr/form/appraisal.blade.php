@@ -127,7 +127,8 @@
 											{{$required_parameter->reporting_marks??''}}
 										</span>
 										@else
-											<input class="form-control form-control-sm text-end reportingPositiveNo" type="number" step="0.01" 
+											<input class="form-control form-control-sm text-end reportingPositiveNo" 
+											type="number" step="0.01" 
 											 min="0" max="{{$required_parameter->max_marks}}"
 											name="reporting_marks_positive[{{$required_parameter->id}}]" {{$classButton??''}}
 												@if($required_parameter->reporting_marks)

@@ -229,21 +229,26 @@ class AcrController extends Controller
     public function submitAcr(Request $request)
     {
         $acr = Acr::findOrFail($request->acr_id);
-        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
 
-        $result = $acr->checkSelfAppraisalFilled();
-
-        if (!$result['status']) {
-            return Redirect()->back()->with('fail', $result['msg']);
+        $permission = false;
+        if ($acr->acr_type_id == 0 && $this->user->hasPermissionTo(['create-others-acr'])) {
+            $permission = true;
         }
+        if (!$permission) {
+            abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
+           
+            $result = $acr->checkSelfAppraisalFilled();
+            if (!$result['status']) {
+                return Redirect()->back()->with('fail', $result['msg']);
+            }
+        } 
 
         // $mobileNo = '91' . $acr->reportUser()->contact_no;
         // $message = $acr->submitUser()->name  . ' has marked his ACR to you as Reviewing officer for the period of ' .
         //     $acr->from_date->format('d M Y') . ' - ' . $acr->to_date->format('d M Y');
 
-        // reviewUser
-
         $acr->update(['submitted_at' => now()]);
+        
         dispatch(new MakeAcrPdfOnSubmit($acr, 'submit'));
 
         return redirect()->back();

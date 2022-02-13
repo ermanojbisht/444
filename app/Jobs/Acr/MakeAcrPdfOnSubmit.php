@@ -63,13 +63,17 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
             $this->acr->acceptNotification();
         }
 
+        if($this->milstone=='reject'){
+            $this->acr->rejectNotification();
+        }
+
     }
 
     public function arrangeAcrView()
     {
         $pages = []; $view = true;
         $acr=$this->acr;
-        if(in_array($this->milstone, ['submit','report','review','accept'])){
+        if(in_array($this->milstone, ['submit','report','review','accept','reject'])){
             list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $this->acr->firstFormData();
             $pages[] = view('employee.acr.view_part1', ['acr'=>$this->acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ]);
 
