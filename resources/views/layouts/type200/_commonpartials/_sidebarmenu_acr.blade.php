@@ -20,10 +20,9 @@
         @endif
         <x-nav-item icon="envelope-letter " href="{{route('acr.others.index')}}">Inbox</x-nav-item>
 
-        {{-- @can('create-others-acr') --}}
-        <x-nav-item icon="user-plus" href="{{route('acr.others.defaulters',['office_id' => 0])}}">Create Defaulter's ACR</x-nav-item>
-        {{-- @endcan --}}
-
+        @if(Auth::user()->hasAccess(['create-others-acr']))
+        <x-nav-item icon="user-plus" href="{{route('acr.others.defaulters',['office_id' => 0])}}">Create Others ACR</x-nav-item>
+        @endif
 
         <li class="nav-item">
             <a class="nav-link" href="javascript:void(0)" onclick="

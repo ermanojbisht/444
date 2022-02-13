@@ -61,23 +61,15 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 				</div>
 				<div class="col-md-4">
 					<div class="form-group">
-						{{ Form::label('officeType','Place of Posting ',[ 'class'=>' required']) }}
-						<select id='officeTypeId' class='form-select' required>
-							@foreach ($Officetypes as $key=>$name)
-							<option value="{{$key}}" {{( (old('officeTypeId')==$key || $key==$acr_office->
-								office_type) ? 'selected' : '' )}}> {{$name}} </option>
-							@endforeach
-						</select>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
 						{{ Form::label('office_id','Select Office Name',[ 'class'=>' required']) }}
 						<select id="office_id" name="office_id" required class="form-select select2">
-							@foreach ($Offices as $office)
+							@foreach ($Offices as $key => $values)
+							<option value="{{$key}}"> {{$values}} </option>
+							@endforeach
+							{{-- @foreach ($Offices as $office)
 							<option value="{{$office->id}}" {{( $acr_office->id == $office->id ?
 								'selected' : '' )}} > {{$office->name}} </option>
-							@endforeach
+							@endforeach --}}
 						</select>
 					</div>
 				</div>
@@ -107,7 +99,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 					Office Administrator</p>
 			</div>
 			<div class="row">
-				<div class="col-md-3"> 
+				<div class="col-md-3">
 					<input type="hidden" name="acr_id" value="{{$acr->id}}" />
 					<input type="submit" class="btn btn-primary " value="Update ACR" />
 				</div>
