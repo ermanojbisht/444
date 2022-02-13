@@ -154,7 +154,14 @@ class AcrController extends Controller
 
     public function addOfficers(Acr $acr)
     {
-        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
+        $permission = false;
+        if ($acr->acr_type_id == 0 && $this->user->hasPermissionTo(['create-others-acr'])) {
+            $permission = true;
+        }
+        if (!$permission) {
+            abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
+        }
+
         $appraisalOfficers =  $acr->appraisalOfficers()->get();
 
         return view('employee.acr.add_officers', compact('acr', 'appraisalOfficers'));
@@ -162,6 +169,7 @@ class AcrController extends Controller
 
     public function addAcrOfficers(Request $request)
     {
+
         // validate appraisal_officer_type 
         $this->validate(
             $request,
@@ -174,7 +182,15 @@ class AcrController extends Controller
         );
 
         $acr = Acr::findOrFail($request->acr_id);
-        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
+
+        $permission = false;
+        if ($acr->acr_type_id == 0 && $this->user->hasPermissionTo(['create-others-acr'])) {
+            $permission = true;
+        }
+        if (!$permission) {
+            abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
+        }
+
         $appraisal_officer_type = $request->appraisal_officer_type;
 
         if ($this->user->employee_id == $request->appraisal_officer_type) {

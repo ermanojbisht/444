@@ -404,7 +404,7 @@ class Acr extends Model
 
             if (!$previousNotification) {
                 $mail = Mail::to($targetEmployee);
-                if($targetEmployee->chat_id>90000){
+                if ($targetEmployee->chat_id > 90000) {
                     $response = $targetEmployee->notify(new AcrSubmittedNotification($this, $targetEmployee, $targetDutyType));
                 }
 
@@ -431,13 +431,12 @@ class Acr extends Model
                         $mail->cc($this->userOnBasisOfDuty('accept'));
                         break;
 
-                        
+
                     case 'reject': //on reject event , submituser is targeted
                         $mail->cc($this->userOnBasisOfDuty('review'));
                         $mail->cc($this->userOnBasisOfDuty('report'));
                         $mail->cc($this->userOnBasisOfDuty('accept'));
                         break;
-
                 }
 
                 $mail->send(new AcrSumittedMail($this, $targetEmployee, $targetDutyType));
@@ -533,66 +532,58 @@ class Acr extends Model
 
     public function rejected()
     {
-        return $this->belongsTo(AcrRejection::class);
+        return $this->hasOne(AcrRejection::class);
     }
 
+    public function rejectUser()
+    {
+        return  User::where('employee_id', $this->rejected()->first()->employee_id)->first();
+    }
 
 
     public function status()
     {
-        if($this->is_active == 0)
-        {
-            return 'Rejected on ';
-        }
-        else if($this->accept_on)
-        {
-            return 'Accepted on '. $this->accept_on->format('d M Y');
-        }
-        else if($this->review_on)
-        {
-            return 'Reviewed on '. $this->review_on->format('d M Y');
-        }
-        else if($this->report_on)
-        {
-            return 'Reported on '. $this->report_on->format('d M Y');
-        }
-        else if($this->submitted_at)
-        {
+        if ($this->is_active == 0) {
+
+            $rejection = $this->rejected()->first();
+            $rejection_Reason  = ' Rejected By ';
+            if (! $this->report_on) {
+                $rejection_Reason = $rejection_Reason . ' Reporting Officer ';
+            } else if (! $this->review_on) {
+                $rejection_Reason = $rejection_Reason . 'Reporting Officer ';
+            } else if (! $this->accept_on) {
+                $rejection_Reason = $rejection_Reason . 'Reporting Officer ';
+            }
+
+            return  $rejection_Reason .  $this->rejectUser()->name . ' on ' . $rejection->created_at->format('d M Y');
+
+        } else if ($this->accept_on) {
+            return 'Accepted on ' . $this->accept_on->format('d M Y');
+        } else if ($this->review_on) {
+            return 'Reviewed on ' . $this->review_on->format('d M Y');
+        } else if ($this->report_on) {
+            return 'Reported on ' . $this->report_on->format('d M Y');
+        } else if ($this->submitted_at) {
             return  'Submitted on ' . $this->submitted_at->format('d M Y');
-        }
-        else
-        {
+        } else {
             return 'New Created';
         }
     }
 
     public function status_bg_color()
     {
-        if($this->is_active == 0)
-        {
-            return ' bg-danger bg-gradient ';
-        }
-        else if($this->accept_on)
-        {
-            return ' bg-success bg-gradient  ';
-        }
-        else if($this->review_on)
-        {
+        if ($this->is_active == 0) {
+            return 'bg-danger bg-gradient ';
+        } else if ($this->accept_on) {
+            return 'bg-success bg-gradient  ';
+        } else if ($this->review_on) {
             return 'bg-info bg-gradient ';
-        }
-        else if($this->report_on)
-        {
+        } else if ($this->report_on) {
             return 'bg-primary bg-gradient ';
-        }
-        else if($this->submitted_at)
-        {
+        } else if ($this->submitted_at) {
             return  'bg-info bg-gradient ';
-        }
-        else
-        {
+        } else {
             return ' bg-info bg-gradient';
         }
     }
-    
-
 }

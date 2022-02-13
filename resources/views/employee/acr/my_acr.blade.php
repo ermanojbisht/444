@@ -54,11 +54,7 @@
 					<td>{{$acr->from_date->format('d M Y')}}</td>
 					<td>{{$acr->to_date->format('d M Y')}}</td>
 					<td>{{$acr->created_at->format('d M Y')}} </td>
-					<td>{!! $acr->status() !!} 
-					@if (!$acr->is_active)
-						{{$acr->rejected}}
-					@endif
-					</td>
+					<td>{!! $acr->status() !!} </td>
 					<td>
 						<div class="dropdown dropstart">
 							<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -69,12 +65,10 @@
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
 
-								@if (!$acr->submitted_at)
-
+								@if (!$acr->submitted_at && $acr->acr_type_id != 0)
 								<a class="dropdown-item" href="{{route('acr.edit', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Edit Basic Detail
 								</a>
-
 								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
 								</a>
@@ -88,7 +82,7 @@
 									<i class="cib-twitter"></i>Add Part -II Self-Appraisal
 								</a>
 								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) &&
-								$acr->hasAppraisalOfficer(3) ) 
+								$acr->hasAppraisalOfficer(3))
 								<a class="dropdown-item" href="#">
 									<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST"
 										onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
@@ -99,6 +93,7 @@
 								</a>
 								@endif
 								@endif
+
 								@if ($acr->isFileExist())
 								<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i> View ACR

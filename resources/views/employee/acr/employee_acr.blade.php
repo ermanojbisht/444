@@ -1,10 +1,5 @@
 @extends('layouts.type200.main')
 
-@section('styles')
-@include('cssbundle.datatablefor5',['button'=>true])
-@endsection
- 
-
 @section('pagetitle')
 {{$employee->name }} ACR Details
 @endsection
@@ -28,10 +23,10 @@
 
 	<div class="row">
 		<div class="col-md-6">
-					<p class="fw-bold h5"> Employee Code :  {{$employee->id }} </p>
+			<p class="fw-bold h5"> Employee Code : {{$employee->id }} </p>
 		</div>
-		<div class="col-md-6"> 
-					<p class="fw-bold h5"> Designation :  {{$employee->designation->name }} </p>
+		<div class="col-md-6">
+			<p class="fw-bold h5"> Designation : {{$employee->designation->name }} </p>
 		</div>
 	</div>
 	<hr>
@@ -61,13 +56,18 @@
 		</thead>
 		<tbody>
 			@foreach($acrs as $acr)
-			<tr>
+			<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 				<td>{{1+$loop->index }}</td>
 				<td><a href="{{route('acr.view',['acr'=>$acr])}}">{{$acr->id }}</a></td>
 				<td>{!! $acr->from_date->format('d&#160;M&#160;Y') !!}</td>
 				<td>{!! $acr->to_date->format('d&#160;M&#160;Y') !!}</td>
-				<td>{!! $acr->created_at->format('d&#160;M&#160;Y') !!} </td>
+				<td>{!! ($acr->submitted_at) ?  $acr->submitted_at->format('d&#160;M&#160;Y') : 'New Created ' !!} </td>
 
+				@if(! $acr->is_active )
+				<td colspan="6">
+					{!! $acr->status() !!}
+				</td>
+				@else
 
 				<td>{{$acr->report_employee_id ? $acr->reportUser()->name : '' }} </td>
 				<td> @if ($acr->submitted_at)
@@ -86,6 +86,10 @@
 					{{ $acr->accept_on ? Carbon\Carbon::parse($acr->accept_on)->format('d M Y') :
 					'Pending since ' . Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->review_on)).
 					' days' }} @endif </td>
+
+				@endif
+
+
 			</tr>
 			@endforeach
 		</tbody>

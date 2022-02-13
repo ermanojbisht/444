@@ -19,8 +19,8 @@ Route::group(['middleware' => ['auth']], function () {
 //Auth::routes();
 Auth::routes(['verify' => true]);
 
-Route::get('acrs/{employee}', 'Employee\OthersAcr\OthersAcrController@view')->name('employee.acr.view')
-->missing(fn($request)=>response()->view('errors.employee_not_found'));
+Route::get('acrs/{employee}', 'Employee\OthersAcr\AcrInboxController@view')->name('employee.acr.view')
+    ->missing(fn ($request) => response()->view('errors.employee_not_found'));
 
 //employee system routes-------------------------
 Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], function () {
@@ -33,7 +33,7 @@ Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], f
 
 // acr routes-------------------------  // 
 
-Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth','verified']], function () {
+Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth', 'verified']], function () {
 
     // AcrController
 
@@ -43,8 +43,6 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth','verifi
 
     Route::get('/edit/{acr}/acr', 'Employee\Acr\AcrController@edit')->name('edit');
     Route::post('/update/acr', 'Employee\Acr\AcrController@update')->name('update');
-
-
 
 
     Route::get('/{acr}/view', 'Employee\Acr\AcrController@show')->name('view');
@@ -70,13 +68,13 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth','verifi
 
     // Employee\Acr\AcrFormController
 
-    Route::get('form/{acr}/part1', 'Employee\Acr\AcrFormController@create1')->name('form.create1');//target/achivement
-    Route::get('form/{acr}/part2', 'Employee\Acr\AcrFormController@create2')->name('form.create2');//difficulty
-    Route::get('form/{acr}/part3', 'Employee\Acr\AcrFormController@create3')->name('form.create3');//deduction
-    Route::get('form/{acr}/part4', 'Employee\Acr\AcrFormController@addTrainningToEmployee')->name('form.addTrainningToEmployee');//training
-    
-    Route::get('form/{acr}/show', 'Employee\Acr\AcrFormController@show')->name('form.show');//training
-    
+    Route::get('form/{acr}/part1', 'Employee\Acr\AcrFormController@create1')->name('form.create1'); //target/achivement
+    Route::get('form/{acr}/part2', 'Employee\Acr\AcrFormController@create2')->name('form.create2'); //difficulty
+    Route::get('form/{acr}/part3', 'Employee\Acr\AcrFormController@create3')->name('form.create3'); //deduction
+    Route::get('form/{acr}/part4', 'Employee\Acr\AcrFormController@addTrainningToEmployee')->name('form.addTrainningToEmployee'); //training
+
+    Route::get('form/{acr}/show', 'Employee\Acr\AcrFormController@show')->name('form.show'); //training
+
     Route::post('form/store1', 'Employee\Acr\AcrFormController@store1')->name('form.store1');
     Route::post('form/store2', 'Employee\Acr\AcrFormController@store2')->name('form.store2');
     Route::post('form/store3', 'Employee\Acr\AcrFormController@store3')->name('form.store3');
@@ -85,8 +83,8 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth','verifi
 
     // Acr Reporting 
     Route::get('form/{acr}/appraisal1', 'Employee\OthersAcr\AcrReportController@appraisal1')->name('form.appraisal1');
-    Route::post('form/appraisal1', 'Employee\OthersAcr\AcrReportController@storeAppraisal1')->name('form.storeAppraisal1'); 
-    
+    Route::post('form/appraisal1', 'Employee\OthersAcr\AcrReportController@storeAppraisal1')->name('form.storeAppraisal1');
+
     Route::get('form/{acr}/appraisal/show', 'Employee\OthersAcr\AcrReportController@show')->name('form.appraisalShow');
 
     // Acr Review 
@@ -99,35 +97,39 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth','verifi
 });
 
 
-Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => ['auth','verified']], function () {
+Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => ['auth', 'verified']], function () {
 
-    // OtherAcrController
-    Route::get('/', 'Employee\OthersAcr\OthersAcrController@index')->name('index');
 
-    
-    Route::get('/create/{acr_id}', 'Employee\OthersAcr\OthersAcrController@create')->name('create');
-    Route::post('/store', 'Employee\OthersAcr\OthersAcrController@store')->name('store');
+    //AcrDefaulterController
+    Route::get('/defaulters/{office_id}', 'Employee\OthersAcr\AcrDefaulterController@index')->name('defaulters');
+    Route::post('/store', 'Employee\OthersAcr\AcrDefaulterController@store')->name('store');
 
-    
+    Route::get('/edit/{acr}/defaulters', 'Employee\OthersAcr\AcrDefaulterController@edit')->name('edit');
+    Route::post('/update/acr', 'Employee\OthersAcr\AcrDefaulterController@update')->name('update');
+
+
+    // AcrInboxController
+    Route::get('/', 'Employee\OthersAcr\AcrInboxController@index')->name('index');
+
+
     Route::get('report/{acr}/submit', 'Employee\OthersAcr\AcrReportController@submitReported')->name('report.submit');
     Route::post('report', 'Employee\OthersAcr\AcrReportController@storeReportedAcr')->name('report.save');
-    
+
     Route::post('review', 'Employee\OthersAcr\AcrReviewController@storeReviewedAcr')->name('review.save');
-    
+
     Route::get('accept/{acr}/submit', 'Employee\OthersAcr\AcrAcceptController@submitAccepted')->name('accept.submit');
     Route::post('accpet', 'Employee\OthersAcr\AcrAcceptController@storeAcceptedAcr')->name('accept.save');
 
 
-    Route::get('view/{acr}/integrity', 'Employee\OthersAcr\OthersAcrController@viewIntegrity')->name('acr.view.integrity'); 
-    Route::get('view/{acr}/accepted', 'Employee\OthersAcr\OthersAcrController@viewAccepted')->name('acr.view.accepted'); 
-    
-    Route::get('{acr}/reject/{dutyType}', 'Employee\OthersAcr\OthersAcrController@reject')->name('reject');
-    Route::post('/reject/acr', 'Employee\OthersAcr\OthersAcrController@storeReject')->name('storeReject');
-    
+    //AcrIntegrityController
+    Route::get('view/{acr}/integrity', 'Employee\OthersAcr\AcrIntegrityController@viewIntegrity')->name('acr.view.integrity');
+    Route::get('view/{acr}/accepted', 'Employee\OthersAcr\AcrInboxController@viewAccepted')->name('acr.view.accepted');
+
+    Route::get('{acr}/reject/{dutyType}', 'Employee\OthersAcr\AcrInboxController@reject')->name('reject');
+    Route::post('/reject/acr', 'Employee\OthersAcr\AcrInboxController@storeReject')->name('storeReject');
+
+
 });
-
-
-    
 
 
 
@@ -148,10 +150,6 @@ Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['aut
     Route::get('hr_grievance/{hr_grievance}', 'Employee\HrGrievance\GrievanceController@show')->name('hr_grievance.show');
 
     Route::post('ajaxDataForOffice', 'Employee\HrGrievance\GrievanceController@ajaxDataForOffice')->name('ajaxDataForOffice');
-
-
-
-
 });
 
 

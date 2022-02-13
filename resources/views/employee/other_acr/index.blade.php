@@ -1,7 +1,7 @@
 @extends('layouts.type200.main')
 
 @section('styles')
-@include('cssbundle.datatablefor5',['button'=>true])
+ 
 @endsection
 @section('sidebarmenu')
 @include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
@@ -48,8 +48,6 @@ Other's ACR to be Worked Upon
 					</ul>
 					<div class="tab-content rounded-bottom">
 						<div class="tab-pane p-3 active" role="tabpanel" id="report">
-
-
 							<table class="table border mb-0">
 								<thead class="table-light  fw-bold">
 									<tr class="align-middle">
@@ -65,7 +63,7 @@ Other's ACR to be Worked Upon
 								</thead>
 								<tbody>
 									@foreach($reported as $acr)
-									<tr>
+									<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 										<td>{{1+$loop->index }}</td>
 										<td>{{ $acr->employee->name}}</td>
 
@@ -73,7 +71,7 @@ Other's ACR to be Worked Upon
 										<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
 										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>
 										<td>{{$acr->created_at->format('d M Y')}} </td>
-										<td>{{($acr->submitted_at == null ? 'Pending' : 'Submitted') }}</td>
+										<td>{!! $acr->status() !!}</td>
 										<td>
 											<div class="dropdown dropstart">
 												<button class="btn btn-transparent p-0" type="button"
@@ -129,7 +127,7 @@ Other's ACR to be Worked Upon
 								</thead>
 								<tbody>
 									@foreach($reviewed as $acr)
-									<tr>
+									<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 										<td>{{1+$loop->index }}</td>
 										<td>{{ $acr->employee->name}}</td>
 
@@ -137,6 +135,9 @@ Other's ACR to be Worked Upon
 										<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
 										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>
 										<td>{{$acr->created_at->format('d M Y')}} </td>
+										<td>
+											{!! $acr->status() !!}
+										</td>
 										<td>
 											<div class="dropdown dropstart">
 												<button class="btn btn-transparent p-0" type="button"
@@ -202,13 +203,14 @@ Other's ACR to be Worked Upon
 								</thead>
 								<tbody>
 									@foreach($accepted as $acr)
-									<tr>
+									<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 										<td>{{1+$loop->index }}</td>
 										<td>{{ $acr->employee->name}}</td>
 										<td>{{$acr->employee_id}} </td>
 										<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
 										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>
 										<td>{{$acr->created_at->format('d M Y')}} </td>
+										<td>{!! $acr->status() !!}</td>
 										<td>
 											<div class="dropdown dropstart">
 												<button class="btn btn-transparent p-0" type="button"

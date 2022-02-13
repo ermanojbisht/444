@@ -1,7 +1,6 @@
 @extends('layouts.type200.main')
 
 @section('styles')
-@include('cssbundle.datatablefor5',['button'=>true])
 @include('layouts._commonpartials.css._select2')
 @endsection
 @section('sidebarmenu')
@@ -9,14 +8,13 @@
 @endsection
 
 @section('pagetitle')
-Part 1 ( Basic Information ) <small> Assign Officers </small>
+Add Defaulter Employee's ACR
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-// ['label'=> 'Add Others Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
-['label'=> 'Add Others ACR and Assign Officers'  ,'active'=>true]
+['label'=> 'Add Others ACR' ,'active'=>true]
 ]])
 @endsection
 
@@ -24,123 +22,109 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 
 <div class="card">
 	<div class="card-body">
-
 		<div class="btn-group" role="group" aria-label="Basic outlined example">
-			<input type="button" id="assign_Officials" class="btn btn-outline-primary" value="{{ $acr_id == 0 ? 'Select Employee To Fill ACR' : 'Assign Officials' }}" />
-
-			@if($acr_id > 0 && !$acr->isSubmitted())
-
-			@if($acr->hasAppraisalOfficer(1))
-			<span class="btn p-0 btn-outline-danger">
-				<form action="{{ route('acr.deleteAcrOfficers', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>1]) }}"
-					method="POST">
-					{{ csrf_field() }}
-					<button type="submit" class="btn btn-outline-danger"> Delete Reporting Officials</button>
-				</form>
-			</span>
-			@endif
-			@if($acr->hasAppraisalOfficer(2))
-			<span class="btn btn-outline-danger p-0">
-				<form action="{{ route('acr.deleteAcrOfficers', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>2]) }}"
-					method="POST">
-					{{ csrf_field() }}
-					<button type="submit" class="btn btn-outline-danger "> Delete Reviewing Officials</button>
-				</form>
-			</span>
-			@endif
-			@if($acr->hasAppraisalOfficer(3))
-			<span class="btn btn-outline-danger p-0">
-				<form action="{{ route('acr.deleteAcrOfficers', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>3]) }}"
-					method="POST">
-					{{ csrf_field() }}
-					<button type="submit" class="btn btn-outline-danger "> Delete Accepting Officials</button>
-				</form>
-			</span>
-			@endif
-
-			@endif
+			<input type="button" id="assign_Officials" class="btn btn-outline-primary"
+				value="Add Defaulter Employee's ACR" />
 		</div>
+		<hr />
+		<br />
+
+		<table class="table border mb-0">
+			<thead class="table-light  fw-bold">
+				<tr class="align-middle">
+					<th>#</th>
+					<th>Employee Name</th>
+					<th>Employee Id</th>
+					<th>From Date</th>
+					<th>To Date</th>
+					<th>Created on</th>
+					<th>Status</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($defaulters_acrs as $acr)
+				<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
+					<td>{{1+$loop->index }}</td>
+					<td>{{ $acr->employee->name}}</td>
+
+					<td>{{$acr->employee_id}} </td>
+					<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
+					<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>
+					<td>{{$acr->created_at->format('d M Y')}} </td>
+					<td>{{($acr->submitted_at == null ? 'Pending' : 'Submitted') }}</td>
+					<td>
+						<div class="dropdown dropstart">
+							<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false">
+								<svg class="icon icon-xl">
+									<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-options')}}">
+									</use>
+								</svg>
+							</button>
+							<div class="dropdown-menu dropdown-menu-end">
+								@if (!$acr->submitted_at)
+
+								<a class="dropdown-item" href="{{route('acr.others.edit', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Edit Basic Detail
+								</a>
+
+								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
+								</a>
+								{{-- <a class="dropdown-item" href="{{route('acr.addLeaves', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add Leaves / Absence
+								</a>
+								<a class="dropdown-item" href="{{route('acr.addAppreciation', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add Appreciation / Honors
+								</a>
+								<a class="dropdown-item" href="{{route('acr.form.create1', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i>Add Part -II Self-Appraisal
+								</a> --}}
+								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) &&
+								$acr->hasAppraisalOfficer(3) )
+								<a class="dropdown-item" href="#">
+									<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST"
+										onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
+										{{ csrf_field() }}
+										<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR
+										</button>
+									</form>
+								</a>
+								@endif
+								@endif
+								@if ($acr->isFileExist())
+								<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i> View ACR
+								</a>
+								@endif
+
+							</div>
+						</div>
+					</td>
+				</tr>
+				@endforeach
+			</tbody>
+		</table>
 
 
-		<div class="p-3">
-
-			@if ($acr_id > 0)
-			<table class="table datatable table-bordered table-striped table-hover">
-				<thead>
-					<tr>
-						<th>Appraisal Officer Type </th>
-						<th>Officer Name </th>
-						<th>From Date</th>
-						<th>To Date</th>
-						<th>Period </th>
-						<th>Is Due </th>
-					</tr>
-				</thead>
-				<tbody>
-					@forelse ($appraisalOfficers as $appraisalOfficer)
-					<tr>
-						<td> {{
-							config('acr.basic.appraisalOfficerType')[$appraisalOfficer->pivot->appraisal_officer_type]
-							}}
-						</td>
-						<td>{{$appraisalOfficer->name}}</td>
-						<td>{{$appraisalOfficer->pivot->from_date}}</td>
-						<td>{{$appraisalOfficer->pivot->to_date}}</td>
-						<td>{{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->diffInDays(Carbon\Carbon::parse($appraisalOfficer->pivot->to_date))
-							}} Days</td>
-						<td> {{ config('site.yesNo')[$appraisalOfficer->pivot->is_due] }}</td>
-					</tr>
-					@empty
-					<tr>
-						<td colspan="5" rowspan="1" headers="">No Data Found</td>
-					</tr>
-					@endforelse
-				</tbody>
-			</table>
-			@endif
-		</div>
 	</div>
 </div>
 
 <div>
 	<!-- boostrap model -->
-
 	<div class="modal fade" id="hrms-model" aria-hidden="true" tabindex="-1" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title" id="OfficialType">
-						@if ($acr_id >0)
-						My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to {{
-						$acr->to_date->format('d M Y') }}
-						@endif
+						Select Employe Whose ACR is to be written
 					</h4>
 				</div>
 				<div class="modal-body">
 					<form id="officerInsertUpdateForm" name="officerInsertUpdateForm" class="form-horizontal"
 						method="POST" action="{{route('acr.others.store')}}">
 						@csrf
-						<div class="form-group mt-2">
-							{!! Form::label('Select officer ', '', ['class' => 'required'] ) !!}
-							<select id="appraisal_officer_type" name="appraisal_officer_type" class="form-select"
-								required>
-								<option value=""> Select Officer </option>
-								@if ($acr_id > 0 )
-								@foreach(config('acr.basic.appraisalOfficerType') as $key => $value)
-								<option value="{{$key}}" {{ old('appraisal_officer_type')==$key ? 'selected' : '' }}>
-									{{$value}}
-								</option>
-								@endforeach
-
-								@else
-								<option value="0"> Employee whose ACR is to be written </option>
-
-								@endif
-
-
-							</select>
-						</div>
-						<br />
 						<div class="row">
 							<div class="form-group col-md-6">
 								{!! Form::label('section', 'Service Class', []) !!}
@@ -173,21 +157,33 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 							</div>
 						</div>
 						<br />
+
+						<div class="row">
+							<div class="col-md-12">
+								<label for='office_id' class="required "> Select Office </label>
+								<select name="office_id" id="office_id" required class="form-select ">
+									@foreach ($Offices as $key => $values)
+										<option value="{{$key}}" > {{$values}} </option>
+									@endforeach
+
+								</select>
+							</div>
+
+						</div>
+
+
 						<div class="row">
 							<p> Period of Appraisal : </p>
 							<div class="row">
 								<div class="col-md-6">
 									<label for='from_date' class="required "> Enter From Date </label>
 									<input type="date" id="from_date" name="from_date" onblur="findDateDiff()"
-										placeholder="dd-mm-yyyy"
-										value="{{ ( $acr_id > 0 ) ? $acr->from_date->format('Y-m-d') : '' }}" required
-										class="form-control" />
+										placeholder="dd-mm-yyyy" value="" required class="form-control" />
 								</div>
 								<div class="col-md-6">
 									<label for='to_date' class="required "> Enter To Date </label>
-									<input type="date" id="to_date" name="to_date" onblur="findDateDiff()"
-										value="{{ ( $acr_id > 0 ) ? $acr->to_date->format('Y-m-d') : '' }}" required
-										class="form-control" />
+									<input type="date" id="to_date" name="to_date" onblur="findDateDiff()" value=""
+										required class="form-control" />
 								</div>
 								<div class="col-md-12">
 									<div class="text-success" id="days_in_number"></div>
@@ -198,9 +194,9 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 						</div>
 						<div class="row">
 							<div class="form-group mt-2">
-								<input type="hidden" name="acr_id" value="{{$acr_id}}" />
+								<input type="hidden" name="acr_type_id" value="0" />
 								<input id="removeLogged" type="hidden" name="removeLogged" value="true" />
-								<input type="submit" class="btn btn-primary " id="btnSave" value="{{($acr_id > 0) ? 'Add Officers' : 'Add Employee ACR' }}" />
+								<input type="submit" class="btn btn-primary " id="btnSave" value="Add Employee " />
 							</div>
 						</div>
 					</form>
