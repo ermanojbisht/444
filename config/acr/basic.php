@@ -30,8 +30,14 @@ return [
 
    'acrRejectionReason'=>[
       1=>'Wrong Period',
-      2=>'Wrong Officer Selection'
-   ] 
+      2=>'Wrong Officer Selection',
+      3=>'Wrong Targets'
+   ] ,
+
+   'acrWithoutProcess'=>[
+      0,30
+   ] ,
+
 
 
 
