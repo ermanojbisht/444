@@ -85,7 +85,7 @@ Part - IV ( Assessment by the Accepting Authority)
 							<p class="fw-semibold"> Marks </p>
 						</div>
 						<div class="col-md-6">
-							<input id="marks" name="marks" type="number" step="0.01" onblur="findGrades()" maxlength="3"
+							<input id="marks" name="marks" type="number" step="0.01" min="0" max="100" onblur="findGrades()" maxlength="3"
 								class="form-control" required placeholder="{{$acr->review_no}}" />
 						</div>
 					</div>

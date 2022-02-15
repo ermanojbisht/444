@@ -66,7 +66,9 @@
 											<td class="text-center">{{$data->unit}}</td>
 											
 											<td class="text-end">
-												<input class="form-control text-end" type="text" name="target[{{$data->id}}]" 
+												<input class="form-control text-end" type="number" step="0.01"
+												min="0.1"
+												name="target[{{$data->id}}]" 
 													@if(!empty($data->user_target))
 														style="background-color:#F0FFF0;"
 														value="{{$data->user_target}}"
@@ -74,7 +76,8 @@
 												/>
 											</td>
 											<td class="text-end">
-												<input class="form-control text-end" type="text" name="achivement[{{$data->id}}]" 
+												<input class="form-control text-end" type="number"  step="0.01"
+												min="0.1" name="achivement[{{$data->id}}]" 
 													@if(!empty($data->user_achivement))
 														style="background-color:#F0FFF0;"
 														value="{{$data->user_achivement}}"

@@ -79,21 +79,21 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 						@foreach($requiredParameters as $required_parameter)
 						@php
 						if($required_parameter->applicable == 1){
-							$total_marksA = $total_marksA + $required_parameter->max_marks;
-							$classtext = "";
-							$classButton = "";
-							$reporting_marksA = $reporting_marksA + $required_parameter->reporting_marks;
-							/*if($required_parameter->reporting_marks){
-							}*/
-							if($required_parameter->reviewing_marks){
-								$reviewing_marksA = $reviewing_marksA + $required_parameter->reviewing_marks;
-							}else{
-							/*$reviewing_marksA = $reviewing_marksA + $required_parameter->reporting_marks;*/
-								$reviewing_marksA = $reviewing_marksA + 0;
-							}
+						$total_marksA = $total_marksA + $required_parameter->max_marks;
+						$classtext = "";
+						$classButton = "";
+						$reporting_marksA = $reporting_marksA + $required_parameter->reporting_marks;
+						/*if($required_parameter->reporting_marks){
+						}*/
+						if($required_parameter->reviewing_marks){
+						$reviewing_marksA = $reviewing_marksA + $required_parameter->reviewing_marks;
 						}else{
-							$classtext = "text-decoration-line-through";
-							$classButton = "disabled placeholder=NA";
+						/*$reviewing_marksA = $reviewing_marksA + $required_parameter->reporting_marks;*/
+						$reviewing_marksA = $reviewing_marksA + 0;
+						}
+						}else{
+						$classtext = "text-decoration-line-through";
+						$classButton = "disabled placeholder=NA";
 						}
 						@endphp
 						<tr class="{{$classtext??''}}">
@@ -114,9 +114,9 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 								</span>
 								@else
 								<input class="form-control form-control-sm text-end reviewingPositiveNo" type="number"
-									step="0.01" name="marks_positive[{{$required_parameter->id}}]" {{$classButton??''}}
-										value="{{$required_parameter->reviewing_marks??0}}"
-								>
+									step="0.01" min="0" max="{{$required_parameter->max_marks}}"
+									name="marks_positive[{{$required_parameter->id}}]" {{$classButton??''}}
+									value="{{$required_parameter->reviewing_marks??0}}">
 								@endif
 							</td>
 							<td>
@@ -132,13 +132,13 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 						</tr>
 						@endforeach
 						@php
-							if($total_marksA>0){
-								$positive_factor = 80/$total_marksA; 
-							}else{
-								$positive_factor = 0;
-							}
-							$net_reporting_marksA = $positive_factor*$reporting_marksA;
-							$net_reviewing_marksA = $positive_factor*$reviewing_marksA;
+						if($total_marksA>0){
+						$positive_factor = 80/$total_marksA;
+						}else{
+						$positive_factor = 0;
+						}
+						$net_reporting_marksA = $positive_factor*$reporting_marksA;
+						$net_reviewing_marksA = $positive_factor*$reviewing_marksA;
 						@endphp
 						<input type="hidden" name="positive_factor" value="{{$positive_factor}}">
 						<tr class="bg-light fw-bold">
@@ -165,16 +165,16 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 							<td class="text-white" colspan="6">4-B - Assessment of Personal Attributes</td>
 						</tr>
 						@php
-							$total_marksB = 0;
-							$reporting_marksB = 0;
-							$reviewing_marksB = 0;
+						$total_marksB = 0;
+						$reporting_marksB = 0;
+						$reviewing_marksB = 0;
 						@endphp
 						@foreach($personal_attributes as $personal_attribute)
-							@php
-								$total_marksB = $total_marksB + $personal_attribute->max_marks;
-								$reporting_marksB = $reporting_marksB + $personal_attribute->reporting_marks;
-								$reviewing_marksB = $reviewing_marksB + $personal_attribute->reviewing_marks??0;
-							@endphp
+						@php
+						$total_marksB = $total_marksB + $personal_attribute->max_marks;
+						$reporting_marksB = $reporting_marksB + $personal_attribute->reporting_marks;
+						$reviewing_marksB = $reviewing_marksB + $personal_attribute->reviewing_marks??0;
+						@endphp
 						<tr>
 							<td>{{$loop->iteration}}</td>
 							<td>{{$personal_attribute->description}}</td>
@@ -187,9 +187,9 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 								{{$personal_attribute->reviewing_marks??'0'}}
 								@else
 								<input class="form-control form-control-sm text-end reportingPersonalNo" type="number"
-									step="0.01" name="personal_attributes[{{$personal_attribute->id}}]"
-									value="{{$personal_attribute->reviewing_marks??0}}"
-								>
+									step="0.01" min="0" max="{{$personal_attribute->max_marks}}"
+									name="personal_attributes[{{$personal_attribute->id}}]"
+									value="{{$personal_attribute->reviewing_marks??0}}">
 								@endif
 							</td>
 							<td></td>
@@ -207,14 +207,14 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 							<td class="text-white" colspan="6">4-C - Deductions</td>
 						</tr>
 						@php
-							$total_marksC = $reporting_marksC = $reviewing_marksC = 0;
+						$total_marksC = $reporting_marksC = $reviewing_marksC = 0;
 						@endphp
 						@foreach($requiredNegativeParameters as $requiredNegativeParameter)
-							@php
-							$total_marksC = $total_marksC + $requiredNegativeParameter->max_marks;
-							$reporting_marksC = $reporting_marksC + $requiredNegativeParameter->reporting_marks;
-							$reviewing_marksC = $reviewing_marksC + $requiredNegativeParameter->reviewing_marks??0;
-							@endphp
+						@php
+						$total_marksC = $total_marksC + $requiredNegativeParameter->max_marks;
+						$reporting_marksC = $reporting_marksC + $requiredNegativeParameter->reporting_marks;
+						$reviewing_marksC = $reviewing_marksC + $requiredNegativeParameter->reviewing_marks??0;
+						@endphp
 						<tr>
 							<td>{{$loop->iteration}}</td>
 							<td>{{$requiredNegativeParameter->description}}</td>
@@ -225,9 +225,9 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 								{{$requiredNegativeParameter->reviewing_marks??'0'}}
 								@else
 								<input class="form-control form-control-sm text-end reportingNegativeNo" type="number"
-									step="0.01" name="marks_negative[{{$requiredNegativeParameter->id}}]"
-									value="{{$requiredNegativeParameter->reviewing_marks??0}}"
-								>
+									step="0.01" min="0" max="{{$requiredNegativeParameter->max_marks}}"
+									name="marks_negative[{{$requiredNegativeParameter->id}}]"
+									value="{{$requiredNegativeParameter->reviewing_marks??0}}">
 								@endif
 							</td>
 							<td>
