@@ -86,6 +86,7 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth', 'verif
     // Acr Reporting 
     Route::get('form/{acr}/appraisal1', 'Employee\OthersAcr\AcrReportController@appraisal1')->name('form.appraisal1');
     Route::post('form/appraisal1', 'Employee\OthersAcr\AcrReportController@storeAppraisal1')->name('form.storeAppraisal1');
+    Route::post('form/storeAcrWithoutProcess', 'Employee\OthersAcr\AcrReportController@storeAcrWithoutProcess')->name('form.storeAcrWithoutProcess');
 
     Route::get('form/{acr}/appraisal/show', 'Employee\OthersAcr\AcrReportController@show')->name('form.appraisalShow');
 

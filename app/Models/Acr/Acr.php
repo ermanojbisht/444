@@ -33,7 +33,6 @@ class Acr extends Model
         'report_no', 'report_on', 'report_remark',
         'review_no', 'review_on', 'review_remark',
         'accept_no', 'accept_on', 'accept_remark',
-        'single_page_description'
     ];
 
 
@@ -508,9 +507,11 @@ class Acr extends Model
 
     public function checkSelfAppraisalFilled()
     {
-        // check table 1
-        if (AcrParameter::where('acr_id', $this->id)->count() == 0) {
-            return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
+        // check table 1 
+        if(in_array($this->acr_type_id, config('acr.basic.acrWithoutProcess')) == false ){
+            if (AcrParameter::where('acr_id', $this->id)->count() == 0) {
+                return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
+            }
         }
 
         return ['status' => true, 'msg' => ''];

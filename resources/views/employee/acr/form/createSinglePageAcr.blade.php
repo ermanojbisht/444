@@ -7,10 +7,10 @@
 @endsection
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
-['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
-['label'=> 'Assessment of Performance','active'=>true]
-]])
+	['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+	['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
+	['label'=> 'Assessment of Performance','active'=>true]
+	]])
 @endsection
 
 @section('content')
@@ -21,14 +21,14 @@
 				@csrf
 				<input type="hidden" name="acr_id" value='{{$acr->id}}'>
 				<div class="form-group">
-					<label for="single_page_description" class="fw-bold h5">
+					<label for="good_work" class="fw-bold h5">
 					  	किए गए कार्यों का विवरण (अधिकतम 300 शब्दों मे)
 					</label>
-					<textarea class="form-control rounded-0" id="single_page_description"  name="single_page_description" rows="10"
-					  	@if(!empty($acr->single_page_description))
+					<textarea class="form-control rounded-0" id="good_work"  name="good_work" rows="10"
+					  	@if(!empty($acr->good_work))
 							style="background-color:#F0FFF0;"
 						@endif
-					>{{$acr->single_page_description??''}}</textarea>
+					>{{$acr->good_work??''}}</textarea>
 				</div>
 				<div class="form-group mt-2 text-end">
 			        <button type="submit" class="btn btn-primary">Save

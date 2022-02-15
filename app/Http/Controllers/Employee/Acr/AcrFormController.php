@@ -44,13 +44,16 @@ class AcrFormController extends Controller
      * @param Acr     $acr
      * @param Request $request
      */
-    public function create1(Acr $acr, Request $request)
+    public function create1(Acr $acr)
     {
-        if($acr->acr_type_id == 30){
-            return view('employee.acr.form.createSinglePageAcr', compact('acr'));
+        // Check if Acr have only single Page data 
+        if(in_array($acr->acr_type_id, config('acr.basic.acrWithoutProcess'))){
+            return view('employee.acr.form.report_appraisal_singlepage', compact('acr'));
         }
+        
         $data_groups = $acr->type1RequiremntsWithFilledData();
         $page = 1;
+
         return view('employee.acr.form.create1', compact('acr', 'data_groups', 'page'));
     }
     /**
@@ -259,7 +262,7 @@ class AcrFormController extends Controller
     {
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update([
-            'single_page_description' => $request->single_page_description,
+            'good_work' => $request->good_work,
         ]);
         return redirect()->route('acr.myacrs')->with('success', 'Self-Appraisal Details Updated successfully');
     }

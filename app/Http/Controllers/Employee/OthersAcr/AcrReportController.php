@@ -46,6 +46,10 @@ class AcrReportController extends Controller
      */
     public function appraisal1(Acr $acr, Request $request)
     {
+        if(in_array($acr->acr_type_id, config('acr.basic.acrWithoutProcess'))){
+            return view('employee.acr.form.report_appraisal_singlepage', compact('acr'));
+        }
+
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
         $personal_attributes =  $acr->peronalAttributeSWithMasterData();
@@ -139,6 +143,15 @@ class AcrReportController extends Controller
         return redirect()->back();
     }
 
+    public function storeAcrWithoutProcess(Request $request){
+
+        $acr = Acr::findOrFail($request->acr_id);
+        $acr->update([
+            'appraisal_note_1' => $request->appraisal_note_1,
+            'report_no' => $request->report_no,
+        ]);
+        return redirect(route('acr.others.index'))->with('success', 'Data Saved Successfully...');
+    }
     // todo these function to be shifted in ACR Controller
     public function getUserParameterData($acrId, $paramId)
     {

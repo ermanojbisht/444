@@ -47,7 +47,7 @@ Part -III Appraisal <small>(By Reporting Officer)</small>
 				<textarea class="form-control rounded-3" id="appraisal_note_1" name="appraisal_note_1" @if(!empty($acr->appraisal_note_1))
 								style="background-color:#F0FFF0;"
 							@endif
-						>{{$acr->appraisal_note_1}}</textarea>
+						>{{$acr->appraisal_note_1??''}}</textarea>
 				@endif
 				<p class="fw-semibold h5">
 					2. Please comment on the claim(if made) of exceptional contribution by the officer reoorted upon.

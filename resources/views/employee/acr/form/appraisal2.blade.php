@@ -314,7 +314,7 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 		</div>
 		@if(!$view)
 		<div class="form-group mt-2">
-			<button type="submit" class="btn btn-primary">Save
+			<button type="submit" class="btn btn-primary">Save</button>
 		</div>
 		@endif
 	</form>
