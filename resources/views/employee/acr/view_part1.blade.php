@@ -28,7 +28,7 @@
 		</td>
 	</tr>
 </table>
-@if (!$acr->is_active)
+@if ($acr->is_active)
 <p style="padding:5px;width:100%;color: white!important; background-color:#E55353;text-align:center" class="fw-semibold my-0">
 	This ACR has been Rejected</p>
 @endif
