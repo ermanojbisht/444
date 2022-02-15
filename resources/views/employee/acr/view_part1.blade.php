@@ -5,7 +5,7 @@
 <p class="fw-semibold fs-5 text-center text-info my-0">PUBLIC WORKS DEPARTMENT, UTTARAKHAND</p>
 <p class="fw-semibold fs-5 text-center text-info my-0">APERFORMANCE APPRAISAL REPORT FOR
 	<span class="text-danger">
-		@foreach ($acr_Types as $acr_type)
+		@foreach ($acr_types as $acr_type)
 		@if($acr_selected_group_type->id == $acr_type->id)
 		{{$acr_type->name}}
 		@endif
@@ -27,7 +27,7 @@
 		<td class="fw-bold"> Designation :- </td>
 		<td class="fw-semibold fs-5">
 			<p>
-				@foreach ($acr_Types as $acr_type)
+				@foreach ($acr_types as $acr_type)
 				@if($acr_selected_group_type->id == $acr_type->id)
 				{{$acr_type->name}}
 				@endif
@@ -42,10 +42,13 @@
 		</td>
 	</tr>
 </table>
-@if ($acr->is_active)
+@if (!$acr->is_active)
 <p style="padding:5px;width:100%;color: white!important; background-color:#E55353;text-align:center"
 	class="fw-semibold my-0">
-	This ACR has been Rejected</p>
+This ACR has been rejected by {{$acr->rejectUser()->name}} on @mkbdate($acr->rejectionDetail->created_at).
+
+Comment By rejection authority : {{$acr->rejectionDetail->remark}}
+</p>
 @endif
 <p class="fw-semibold text-center text-info my-0">Part - 1 (Basic Information)</p>
 <table class="table table-sm">

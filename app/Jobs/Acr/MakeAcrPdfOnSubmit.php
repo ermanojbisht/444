@@ -74,8 +74,8 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
         $pages = []; $view = true;
         $acr=$this->acr;
         if(in_array($this->milstone, ['submit','report','review','accept','reject'])){
-            list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted,$officeWithParentList,$acr_selected_group_type, $acr_Types) = $this->acr->firstFormData();
-            $pages[] = view('employee.acr.view_part1', ['acr'=>$this->acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ,'officeWithParentList'=>$officeWithParentList]);
+            list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted,$officeWithParentList,$acr_selected_group_type, $acr_types) = $this->acr->firstFormData();
+            $pages[] = view('employee.acr.view_part1', ['acr'=>$this->acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ,'officeWithParentList'=>$officeWithParentList,'acr_selected_group_type'=>$acr_selected_group_type,'acr_types'=>$acr_types]);
 
             // from Create 1
             $data_groups=$acr->type1RequiremntsWithFilledData();

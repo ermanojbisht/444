@@ -95,7 +95,7 @@ class AcrSubmittedNotification extends Notification implements ShouldQueue
                 $body .= 'Your performance report has been acccepted by '.$acr->userOnBasisOfDuty('accept')->name.'  on '.$acr->accept_on->format('d M Y ').' . Please visit your myacr section at HRMS/Track AR portal.';
                 break;
             case 'reject':
-                $body .= 'Your performance report has been rejected by '.$acr->userOnBasisOfDuty('accept')->name.'  on '.$acr->rejectionDetail->created_at->format('d M Y ').' . '."\n".
+                $body .= 'Your performance report has been rejected by '.$acr->rejectUser()->name.'  on '.$acr->rejectionDetail->created_at->format('d M Y ').' . '."\n".
                 'Comment By rejection authority : '.$acr->rejectionDetail->remark."\n".
                 'Please visit your myacr section at HRMS/Track AR portal and recreate your acr .';
                 break;

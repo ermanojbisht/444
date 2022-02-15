@@ -17,12 +17,12 @@ Please visit your inbox section at HRMS/Track AR portal.
 @endif
 
 @if($targetDutyType=='submit')
-Your performance report has been acccepted by {{$acr->rejectUser()->name}} on @mkbdate($acr->accept_on).
+Your performance report has been acccepted by {{$acr->userOnBasisOfDuty('accept')->name}} on @mkbdate($acr->accept_on).
 Please visit your 'myacr' section .
 @endif
 
 @if($targetDutyType=='reject')
-Your performance report has been rejected by {{$acr->userOnBasisOfDuty('accept')->name}} on @mkbdate($acr->rejectionDetail->created_at).
+Your performance report has been rejected by {{$acr->rejectUser()->name }} on @mkbdate($acr->rejectionDetail->created_at).
 Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 Please visit your 'myacr' section and recreate your acr .
 @endif

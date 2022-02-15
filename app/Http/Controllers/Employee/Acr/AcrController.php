@@ -174,7 +174,7 @@ class AcrController extends Controller
     {
         abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted, $officeWithParentList,
-        $acr_selected_group_type, $acr_Types) = $acr->firstFormData();
+        $acr_selected_group_type, $acr_types) = $acr->firstFormData();
 
         return view('employee.acr.view_part1', compact(
             'acr',
@@ -185,7 +185,7 @@ class AcrController extends Controller
             'inbox',
             'reviewed',
             'accepted',
-            'officeWithParentList', 'acr_selected_group_type', 'acr_Types'
+            'officeWithParentList', 'acr_selected_group_type', 'acr_types'
         ));
     }
 
