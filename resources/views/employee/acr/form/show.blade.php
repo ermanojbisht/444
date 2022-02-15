@@ -206,15 +206,10 @@
 				</P>
 				<div class="row">
 					@foreach($trainings as $training)
-						<div class="form-check col-md-4  fs-5">
-						  <input class="form-check-input" type="checkbox" value="{{$training->id}}" name="training[]" id="training{{$training->id}}" 
- 								@if ($selected_trainings->contains($training->id))
-							  		checked
-							  	@endif
-						  >
-						  <label class="form-check-label" for="training{{$training->id}}">
-						    {{$training->description}}
-						  </label>
+						<div class="form-check col-md-4  fs-5"> 
+						  <p style="width:100%;">
+							{{1+$loop->index }})  {{$training->description}}
+						  </p>
 						</div>
 					@endforeach
 				</div>
