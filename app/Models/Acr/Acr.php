@@ -32,7 +32,8 @@ class Acr extends Model
         'review_duration_lapsed', 'accept_duration_lapsed',
         'report_no', 'report_on', 'report_remark',
         'review_no', 'review_on', 'review_remark',
-        'accept_no', 'accept_on', 'accept_remark'
+        'accept_no', 'accept_on', 'accept_remark',
+        'single_page_description'
     ];
 
 

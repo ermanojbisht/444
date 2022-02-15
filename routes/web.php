@@ -72,6 +72,7 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth', 'verif
     Route::get('form/{acr}/part2', 'Employee\Acr\AcrFormController@create2')->name('form.create2'); //difficulty
     Route::get('form/{acr}/part3', 'Employee\Acr\AcrFormController@create3')->name('form.create3'); //deduction
     Route::get('form/{acr}/part4', 'Employee\Acr\AcrFormController@addTrainningToEmployee')->name('form.addTrainningToEmployee'); //training
+    Route::get('form/{acr}/createSinglePageAcr', 'Employee\Acr\AcrFormController@createSinglePageAcr')->name('form.createSinglePageAcr'); //training
 
     Route::get('form/{acr}/show', 'Employee\Acr\AcrFormController@show')->name('form.show'); //training
 
@@ -79,6 +80,7 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth', 'verif
     Route::post('form/store2', 'Employee\Acr\AcrFormController@store2')->name('form.store2');
     Route::post('form/store3', 'Employee\Acr\AcrFormController@store3')->name('form.store3');
     Route::post('form/storeTrainning', 'Employee\Acr\AcrFormController@storeTrainning')->name('form.storeTrainning');
+    Route::post('form/storeSinglePageAcr', 'Employee\Acr\AcrFormController@storeSinglePageAcr')->name('form.storeSinglePageAcr');
 
 
     // Acr Reporting 
