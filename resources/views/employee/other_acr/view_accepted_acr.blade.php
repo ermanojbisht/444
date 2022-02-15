@@ -37,17 +37,13 @@
 
 		@endif
 
-
 		<div class="row">
-
 			<div class="col-md-6">
 				<div class="d-flex justify-content-start">
 					<p class="fw-semibold "> 3. Overall Grade & Marks (On a score of 1 - 100)
 					</p>
-
 				</div>
 			</div>
-
 			<div class="col-md-6">
 				<div class="row">
 					<div class="col-md-6">
@@ -60,25 +56,15 @@
 			</div>
 		</div>
 
-
 		<hr class="m-1" style="opacity: 0.1;">
 		<div class="row">
 			<div class="col-md-3">
-				
-			</div>
-			<div class="col-md-3">
-
-			</div>
-			<div class="col-md-3">
-
-			</div>
-			<div class="col-md-3">
 				<p class="fw-semibold"> By
-					<span class="text-info"> {!! $acr->reportUser()->name !!} </span>
+					<span class="text-info"> {!! $acr->acceptUser()->name !!} </span>
 				</p>
 
 				<p class="fw-semibold"> Date
-					<span class="text-info"> {!! $acr->report_on->format('d&#160;M&#160;Y') !!} </span>
+					<span class="text-info"> {!! $acr->accept_on->format('d&#160;M&#160;Y') !!} </span>
 				</p>
 			</div>
 		</div>

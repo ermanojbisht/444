@@ -397,7 +397,7 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 		{
 			$.ajax
 			({
-				url: '{{ url('cr/getUserParameterData') }}/' + {{$acr->id}} + '/' + paramId,
+				url: '{{ url('acr/getUserParameterData') }}/' + {{$acr->id}} + '/' + paramId,
 				type: 'GET',
 				success: function (data) {
 					 $("#user_input_data").html(data);
@@ -410,7 +410,7 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 		{
 			$.ajax
 			({
-				url: '{{ url('cr/getUserNegativeParameterData') }}/' + {{$acr->id}} + '/' + paramId,
+				url: '{{ url('acr/getUserNegativeParameterData') }}/' + {{$acr->id}} + '/' + paramId,
 				type: 'GET',
 				success: function (data) {
 					 $("#user_input_data").html(data);
