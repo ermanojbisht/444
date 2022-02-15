@@ -45,7 +45,7 @@
 @if (!$acr->is_active)
 <p style="padding:5px;width:100%;color: white!important; background-color:#E55353;text-align:center"
 	class="fw-semibold my-0">
-This ACR has been rejected by {{$acr->userOnBasisOfDuty('accept')->name}} on @mkbdate($acr->rejectionDetail->created_at).
+This ACR has been rejected by {{$acr->rejectUser()->name}} on @mkbdate($acr->rejectionDetail->created_at).
 
 Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 </p>
