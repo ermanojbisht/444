@@ -313,7 +313,6 @@ class Acr extends Model
     }
 
 
-
     public function isFileExist()
     {
         return \Storage::disk('public')->exists($this->pdf_file_path);
@@ -348,8 +347,6 @@ class Acr extends Model
         }
         return false;
     }
-
-
 
     public function createPdfFile($pdf, $forced = true)
     {
@@ -470,10 +467,10 @@ class Acr extends Model
         $employee = Employee::findOrFail($this->employee_id);
         $appraisalOfficers =  $this->appraisalOfficers()->get();
 
-        $officeWithParentList=Office::ancestorsAndSelf($this->office_id)->pluck('name','office_type')->reverse()->toArray();
+        $officeWithParentList = Office::ancestorsAndSelf($this->office_id)->pluck('name', 'office_type')->reverse()->toArray();
 
-        if(count($officeWithParentList)>1){
-           array_pop($officeWithParentList);
+        if (count($officeWithParentList) > 1) {
+            array_pop($officeWithParentList);
         }
 
         $leaves = Leave::where('acr_id', $this->id)->get();
@@ -487,7 +484,7 @@ class Acr extends Model
         $accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->employee_id)
             ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNull('accept_on')->get();
 
-        return [$employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted,$officeWithParentList];
+        return [$employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted, $officeWithParentList];
     }
 
     public function updateEsclationFor($dutyType)
@@ -553,16 +550,15 @@ class Acr extends Model
 
             $rejection = $this->rejected()->first();
             $rejection_Reason  = ' Rejected By ';
-            if (! $this->report_on) {
+            if (!$this->report_on) {
                 $rejection_Reason = $rejection_Reason . ' Reporting Officer ';
-            } else if (! $this->review_on) {
+            } else if (!$this->review_on) {
                 $rejection_Reason = $rejection_Reason . 'Reporting Officer ';
-            } else if (! $this->accept_on) {
+            } else if (!$this->accept_on) {
                 $rejection_Reason = $rejection_Reason . 'Reporting Officer ';
             }
 
             return  $rejection_Reason .  $this->rejectUser()->name . ' on ' . $rejection->created_at->format('d M Y');
-
         } else if ($this->accept_on) {
             return 'Accepted on ' . $this->accept_on->format('d M Y');
         } else if ($this->review_on) {
