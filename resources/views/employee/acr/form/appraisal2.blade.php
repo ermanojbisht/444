@@ -40,12 +40,12 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 		<p class="fw-semibold h5 text-muted">
 			2. Please comment on the claim(if made) of exceptional contribution by the officer reoorted upon.
 		</p>
-		<p class="text-info">{{$acr->appraisal_note_1??'--'}}</p>
+		<p class="text-info">{{$acr->appraisal_note_2??'--'}}</p>
 		<p class="fw-semibold h5 text-muted">
 			3. Has the officer reported upon met with any significant failures in respect of his work? If yes, Please
 			furnish factual details.
 		</p>
-		<p class="text-info">{{$acr->appraisal_note_1??'--'}}</p>
+		<p class="text-info">{{$acr->appraisal_note_3??'--'}}</p>
 	</div>
 	<form class="form-horizontal" method="POST" action="{{route('acr.form.storeAppraisal2')}}">
 		@csrf

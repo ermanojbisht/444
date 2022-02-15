@@ -53,7 +53,7 @@ Part -III Appraisal <small>(By Reporting Officer)</small>
 					2. Please comment on the claim(if made) of exceptional contribution by the officer reoorted upon.
 				</p>
 				@if($view)
-				<p class="text-info">{{$acr->appraisal_note_1??'--'}}</p>
+				<p class="text-info">{{$acr->appraisal_note_2??'--'}}</p>
 				@else
 				<textarea class="form-control rounded-3" id="appraisal_note_2" name="appraisal_note_2" rows="3"
 					@if(!empty($acr->appraisal_note_2))
@@ -68,7 +68,7 @@ Part -III Appraisal <small>(By Reporting Officer)</small>
 				</p>
 
 				@if($view)
-				<p class="text-info">{{$acr->appraisal_note_1??'--'}}</p>
+				<p class="text-info">{{$acr->appraisal_note_3??'--'}}</p>
 				@else
 				<textarea class="form-control rounded-3" id="appraisal_note_3" name="appraisal_note_3" rows="3"
 					@if(!empty($acr->appraisal_note_3))

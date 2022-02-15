@@ -117,8 +117,6 @@ class AcrController extends Controller
     }
 
 
-
-
     public function edit(Acr $acr)
     {
         abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
@@ -148,9 +146,17 @@ class AcrController extends Controller
 
     public function update(Request $request)
     {
-
         $acr = Acr::findOrFail($request->acr_id);
         abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
+
+        $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
+        $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
+
+        $result = $this->checkAcrDateInBetweenPreviousACRFilled($start, $end, $acr->employee_id);
+        if (!$result['status']) {
+            return Redirect()->back()->with('fail', $result['msg']);
+        }
+
         $acr->update([
             'acr_group_id' => $request->acr_group_id,
             'acr_type_id' => $request->acr_type_id,
@@ -167,7 +173,8 @@ class AcrController extends Controller
     public function showPart1(Acr $acr)
     {
         abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
-        list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted, $officeWithParentList) = $acr->firstFormData();
+        list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted, $officeWithParentList,
+        $acr_selected_group_type, $acr_Types) = $acr->firstFormData();
 
         return view('employee.acr.view_part1', compact(
             'acr',
@@ -178,7 +185,7 @@ class AcrController extends Controller
             'inbox',
             'reviewed',
             'accepted',
-            'officeWithParentList'
+            'officeWithParentList', 'acr_selected_group_type', 'acr_Types'
         ));
     }
 

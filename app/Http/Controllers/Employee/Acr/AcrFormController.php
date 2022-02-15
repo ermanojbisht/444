@@ -46,6 +46,9 @@ class AcrFormController extends Controller
      */
     public function create1(Acr $acr, Request $request)
     {
+        if($acr->acr_type_id == 30){
+            return view('employee.acr.form.createSinglePageAcr', compact('acr'));
+        }
         $data_groups = $acr->type1RequiremntsWithFilledData();
         $page = 1;
         return view('employee.acr.form.create1', compact('acr', 'data_groups', 'page'));
@@ -97,6 +100,16 @@ class AcrFormController extends Controller
 
         return view('employee.acr.form.add_trainning_to_employee', compact('acr', 'master_trainings', 'selected_trainings', 'page'));
     }
+
+     /**
+     * @param Acr     $acr
+     * @param Request $request
+     */
+/*    public function createSinglePageAcr(Acr $acr)
+    {
+        return view('employee.acr.form.createSinglePageAcr', compact('acr'));
+    }*/
+
 
     public function show(Acr $acr, Request $request)
     {
@@ -240,5 +253,14 @@ class AcrFormController extends Controller
 
         // return redirect()->back()->with('success','trainning details are updated');
         return redirect()->route('acr.myacrs')->with('success', 'Part -II Self-Appraisal Trainning Details are updated successfully');
+    }
+
+    public function storeSinglePageAcr(Request $request)
+    {
+        $acr = Acr::findOrFail($request->acr_id);
+        $acr->update([
+            'single_page_description' => $request->single_page_description,
+        ]);
+        return redirect()->route('acr.myacrs')->with('success', 'Self-Appraisal Details Updated successfully');
     }
 }

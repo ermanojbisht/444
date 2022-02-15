@@ -3,8 +3,15 @@
 @section('content')
 
 <p class="fw-semibold fs-5 text-center text-info my-0">PUBLIC WORKS DEPARTMENT, UTTARAKHAND</p>
-<p class="fw-semibold fs-5 text-center text-info my-0">APERFORMANCE APPRAISAL REPORT FOR <span class="text-danger">(Type
-		Will Be added Here)</span></p>
+<p class="fw-semibold fs-5 text-center text-info my-0">APERFORMANCE APPRAISAL REPORT FOR
+	<span class="text-danger">
+		@foreach ($acr_Types as $acr_type)
+		@if($acr_selected_group_type->id == $acr_type->id)
+		{{$acr_type->name}}
+		@endif
+		@endforeach
+	</span>
+</p>
 <p>
 	<span class="text-info"> </span>
 </p>
@@ -18,7 +25,14 @@
 	</tr>
 	<tr>
 		<td class="fw-bold"> Designation :- </td>
-		<td class="fw-semibold fs-5"><span class="text-danger"> ID {{$employee->designation_id }} ( to be added)</span>
+		<td class="fw-semibold fs-5">
+			<p>
+				@foreach ($acr_Types as $acr_type)
+				@if($acr_selected_group_type->id == $acr_type->id)
+				{{$acr_type->name}}
+				@endif
+				@endforeach
+			</p>
 		</td>
 	</tr>
 	<tr>
@@ -28,8 +42,9 @@
 		</td>
 	</tr>
 </table>
-@if (!$acr->is_active)
-<p style="padding:5px;width:100%;color: white!important; background-color:#E55353;text-align:center" class="fw-semibold my-0">
+@if ($acr->is_active)
+<p style="padding:5px;width:100%;color: white!important; background-color:#E55353;text-align:center"
+	class="fw-semibold my-0">
 	This ACR has been Rejected</p>
 @endif
 <p class="fw-semibold text-center text-info my-0">Part - 1 (Basic Information)</p>
@@ -37,11 +52,11 @@
 	<tr>
 		<td>1. Place Of Posting During the Appraisal Period :</td>
 		<td>
-            <ol style="ist-style-type: upper-roman;">
-            @foreach ($officeWithParentList as $key=>$office)
-            <li>{{config('site.officeTypeOnNo')[$key]}} : {{$office}}</li>
-            @endforeach
-            </ol>
+			<ol style="ist-style-type: upper-roman;">
+				@foreach ($officeWithParentList as $key=>$office)
+				<li>{{config('site.officeTypeOnNo')[$key]}} : {{$office}}</li>
+				@endforeach
+			</ol>
 		</td>
 	</tr>
 	<tr>
@@ -248,4 +263,3 @@
 </div>
 </div>
 @endsection
- 
