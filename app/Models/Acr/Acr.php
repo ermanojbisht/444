@@ -470,6 +470,12 @@ class Acr extends Model
         $employee = Employee::findOrFail($this->employee_id);
         $appraisalOfficers =  $this->appraisalOfficers()->get();
 
+        $officeWithParentList=Office::ancestorsAndSelf($this->office_id)->pluck('name','office_type')->reverse()->toArray();
+
+        if(count($officeWithParentList)>1){
+           array_pop($officeWithParentList);
+        }
+
         $leaves = Leave::where('acr_id', $this->id)->get();
         $appreciations = Appreciation::where('acr_id', $this->id)->get();
 
@@ -481,7 +487,7 @@ class Acr extends Model
         $accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->employee_id)
             ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNull('accept_on')->get();
 
-        return [$employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted];
+        return [$employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted,$officeWithParentList];
     }
 
     public function updateEsclationFor($dutyType)

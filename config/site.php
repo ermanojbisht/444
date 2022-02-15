@@ -90,6 +90,13 @@ return [
         'SE' => ['id' => 'SE', 'model' => 'App\SeOffice', 'name' => 'SE'],
         'EE' => ['id' => 'EE', 'model' => 'App\EeOffice', 'name' => 'EE'],
     ],
+
+    'officeTypeOnNo'=>[
+        0=>'Head Office',
+        1=>'Zone',
+        2=>'Circle',
+        3=>'Division',
+    ],
     'userJobAllotmentMenu' => [ //todo same in mispwd
         '1' => ['id' => '1', 'name' => 'Offices'],
     ],

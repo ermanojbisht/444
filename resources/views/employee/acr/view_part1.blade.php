@@ -37,15 +37,11 @@
 	<tr>
 		<td>1. Place Of Posting During the Appraisal Period :</td>
 		<td>
-			@if($acr->office->id < 2000) {{ $acr->office->name }}
-				@elseif($acr->office->id > 2000 && $acr->office->id < 3000) <p>1.1 Circle : {{ $acr->office->name
-					}}</span></p>
-					<p>1.2 Zone :- </p>
-					@elseif($acr->office->id > 3000)
-					<p>1.1 Division : {{ $acr->office->name }}</p>
-					<p>1.2 Circle : </p>
-					<p>1.3 Zone :- </p>
-					@endif
+            <ol style="ist-style-type: upper-roman;">
+            @foreach ($officeWithParentList as $key=>$office)
+            <li>{{config('site.officeTypeOnNo')[$key]}} : {{$office}}</li>
+            @endforeach
+            </ol>
 		</td>
 	</tr>
 	<tr>

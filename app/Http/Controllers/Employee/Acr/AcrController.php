@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Log;
 
 class AcrController extends Controller
 {
@@ -138,7 +139,7 @@ class AcrController extends Controller
     public function showPart1(Acr $acr)
     {
         abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
-        list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $acr->firstFormData();
+        list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted,$officeWithParentList) = $acr->firstFormData();
 
         return view('employee.acr.view_part1', compact(
             'acr',
@@ -148,7 +149,8 @@ class AcrController extends Controller
             'appreciations',
             'inbox',
             'reviewed',
-            'accepted'
+            'accepted',
+            'officeWithParentList'
         ));
     }
 
