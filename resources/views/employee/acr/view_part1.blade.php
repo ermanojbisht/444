@@ -5,7 +5,7 @@
 <p class="fw-semibold fs-5 text-center text-info my-0">PUBLIC WORKS DEPARTMENT, UTTARAKHAND</p>
 <p class="fw-semibold fs-5 text-center text-info my-0">APERFORMANCE APPRAISAL REPORT FOR
 	<span class="text-danger">
-		@foreach ($acr_Types as $acr_type)
+		@foreach ($acr_types as $acr_type)
 		@if($acr_selected_group_type->id == $acr_type->id)
 		{{$acr_type->name}}
 		@endif
@@ -27,7 +27,7 @@
 		<td class="fw-bold"> Designation :- </td>
 		<td class="fw-semibold fs-5">
 			<p>
-				@foreach ($acr_Types as $acr_type)
+				@foreach ($acr_types as $acr_type)
 				@if($acr_selected_group_type->id == $acr_type->id)
 				{{$acr_type->name}}
 				@endif
