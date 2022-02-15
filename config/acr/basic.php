@@ -19,6 +19,8 @@ return [
       'report'=>['field'=>'report_employee_id','period'=>30,'triggerOn'=>'submit','triggerDate'=>'submitted_at'],
       'review'=>['field'=>'review_employee_id','period'=>30,'triggerOn'=>'report','triggerDate'=>'report_on'],
       'accept'=>['field'=>'accept_employee_id','period'=>30,'triggerOn'=>'review','triggerDate'=>'review_on'],
+      //triggerOn accept ?  now target is submit beacause it's just back to user
+      'reject'=>['field'=>'employee_id','period'=>30,'triggerOn'=>'reject','triggerDate'=>'reject_on'],
    ],
 
    'acrLeaveType'=>[

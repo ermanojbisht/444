@@ -114,8 +114,6 @@ class AcrInboxController extends Controller
             $officer = $acr->userOnBasisOfDuty($dutyType);
             return view('employee.acr.reject_acr', compact('acr', 'officer', 'dutyType'));
         }
-        
-        dispatch(new MakeAcrPdfOnSubmit($acr, 'reject'));
 
         return Redirect()->back()->with('fail', 'Cannot reject ACR...');
     }
@@ -125,6 +123,8 @@ class AcrInboxController extends Controller
         $acr = Acr::findOrFail($request->acr_id);
         AcrRejection::create($request->all());
         $acr->update(['is_active' => 0]);
+
+        dispatch(new MakeAcrPdfOnSubmit($acr, 'reject'));
 
         return redirect(route('acr.others.index'));
     }

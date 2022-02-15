@@ -385,6 +385,7 @@ class Acr extends Model
 
     public function rejectNotification()
     {
+        // on reject targetduty is againsubmit or rejecr itself
         $this->mailNotificationFor($targetDutyType = 'reject', $notification_type = 6);
     }
 
@@ -430,12 +431,11 @@ class Acr extends Model
 
 
                     case 'reject': //on reject event , submituser is targeted
-                        $mail->cc($this->userOnBasisOfDuty('review'));
-                        $mail->cc($this->userOnBasisOfDuty('report'));
-                        $mail->cc($this->userOnBasisOfDuty('accept'));
+                        //$mail->cc($this->userOnBasisOfDuty('review'));
+                        //$mail->cc($this->userOnBasisOfDuty('report'));
+                        $mail->cc([$this->userOnBasisOfDuty('review'),$this->userOnBasisOfDuty('report'),$this->userOnBasisOfDuty('accept')]);
                         break;
                 }
-
                 $mail->send(new AcrSumittedMail($this, $targetEmployee, $targetDutyType));
 
                 $data = [
@@ -533,14 +533,14 @@ class Acr extends Model
         return false;
     }
 
-    public function rejected()
+    public function rejectionDetail()
     {
         return $this->hasOne(AcrRejection::class);
     }
 
     public function rejectUser()
     {
-        return  User::where('employee_id', $this->rejected()->first()->employee_id)->first();
+        return  User::where('employee_id', $this->rejectionDetail->employee_id)->first();
     }
 
 
@@ -548,7 +548,7 @@ class Acr extends Model
     {
         if ($this->is_active == 0) {
 
-            $rejection = $this->rejected()->first();
+            $rejection = $this->rejectionDetail()->first();
             $rejection_Reason  = ' Rejected By ';
             if (!$this->report_on) {
                 $rejection_Reason = $rejection_Reason . ' Reporting Officer ';
@@ -588,4 +588,6 @@ class Acr extends Model
             return ' bg-info bg-gradient';
         }
     }
+
+
 }
