@@ -42,10 +42,13 @@
 		</td>
 	</tr>
 </table>
-@if ($acr->is_active)
+@if (!$acr->is_active)
 <p style="padding:5px;width:100%;color: white!important; background-color:#E55353;text-align:center"
 	class="fw-semibold my-0">
-	This ACR has been Rejected</p>
+This ACR has been rejected by {{$acr->userOnBasisOfDuty('accept')->name}} on @mkbdate($acr->rejectionDetail->created_at).
+
+Comment By rejection authority : {{$acr->rejectionDetail->remark}}
+</p>
 @endif
 <p class="fw-semibold text-center text-info my-0">Part - 1 (Basic Information)</p>
 <table class="table table-sm">
