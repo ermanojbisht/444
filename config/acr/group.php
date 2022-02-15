@@ -391,6 +391,128 @@ return [
             ],
       ],
    ],
+   2013=>[
+    //'head'=>'',//'Preparation of Proposal of Alignment of Road and site selection of Bridge and submitted for sanction to Assistant Engineer.',
+    'head_note'=>'',
+    'foot_note'=>'',
+    'multi_rows'=>false,
+    'columns'=>[
+         1=>[
+               'text'=>'Total No to be submitted',
+               'input_type'=>'number',
+               'input_name'=>'col_1',
+            ],
+         2=>[
+               'text'=>'No submitted ',
+               'input_type'=>'number',
+               'input_name'=>'col_2',
+            ],
+         3=>[
+               'text'=>'Nos not submitted with the specific reasons thereof',
+               'input_type'=>'text',
+               'input_name'=>'col_3',
+            ],
+      ]
+   ],
+   2014=>[
+    //'head'=>'',//'Quality Assurance Compliance of different.Works in progress during current financial year',
+    'head_note'=>'',
+    'foot_note'=>'',
+    'multi_rows'=>false,
+    'columns'=>[
+         1=>[
+               'text'=>'No of works in progress',
+               'input_type'=>'number',
+               'input_name'=>'col_1',
+            ],
+         2=>[
+               'text'=>'No. of Works checked by the Higher official',
+               'input_type'=>'number',
+               'input_name'=>'col_2',
+            ],
+         3=>[
+               'text'=>'No. of Works with Satisfactory Report',
+               'input_type'=>'number',
+               'input_name'=>'col_3',
+            ],
+         4=>[
+               'text'=>'No. of Works with R.I Report',
+               'input_type'=>'number',
+               'input_name'=>'col_4',
+            ],
+         5=>[
+               'text'=>'No. of Works with Unsatisfactory Report',
+               'input_type'=>'number',
+               'input_name'=>'col_5',
+            ],
+         6=>[
+               'text'=>'Compliance made (No. of Works) R.I',
+               'input_type'=>'number',
+               'input_name'=>'col_6',
+            ],
+         7=>[
+               'text'=>'Compliance made (No. of Works) Unsatisfactory',
+               'input_type'=>'number',
+               'input_name'=>'col_7',
+            ],
+      ]
+   ],
+   2015=>[
+    //'head'=>'',//'Submission of RMR Account to Assistant Engineer office',
+    'head_note'=>'',
+    'foot_note'=>'',
+    'multi_rows'=>false,
+    'columns'=>[
+         1=>[
+               'text'=>'Total No. of RMR Account',
+               'input_type'=>'number',
+               'input_name'=>'col_1',
+            ],
+         2=>[
+               'text'=>'Number of RMR Account Submitted to Assistant Engineer',
+               'input_type'=>'number',
+               'input_name'=>'col_2',
+            ],
+         3=>[
+               'text'=>'Number of RMR Account Adjusted by Division Office',
+               'input_type'=>'number',
+               'input_name'=>'col_3',
+            ],
+         4=>[
+               'text'=>'Number of Pending RMR Account in the Jurisdiction or the Junior Engineer',
+               'input_type'=>'number',
+               'input_name'=>'col_4',
+            ],
+      ]
+   ],
+   2016=>[
+    //'head'=>'',//'Submission of T&P Account to Assistant Engineer office',
+    'head_note'=>'',
+    'foot_note'=>'',
+    'multi_rows'=>false,
+    'columns'=>[
+         1=>[
+               'text'=>'Total No. of T&P Account',
+               'input_type'=>'number',
+               'input_name'=>'col_1',
+            ],
+         2=>[
+               'text'=>'Number of T&P Account Submitted to Assistant Engineer',
+               'input_type'=>'number',
+               'input_name'=>'col_2',
+            ],
+         3=>[
+               'text'=>'Number of T&P Account Adjusted by Division Office',
+               'input_type'=>'number',
+               'input_name'=>'col_3',
+            ],
+         4=>[
+               'text'=>'Number of Pending T&P Account in the Jurisdiction or the Junior Engineer',
+               'input_type'=>'number',
+               'input_name'=>'col_4',
+            ],
+      ]
+   ],
    3001=>[
       'head'=>'Action on Administrative Matters and Policy Implementation',
       'head_note'=>'',
