@@ -15,12 +15,12 @@
 		<p class="fw-semibold">
 			2. Please comment on the claim(if made) of exceptional contribution by the officer reoorted upon.
 		</p>
-		<p class="text-info">{{$acr->appraisal_note_1??'--'}}</p>
+		<p class="text-info">{{$acr->appraisal_note_2??'--'}}</p>
 		<p class="fw-semibold">
 			3. Has the officer reported upon met with any significant failures in respect of his work? If yes, Please
 			furnish factual details.
 		</p>
-		<p class="text-info">{{$acr->appraisal_note_1??'--'}}</p>
+		<p class="text-info">{{$acr->appraisal_note_3??'--'}}</p>
 	</div>
 	<div class="card-body">
 			@php $total_marksA = $reporting_marksA = $reviewing_marksA = 0; @endphp
