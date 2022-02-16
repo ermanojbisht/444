@@ -90,7 +90,7 @@ class Acr extends Model
                 break;
             case 'accept':
                 return $query->whereNotNull('accept_on')
-                    ->orderBy('review_on');
+                    ->orderBy('accept_on');
                 break;
         }
     }
