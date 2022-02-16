@@ -9,14 +9,14 @@
 	@if($acr->report_on)
 		<div class="card-body">
 			<p class="fw-semibold">
-				रिपोर्टिंग अधिकारी की टिप्पणी 
+				प्रतिवेदक अधिकारी की टिप्पणी 
 			</p>
 			<p class="text-info">{{$acr->appraisal_note_1??'--'}}</p>
 			<p class="fw-bold h5">
-		  		रिपोर्टिंग अधिकारी द्वारा दिए गए अंक - {{$acr->report_no??' --??-- '}}
+		  		प्रतिवेदक अधिकारी द्वारा दिए गए अंक - {{$acr->report_no??' --??-- '}}
 			</p>
 			<div>
-				<p> Repored By : {{$acr->reportUser()->name}} </p>
+				<p> प्रतिवेदक : {{$acr->reportUser()->name}} </p>
 				<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 			</div>
@@ -25,15 +25,15 @@
 	@if($acr->review_on)
 		<div class="card-body">
 			<p class="fw-semibold">
-				Reviewing अधिकारी की टिप्पणी 
+				समीक्षक अधिकारी की टिप्पणी 
 			</p>
 			<p class="text-info">{{$acr->review_remark??'--'}}</p>
 
 			<p class="fw-bold h5">
-		  		Reviewing अधिकारी द्वारा दिए गए अंक - {{$acr->review_no??' --??-- '}}
+		  		समीक्षक अधिकारी द्वारा दिए गए अंक - {{$acr->review_no??' --??-- '}}
 			</p>
 			<div>
-				<p> Reviewed By : {{$acr->reviewUser()->name}} </p>
+				<p> समीक्षक : {{$acr->reviewUser()->name}} </p>
 				<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 			</div>
@@ -43,15 +43,15 @@
 	@if($acr->accept_no)
 		<div class="card-body">
 			<p class="fw-semibold">
-				Accept अधिकारी की टिप्पणी 
+				स्वीकर्ता अधिकारी की टिप्पणी 
 			</p>
 			<p class="text-info">{{$acr->accept_remark??'--'}}</p>
 
 			<p class="fw-bold h5">
-		  		Reviewing अधिकारी द्वारा दिए गए अंक - {{$acr->accept_no??' --??-- '}}
+		  		स्वीकर्ता अधिकारी द्वारा दिए गए अंक - {{$acr->accept_no??' --??-- '}}
 			</p>
 			<div>
-				<p> Reviewed By : {{$acr->acceptUser()->name}} </p>
+				<p> स्वीकर्ता : {{$acr->acceptUser()->name}} </p>
 				<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 			</div>
