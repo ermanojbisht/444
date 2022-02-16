@@ -27,7 +27,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
      */
     public function __construct(Acr $acr,$milstone)
     {
-        //Log::info("in __construct  MakeAcrPdfOnSubmit ");
+        //Log::info("in __construct  MakeAcrPdfOnSubmit milstone $milstone");
 
         $this->acr = $acr;
         $this->milstone = $milstone;
@@ -93,12 +93,18 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
         //acr form by user ?//todo
         //$errors=collect([]);
         if(in_array($this->milstone, ['report','review','accept'])){
-            $requiredParameters = $this->acr->type1RequiremntsWithFilledData()->first();
-            $requiredNegativeParameters = $this->acr->type2RequiremntsWithFilledData();
-            $personal_attributes=  $this->acr->peronalAttributeSWithMasterData();
+
+            if($acr->isSinglePage){
+                $pages[] = view('employee.acr.form.appraisalShowSinglePage', compact('acr'));
+            }else{
+
+                $requiredParameters = $this->acr->type1RequiremntsWithFilledData()->first();
+                $requiredNegativeParameters = $this->acr->type2RequiremntsWithFilledData();
+                $personal_attributes=  $this->acr->peronalAttributeSWithMasterData();
 
 
-            $pages[] = view('employee.acr.form.appraisalShow',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters'));
+                $pages[] = view('employee.acr.form.appraisalShow',compact('acr','requiredParameters','personal_attributes','requiredNegativeParameters'));
+            }
             //integirty view
             $pages[] = view('employee.other_acr.view_reported_acr', compact('acr'));
 
@@ -109,7 +115,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
         }
 
         $this->pdf = \App::make('snappy.pdf.wrapper');
-        $this->pdf->setOption('margin-top',5);
+        $this->pdf->setOption('margin-top',15);
         $this->pdf->setOption('cover', view('employee.acr.pdfcoverpage', ['acr'=>$this->acr]));
         $this->pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
         $this->pdf->loadHTML($pages);

@@ -77,13 +77,19 @@
 		</div>
 		<div class="card-body">
 			<p class="fw-semibold h5">
+                @if($acr->is_single_page)
+                किए गए कार्यों का विवरण (अधिकतम 300 शब्दों मे)
+                @else
 			  	2- Exceptionally good works done, if any, apart from routine duties during the period of appraisal
+                @endif
 			</p>
 			<p class="text-info">{{$acr->good_work??'--no data filled--'}}</p>
+            @if(!$acr->is_single_page)
 		  	<p class="fw-semibold h5">
 		  		3- Difficulties faced in performing the assigned 'Tasks/Duties'
 		  	</p>
 		  	<p class="text-info">{{$acr->difficultie??'--no data filled--'}}</p>
+            @endif
 		</div>
 		<div class="card-body">
 			@php

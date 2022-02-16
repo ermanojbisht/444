@@ -307,6 +307,11 @@ class Acr extends Model
         return $grades;
     }
 
+    public function getIsSinglePageAttribute()
+    {
+        return in_array($this->acr_type_id, config('acr.basic.acrWithoutProcess'));
+    }
+
     public function getPdfFullFilePathAttribute()
     {
         return \Storage::disk('public')->path($this->pdf_file_path);
@@ -512,6 +517,10 @@ class Acr extends Model
             if (AcrParameter::where('acr_id', $this->id)->count() == 0) {
                 return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
             }
+        }else{
+            if(!$this->good_work){
+                 return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
+            }
         }
 
         return ['status' => true, 'msg' => ''];
@@ -546,7 +555,15 @@ class Acr extends Model
 
     public function rejectUser()
     {
-        return  User::where('employee_id', $this->rejectionDetail->employee_id)->first();
+
+        if($this->rejectionDetail){
+            $user=User::where('employee_id', $this->rejectionDetail->employee_id)->first();
+            if($user){
+                return $user ;
+            }
+        }
+        return (new User);
+
     }
 
 

@@ -60,6 +60,10 @@ class AcrReportController extends Controller
 
     public function show(Acr $acr, Request $request)
     {
+        if($acr->isSinglePage){
+            return view('employee.acr.form.appraisalShowSinglePage', compact('acr'));
+        }
+
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
         $personal_attributes =  $acr->peronalAttributeSWithMasterData();
