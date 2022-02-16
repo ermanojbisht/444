@@ -93,6 +93,7 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth', 'verif
     // Acr Review 
     Route::get('form/{acr}/appraisal2', 'Employee\OthersAcr\AcrReviewController@appraisal2')->name('form.appraisal2');
     Route::post('form/appraisal2', 'Employee\OthersAcr\AcrReviewController@storeAppraisal2')->name('form.storeAppraisal2');
+    Route::post('form/storeAcrWithoutProcessReview', 'Employee\OthersAcr\AcrReviewController@storeAcrWithoutProcessReview')->name('form.storeAcrWithoutProcessReview');
 
     // todo these to be shifted 
     Route::get('getUserParameterData/{acrId}/{paramId}', 'Employee\OthersAcr\AcrReportController@getUserParameterData')->name('ajax.getUserParameterData');
