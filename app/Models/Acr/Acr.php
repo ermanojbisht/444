@@ -51,6 +51,14 @@ class Acr extends Model
         return $this->belongsTo(AcrType::class, 'acr_type_id', 'id');
     }
 
+    public function getTypeNameAttribute ()
+    {
+        if($this->type){
+            return $this->type->description;
+        }
+        return 'Defaulter\'s ACR';
+    }
+
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id', 'id');
@@ -480,9 +488,6 @@ class Acr extends Model
 
         $leaves = Leave::where('acr_id', $this->id)->get();
         $appreciations = Appreciation::where('acr_id', $this->id)->get();
-
-        $acr_selected_group_type = AcrType::where('id', $this->acr_type_id)->select('description as name', 'group_id', 'id')->first();
-        $acr_types = AcrType::where('group_id', $acr_selected_group_type->group_id)->select('description as name', 'id')->get();
        
         $inbox = Acr::whereNotNull('submitted_at')->where('report_employee_id', $this->employee_id)
             ->where('is_active', 1)->whereNull('report_on')->get();
@@ -492,8 +497,7 @@ class Acr extends Model
         $accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->employee_id)
             ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNull('accept_on')->get();
 
-        return [$employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted, $officeWithParentList,
-        $acr_selected_group_type, $acr_types];
+        return [$employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted, $officeWithParentList  ];
     }
 
     public function updateEsclationFor($dutyType)
