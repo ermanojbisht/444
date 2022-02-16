@@ -33,7 +33,7 @@
 		  		Reviewing अधिकारी द्वारा दिए गए अंक - {{$acr->review_no??' --??-- '}}
 			</p>
 			<div>
-				<p> Repored By : {{$acr->reviewUser()->name}} </p>
+				<p> Reviewed By : {{$acr->reviewUser()->name}} </p>
 				<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 			</div>
