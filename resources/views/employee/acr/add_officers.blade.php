@@ -131,9 +131,9 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="OfficialType">
-						My ACR Appraisal Officers for Duration {{ $acr->from_date->format('d M Y') }} to {{
-						$acr->to_date->format('d M Y') }}
+					<h4 class="modal-title fw-bold" id="OfficialType">
+						Add Appraisal Officers<br>
+						<small>( for Period : {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }}</small>
 					</h4>
 				</div>
 				<div class="modal-body">
@@ -168,20 +168,21 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 						</div>
 						<br />
 						<div class="row">
-							<div class="form-group col-md-12">
-								<div class="form-group">
-									<label class="required" for="employee_id">Select officer</label>
-									<br />
-									<select name="employee_id" id="employee_id" required
-										class="form-select select2 {{ $errors->has('employee_id') ? 'is-invalid' : '' }}">
-									</select>
-									@if($errors->has('employee_id'))
-									<div class="invalid-feedback">
-										{{ $errors->first('employee_id') }}
-									</div>
-									@endif
-									<span class="help-block"></span>
+							<div class="form-group">
+								<label class="required" for="employee_id">Select officer</label>
+								<br />
+								<select name="employee_id" id="employee_id" required
+									class="form-select select2 {{ $errors->has('employee_id') ? 'is-invalid' : '' }}">
+								</select>
+								@if($errors->has('employee_id'))
+								<div class="invalid-feedback">
+									{{ $errors->first('employee_id') }}
 								</div>
+								@endif
+								<span class="help-block"></span>
+							</div>
+							<div class="p-2">
+								<div id="employee_detail_div" class="bg-info text-white p-3"></div>
 							</div>
 						</div>
 						<br />
@@ -206,17 +207,16 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 						</div>
 						<div class="form-group mt-2">
 						</div>
-						<div class="row">
-							<div class="form-group mt-2">
-								<input type="hidden" name="acr_id" value="{{$acr->id}}" />
-								<input id="removeLogged" type="hidden" name="removeLogged" value="true" />
-								<input type="submit" class="btn btn-primary " id="btnSave" value="Add Officers " />
-							</div>
-						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<div id="employee_detail_div"></div>
+					<div class="row">
+						<div class="form-group mt-2">
+							<input type="hidden" name="acr_id" value="{{$acr->id}}" />
+							<input id="removeLogged" type="hidden" name="removeLogged" value="true" />
+							<input type="submit" class="btn btn-primary " id="btnSave" value="Add Officers " />
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
