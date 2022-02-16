@@ -205,6 +205,9 @@
 			@endforeach
 		</div>
 		<div class="card-body">
+            <P class="fw-semibold h5 ">
+                Training Details
+            </P>
 			@foreach($master_trainings as $key=>$trainings)
 			<div class="card-body">
 				<P class="fw-semibold h5 text-muted">
