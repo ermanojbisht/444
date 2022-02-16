@@ -74,7 +74,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
         $pages = []; $view = true;
         $acr=$this->acr;
         if(in_array($this->milstone, ['submit','report','review','accept','reject'])){
-            list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted,$officeWithParentList,$acr_selected_group_type, $acr_types) = $this->acr->firstFormData();
+            list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted,$officeWithParentList) = $this->acr->firstFormData();
             $pages[] = view('employee.acr.view_part1', ['acr'=>$this->acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ,'officeWithParentList'=>$officeWithParentList]);
 
             // from Create 1
