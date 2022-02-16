@@ -33,7 +33,25 @@
 		  		Reviewing अधिकारी द्वारा दिए गए अंक - {{$acr->review_no??' --??-- '}}
 			</p>
 			<div>
-				<p> Repored By : {{$acr->reviewUser()->name}} </p>
+				<p> Reviewed By : {{$acr->reviewUser()->name}} </p>
+				<p> on : {{$acr->report_on->format('d M Y')}}</p>
+
+			</div>
+		</div>
+	@endif
+
+	@if($acr->accept_no)
+		<div class="card-body">
+			<p class="fw-semibold">
+				Accept अधिकारी की टिप्पणी 
+			</p>
+			<p class="text-info">{{$acr->accept_remark??'--'}}</p>
+
+			<p class="fw-bold h5">
+		  		Reviewing अधिकारी द्वारा दिए गए अंक - {{$acr->accept_no??' --??-- '}}
+			</p>
+			<div>
+				<p> Reviewed By : {{$acr->acceptUser()->name}} </p>
 				<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 			</div>
