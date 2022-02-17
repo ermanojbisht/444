@@ -89,10 +89,10 @@ class Acr extends Model
     }
 
     /**
-     * @param $query
-     * @param $value
-     * @return mixed
      * at what level acr is , submit means acr is submitted and reporting is pending
+     * @param  $query
+     * @param  $value
+     * @return mixed
      */
     public function scopeLevel($query, $value = 'submit')
     {
@@ -203,7 +203,7 @@ class Acr extends Model
     }
 
     /**
-     * @param $appraisal_officer_type
+     * @param  $appraisal_officer_type
      * @return mixed
      */
     public function hasAppraisalOfficer($appraisal_officer_type)
@@ -577,7 +577,7 @@ class Acr extends Model
     }
 
     /**
-     * @param $Officer_type
+     * @param  $Officer_type
      * @return mixed
      */
     public function report_review_Accept_officers($Officer_type)
@@ -735,26 +735,28 @@ class Acr extends Model
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function analysisForAlert()
     {
-        $result=['name'=>$this->employee->name,'employee_id'=>$this->employee_id,'target_employee_id'=>'','pending_process'=>'','percentage_period'=>''];
+        $result = ['name' => $this->employee->name, 'employee_id' => $this->employee_id, 'target_employee_id' => '', 'pending_process' => '', 'percentage_period' => ''];
 
-        $duties=['report','review','accept'];
+        $duties = ['report', 'review', 'accept'];
         foreach ($duties as $key => $duty) {
-            $duration_lapsed_field=$duty.'_duration_lapsed';
-            $targetEmployee_field=$duty.'_employee_id';
-            if($this->$duration_lapsed_field>0){
-                $targetEmployee=$this->$targetEmployee_field;
-                $targetProcess=$duty;
-                $lapsedPeriod=$this->$duration_lapsed_field;
+            $duration_lapsed_field = $duty.'_duration_lapsed';
+            $targetEmployee_field = $duty.'_employee_id';
+            if ($this->$duration_lapsed_field > 0) {
+                $targetEmployee = $this->$targetEmployee_field;
+                $targetProcess = $duty;
+                $lapsedPeriod = $this->$duration_lapsed_field;
             }
         }
 
-        $result['target_employee_id']=$targetEmployee;
-        $result['pending_process']=$targetProcess;
-        $result['percentage_period']=$lapsedPeriod;
+        $result['target_employee_id'] = $targetEmployee;
+        $result['pending_process'] = $targetProcess;
+        $result['percentage_period'] = $lapsedPeriod;
 
         return $result;
-
     }
 }

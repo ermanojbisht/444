@@ -1,12 +1,15 @@
 @component('mail::message')
-# Introduction
+Dear {{$targetUser->name}}
+@component('mail::panel')
+Following ACRs are pending with you
 
-The body of your message.
+@component('mail::table')
+| #    | Name    | Employee Id| Process| % time elapsed|
+| ---- |:-------:|:----------:|:------:|:-------------:|
 @foreach($userPendingAcrs as $acr)
-{{$acr->employee_id}}  {{$acr->pending_process}} {{$acr->percentage_period}}
+|{{$loop->iteration}}|{{$acr['name']}}|{{$acr['employee_id']}}|{{$acr['pending_process']}}|{{$acr['percentage_period']}}|
 @endforeach
-@component('mail::button', ['url' => ''])
-Button Text
+@endcomponent
 @endcomponent
 
 Thanks,<br>
