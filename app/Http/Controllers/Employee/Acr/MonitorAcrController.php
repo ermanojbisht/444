@@ -22,6 +22,8 @@ class MonitorAcrController extends Controller
             });
         }
 
+        $this->identify();
+
         /* $acr=Acr::find(15);   return $acr->isScope('level','submit'); */
     }
 
