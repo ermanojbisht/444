@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employee\Acr;
 
 use App\Http\Controllers\Controller;
 use App\Models\Acr\Acr;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MonitorAcrController extends Controller
@@ -36,13 +37,26 @@ class MonitorAcrController extends Controller
 
         $acrs= $query->get();
 
-       return $acrs->map(function($acr) {
+        $identifiedMailGroups=$acrs->map(function($acr) {
             return $acr->analysisForAlert();
         })->sortBy([
             ['percentage_period', 'desc'],
             ['pending_process', 'asc'],
         ])
        ->groupBy('target_employee_id');
+       foreach ($identifiedMailGroups as $employee_id => $userPendingAcrs) {
+            $targetUser=User::whereEmployeeId($employee_id)->first();
+            $previousNotification = AcrNotification::where('employee_id', $employee_id)
+                ->where('acr_id', 0)
+                ->where('through', 1) //for mail , may be 2 for sms
+                ->where('notification_type', 10) //2=for alert
+                ->orderBy('notification_on', 'DESC')->first(); //todo search for today        
 
+            if (!$previousNotification) {
+                $mail = Mail::to($targetUser);
+                $mail->send(new AcrAlertMail($targetUser,$userPendingAcrs));
+            }
+           
+       }
     }
 }

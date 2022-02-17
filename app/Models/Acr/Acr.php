@@ -737,7 +737,7 @@ class Acr extends Model
 
     public function analysisForAlert()
     {
-        $result=['employee_id'=>$this->employee_id,'target_employee_id'=>'','pending_process'=>'','percentage_period'=>''];
+        $result=['name'=>$this->employee->name,'employee_id'=>$this->employee_id,'target_employee_id'=>'','pending_process'=>'','percentage_period'=>''];
 
         $duties=['report','review','accept'];
         foreach ($duties as $key => $duty) {
