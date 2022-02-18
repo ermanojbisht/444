@@ -93,11 +93,12 @@
 								</a>
 								@endif
 								@endif
-
+								@if ($acr->accept_on || (!$acr->report_on && !$acr->review_on))
 								@if ($acr->isFileExist())
 								<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i> View ACR
 								</a>
+								@endif
 								@endif
 							</div>
 						</div>

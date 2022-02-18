@@ -58,7 +58,13 @@
 			@foreach($acrs as $acr)
 			<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 				<td>{{1+$loop->index }}</td>
-				<td><a href="{{route('acr.view',['acr'=>$acr])}}">{{$acr->id }}</a></td>
+				<td>
+					@if($acr->accept_on)
+					<a href="{{route('acr.view',['acr'=>$acr])}}">{{$acr->id }}</a>
+					@else
+					Under Process
+					@endif
+				</td>
 				<td>{!! $acr->from_date->format('d&#160;M&#160;Y') !!}</td>
 				<td>{!! $acr->to_date->format('d&#160;M&#160;Y') !!}</td>
 				<td>{!! ($acr->submitted_at) ?  $acr->submitted_at->format('d&#160;M&#160;Y') : 'New Created ' !!} </td>
