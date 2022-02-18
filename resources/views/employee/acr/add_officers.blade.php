@@ -207,7 +207,7 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 						</div>
 						<div class="form-group mt-2">
 						</div>
-					</form>
+					
 				</div>
 				<div class="modal-footer">
 					<div class="row">
@@ -218,6 +218,7 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 						</div>
 					</div>
 				</div>
+				</form>
 			</div>
 		</div>
 	</div>

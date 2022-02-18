@@ -529,20 +529,20 @@ class Acr extends Model
                         //on report event , review is targeted
                         //review is as target
                         $mail->cc($this->userOnBasisOfDuty('report'));
-                        $mail->cc($this->submitUser());
+                        //$mail->cc($this->submitUser());
                         break;
                     case 'accept':
                         //on review event , accept is targeted
                         //accept user is as target
                         $mail->cc($this->userOnBasisOfDuty('review'));
-                        $mail->cc($this->userOnBasisOfDuty('report'));
-                        $mail->cc($this->submitUser());
+                        //$mail->cc($this->userOnBasisOfDuty('report'));
+                        //$mail->cc($this->submitUser());
                         break;
 
                     case 'submit':
                         //on accept event , submituser is targeted
-                        $mail->cc($this->userOnBasisOfDuty('review'));
-                        $mail->cc($this->userOnBasisOfDuty('report'));
+                        //$mail->cc($this->userOnBasisOfDuty('review'));
+                        //$mail->cc($this->userOnBasisOfDuty('report'));
                         $mail->cc($this->userOnBasisOfDuty('accept'));
                         break;
 
