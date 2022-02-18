@@ -641,14 +641,15 @@ class Acr extends Model
     public function checkSelfAppraisalFilled()
     {
         // check table 1
-        if (in_array($this->acr_type_id, config('acr.basic.acrWithoutProcess')) == false) {
-            if (AcrParameter::where('acr_id', $this->id)->count() == 0) {
-                return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
-            }
-        } else {
+        if ($this->isSinglePage) {
             if (!$this->good_work) {
                 return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
             }
+        } else {
+            if (AcrParameter::where('acr_id', $this->id)->count() == 0) {
+                return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
+            }
+
         }
 
         return ['status' => true, 'msg' => ''];
