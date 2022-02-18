@@ -397,6 +397,11 @@ class Acr extends Model
         return in_array($this->acr_type_id, config('acr.basic.acrWithoutProcess'));
     }
 
+    public function getIsTwoStepAttribute()
+    {
+        return ($this->acr_type_id==30);
+    }
+
     public function getPdfFullFilePathAttribute()
     {
         return \Storage::disk('public')->path($this->pdf_file_path);
