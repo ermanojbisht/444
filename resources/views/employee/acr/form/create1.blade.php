@@ -41,6 +41,7 @@
 									<th>#</th>
 									<th>Parameter</th>
 									<th>Max Marks</th>
+									<th>Applicable</th>
 								@if($table_type == 1)
 									<th>Unit</th>
 									<th>Target</th>
@@ -49,7 +50,7 @@
 								@if($table_type == 2)
 									<th>Status of Progress</th>			
 								@endif
-									<th>Applicable</th>
+									
 								</tr>
 							</thead>
 							<tbody>
@@ -62,6 +63,20 @@
 										<td>{{$loop->iteration}}</td>
 										<td>{{$data->description}}</td>
 										<td class="text-center">{{$data->max_marks}}</td>
+										<td class="text-center">
+											<select class="form-select" name="applicable[{{$data->id}}]">
+											  <option value="1" class="text-success" 
+											  	@if($data->applicable != 0)
+											  		selected
+											  	@endif
+											  	>Yes</option>
+											  <option value="0" class="text-danger"
+											  	@if($data->applicable === 0)
+											  		selected
+											  	@endif
+											  	>No</option>
+											</select>
+										</td>
 										@if($table_type == 1)
 											<td class="text-center">{{$data->unit}}</td>
 											
@@ -97,20 +112,7 @@
 												<input type="hidden" name="target[{{$data->id}}]" value="" />
 												<input type="hidden" name="achivement[{{$data->id}}]" value="" />
 										@endif
-										<td class="text-center">
-											<select class="form-select" name="applicable[{{$data->id}}]">
-											  <option value="1" 
-											  	@if($data->applicable != 0)
-											  		selected
-											  	@endif
-											  	>Yes</option>
-											  <option value="0"
-											  	@if($data->applicable === 0)
-											  		selected
-											  	@endif
-											  	>No</option>
-											</select>
-										</td>
+										
 									</tr>		
 								@endforeach
 							</tbody>

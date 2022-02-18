@@ -151,7 +151,7 @@ class AcrFormController extends Controller
         $acr = Acr::findOrFail($request->acr_id);
 
         foreach ($request->acr_master_parameter_id as $acr_master_parameter) {
-            if ($request->applicable[$acr_master_parameter] == 1 && ($request->target[$acr_master_parameter] || $request->achivement[$acr_master_parameter] || $request->status[$acr_master_parameter])) {
+            if ($request->applicable[$acr_master_parameter] == 1) { // && ($request->target[$acr_master_parameter] || $request->achivement[$acr_master_parameter] || $request->status[$acr_master_parameter]
                 AcrParameter::UpdateOrCreate(
                     [
                         'acr_id' => $request->acr_id,
