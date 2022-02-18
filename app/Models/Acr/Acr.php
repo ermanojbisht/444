@@ -488,7 +488,11 @@ class Acr extends Model
 
     public function reviewNotification()
     {
-        $this->mailNotificationFor($targetDutyType = 'accept', $notification_type = 4);
+        if($acr->isTwoStep){
+            $this->acceptNotification();
+        }else{
+            $this->mailNotificationFor($targetDutyType = 'accept', $notification_type = 4);
+        }
     }
 
     public function acceptNotification()
@@ -547,8 +551,11 @@ class Acr extends Model
                     case 'submit':
                         //on accept event , submituser is targeted
                         //$mail->cc($this->userOnBasisOfDuty('review'));
-                        //$mail->cc($this->userOnBasisOfDuty('report'));
-                        $mail->cc($this->userOnBasisOfDuty('accept'));
+                        if($acr->isTwoStep){
+                            $mail->cc($this->userOnBasisOfDuty('review'));
+                        }else{
+                            $mail->cc($this->userOnBasisOfDuty('accept'));
+                        }
                         break;
 
                     case 'reject':
