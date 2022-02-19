@@ -72,26 +72,20 @@ Add Defaulter Employee's ACR
 								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
 								</a>
-								{{-- <a class="dropdown-item" href="{{route('acr.addLeaves', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Add Leaves / Absence
-								</a>
-								<a class="dropdown-item" href="{{route('acr.addAppreciation', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Add Appreciation / Honors
-								</a>
-								<a class="dropdown-item" href="{{route('acr.form.create1', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Add Part -II Self-Appraisal
-								</a> --}}
-								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) &&
-								$acr->hasAppraisalOfficer(3) )
-								<a class="dropdown-item" href="#">
-									<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST"
-										onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
-										{{ csrf_field() }}
-										<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR
-										</button>
-									</form>
-								</a>
+								
+								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2))
+									@if($acr->isTwoStep || $acr->hasAppraisalOfficer(3))
+										<a class="dropdown-item" href="#">
+											<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST"
+												onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
+												{{ csrf_field() }}
+												<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR
+												</button>
+											</form>
+										</a>
+									@endif
 								@endif
+
 								@endif
 								@if ($acr->isFileExist())
 								<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
