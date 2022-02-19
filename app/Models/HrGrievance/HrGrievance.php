@@ -11,7 +11,7 @@ class HrGrievance extends Model {
 
     use OfficeTypeTrait;
     
-
+    protected $connection='mysqlhrms';
     protected $fillable = [ 'id','grievance_type_id','description','office_type', 
     'office_id','draft_answer','final_answer','employee_id','refference_grievance_id','status_id'];
 

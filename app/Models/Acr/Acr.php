@@ -21,6 +21,7 @@ class Acr extends Model
      * @var string
      */
     protected $table = 'acrs';
+    protected $connection='mysqlhrms';
 
     /**
      * @var array
