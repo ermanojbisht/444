@@ -220,8 +220,7 @@ Add Defaulter Employee's ACR
 						<div class="form-group mt-2">
 						</div>
 						<div class="row">
-							<div class="form-group mt-2">
-								<input type="hidden" name="acr_type_id" value="0" />
+							<div class="form-group mt-2">								
 								<input id="removeLogged" type="hidden" name="removeLogged" value="true" />
 								<input type="submit" class="btn btn-primary " id="btnSave" value="Add Employee " />
 							</div>

@@ -220,7 +220,7 @@ class AcrController extends Controller
         $acr = Acr::findOrFail($request->acr_id);
 
         $permission = false;
-        if ($acr->acr_type_id == 0 && $this->user->hasPermissionTo(['create-others-acr'])) {
+        if ($acr->is_defaulter && $this->user->hasPermissionTo(['create-others-acr'])) {
             $permission = true;
         }
         if (!$permission) {
@@ -267,7 +267,7 @@ class AcrController extends Controller
         $acr = Acr::findOrFail($request->acr_id);
 
         $permission = false;
-        if ($acr->acr_type_id == 0 && $this->user->hasPermissionTo(['create-others-acr'])) {
+        if ($acr->is_defaulter && $this->user->hasPermissionTo(['create-others-acr'])) {
             $permission = true;
         }
         if (!$permission) {
