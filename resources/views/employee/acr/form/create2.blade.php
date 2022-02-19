@@ -14,8 +14,10 @@
 @endsection
 
 @section('content')
-	@include('employee.acr.form._formHeader',['acr'=>$acr])
-	<div class="card">
+	<div class="mb-3">
+		@include('employee.acr.form._formHeader',['acr'=>$acr])
+	</div>
+	<div class="card border border-2">
 		<div class="card-body">
 			<form class="form-horizontal" method="POST" action="{{route('acr.form.store2')}}">
 				@csrf
@@ -24,15 +26,16 @@
 					<label for="good_work" class="fw-bold h5">
 					  	2- Exceptionally good works done, if any, apart from routine duties during the period of appraisal (Max. 100 Words)
 					</label>
-					<textarea class="form-control rounded-0" id="good_work"  name="good_work" rows="3"
+					<textarea class="form-control rounded-0" id="good_work"  name="good_work" rows="5"
 					  	@if(!empty($acr->good_work))
 							style="background-color:#F0FFF0;"
 						@endif
 					>{{$acr->good_work??''}}</textarea>
+					<p class="my-3"></p>
 				  	<label for="difficultie" class="fw-bold h5">
 				  		3- Difficulties faced in performing the assigned 'Tasks/Duties' (Max. 100 Words)
 				  	</label>
-				  	<textarea class="form-control rounded-0" id="difficultie"  name="difficultie" rows="3"
+				  	<textarea class="form-control rounded-0" id="difficultie"  name="difficultie" rows="5"
 				  	@if(!empty($acr->difficultie))
 							style="background-color:#F0FFF0;"
 						@endif

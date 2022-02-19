@@ -15,8 +15,10 @@ Part -II Self-Appraisal <small>Page -3 Deduction Parameters</small>
 @endsection
 
 @section('content')
-@include('employee.acr.form._formHeader',['acr'=>$acr])
-<div class="card">
+<div class="mb-3">
+		@include('employee.acr.form._formHeader',['acr'=>$acr])
+</div>
+<div class="card border border-2">
 	<div class="card-body">
 		<p class="fw-semibold fs-5">निम्न मापदण्डो पर भारी गई सूचना के आधार पर Reporting अधिकारी तथा Review अधिकारी
 			द्वारा Negative Marks का निर्धारण करके PAR में अंकित किया जायेगा। जिन्हे Part-1 के आधार पर आकलित मार्क्स से
@@ -119,61 +121,67 @@ Part -II Self-Appraisal <small>Page -3 Deduction Parameters</small>
 			
 			<input type="hidden" id="final" name="final" value="0" />
 		</form>
-</div>
-@endforeach
-@else
-<div class="card-body form-control">
-	<form class="form-horizontal" id="{{$groupId}}" method="POST" action="{{route('acr.form.store3')}}">
-		@csrf
-		<input type="hidden" name="acr_id" value='{{$acr->id}}' />
-		@php $slno = $slno+1; @endphp
-		<p class="fw-bold h5 text-info">4.{{$slno}}- {!!config('acr.group')[$groupId]['head']!!}</p>
-		<table class="table table-bordered border-primary">
-			<thead class="table-info fw-bold border-primary">
-				<tr class="text-center align-middle">
-					<th width="auto">Sl No.</th>
-					<th width="auto">Description</th>
-					<th width="50%">Action Taken</th>
-					<th width="auto" class="text-info">max. deduction</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach($datas as $data)
-				<input type="hidden" name="acr_master_parameter_id[]" value='{{$data->id}}'>
-				@if(!empty($data->user_filled_data[0]))
-				<tr style="background-color:#F0FFF0;">
-					@else
-				<tr>
-					@endif
-					<td>
-						{{$loop->iteration}}
-					</td>
-					<td>
-						{{$data->description}}
-					</td>
-					<td>
-						<input class="form-control" type="text" name="{{$data->id}}[1][col_1]"
-							value="{{$data->user_filled_data[0]['col_1']??''}}" />
-					</td>
-					<td class="text-center align-middle text-info">
-						{{$data->max_marks}}
-					</td>
-				</tr>
-				@endforeach
-			</tbody>
-		</table>
-		<div class="text-end">
-			<input type="hidden" id="final" name="final"  value="1" />
-			<button type="submit" id="{{$groupId}}" class="btn btn-outline-primary">
-				<svg class="icon icon-lg">
-					<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-save"></use>
-				</svg>
-				Save and Continue
-			</button>
-		</div>
-	</form>
-</div>
-@endif
+	</div>
+	@endforeach
+	@else
+	<div class="card-body form-control">
+		<form class="form-horizontal" id="{{$groupId}}" method="POST" action="{{route('acr.form.store3')}}">
+			@csrf
+			<input type="hidden" name="acr_id" value='{{$acr->id}}' />
+			@php $slno = $slno+1; @endphp
+			<p class="fw-bold h5 text-info">4.{{$slno}}- {!!config('acr.group')[$groupId]['head']!!}</p>
+			<table class="table table-bordered border-primary">
+				<thead class="table-info fw-bold border-primary">
+					<tr class="text-center align-middle">
+						<th width="auto">Sl No.</th>
+						<th width="auto">Description</th>
+						@foreach(config('acr.group')[$groupId]['columns'] as $column)
+							<th width="auto">{{$column['text']}}</th>
+						@endforeach
+						<th width="auto" class="text-info">max. deduction</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach($datas as $data)
+					<input type="hidden" name="acr_master_parameter_id[]" value='{{$data->id}}'>
+					@if(!empty($data->user_filled_data[0]))
+					<tr style="background-color:#F0FFF0;">
+						@else
+					<tr>
+						@endif
+						<td>
+							{{$loop->iteration}}
+						</td>
+						<td>
+							{{$data->description}}
+						</td>
+						@foreach(config('acr.group')[$groupId]['columns'] as $column)
+						<td>
+								<input 	class="form-control" 
+										type="{{$column['input_type']}}" 
+										name="{{$data->id}}[1][$column['input_type']]"
+										value="{{$data->user_filled_data[0][$column['input_type']]??''}}" />
+						</td>
+						@endforeach
+						<td class="text-center align-middle text-info">
+							{{$data->max_marks}}
+						</td>
+					</tr>
+					@endforeach
+				</tbody>
+			</table>
+			<div class="text-end">
+				<input type="hidden" id="final" name="final"  value="1" />
+				<button type="submit" id="{{$groupId}}" class="btn btn-outline-primary">
+					<svg class="icon icon-lg">
+						<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-save"></use>
+					</svg>
+					Save and Continue
+				</button>
+			</div>
+		</form>
+	</div>
+	@endif
 @endforeach
 </div>
 @endsection

@@ -12,11 +12,14 @@
 ['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
 ['label'=> 'Assessment of Performance','active'=>true]
 ]])
+
 @endsection
 
 @section('content')
-	@include('employee.acr.form._formHeader',['acr'=>$acr])
-	<div class="card">
+	<div class="mb-3">
+		@include('employee.acr.form._formHeader',['acr'=>$acr])
+	</div>
+	<div class="card border border-2">
 		<div class="card-body form-control">
 			<form class="form-horizontal" method="POST" action="{{route('acr.form.store1')}}">
 			    @csrf

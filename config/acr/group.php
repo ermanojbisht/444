@@ -217,9 +217,8 @@ return [
       ]
    ],
    2007=>[
-   // 'head'=>'',//'Preparing and Uploading of Forest land transfer cases',
     'head_note'=>'',
-    'foot_note'=>'',//'Note :- If the officer does not submit the reply of Audit paras of the Sub Division under his Jurisdiction to Executive Engineer as per direction of Executive Engineer, upto O5 marks will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances. This deduction will be decided at Executive Engineer level.',
+    'foot_note'=>'',
     'multi_rows'=>false,
     'columns'=>[
          1=>[
@@ -245,9 +244,8 @@ return [
       ]
    ],
    2008=>[ //Submission of Audit Report of Divisions to Chief Engineer.
-   // 'head'=>'',
     'head_note'=>'',
-    'foot_note'=>'',//'Note :- If the officer does not submit the reply of Audit paras of the Sub Division under his Jurisdiction to Executive Engineer as per direction of Executive Engineer, upto O5 marks will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances. This deduction will be decided at Executive Engineer level.',
+    'foot_note'=>'',
     'multi_rows'=>true,
     'columns'=>[
          1=>[
@@ -274,9 +272,8 @@ return [
    ],
    
    2009=>[ //Profit I Loss of Machine, Vehicles etc
-   // 'head'=>'',
     'head_note'=>'',
-    'foot_note'=>'',//'Note :- If the officer does not submit the reply of Audit paras of the Sub Division under his Jurisdiction to Executive Engineer as per direction of Executive Engineer, upto O5 marks will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances. This deduction will be decided at Executive Engineer level.',
+    'foot_note'=>'',
     'multi_rows'=>false,
     'columns'=>[
          
@@ -309,10 +306,9 @@ return [
          ],
    ],
    
- 2010=>[ //
-   //   'head'=>'submission of charge sheets',
+ 2010=>[ 
       'head_note'=>'',
-      'foot_note'=>'', //'Note :- If the officer does not submit the Enquiry Report within prescribed time, upto max marks shown above will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances.',
+      'foot_note'=>'',
       'multi_rows'=>true,
       'columns'=>[
          1=>[
@@ -341,10 +337,9 @@ return [
             ],
       ],
    ],
-   2011=>[ //
-    //  'head'=>'submission of charge sheets',
+   2011=>[ // TS Civil
       'head_note'=>'',
-      'foot_note'=>'', //'Note :- If the officer does not submit the Enquiry Report within prescribed time, upto max marks shown above will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances.',
+      'foot_note'=>'', 
       'multi_rows'=>false,
       'columns'=>[
          
@@ -513,19 +508,273 @@ return [
             ],
       ]
    ],
+
+   2017=>[ // TS E&M 
+      'head_note'=>'',
+      'foot_note'=>'',
+      'multi_rows'=>false,
+      'columns'=>[
+         1=>[
+               'text'=>'Target (Electrical)',
+               'input_type'=>'number',
+               'input_name'=>'col_1',
+            ],
+         2=>[
+               'text'=>'Achievement (Electrical)',
+               'input_type'=>'number',
+               'input_name'=>'col_2',
+            ],
+            
+         3=>[
+               'text'=>'Target (Mechanical)',
+               'input_type'=>'text',
+               'input_name'=>'col_3',
+            ],
+         4=>[
+               'text'=>'Achievement (Mechanical)',
+               'input_type'=>'number',
+               'input_name'=>'col_4',
+            ],
+      ],
+   ],
+   2018=>[ // Profit/Loss of Machine, Vehicles etc.
+      'head_note'=>'',
+      'foot_note'=>'',
+      'multi_rows'=>false,
+      'columns'=>[
+         1=>[
+               'text'=>'No. of Machines / Equipment',
+               'input_type'=>'number',
+               'input_name'=>'col_1',
+            ],
+         2=>[
+               'text'=>'Total Hire Charges Earned ',
+               'input_type'=>'text',
+               'input_name'=>'col_2',
+            ],
+            
+         3=>[
+               'text'=>'Hire Charged raised upto',
+               'input_type'=>'text',
+               'input_name'=>'col_3',
+            ],
+         4=>[
+               'text'=>'Hire charges received',
+               'input_type'=>'text',
+               'input_name'=>'col_4',
+            ],
+         5=>[
+               'text'=>'Expenditure',
+               'input_type'=>'text',
+               'input_name'=>'col_5',
+            ],
+         6=>[
+               'text'=>'Profit / Loss',
+               'input_type'=>'text',
+               'input_name'=>'col_6',
+            ],
+      ],
+   ],
+
+   2019=>[
+    //'head'=>'',//'Reply of audit paras of AG',
+    'head_note'=>'',
+    'foot_note'=>'',//'Note :- If the officer does not submit the reply of Audit paras of the Sub Division under his Jurisdiction to Executive Engineer as per direction of Executive Engineer, upto OS marks will be deducted as given on part II (Self-Appraisal), except under exceptional circumstances. This deduction will be decided at Executive Engineer level.',
+    'multi_rows'=>false,
+    'columns'=>[
+         1=>[
+               'text'=>'Total 2A Para',
+               'input_type'=>'number',
+               'input_name'=>'col_1',
+            ],
+         2=>[
+               'text'=>'Number of 2A Para replied Submitted',
+               'input_type'=>'number',
+               'input_name'=>'col_2',
+            ],
+         3=>[
+               'text'=>'Number of 2A Paras omitted by A.G. Office',
+               'input_type'=>'text',
+               'input_name'=>'col_3',
+            ],
+         
+         4=>[
+               'text'=>'Total 2B Para',
+               'input_type'=>'number',
+               'input_name'=>'col_4',
+            ],
+         5=>[
+               'text'=>'Number of 2B Para replied Submitted',
+               'input_type'=>'number',
+               'input_name'=>'col_5',
+            ],
+         6=>[
+               'text'=>'Number of 2B Paras omitted by A.G. Office',
+               'input_type'=>'text',
+               'input_name'=>'col_6',
+            ],
+      ]
+   ],
+
+   2020=>[ // TS E&M EE
+      'head_note'=>'',
+      'foot_note'=>'',
+      'multi_rows'=>false,
+      'columns'=>[
+         1=>[
+               'text'=>'Target (Electrical) By Self',
+               'input_type'=>'number',
+               'input_name'=>'col_1',
+            ],
+         2=>[
+               'text'=>'Achievement (Electrical) By Self',
+               'input_type'=>'number',
+               'input_name'=>'col_2',
+            ],
+            
+         3=>[
+               'text'=>'Target (Mechanical) By Self',
+               'input_type'=>'text',
+               'input_name'=>'col_3',
+            ],
+         4=>[
+               'text'=>'Achievement (Mechanical) By Self',
+               'input_type'=>'number',
+               'input_name'=>'col_4',
+            ],
+         5=>[
+               'text'=>'Target (Electrical) to Higher Authorities',
+               'input_type'=>'number',
+               'input_name'=>'col_5',
+            ],
+         6=>[
+               'text'=>'Achievement (Electrical) to Higher Authorities',
+               'input_type'=>'number',
+               'input_name'=>'col_6',
+            ],
+            
+         7=>[
+               'text'=>'Target (Mechanical) to Higher Authorities',
+               'input_type'=>'text',
+               'input_name'=>'col_7',
+            ],
+         8=>[
+               'text'=>'Achievement (Mechanical) to Higher Authorities',
+               'input_type'=>'number',
+               'input_name'=>'col_8',
+            ],
+      ],
+   ],
+
+   2021=>[ // TS E&M EE
+      'head_note'=>'',
+      'foot_note'=>'',
+      'multi_rows'=>false,
+      'columns'=>[
+         1=>[
+               'text'=>'Estimate Submitted to higher office (Electrical) Target ',
+               'input_type'=>'number',
+               'input_name'=>'col_1',
+            ],
+         2=>[
+               'text'=>'Estimate Submitted to higher office (Electrical) Achievement',
+               'input_type'=>'number',
+               'input_name'=>'col_2',
+            ],
+         3=>[
+               'text'=>'Estimate Submitted to higher office (Mechanical) Target ',
+               'input_type'=>'number',
+               'input_name'=>'col_3',
+            ],
+         4=>[
+               'text'=>'Estimate Submitted to higher office (Mechanical) Achievement',
+               'input_type'=>'number',
+               'input_name'=>'col_4',
+            ],
+         5=>[
+               'text'=>'Sanctioned by higher office (Electrical) Target ',
+               'input_type'=>'number',
+               'input_name'=>'col_1',
+            ],
+         6=>[
+               'text'=>'Sanctioned by higher office (Electrical) Achievement',
+               'input_type'=>'number',
+               'input_name'=>'col_2',
+            ],
+         7=>[
+               'text'=>'Sanctioned by higher office (Mechanical) Target ',
+               'input_type'=>'number',
+               'input_name'=>'col_3',
+            ],
+         8=>[
+               'text'=>'Sanctioned by higher office (Mechanical) Achievement',
+               'input_type'=>'number',
+               'input_name'=>'col_4',
+            ],
+        
+      ],
+   ],
    3001=>[
       'head'=>'Action on Administrative Matters and Policy Implementation',
       'head_note'=>'',
       'foot_note'=>'',
       'multi_rows'=>false,
-      'columns'=>[],
+      'columns'=>[
+          1=>[
+               'text'=>'Action Taken',
+               'input_type'=>'text',
+               'input_name'=>'col_1',
+            ],
+      ],
    ],
    3002=>[
       'head'=>'Submission of Reports',
       'head_note'=>'',
       'foot_note'=>'',
       'multi_rows'=>false,
-      'columns'=>[],
+      'columns'=>[
+          1=>[
+               'text'=>'Action Taken',
+               'input_type'=>'text',
+               'input_name'=>'col_1',
+            ],
+      ],
+   ],
+   3003=>[
+      'head'=>'Status of Timely Submission of Forms/ Reports',
+      'head_note'=>'',
+      'foot_note'=>'',
+      'multi_rows'=>false,
+      'columns'=>[
+          1=>[
+               'text'=>'Submitted/ Not Submitted',
+               'input_type'=>'text',
+               'input_name'=>'col_1',
+            ],
+          2=>[
+               'text'=>'Timely Submission (Y/N) (Date)',
+               'input_type'=>'text',
+               'input_name'=>'col_2',
+            ],
+      ],
+   ],
+   3004=>[
+      'head'=>'Work Execution',
+      'head_note'=>'',
+      'foot_note'=>'',
+      'multi_rows'=>false,
+      'columns'=>[
+          1=>[
+               'text'=>'Total Done',
+               'input_type'=>'text',
+               'input_name'=>'col_1',
+            ],
+          2=>[
+               'text'=>'Done in his/her presence',
+               'input_type'=>'text',
+               'input_name'=>'col_2',
+            ],
+      ],
    ],
 
  
