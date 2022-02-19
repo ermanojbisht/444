@@ -174,9 +174,6 @@ Part -II Self-Appraisal <small>Page -3 Deduction Parameters</small>
 				<div class="text-end">
 					<input type="hidden" id="final" name="final"  value="1" />
 					<button type="submit" id="{{$groupId}}" class="btn btn-outline-primary">
-						<svg class="icon icon-lg">
-							<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-save"></use>
-						</svg>
 						Save
 					</button>
 				</div>

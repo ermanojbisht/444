@@ -237,11 +237,12 @@ class AcrFormController extends Controller
             }
         }
 
-        if ($request->final == 0) {
+        return Redirect()->back();
+        /*if ($request->final == 0) {
             return Redirect()->back()->with('success', 'Part -II Self-Appraisal Page -3 Data saved successfully');;
         } else {
             return redirect()->route('acr.form.addTrainningToEmployee', compact('acr'))->with('success', 'Part -II Self-Appraisal Page -3 Deduction Parameters saved successfully');
-        }
+        }*/
     }
 
     /**
