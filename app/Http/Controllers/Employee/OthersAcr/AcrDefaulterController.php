@@ -54,7 +54,7 @@ class AcrDefaulterController extends Controller
 
         $acrGroups = $this->defineAcrGroup();   
 
-        $defaulters_acrs = Acr::where('acr_type_id', 0)->whereIn('office_id', $allowed_Offices)->get();
+        $defaulters_acrs = Acr::where('is_defaulter', 1)->whereIn('office_id', $allowed_Offices)->get();
 
         return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices','acrGroups'));
     }
