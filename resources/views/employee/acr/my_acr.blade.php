@@ -65,7 +65,7 @@
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
 
-								@if (!$acr->submitted_at && $acr->acr_type_id != 0)
+								@if (!$acr->submitted_at && ! $acr->is_defaulter)
 								<a class="dropdown-item" href="{{route('acr.edit', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Edit Basic Detail
 								</a>
@@ -81,18 +81,21 @@
 								<a class="dropdown-item" href="{{route('acr.form.create1', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Part -II Self-Appraisal
 								</a>
-								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2) &&
-								$acr->hasAppraisalOfficer(3))
-								<a class="dropdown-item" href="#">
-									<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST"
-										onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
-										{{ csrf_field() }}
-										<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR
-										</button>
-									</form>
-								</a>
+
+								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2))
+									@if($acr->isTwoStep || $acr->hasAppraisalOfficer(3))
+										<a class="dropdown-item" href="#">
+											<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST"
+												onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
+												{{ csrf_field() }}
+												<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR
+												</button>
+											</form>
+										</a>
+									@endif
 								@endif
-								@endif
+
+								@endif  
 								@if ($acr->accept_on || (!$acr->report_on && !$acr->review_on))
 								@if ($acr->isFileExist())
 								<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
