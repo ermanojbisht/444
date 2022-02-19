@@ -158,6 +158,9 @@ Part -II Self-Appraisal <small>Page -3 Deduction Parameters</small>
 									<input 	class="form-control" 
 										type="{{$column['input_type']}}"
 										name="{{$data->id}}[1][{{$column['input_name']}}]"
+										@if($data->user_filled_data)
+										value = "{{$data->user_filled_data[0][$column['input_name']]}}"
+										@endif
 									/>
 								</td>
 							@endforeach
