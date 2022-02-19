@@ -136,7 +136,9 @@ class Acr extends Model
      */
     public function appraisalOfficers()
     {
-        return $this->belongsToMany(Employee::class, 'appraisal_officers', 'acr_id', 'employee_id')
+
+
+        return $this->belongsToMany(Employee::class, env('DB_DATABASE_HRMS', 'hrms').'.appraisal_officers', 'acr_id', 'employee_id')
             ->withPivot('appraisal_officer_type', 'from_date', 'to_date', 'is_due');
     }
 
