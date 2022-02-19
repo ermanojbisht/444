@@ -217,10 +217,12 @@
 				</tr>
 				</thead>
 				<tbody>
+					@php $n=0 @endphp
 					@forelse($master_trainings as $key=>$trainings)
 						@foreach($trainings as $training)
+							@php $n=$n+1 @endphp
 							<tr>
-								<td class="text-center">{{1+$loop->index }}</td>
+								<td class="text-center">{{$n}}</td>
 								<td>{{$key}}</td>
 								<td>{{$training->description}}</td>
 							</tr>
