@@ -65,7 +65,7 @@
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
 
-								@if (!$acr->submitted_at && $acr->acr_type_id != 0)
+								@if (!$acr->submitted_at && ! $acr->is_defaulter)
 								<a class="dropdown-item" href="{{route('acr.edit', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Edit Basic Detail
 								</a>
@@ -94,8 +94,8 @@
 										</a>
 									@endif
 								@endif
-								
-								@endif
+
+								@endif  
 								@if ($acr->accept_on || (!$acr->report_on && !$acr->review_on))
 								@if ($acr->isFileExist())
 								<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">

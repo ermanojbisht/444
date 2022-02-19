@@ -5,22 +5,13 @@ namespace App\Http\Controllers\Employee\OthersAcr;
 use App\Http\Controllers\Controller;
 use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use App\Models\Acr\Acr;
-use App\Models\Acr\AcrNegativeParameter;
 use App\Models\Acr\AcrParameter;
-use App\Models\Acr\AcrMasterTraining;
-use App\Models\Acr\AcrMasterParameter;
-use App\Models\Acr\EmpProposedTraining;
-use App\Models\Acr\AcrMasterPersonalAttributes;
 use App\Models\Acr\AcrPersonalAttribute;
-
 use App\Models\Employee;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Log;
 
-class AcrReviewController extends Controller
-{
+class AcrReviewController extends Controller {
 
     /**
      * @var mixed
@@ -30,8 +21,7 @@ class AcrReviewController extends Controller
     /**
      * @return mixed
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware(function ($request, $next) {
             // abort_if(Gate::denies('track_estimate'), Response::HTTP_FORBIDDEN, '403 Forbidden');
             $this->user = Auth::User();
@@ -39,37 +29,33 @@ class AcrReviewController extends Controller
         });
     }
 
-
     /**
      * @param Acr     $acr
      * @param Request $request
      */
-    public function appraisal2(Acr $acr, Request $request)
-    {
+    public function appraisal2(Acr $acr, Request $request) {
 
-        if(in_array($acr->acr_type_id, config('acr.basic.acrWithoutProcess'))){
+        if (in_array($acr->acr_type_id, config('acr.basic.acrWithoutProcess'))) {
             return view('employee.acr.form.report_appraisal_singlepage_Reviewing', compact('acr'));
         }
 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
-        $personal_attributes =  $acr->peronalAttributeSWithMasterData();
+        $personal_attributes = $acr->peronalAttributeSWithMasterData();
 
         $view = false; // make true for view only
         return view('employee.acr.form.appraisal2', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view')); //'notApplicableParameters',
     }
 
-
-    public function storeAppraisal2(Request $request)
-    {
-         $this->validate($request,
+    public function storeAppraisal2(Request $request) {
+        $this->validate($request,
             [
-                'marks_positive'=> 'array',
+                'marks_positive' => 'array',
                 'marks_positive.*' => 'numeric | nullable',
-                'positive_factor'=>'numeric',
-                'marks_negative'=> 'array',
+                'positive_factor' => 'numeric',
+                'marks_negative' => 'array',
                 'marks_negative.*' => 'numeric | nullable',
-                'personal_attributes'=> 'array',
+                'personal_attributes' => 'array',
                 'personal_attributes.*' => 'numeric | nullable',
             ]
         );
@@ -79,7 +65,7 @@ class AcrReviewController extends Controller
         $acr = Acr::findOrFail($request->acr_id);
 
         foreach ($request->marks_positive as $parameterId => $reviewing_mark) {
-            $review_no = $review_no + $reviewing_mark* $request->positive_factor;
+            $review_no = $review_no + $reviewing_mark * $request->positive_factor;
             AcrParameter::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
@@ -92,7 +78,7 @@ class AcrReviewController extends Controller
         }
 
         foreach ($request->personal_attributes as $attributeId => $attribute_mark) {
-            $review_no = $review_no + $attribute_mark*1;
+            $review_no = $review_no + $attribute_mark * 1;
             AcrPersonalAttribute::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
@@ -105,7 +91,7 @@ class AcrReviewController extends Controller
         }
 
         foreach ($request->marks_negative as $parameterId => $reviewing_mark) {
-            $review_no = $review_no - $reviewing_mark*1;
+            $review_no = $review_no - $reviewing_mark * 1;
             AcrParameter::UpdateOrCreate(
                 [
                     'acr_id' => $request->acr_id,
@@ -116,7 +102,6 @@ class AcrReviewController extends Controller
                 ]
             );
         }
-       
 
         $acr->update([
             'review_no' => $review_no,
@@ -124,35 +109,38 @@ class AcrReviewController extends Controller
 
         return redirect()->back();
     }
-
-    public function storeAcrWithoutProcessReview(Request $request)
-    {
+    /**
+     * [storeAcrWithoutProcessReview in case if acr has no target / negative/ personnal attribiute
+     * in single page acr
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function storeAcrWithoutProcessReview(Request $request) {
         $acr = Acr::findOrFail($request->acr_id);
         $acr->update([
             'review_remark' => $request->review_remark,
             'review_no' => $request->review_no,
         ]);
-       // return $request->all();
+        // return $request->all();
         return redirect(route('acr.others.index'))->with('success', 'Data Saved Successfully...');
     }
 
-
-
-
-
-    public function storeReviewedAcr(Request $request)
-    {
+    public function storeReviewedAcr(Request $request) {
         $acr = Acr::findOrFail($request->acr_id);
-        
+
         if ($acr->review_no <= 0) {
             return redirect()->back()->with('fail', 'Please process the ACR');
         }
 
-        $acr->update([
-            'review_on' => now()
-        ]);
+        $acr->update(['review_on' => now()]);
 
-        //    make pdf  and mail notification 
+        if ($acr->isTwoStep) {
+            $acr->accept_on = now();
+            $acr->accept_no = $acr->review_no;
+            $acr->save();
+        }
+
+        //    make pdf  and mail notification
         dispatch(new MakeAcrPdfOnSubmit($acr, 'review'));
 
         return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');
