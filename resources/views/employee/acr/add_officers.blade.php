@@ -145,7 +145,11 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 							<select id="appraisal_officer_type" name="appraisal_officer_type" class="form-select"
 								required>
 								<option value=""> Select Officer </option>
+								@if($acr->isTwoStep)
+								@foreach(config('acr.basic.appraisalOfficerType2step') as $key => $value)
+								@else
 								@foreach(config('acr.basic.appraisalOfficerType') as $key => $value)
+								@endif
 								<option value="{{$key}}" {{ old('appraisal_officer_type')==$key ? 'selected' : '' }}>
 									{{$value}}
 								</option>

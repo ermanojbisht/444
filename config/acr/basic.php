@@ -8,6 +8,11 @@ return [
       3=>'Accepting'
    ],
 
+   'appraisalOfficerType2step'=>[
+      1=>'Reporting',
+      2=>'Reviewing',     
+   ],
+
    'acrProcessFields'=>[
       1=>'report_employee_id',
       2=>'review_employee_id',
