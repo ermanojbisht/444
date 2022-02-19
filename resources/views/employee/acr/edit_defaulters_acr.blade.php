@@ -41,6 +41,25 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 		<hr />
 		<form class="form-horizontal" method="POST" action="{{route('acr.others.update')}}">
 			@csrf
+			{{-- <div class="row mb-3"> todo ankit
+				<div class="col-md-12">
+					<p class="fw-semibold "> Select Type of ACR to be Filled : </p>
+				</div>
+				<div class="col-md-6">
+					<label for='acr_group_id' class="required "> Select Designation Group </label>
+					<select id="acr_group_id" name="acr_group_id" required class="form-select">
+						<option value=""> Select ACR Type </option>
+						@foreach ($acrGroups as $key=>$name)
+						<option value="{{$key}}"> {{$name}} </option>
+						@endforeach
+					</select>
+				</div>
+				<div class="col-md-6">
+					<label for='acr_type_id' class="required "> Select Acr Type </label>
+					<select id="acr_type_id" name="acr_type_id" required class="form-select">
+					</select>
+				</div>
+			</div>			 --}}
 			<div class="row">
 				<div class="col-md-4">
 					<p class="fw-semibold"> Period Of Appraisal : </p>

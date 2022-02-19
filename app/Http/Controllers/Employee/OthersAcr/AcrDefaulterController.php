@@ -52,9 +52,11 @@ class AcrDefaulterController extends Controller
 
         $Offices = Office::whereIn('id', $allowed_Offices)->get()->pluck('name', 'id');
 
-        $defaulters_acrs = Acr::where('acr_type_id', 0)->whereIn('office_id', $allowed_Offices)->get();
+        $acrGroups = $this->defineAcrGroup();   
 
-        return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices'));
+        $defaulters_acrs = Acr::where('is_defaulter', 1)->whereIn('office_id', $allowed_Offices)->get();
+
+        return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices','acrGroups'));
     }
 
     /**
@@ -68,6 +70,7 @@ class AcrDefaulterController extends Controller
             $request,
             [
                 'office_id' => 'required',
+                'acr_type_id' => 'required',
                 'from_date' => 'required|date',
                 'to_date' => 'required|date',
                 'employee_id' => 'required' // in AppraisalOfficer acr_id , appraisal_officer_type, employee_id should not be repeated 
