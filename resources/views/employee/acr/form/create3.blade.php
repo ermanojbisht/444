@@ -176,7 +176,7 @@ Part -II Self-Appraisal <small>Page -3 Deduction Parameters</small>
 					<svg class="icon icon-lg">
 						<use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-save"></use>
 					</svg>
-					Save and Continue
+					Save
 				</button>
 			</div>
 		</form>
