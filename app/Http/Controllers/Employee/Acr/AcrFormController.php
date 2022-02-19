@@ -60,7 +60,7 @@ class AcrFormController extends Controller
      * @param Acr     $acr
      * @param Request $request
      */
-    public function create2(Acr $acr, Request $request)
+    public function create2(Acr $acr)
     {
         $page = 2;
         return view('employee.acr.form.create2', compact('acr', 'page'));
@@ -69,7 +69,7 @@ class AcrFormController extends Controller
      * @param Acr     $acr
      * @param Request $request
      */
-    public function create3(Acr $acr, Request $request)
+    public function create3(Acr $acr)
     {
         $page = 3;
         $require_negative_parameters = $acr->acrMasterParameters()->where('type', 0)->get()->keyBy('id');
@@ -209,10 +209,11 @@ class AcrFormController extends Controller
 
     public function store3(Request $request)
     {
+        //return $request->all();
         $acr = Acr::findOrFail($request->acr_id);
         foreach ($request->acr_master_parameter_id as $parameter_id) {
             foreach ($request->$parameter_id as $rowNo => $rowData) {
-                if ($rowData['col_1']) {
+               // if ($rowData['col_1']) {
 
                     AcrNegativeParameter::UpdateOrCreate(
                         [
@@ -232,7 +233,7 @@ class AcrFormController extends Controller
                             'col_9' => $rowData['col_9'] ?? ''
                         ]
                     );
-                }
+               // }
             }
         }
 
