@@ -532,7 +532,7 @@ class Acr extends Model
     public function deletePdfFile()
     {
         if ($this->isFileExist()) {
-            \Storage::disk('public')->delete($path);
+            \Storage::disk('public')->delete($this->pdf_file_path);
         }
     }
 
