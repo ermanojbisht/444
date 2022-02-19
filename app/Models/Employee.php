@@ -14,6 +14,11 @@ use Illuminate\Notifications\Notifiable;
 class Employee extends Authenticatable
 {
 	use Notifiable;
+
+    public $table = 'employees';
+    public $fulltable = 'mispwd.employees';
+    protected $connection='mysqlmispwd';
+
     protected $hidden = [
         'remember_token',    'password',
     ];
