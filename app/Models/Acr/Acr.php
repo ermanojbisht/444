@@ -627,15 +627,20 @@ class Acr extends Model
      */
     public function updateEsclationFor($dutyType)
     {
-        $duty = config('acr.basic.duty')[$dutyType];
-        $duty_duration_lapsed_field = $dutyType.'_duration_lapsed';
-        $duty_triggerDate = $duty['triggerDate'];
-        $this->$duty_duration_lapsed_field = round($this->$duty_triggerDate->diffInDays(now(), false) / $duty['period'] * 100, 0);
-        if ($this->$duty_triggerDate->diffInDays(now(), false) > $duty['period']) {
-            $finalDateField = $dutyType.'_on';
-            $this->$finalDateField = now();
+        if($dutyType=='accept' && $this->isTwoStep){
+            //no need to run third step
+        }else{
+
+            $duty = config('acr.basic.duty')[$dutyType];
+            $duty_duration_lapsed_field = $dutyType.'_duration_lapsed';
+            $duty_triggerDate = $duty['triggerDate'];
+            $this->$duty_duration_lapsed_field = round($this->$duty_triggerDate->diffInDays(now(), false) / $duty['period'] * 100, 0);
+            if ($this->$duty_triggerDate->diffInDays(now(), false) > $duty['period']) {
+                $finalDateField = $dutyType.'_on';
+                $this->$finalDateField = now();
+            }
+            $this->save();
         }
-        $this->save();
     }
 
     public function checkSelfAppraisalFilled()
