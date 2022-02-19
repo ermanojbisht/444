@@ -45,6 +45,47 @@ class Acr extends Model
         'from_date', 'to_date', 'property_filing_return_at', 'submitted_at', 'report_on', 'review_on', 'accept_on'
     ];
 
+    public static function boot() {
+        parent::boot();
+        self::deleting(function($acr) { // before delete() method call this
+
+             $acr->acrMasterParameters()->each(function($item) {
+                $item->delete(); //
+             });
+
+             $acr->fillednegativeparameters()->each(function($item) {
+                $item->delete(); //
+             });
+
+             $acr->personalAttributes()->each(function($item) {
+                $item->delete(); //
+             });
+
+             $acr->appraisalOfficerRecords()->each(function($item) {
+                $item->delete(); //
+             });
+
+             $acr->filledparameters()->each(function($item) {
+                $item->delete(); //
+             });
+
+             $acr->appreciations()->each(function($item) {
+                $item->delete(); //
+             });
+
+             $acr->notifications()->each(function($item) {
+                $item->delete(); //
+             });
+
+             if($acr->rejectionDetail){
+                $acr->rejectionDetail->delete();
+             }
+
+             $acr->deletePdfFile();
+             // do the rest of the cleanup...
+        });
+    }
+
     /**
      * @return mixed
      */
@@ -148,6 +189,17 @@ class Acr extends Model
     public function appraisalOfficerRecords()
     {
         return $this->hasMany(AppraisalOfficer::class);
+    }
+
+
+    public function appreciations()
+    {
+        return $this->hasMany(Appreciation::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(AcrNotification::class);
     }
 
     /**
@@ -472,10 +524,15 @@ class Acr extends Model
         if ($forced || (!$this->isFileExist())) {
             $path = $this->pdf_file_path;
             File::ensureDirectoryExists(dirname($this->pdfFullFilePath), $mode = 0755, $recursive = true);
-            if ($this->isFileExist()) {
-                \Storage::disk('public')->delete($path);
-            }
+            $this->deletePdfFile();
             $pdf->save(\Storage::disk('public')->path($path));
+        }
+    }
+
+    public function deletePdfFile()
+    {
+        if ($this->isFileExist()) {
+            \Storage::disk('public')->delete($path);
         }
     }
 
