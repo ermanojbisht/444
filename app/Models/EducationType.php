@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class EducationType extends Model
 {
     use HasFactory;
+    protected $connection='mysqlhrms';
     public $table = 'm_qualification_types';
     protected $keyType = 'string';
 
