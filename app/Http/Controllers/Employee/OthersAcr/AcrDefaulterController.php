@@ -79,8 +79,11 @@ class AcrDefaulterController extends Controller
 
         $employee=Employee::findOrFail($request->employee_id);
 
-        $request->merge(['good_work' => 'ACR Not filled by '.$employee->name. '. This ACR has been filled as Defaulter\'s ACR.']);
-
+        $request->merge([
+            'good_work' => 'ACR Not filled by '.$employee->name. '. This ACR has been filled as Defaulter\'s ACR.',
+            'is_defaulter' => 1
+        ]);
+              
         $acr = Acr::create($request->all());
 
        
