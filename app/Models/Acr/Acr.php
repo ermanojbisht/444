@@ -397,6 +397,11 @@ class Acr extends Model
         return in_array($this->acr_type_id, config('acr.basic.acrWithoutProcess'));
     }
 
+    public function getIsTwoStepAttribute()
+    {
+        return ($this->acr_type_id==30);
+    }
+
     public function getPdfFullFilePathAttribute()
     {
         return \Storage::disk('public')->path($this->pdf_file_path);
@@ -483,7 +488,11 @@ class Acr extends Model
 
     public function reviewNotification()
     {
-        $this->mailNotificationFor($targetDutyType = 'accept', $notification_type = 4);
+        if($acr->isTwoStep){
+            $this->acceptNotification();
+        }else{
+            $this->mailNotificationFor($targetDutyType = 'accept', $notification_type = 4);
+        }
     }
 
     public function acceptNotification()
@@ -542,8 +551,11 @@ class Acr extends Model
                     case 'submit':
                         //on accept event , submituser is targeted
                         //$mail->cc($this->userOnBasisOfDuty('review'));
-                        //$mail->cc($this->userOnBasisOfDuty('report'));
-                        $mail->cc($this->userOnBasisOfDuty('accept'));
+                        if($acr->isTwoStep){
+                            $mail->cc($this->userOnBasisOfDuty('review'));
+                        }else{
+                            $mail->cc($this->userOnBasisOfDuty('accept'));
+                        }
                         break;
 
                     case 'reject':
@@ -615,28 +627,34 @@ class Acr extends Model
      */
     public function updateEsclationFor($dutyType)
     {
-        $duty = config('acr.basic.duty')[$dutyType];
-        $duty_duration_lapsed_field = $dutyType.'_duration_lapsed';
-        $duty_triggerDate = $duty['triggerDate'];
-        $this->$duty_duration_lapsed_field = round($this->$duty_triggerDate->diffInDays(now(), false) / $duty['period'] * 100, 0);
-        if ($this->$duty_triggerDate->diffInDays(now(), false) > $duty['period']) {
-            $finalDateField = $dutyType.'_on';
-            $this->$finalDateField = now();
+        if($dutyType=='accept' && $this->isTwoStep){
+            //no need to run third step
+        }else{
+
+            $duty = config('acr.basic.duty')[$dutyType];
+            $duty_duration_lapsed_field = $dutyType.'_duration_lapsed';
+            $duty_triggerDate = $duty['triggerDate'];
+            $this->$duty_duration_lapsed_field = round($this->$duty_triggerDate->diffInDays(now(), false) / $duty['period'] * 100, 0);
+            if ($this->$duty_triggerDate->diffInDays(now(), false) > $duty['period']) {
+                $finalDateField = $dutyType.'_on';
+                $this->$finalDateField = now();
+            }
+            $this->save();
         }
-        $this->save();
     }
 
     public function checkSelfAppraisalFilled()
     {
         // check table 1
-        if (in_array($this->acr_type_id, config('acr.basic.acrWithoutProcess')) == false) {
-            if (AcrParameter::where('acr_id', $this->id)->count() == 0) {
-                return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
-            }
-        } else {
+        if ($this->isSinglePage) {
             if (!$this->good_work) {
                 return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
             }
+        } else {
+            if (AcrParameter::where('acr_id', $this->id)->count() == 0) {
+                return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
+            }
+
         }
 
         return ['status' => true, 'msg' => ''];

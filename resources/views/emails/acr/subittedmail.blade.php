@@ -17,8 +17,13 @@ Please visit your inbox section at HRMS/Track AR portal.
 @endif
 
 @if($targetDutyType=='submit')
+@if($acr->isTwoStep)
+Your performance report has been reviewed by {{$acr->userOnBasisOfDuty('review')->name}} on @mkbdate($acr->review_on).
+Please visit your 'myacr' section .
+@else
 Your performance report has been acccepted by {{$acr->userOnBasisOfDuty('accept')->name}} on @mkbdate($acr->accept_on).
 Please visit your 'myacr' section .
+@endif
 @endif
 
 @if($targetDutyType=='reject')
