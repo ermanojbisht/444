@@ -49,11 +49,7 @@ class Acr extends Model
         parent::boot();
         self::deleting(function($acr) { // before delete() method call this
 
-             $acr->acrMasterParameters()->each(function($item) {
-                $item->delete(); //
-             });
-
-             $acr->fillednegativeparameters()->each(function($item) {
+            $acr->fillednegativeparameters()->each(function($item) {
                 $item->delete(); //
              });
 
