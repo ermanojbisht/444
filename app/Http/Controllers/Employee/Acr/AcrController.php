@@ -198,7 +198,8 @@ class AcrController extends Controller
             abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         }
 
-        $appraisalOfficers =  $acr->appraisalOfficers()->get();
+        
+        $appraisalOfficers =  $acr->appraisalOfficers()->get()->groupBy('pivot.appraisal_officer_type');
 
         return view('employee.acr.add_officers', compact('acr', 'appraisalOfficers'));
     }

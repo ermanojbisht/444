@@ -46,81 +46,99 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 
 
 	<div class="card-body">
+		@php
+			$total_period = Carbon\Carbon::parse($acr->from_date)->diffInDays(Carbon\Carbon::parse($acr->to_date));
+		@endphp
 
 		@if(!$acr->isSubmitted())
-
-
-		<div class="btn-group" role="group" aria-label="Basic outlined example">
-			<input type="button" id="assign_Officials" class="btn btn-outline-primary" value="Assign Officials" />
-			@if($acr->hasAppraisalOfficer(1))
-			<span class="btn p-0 btn-outline-danger">
-				<form action="{{ route('acr.deleteAcrOfficers', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>1]) }}"
-					method="POST">
-					{{ csrf_field() }}
-					<button type="submit" class="btn btn-outline-danger"> Delete Reporting Officials</button>
-				</form>
-			</span>
-			@endif
-			@if($acr->hasAppraisalOfficer(2))
-			<span class="btn btn-outline-danger p-0">
-				<form action="{{ route('acr.deleteAcrOfficers', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>2]) }}"
-					method="POST">
-					{{ csrf_field() }}
-					<button type="submit" class="btn btn-outline-danger "> Delete Reviewing Officials</button>
-				</form>
-			</span>
-			@endif
-			@if($acr->hasAppraisalOfficer(3))
-			<span class="btn btn-outline-danger p-0">
-				<form action="{{ route('acr.deleteAcrOfficers', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>3]) }}"
-					method="POST">
-					{{ csrf_field() }}
-					<button type="submit" class="btn btn-outline-danger "> Delete Accepting Officials</button>
-				</form>
-			</span>
-			@endif
-
-		</div>
-
-
+			<div class="d-flex justify-content-between">
+				<input type="button" id="assign_Officials" class="btn btn-outline-primary" value="Assign Officials" />
+				<p class="fw-semibold fs-5">
+					For ACR Period {{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}}
+					({{$total_period}} Days)
+				</p>
+			</div>
+			<div class="btn-group" role="group" aria-label="Basic outlined example">
+			</div>
 		@endif
+		@foreach($appraisalOfficers as $key=>$appraisalOfficer)
+			@php
+				if($key== 1){ $officerType = "Reporting  Officers"; }
+			 	elseif($key== 2){ $officerType = "Reviewing  Officers"; }
+			 	elseif($key== 3){ $officerType = "Accepting  Officers"; }
+			 	else{ $officerType = ""; }
+			@endphp
+			<div class="card mb-3">
+				<div class="card-header bg-dark text-light d-flex justify-content-between">
+					<p class="fw-semibold fs-5 p-0 m-0">{{$officerType}} List</p>
+					<form  action="{{ route('acr.deleteAcrOfficers', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>$key]) }}" method="POST" >
+						{{ csrf_field() }}
+						<button type="submit" class="btn btn-sm  btn-light "> 
+							<svg class="icon">
+								<use xlink:href={{asset('vendors/@coreui/icons/svg/free.svg#cil-trash')}}></use>
+							</svg>
+							Clear All {{$officerType}}
+						</button>
+					</form>
+				</div>
+				<div class="card-body">
+					@php 
+						$reporting_days = 0;
+						$reporting_start = []; 
+						$reporting_end = [];
+					@endphp
+			    	<table class="table table-sm">
+					    @foreach ($appraisalOfficer as $reporting_Officer)
+			    		<tr class="@if($reporting_Officer->pivot->is_due == 1) bg-light @endif">
+					    	@php 
+					    		$reporting_days = $reporting_days + Carbon\Carbon::parse($reporting_Officer->pivot->from_date)->diffInDays(Carbon\Carbon::parse($reporting_Officer->pivot->to_date));
+					    		array_push($reporting_start, $reporting_Officer->pivot->from_date);
+					    		array_push($reporting_end, $reporting_Officer->pivot->to_date);
+					    	@endphp
 
+					    	<td>{{$loop->iteration}}</td>
+					    	<td>{{$reporting_Officer->name}}</td>
+					    	<td>
+					    		{{Carbon\Carbon::parse($reporting_Officer->pivot->from_date)->format('d M Y')}} 
+					    				to 
+					    		{{Carbon\Carbon::parse($reporting_Officer->pivot->to_date)->format('d M Y')}}
+					    	</td>
+					    	<td>
+					    		{{Carbon\Carbon::parse($reporting_Officer->pivot->from_date)->diffInDays(Carbon\Carbon::parse($reporting_Officer->pivot->to_date))}} Days
+					    	</td>
+					    	<td>
+					    		@if($reporting_Officer->pivot->is_due == 1)
+					    			Due 
+					    		@else
+					    			not Due 
+					    		@endif
+					    	</td>
+			    		</tr>
+					  	@endforeach
 
-		<div class="p-3">
+			    	</table>
+			    	@php
+			    		$checkStartDaysGap = Carbon\Carbon::parse($acr->from_date)->diffInDays(Carbon\Carbon::parse(min($reporting_start)));
+			    		$checkEndDaysGap = Carbon\Carbon::parse($acr->to_date)->diffInDays(Carbon\Carbon::parse(min($reporting_end)));
 
-			<table class="table datatable table-bordered table-striped table-hover">
-				<thead>
-					<tr>
-						<th>Appraisal Officer Type </th>
-						<th>Officer Name </th>
-						<th>From Date</th>
-						<th>To Date</th>
-						<th>Period </th>
-						<th>Is Due </th>
-					</tr>
-				</thead>
-				<tbody>
-					@forelse ($appraisalOfficers as $appraisalOfficer)
-					<tr>
-						<td> {{
-							config('acr.basic.appraisalOfficerType')[$appraisalOfficer->pivot->appraisal_officer_type]
-							}}
-						</td>
-						<td>{{$appraisalOfficer->name}}</td>
-						<td>{{$appraisalOfficer->pivot->from_date}}</td>
-						<td>{{$appraisalOfficer->pivot->to_date}}</td>
-						<td>{{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->diffInDays(Carbon\Carbon::parse($appraisalOfficer->pivot->to_date))
-							}} Days</td>
-						<td> {{ config('site.yesNo')[$appraisalOfficer->pivot->is_due] }}</td>
-					</tr>
-					@empty
-					<tr>
-						<td colspan="5" rowspan="1" headers="">No Data Found</td>
-					</tr>
-					@endforelse
-				</tbody>
-			</table>
-		</div>
+			    	@endphp
+			    		@if($checkStartDaysGap !=0)
+					  		<p class="text-info p-0 m-0 small">Start Date of {{$officerType}} dose not match with ACR Start Date</p>
+			    		@endif
+			    		@if($checkEndDaysGap !=0)
+					  		<p class="text-info p-0 m-0 small">End Date of {{$officerType}} dose not match with ACR Start Date</p>
+			    		@endif
+				</div>
+				<div class="card-footer text-muted d-flex justify-content-between">
+					@if($reporting_days != $total_period)
+						<p class="p-0 m-0 text-danger">Missing {{$total_period - $reporting_days}} Days</p>
+					@else
+						 <p class="p-0 m-0 ">ok</p>
+					@endif
+					<p class="p-0 m-0 text-info">{{$officerType}} Selected for Total {{$reporting_days}} Days</p> 
+				</div>
+			</div>
+		@endforeach
 	</div>
 </div>
 
