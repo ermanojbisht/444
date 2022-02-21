@@ -75,10 +75,18 @@ class AcrReportController extends Controller
         }
 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
+        $applicableParameters = $requiredParameters->where('applicable',1)->count();
+
+        if($applicableParameters == 0 ){
+            $exceptional_reporting_marks = $requiredParameters->sum('reporting_marks');
+            $exceptional_reviewing_marks = $requiredParameters->sum('reviewing_marks');
+        }else{
+            $exceptional_reporting_marks = $exceptional_reviewing_marks = 0;
+        }   
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
         $personal_attributes =  $acr->peronalAttributeSWithMasterData();
 
-        return view('employee.acr.form.appraisalShow', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters'));
+        return view('employee.acr.form.appraisalShow', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters','applicableParameters','exceptional_reporting_marks','exceptional_reviewing_marks'));
     }
 
 
