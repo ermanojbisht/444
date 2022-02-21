@@ -46,16 +46,26 @@ class AcrReportController extends Controller
      */
     public function appraisal1(Acr $acr, Request $request)
     {
-        if(in_array($acr->acr_type_id, config('acr.basic.acrWithoutProcess'))){
+        if($acr->isSinglePage){
             return view('employee.acr.form.report_appraisal_singlepage', compact('acr'));
         }
 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
-        $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
-        $personal_attributes =  $acr->peronalAttributeSWithMasterData();
+        
+        $applicableParameters = $requiredParameters->where('applicable',1)->count();
 
-        $view = false; // make true for view only
-        return view('employee.acr.form.appraisal', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view')); //'notApplicableParameters',
+        if($applicableParameters == 0 ){
+            $exceptional_reporting_marks = $requiredParameters->sum('reporting_marks');
+        }else{
+            $exceptional_reporting_marks = 0;
+        }   
+
+        $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
+        
+        $personal_attributes =  $acr->peronalAttributeSWithMasterData();
+        
+        
+        return view('employee.acr.form.appraisal', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'applicableParameters','exceptional_reporting_marks')); //'notApplicableParameters',
     }
 
     public function show(Acr $acr, Request $request)
@@ -91,6 +101,8 @@ class AcrReportController extends Controller
         );
 
         $acr = Acr::findOrFail($request->acr_id);
+
+
         $report_no = 0;
 
         if($request->positive_factor > 0){ // if altlest a parameter applicable 
@@ -107,6 +119,10 @@ class AcrReportController extends Controller
                 );
             }
         }else{ // if no parameter applicable
+            $first = AcrParameter::where('acr_id',$request->acr_id)->first();
+            $first->Update(
+                ['reporting_marks' => $request->exceptional_reporting_marks]
+            );
             $report_no = $request->exceptional_reporting_marks;
         }
 
@@ -159,6 +175,8 @@ class AcrReportController extends Controller
         ]);
         return redirect(route('acr.others.index'))->with('success', 'Data Saved Successfully...');
     }
+
+
     // todo these function to be shifted in ACR Controller
     public function getUserParameterData($acrId, $paramId)
     {
