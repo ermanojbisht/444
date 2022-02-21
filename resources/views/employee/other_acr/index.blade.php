@@ -24,7 +24,7 @@ Other's ACR to be Worked Upon
 	<div class="row">
 		<div class="col-12">
 			<div class="card mb-4">
-				<div class="card-header"><strong> ACR's in Your Inbox </strong>
+				<div class="card-header"><strong> ACR in Your Inbox </strong>
 					<span class="badge badge-sm bg-info ms-auto"> {{ $reported->count()
 						+ $reviewed->count() + $accepted->count() }} </span>
 				</div>
