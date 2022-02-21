@@ -27,7 +27,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 				<p class="fw-bold"> Name of the officer Reported Upon :- </p>
 			</div>
 			<div class="col-md-6">
-				<p class="fw-semibold  text-info"> {{$employee->name }} </p>
+				<p class="fw-semibold  text-info"> {{$employee->shriName }} </p>
 			</div>
 		</div>
 		<div class="row">

@@ -1,7 +1,7 @@
 @extends('layouts.type200.main')
 
 @section('pagetitle')
-{{$employee->name }} ACR Details
+{{$employee->shriName }} ACR Details
 @endsection
 
 @section('breadcrumbNevigationButton')
