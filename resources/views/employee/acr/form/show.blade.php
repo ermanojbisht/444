@@ -82,20 +82,20 @@
 				<p class="fw-semibold h5">
 					किए गए कार्यों का विवरण (अधिकतम 300 शब्दों मे)
 				</p>
-				<p class="text-info border-primary" style="min-height: 150px;">
+				<p class="text-info border border-primary p-3" style="min-height: 150px;">
 					{{$acr->good_work??'--no data filled--'}}
 				</p>
 			@else
 				<p class="fw-semibold h5">
 					2- Exceptionally good works done, if any, apart from routine duties during the period of appraisal
 				</p>
-				<p class="text-info border border-light p-3" style="min-height: 150px;">
+				<p class="text-info border border-primary p-3" style="min-height: 150px;">
 					{{$acr->good_work??'--no data filled--'}}
 				</p>
 				<p class="fw-semibold h5">
 					3- Difficulties faced in performing the assigned 'Tasks/Duties'
 				</p>
-				<p class="text-info border border-light p-3" style="min-height: 150px;">
+				<p class="text-info border border-primary p-3" style="min-height: 150px;">
 					{{$acr->difficultie??'--no data filled--'}}
 				</p>
 

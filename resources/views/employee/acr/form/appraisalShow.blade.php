@@ -11,16 +11,16 @@
 			1. Please state whether you agree with the responses relating to the accomplishments of the work plan and
 			unforeseen tasks as filled out in Section II. If not please furnish factual details.
 		</p>
-		<p class="text-info">{{$acr->appraisal_note_1??'--'}}</p>
+		<p class="text-info border border-primary p-3" style="min-height: 150px;">{{$acr->appraisal_note_1??'--'}}</p>
 		<p class="fw-semibold">
 			2. Please comment on the claim(if made) of exceptional contribution by the officer reoorted upon.
 		</p>
-		<p class="text-info">{{$acr->appraisal_note_2??'--'}}</p>
+		<p class="text-info border border-primary p-3" style="min-height: 150px;">{{$acr->appraisal_note_2??'--'}}</p>
 		<p class="fw-semibold">
 			3. Has the officer reported upon met with any significant failures in respect of his work? If yes, Please
 			furnish factual details.
 		</p>
-		<p class="text-info">{{$acr->appraisal_note_3??'--'}}</p>
+		<p class="text-info border border-primary p-3" style="min-height: 150px;">{{$acr->appraisal_note_3??'--'}}</p>
 	</div>
 	<div class="card-body">
 			@php $total_marksA = $reporting_marksA = $reviewing_marksA = 0; @endphp
@@ -83,7 +83,7 @@
 					@if($applicableParameters == 0)
 						<tr class="bg-danger fw-bold" id="exceptional_row">
 							<td></td>
-							<td class="text-end">User Declare all Parameters as not Applicable You may Give Number here </td>
+							<td class="text-end">Due to User Declare all Parameters as not Applicable hence Number Given here </td>
 							<td class="text-center">80</td>
 							<td class="text-center">{{$exceptional_reporting_marks}}</td>
 							<td class="text-center">{{$exceptional_reviewing_marks}}</td>
