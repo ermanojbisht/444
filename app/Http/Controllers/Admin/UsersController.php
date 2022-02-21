@@ -22,6 +22,8 @@ use Illuminate\Http\Request;
 use Log;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
 
 class UsersController extends Controller
 {
@@ -360,5 +362,29 @@ class UsersController extends Controller
                 return redirect()->back()->with('fail', 'employee_id is not valid');
             }
         }
+    }
+
+    public function updateUserFromEmployee()
+    {
+        $url = "http://localhost/pwd/api/employee/010096004";
+
+
+        /*$client = new Client();
+
+        $headers = [
+            'Authorization' => 'Bearer 1|n3OLMZirYDxdtH1OuTItg6rTWMxxynrggfMbd8Fz'
+        ];
+
+        $response = $client->request('GET', $url, [
+            // 'json' => $params,
+            'headers' => $headers,
+            'verify'  => false,
+        ]);*/
+        //$response = Http::withDigestAuth('er_manojbisht@yahoo.com', 'Im123456')->get($url);
+        $response = Http::withToken('1|n3OLMZirYDxdtH1OuTItg6rTWMxxynrggfMbd8Fz')->get($url);
+
+        return $responseBody = json_decode($response->getBody());
+
+        return view('projects.apiwithkey', compact('responseBody'));
     }
 }

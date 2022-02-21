@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 
 Route::get('lang/{locale}', function ($locale) {
@@ -265,3 +266,9 @@ Route::get('/temp2', 'Employee\Acr\MonitorAcrController@identify');
 Route::get('/telegram/connect', 'TelegramBotController@connect')->name('telegram.connect');
 Route::get('/telegram/callback', 'TelegramBotController@callback')->name('telegram.callback');
 Route::get('/telegram/telegramLogged', 'TelegramBotController@telegramLogged')->name('telegram.telegramLogged');
+
+//consume api
+Route::prefix('consume')->group(function () {
+    Route::get('apiwithoutkey', [UsersController::class, 'updateUserFromEmployee'])->name('apiWithoutKey');
+    Route::get('apiwithkey', [UsersController::class, 'updateUserFromEmployee'])->name('apiWithKey');
+});
