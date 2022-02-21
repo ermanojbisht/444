@@ -66,6 +66,28 @@ class Employee extends Authenticatable
     {
         return $this->name.":".$this->id;
     }
+
+    public function getShriNameAttribute()
+    {
+        switch ($this->gender) {
+            case 'Male':
+                $shri="Mr. ";
+                break;
+            case 'Female':
+                $shri="Ms. ";
+                break;
+            
+            default:
+                $shri="";
+                break;
+        }
+        if($this->designation){
+            if ($this->designation->group_id==1){
+                $shri="Er. ";
+            }
+        }
+        return $shri.$this->name;
+    }
     /**
      * Scope a query to only include AE Emp.
      *
