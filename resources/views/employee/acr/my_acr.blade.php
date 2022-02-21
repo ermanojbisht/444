@@ -7,7 +7,7 @@
 @endsection
 
 @section('pagetitle')
-{{Auth::User()->shriName}} ACR
+{{Auth::User()->shriName}}'s ACR
 @endsection
 
 @section('breadcrumbNevigationButton')
