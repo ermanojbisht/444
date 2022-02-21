@@ -313,7 +313,7 @@ Part -III Appraisal <small>(By Reporting Officer)</small>
 </div>
 <!-- boostrap model -->
 <div class="modal fade" id="user_data_model" aria-hidden="true" tabindex="-1" role="dialog">
-	<div class="modal-dialog" style="width: auto; max-width: 80%; margin: 2rem auto;" role="document">
+	<div class="modal-dialog modal-dialog-centered" style="width: auto; " role="document">
 		<div class="modal-content">
 			<div class="modal-body" id="user_input_data">
 				{{-- data from ajax --}}

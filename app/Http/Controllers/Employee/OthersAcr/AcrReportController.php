@@ -47,7 +47,7 @@ class AcrReportController extends Controller
     public function appraisal1(Acr $acr, Request $request)
     {
         if($acr->isSinglePage){
-            return view('employee.acr.form.report_appraisal_singlepage', compact('acr'));
+            return view('employee.acr.form.single_page.report_create', compact('acr'));
         }
 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
@@ -71,10 +71,11 @@ class AcrReportController extends Controller
     public function show(Acr $acr, Request $request)
     {
         if($acr->isSinglePage){
-            return view('employee.acr.form.appraisalShowSinglePage', compact('acr'));
+            return view('employee.acr.form.single_page.report_review_show', compact('acr'));
         }
 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
+        
         $applicableParameters = $requiredParameters->where('applicable',1)->count();
 
         if($applicableParameters == 0 ){
@@ -193,23 +194,37 @@ class AcrReportController extends Controller
         $AcrParameter =  AcrParameter::where('acr_master_parameter_id', $paramId)->where('acr_id', $acrId)->first();
 
         $text = [];
-        $text[] = "<p class='fs-5 fw-semibold my-0'>User Input For </p>";
-        $text[] = "<p class='text-info fs-5 fw-bold'>" . $AcrMasterParameter->description . "</p>";
+        $text[] = "<p class='fw-semibold bg-warning p-1'>" . $AcrMasterParameter->description . "</p>";
         if (isset($AcrParameter)) {
             if ($AcrParameter->is_applicable == 1) {
                 if ($AcrMasterParameter->config_group == 1001) {
-                    $text[] = "<p class='fs-5 fw-semibold'> Target : " . ($AcrParameter->user_target ?? '') . " " . $AcrMasterParameter->unit . "</p>";
-                    $text[] = "<p class='fs-5 fw-semibold'> Achivement : " . ($AcrParameter->user_achivement ?? '') . " " . $AcrMasterParameter->unit . "</p>";
+                    $text[] = "<p class='fw-semibold'>";
+                    if(empty($AcrParameter->user_achivement)){
+                        $text[] = "<span class='text-danger'> not filled </span>";
+                    }else{
+                        $text[] = "<span class='text-success'>".$AcrParameter->user_achivement." ".$AcrMasterParameter->unit."</span>";
+                    }
+                    $text[] = "</span> Achivement Against Target <span class='text-danger'>";
+                    if(empty($AcrParameter->user_target)){
+                        $text[] = "<span class='text-danger'> not filled </span>";
+                    }else{
+                        $text[] = "<span class='text-success'>".$AcrParameter->user_target." ".$AcrMasterParameter->unit."</span>";
+                    }
+                    $text[] = "</p>";
                 } elseif ($AcrMasterParameter->config_group == 1002) {
-                    $text[] = "<p class='fs-5 fw-semibold'> status : " . $AcrParameter->status . "</p>";
+                    $text[] = "<p class='fw-semibold text-success'> status : "
+                             . $AcrParameter->status 
+                             . "</p>";
                 } else {
+                    $text[] = "<p class='fw-semibold text-danger'> ....... </p>";
                 }
             } elseif ($AcrParameter->is_applicable == 0) {
-                $text[] = "<p class='fs-5 fw-semibold text-danger'> User Declare it as Not Applicable</p>";
+                $text[] = "<p class='fw-semibold text-danger'> User Selected Not Applicable for This Parameter</p>";
             } else {
+                $text[] = "<p class='fw-semibold text-danger'> ....... </p>";
             }
         } else {
-            $text[] = "<p class='fs-5 fw-semibold text-danger'> User not Filled any Data</p>";
+            $text[] = "<p class='fw-semibold text-danger'> User not Filled any Data</p>";
         }
 
         return $text;

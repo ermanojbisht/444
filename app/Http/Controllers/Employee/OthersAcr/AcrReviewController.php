@@ -36,7 +36,7 @@ class AcrReviewController extends Controller {
     public function appraisal2(Acr $acr, Request $request) {
 
         if($acr->isSinglePage){
-            return view('employee.acr.form.report_appraisal_singlepage_Reviewing', compact('acr'));
+            return view('employee.acr.form.single_page.review_create', compact('acr'));
         }
 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
