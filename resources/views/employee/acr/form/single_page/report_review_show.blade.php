@@ -52,25 +52,26 @@
 			</div>
 		</div>
 	@endif
+	@if(!$acr->isTwoStep)
+		@if($acr->accept_no)
+			<div class="card-body">
+				<p class="fw-semibold">
+					स्वीकर्ता अधिकारी की टिप्पणी 
+				</p>
+				<p class="text-info border border-primary p-3" style="min-height: 150px;">
+					{{$acr->accept_remark??'--'}}
+				</p>
 
-	@if($acr->accept_no)
-		<div class="card-body">
-			<p class="fw-semibold">
-				स्वीकर्ता अधिकारी की टिप्पणी 
-			</p>
-			<p class="text-info border border-primary p-3" style="min-height: 150px;">
-				{{$acr->accept_remark??'--'}}
-			</p>
+				<p class="fw-bold h5">
+			  		स्वीकर्ता अधिकारी द्वारा दिए गए अंक - {{$acr->accept_no??' --??-- '}}
+				</p>
+				<div>
+					<p> स्वीकर्ता : {{$acr->acceptUser()->name}} </p>
+					<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
-			<p class="fw-bold h5">
-		  		स्वीकर्ता अधिकारी द्वारा दिए गए अंक - {{$acr->accept_no??' --??-- '}}
-			</p>
-			<div>
-				<p> स्वीकर्ता : {{$acr->acceptUser()->name}} </p>
-				<p> on : {{$acr->report_on->format('d M Y')}}</p>
-
+				</div>
 			</div>
-		</div>
+		@endif
 	@endif
 
 </div>
