@@ -17,7 +17,7 @@
 <table class="table table-bordered table-sm">
 	<tr>
 		<td class="fw-bold"> Name of the officer Reported Upon :- </td>
-		<td class="fw-semibold fs-5"> {{$employee->name }} </td>
+		<td class="fw-semibold fs-5"> {{$employee->shriName }} </td>
 	</tr>
 	<tr>
 		<td class="fw-bold"> Designation :- </td>

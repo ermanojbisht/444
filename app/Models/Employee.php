@@ -124,9 +124,7 @@ class Employee extends Authenticatable
             Name:$this->name <br>
             Father/Spouse:$this->father_name <br>
             Designation:$designation <br>
-            DOB:$dob <br>
-            Section:$d->section<br>
-            Designation_id:$this->designation_id <br>
+            DOB:$dob <br>            
         ";
     }
 
