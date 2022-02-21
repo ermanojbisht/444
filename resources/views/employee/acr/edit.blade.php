@@ -44,6 +44,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 			<div class="row">
 				@if($acr->checkSelfAppraisalFilled()['status'])
 				<input type="hidden" name="acr_type_id" value="{{ $acr->acr_type_id }}">
+				<p><strong>ACR Type :</strong> {{$acr->type->description}}</p>
 				@else
 				<div class="col-md-4">
 					<p class="fw-semibold"> Select Type of ACR to be Filled : </p>

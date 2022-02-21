@@ -53,13 +53,13 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 		@if(!$acr->isSubmitted())
 			<div class="d-flex justify-content-between">
 				<input type="button" id="assign_Officials" class="btn btn-outline-primary" value="Assign Officials" />
-				<p class="fw-semibold fs-5">
-					For ACR Period {{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}}
-					({{$total_period}} Days)
-				</p>
+				<a href="{{route('acr.myacrs')}}" class="btn btn-outline-primary">Back</a>
 			</div>
-			<div class="btn-group" role="group" aria-label="Basic outlined example">
-			</div>
+			<p class="fw-semibold fs-5">
+				For ACR Period {{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}}
+				({{$total_period}} Days) 
+				<a href="{{route('acr.edit',['acr'=>$acr ])}}" class="btn btn-outline-primary btn-sm">Edit Period</a>
+			</p>
 		@endif
 		@foreach($appraisalOfficers as $key=>$appraisalOfficer)
 			@php
