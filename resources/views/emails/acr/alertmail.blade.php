@@ -1,5 +1,5 @@
 @component('mail::message')
-Dear {{$targetUser->name}}
+Dear {{$targetUser->shriName}}
 @component('mail::panel')
 Following ACRs are pending with you
 

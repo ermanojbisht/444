@@ -1,33 +1,33 @@
 @component('mail::message')
-Dear {{$reportingEmployee->name}}
+Dear {{$reportingEmployee->shriName}}
 
 @if($targetDutyType=='report')
-{{$acr->employee->name}} has submitted his/her self appraisal on @mkbdate($acr->submitted_at).
+{{$acr->employee->shriName}} has submitted his/her self appraisal on @mkbdate($acr->submitted_at).
 Please visit your inbox section at HRMS/Track AR portal.
 @endif
 
 @if($targetDutyType=='review')
-{{$acr->employee->name}}'s performance report has been reported by {{$acr->userOnBasisOfDuty('report')->name}} on @mkbdate($acr->report_on).
+{{$acr->employee->shriName}}'s performance report has been reported by {{$acr->userOnBasisOfDuty('report')->shriName}} on @mkbdate($acr->report_on).
 Please visit your inbox section at HRMS/Track AR portal.
 @endif
 
 @if($targetDutyType=='accept')
-{{$acr->employee->name}}'s performance report has been reviewed by {{$acr->userOnBasisOfDuty('review')->name}} on @mkbdate($acr->review_on).
+{{$acr->employee->shriName}}'s performance report has been reviewed by {{$acr->userOnBasisOfDuty('review')->shriName}} on @mkbdate($acr->review_on).
 Please visit your inbox section at HRMS/Track AR portal.
 @endif
 
 @if($targetDutyType=='submit')
 @if($acr->isTwoStep)
-Your performance report has been reviewed by {{$acr->userOnBasisOfDuty('review')->name}} on @mkbdate($acr->review_on).
+Your performance report has been reviewed by {{$acr->userOnBasisOfDuty('review')->shriName}} on @mkbdate($acr->review_on).
 Please visit your 'myacr' section .
 @else
-Your performance report has been acccepted by {{$acr->userOnBasisOfDuty('accept')->name}} on @mkbdate($acr->accept_on).
+Your performance report has been acccepted by {{$acr->userOnBasisOfDuty('accept')->shriName}} on @mkbdate($acr->accept_on).
 Please visit your 'myacr' section .
 @endif
 @endif
 
 @if($targetDutyType=='reject')
-Your performance report has been rejected by {{$acr->rejectUser()->name }} on @mkbdate($acr->rejectionDetail->created_at).
+Your performance report has been rejected by {{$acr->rejectUser()->shriName }} on @mkbdate($acr->rejectionDetail->created_at).
 Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 Please visit your 'myacr' section and recreate your acr .
 @endif

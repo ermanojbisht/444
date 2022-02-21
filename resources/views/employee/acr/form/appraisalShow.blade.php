@@ -239,14 +239,14 @@
 	<div class="d-flex justify-content-around">
 		@if($acr->report_on)
 		<div>
-			<p> Repored By : {{$acr->reportUser()->name}} </p>
+			<p> Repored By : {{$acr->reportUser()->shriName}} </p>
 			<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 		</div>
 		@endif
 		@if($acr->review_no)
 		<div>
-			<p> Reviewed By : {{  $acr->reviewUser()->name }} </p>
+			<p> Reviewed By : {{  $acr->reviewUser()->shriName }} </p>
 			<p> On : {{$acr->review_on->format('d M Y')}}</p>
 			
 		</div>

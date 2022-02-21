@@ -205,7 +205,7 @@ Other's ACR to be Worked Upon
 									@foreach($accepted as $acr)
 									<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 										<td>{{1+$loop->index }}</td>
-										<td>{{ $acr->employee->name}}</td>
+										<td>{{ $acr->employee->shriName}}</td>
 										<td>{{$acr->employee_id}} </td>
 										<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
 										<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>

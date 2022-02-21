@@ -60,7 +60,7 @@
 		<div class="row">
 			<div class="col-md-3">
 				<p class="fw-semibold"> By
-					<span class="text-info"> {!! $acr->acceptUser()->name !!} </span>
+					<span class="text-info"> {!! $acr->acceptUser()->shriName !!} </span>
 				</p>
 
 				<p class="fw-semibold"> Date

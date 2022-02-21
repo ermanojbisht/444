@@ -7,7 +7,7 @@
 @endsection
 
 @section('pagetitle')
-{{Auth::User()->name}} ACR
+{{Auth::User()->shriName}} ACR
 @endsection
 
 @section('breadcrumbNevigationButton')
@@ -47,7 +47,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{{-- <td> {{$acr->creator->name}} ({{$acr->creator->designation}})</td> --}}
+				{{-- <td> {{$acr->creator->shriName}} ({{$acr->creator->designation}})</td> --}}
 				@foreach($acrs as $acr)
 				<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 					<td>{{1+$loop->index }}</td>
