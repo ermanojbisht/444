@@ -17,18 +17,7 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 
 
 @section('content')
-{{-- to be shifted in main style --}}
-<style>
-	input::-webkit-outer-spin-button,
-	input::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-		margin: 0;
-	}
 
-	input[type=number] {
-		-moz-appearance: textfield;
-	}
-</style>
 <div class="card">
 	<div class="card-body border border-2 border-info">
 		<p class="fw-semibold h4">Reporting Officers Remarks :</p>
@@ -61,11 +50,7 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 							<th rowspan="2">Parameter</th>
 							<th rowspan="2">Max Marks</th>
 							<th colspan="2">Marks awarded by</th>
-							<th rowspan="2">
-								@if(!$view)
-								Employee <br> Input
-								@endif
-							</th>
+							<th rowspan="2">Employee<br>Input</th>
 						</tr>
 						<tr class="text-center align-middle ">
 							<th>Reporting Authority</th>
@@ -77,70 +62,80 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 							<td class="text-white" colspan="6">4-A - Assessment of Performance</td>
 						</tr>
 						@foreach($requiredParameters as $required_parameter)
-						@php
-						if($required_parameter->applicable == 1){
-						$total_marksA = $total_marksA + $required_parameter->max_marks;
-						$classtext = "";
-						$classButton = "";
-						$reporting_marksA = $reporting_marksA + $required_parameter->reporting_marks;
-						/*if($required_parameter->reporting_marks){
-						}*/
-						if($required_parameter->reviewing_marks){
-						$reviewing_marksA = $reviewing_marksA + $required_parameter->reviewing_marks;
-						}else{
-						/*$reviewing_marksA = $reviewing_marksA + $required_parameter->reporting_marks;*/
-						$reviewing_marksA = $reviewing_marksA + 0;
-						}
-						}else{
-						$classtext = "text-decoration-line-through";
-						$classButton = "disabled placeholder=NA";
-						}
-						@endphp
+							@php
+							if($required_parameter->applicable == 1){
+								$total_marksA = $total_marksA + $required_parameter->max_marks;
+								$classtext = "";
+								$classButton = "";
+								
+								$reporting_marksA = $reporting_marksA + $required_parameter->reporting_marks;
+
+								$reviewing_marksA = $reviewing_marksA + $required_parameter->reviewing_marks??0;
+									
+							}else{
+								$classtext = "text-decoration-line-through";
+								$classButton = "disabled placeholder=NA";
+							}
+							@endphp
 						<tr class="{{$classtext??''}}">
 							<td>{{$loop->iteration}}</td>
-							<td>
-								{{$required_parameter->description}}
-							</td>
-							<td class="text-center">
-								{{$required_parameter->max_marks}}
-							</td>
-							<td class="text-center">
-								{{$required_parameter->reporting_marks??''}}
+							<td> {{$required_parameter->description}} </td>
+							<td class="text-center"> {{$required_parameter->max_marks}} </td>
+							<td class="text-center"> 
+								@if($applicableParameters != 0)
+									{{$required_parameter->reporting_marks??''}} 
+								@endif
 							</td>
 							<td class="text-end">
-								@if($view)
-								<span class="reviewingPositiveNo">
-									{{$required_parameter->reviewing_marks??''}}
-								</span>
-								@else
 								<input class="form-control form-control-sm text-end reviewingPositiveNo" type="number"
 									step="0.01" min="0" max="{{$required_parameter->max_marks}}"
 									name="marks_positive[{{$required_parameter->id}}]" {{$classButton??''}}
-									value="{{$required_parameter->reviewing_marks??0}}">
-								@endif
+									@if($applicableParameters != 0)
+										value="{{$required_parameter->reviewing_marks??''}}"
+									@endif
+								>
+
 							</td>
 							<td>
-								@if(!$view)
 								<a class="btn" id="btn1" onclick="showData({{$required_parameter->id}})">
 									<svg class="icon">
 										<use xlink:href="{{url('vendors/@coreui/icons/svg/free.svg#cil-search')}}">
 										</use>
 									</svg>
 								</a>
-								@endif
 							</td>
 						</tr>
 						@endforeach
 						@php
-						if($total_marksA>0){
-						$positive_factor = 80/$total_marksA;
-						}else{
-						$positive_factor = 0;
-						}
-						$net_reporting_marksA = $positive_factor*$reporting_marksA;
-						$net_reviewing_marksA = $positive_factor*$reviewing_marksA;
+							if($total_marksA>0){
+								$positive_factor = 80/$total_marksA;
+							}else{
+								$positive_factor = 0;
+							}
+
+							$net_reporting_marksA = $positive_factor*$reporting_marksA;
+
+							$net_reviewing_marksA = $positive_factor*$reviewing_marksA;
+
 						@endphp
 						<input type="hidden" name="positive_factor" value="{{$positive_factor}}">
+						@if($applicableParameters == 0)
+						<tr class="bg-danger fw-bold" id="exceptional_row">
+							<td></td>
+							<td class="text-end">User Declare all Parameters as not Applicable you may Give Number here </td>
+							<td class="text-center">80</td>
+							<td class="text-center">{{$exceptional_reporting_marks}}</td>
+							<td class="text-end">
+								<input class="form-control form-control-sm text-end" type="number"
+									id="exceptional_reviewing_marks"
+									step="0.01" min="0" max="80"
+									name="exceptional_reviewing_marks"
+									value="{{$exceptional_reviewing_marks}}" 
+								>
+							</td>
+							<td></td>
+						</tr>
+						@else
 						<tr class="bg-light fw-bold">
 							<td></td>
 							<td class="text-end">Sum for 4- A</td>
@@ -161,36 +156,31 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 							</td>
 							<td></td>
 						</tr>
+						@endif
 						<tr class="bg-info fw-bold fs-5">
 							<td class="text-white" colspan="6">4-B - Assessment of Personal Attributes</td>
 						</tr>
 						@php
-						$total_marksB = 0;
-						$reporting_marksB = 0;
-						$reviewing_marksB = 0;
+							$total_marksB = 0;
+							$reporting_marksB = 0;
+							$reviewing_marksB = 0;
 						@endphp
 						@foreach($personal_attributes as $personal_attribute)
-						@php
-						$total_marksB = $total_marksB + $personal_attribute->max_marks;
-						$reporting_marksB = $reporting_marksB + $personal_attribute->reporting_marks;
-						$reviewing_marksB = $reviewing_marksB + $personal_attribute->reviewing_marks??0;
-						@endphp
+							@php
+								$total_marksB = $total_marksB + $personal_attribute->max_marks;
+								$reporting_marksB = $reporting_marksB + $personal_attribute->reporting_marks;
+								$reviewing_marksB = $reviewing_marksB + $personal_attribute->reviewing_marks??0;
+							@endphp
 						<tr>
 							<td>{{$loop->iteration}}</td>
 							<td>{{$personal_attribute->description}}</td>
 							<td class="text-center">{{$personal_attribute->max_marks}}</td>
-							<td class="text-center">
-								{{$personal_attribute->reporting_marks??'0'}}
-							</td>
+							<td class="text-center">{{$personal_attribute->reporting_marks??'0'}}</td>
 							<td class="text-end">
-								@if($view)
-								{{$personal_attribute->reviewing_marks??'0'}}
-								@else
 								<input class="form-control form-control-sm text-end reportingPersonalNo" type="number"
 									step="0.01" min="0" max="{{$personal_attribute->max_marks}}"
 									name="personal_attributes[{{$personal_attribute->id}}]"
 									value="{{$personal_attribute->reviewing_marks??0}}">
-								@endif
 							</td>
 							<td></td>
 						</tr>
@@ -207,36 +197,30 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 							<td class="text-white" colspan="6">4-C - Deductions</td>
 						</tr>
 						@php
-						$total_marksC = $reporting_marksC = $reviewing_marksC = 0;
+							$total_marksC = $reporting_marksC = $reviewing_marksC = 0;
 						@endphp
 						@foreach($requiredNegativeParameters as $requiredNegativeParameter)
-						@php
-						$total_marksC = $total_marksC + $requiredNegativeParameter->max_marks;
-						$reporting_marksC = $reporting_marksC + $requiredNegativeParameter->reporting_marks;
-						$reviewing_marksC = $reviewing_marksC + $requiredNegativeParameter->reviewing_marks??0;
-						@endphp
-						<tr>
-							<td>{{$loop->iteration}}</td>
-							<td>{{$requiredNegativeParameter->description}}</td>
-							<td class="text-center">{{$requiredNegativeParameter->max_marks}}</td>
-							<td class="text-center">{{$requiredNegativeParameter->reporting_marks??'0'}}</td>
-							<td class="text-end">
-								@if($view)
-								{{$requiredNegativeParameter->reviewing_marks??'0'}}
-								@else
-								<input class="form-control form-control-sm text-end reportingNegativeNo" type="number"
-									step="0.01" min="0" max="{{$requiredNegativeParameter->max_marks}}"
-									name="marks_negative[{{$requiredNegativeParameter->id}}]"
-									value="{{$requiredNegativeParameter->reviewing_marks??0}}">
-								@endif
-							</td>
-							<td>
-								@if(!$view)
-								<a class="btn" id="btn1"
-									onclick="showNegativeData({{$requiredNegativeParameter->id}})">view </a>
-								@endif
-							</td>
-						</tr>
+							@php
+								$total_marksC = $total_marksC + $requiredNegativeParameter->max_marks;
+								$reporting_marksC = $reporting_marksC + $requiredNegativeParameter->reporting_marks;
+								$reviewing_marksC = $reviewing_marksC + $requiredNegativeParameter->reviewing_marks??0;
+							@endphp
+							<tr>
+								<td>{{$loop->iteration}}</td>
+								<td>{{$requiredNegativeParameter->description}}</td>
+								<td class="text-center">{{$requiredNegativeParameter->max_marks}}</td>
+								<td class="text-center">{{$requiredNegativeParameter->reporting_marks??'0'}}</td>
+								<td class="text-end">
+									<input class="form-control form-control-sm text-end reportingNegativeNo" type="number"
+										step="0.01" min="0" max="{{$requiredNegativeParameter->max_marks}}"
+										name="marks_negative[{{$requiredNegativeParameter->id}}]"
+										value="{{$requiredNegativeParameter->reviewing_marks??0}}">
+								</td>
+								<td>
+									<a class="btn" id="btn1"
+										onclick="showNegativeData({{$requiredNegativeParameter->id}})">view </a>
+								</td>
+							</tr>
 						@endforeach
 						<tr class="bg-light fw-bold">
 							<td></td>
@@ -267,27 +251,44 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 					<tr>
 						<td>Assessment of work</td>
 						<td class="text-center">80</td>
-						<td class="text-center">{{$net_reporting_marksA}}</td>
-						<td class="text-center reviewingPositiveNetSum" id="totalA">{{$net_reviewing_marksA}}</td>
+						<td class="text-center">
+							@if($applicableParameters != 0)
+								{{number_format(round($net_reporting_marksA,2),2)}}
+							@else
+								{{number_format(round($exceptional_reporting_marks,2),2)}}
+							@endif
+						</td>
+						<td class="text-center reviewingPositiveNetSum" id="totalA">
+							@if($applicableParameters != 0)
+								{{number_format(round($net_reviewing_marksA,2),2)}}
+							@else
+								{{number_format(round($exceptional_reviewing_marks,2),2)}}
+							@endif
+						</td>
 					</tr>
 					<tr>
 						<td>Assessment of personal attributes</td>
 						<td class="text-center">{{$total_marksB}}</td>
-						<td class="text-center">{{$reporting_marksB}}</td>
-						<td class="text-center reviewingPersonalSum" id="totalB">{{$reviewing_marksB??'0'}}</td>
+						<td class="text-center">{{number_format(round($reporting_marksB??'0',2),2)}}</td>
+						<td class="text-center reviewingPersonalSum" id="totalB">{{number_format(round($reviewing_marksB??'0',2),2)}}</td>
 					</tr>
 					<tr>
 						<td>Deduction (max {{$total_marksC}})</td>
 						<td class="text-center"></td>
-						<td class="text-center">{{$reporting_marksC??'0'}}</td>
-						<td class="text-center reportingNegativeSum" id="totalC">{{$reviewing_marksC??'0'}}</td>
+						<td class="text-center">{{number_format(round($reporting_marksC??'0',2),2)}}</td>
+						<td class="text-center reportingNegativeSum" id="totalC">{{number_format(round($reviewing_marksC??'0',2),2)}}</td>
 					</tr>
 					<tr class="bg-light fw-bold fs-5">
 						<td class="text-end">Net</td>
 						<td class="text-center">{{80 + $total_marksB}}</td>
 						<td class="text-center">{{$acr->report_no}}</td>
-						<td class="text-center" id="Nettotal">{{$net_reviewing_marksA+ $reviewing_marksB -
-							$reviewing_marksC}}</td>
+						<td class="text-center" id="Nettotal">
+							@if($applicableParameters != 0)
+								{{number_format(round($net_reviewing_marksA+ $reviewing_marksB - $reviewing_marksC,2),2)}}
+							@else
+								{{number_format(round($exceptional_reviewing_marks+ $reviewing_marksB - $reviewing_marksC,2),2)}}
+							@endif
+						</td>
 					</tr>
 				</tbody>
 
@@ -312,11 +313,9 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 				</tr>
 			</table>
 		</div>
-		@if(!$view)
 		<div class="form-group mt-2">
 			<button type="submit" class="btn btn-primary">Save</button>
 		</div>
-		@endif
 	</form>
 
 </div>
@@ -336,63 +335,39 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 @section('footscripts')
 @include('layouts._commonpartials.js._select2')
 <script type="text/javascript">
-	// real time calcuation of Positive Numbers
-		$(".reviewingPositiveNo").on('change keydown paste input', function(){
-		    calcuationPositiveNumbers();
-		    calcuationNetTotal();
-		});
-		$(".reportingPersonalNo").on('change keydown paste input', function(){
-		    calcuationPersonalNumbers();
-		    calcuationNetTotal();
-		});
-		$(".reportingNegativeNo").on('change keydown paste input', function(){
-		    calcuationNegativeNumbers();
-		    calcuationNetTotal();
-		});
-
-
-		
-
-		function calcuationPositiveNumbers(){
-			var sum = 0;
-		    var marksA = {{$total_marksA}};
-			$('.reviewingPositiveNo').each(function(){
-			    sum = sum + (this.value)*1;
-			});
-			$("#reviewingPositiveSum").html(sum);
-			if (marksA > 0) {
-				$(".reviewingPositiveNetSum").html( (80*sum/marksA).toFixed(2) );
-			} 
-		}
-
-		function calcuationPersonalNumbers(){
-			var sum = 0;
-		    var marksB = {{$total_marksB}};
-			$('.reportingPersonalNo').each(function(){
-			    sum = sum + (this.value)*1;
-			});
-			$(".reviewingPersonalSum").html(sum.toFixed(2));
+	// real time calcuation of Numbers
+	$(".reviewingPositiveNo, .reportingPersonalNo, .reportingNegativeNo, #exceptional_reviewing_marks").on('change keydown paste input', function(){
+			var sumA = 0;
+			var sumB = 0;
+			var sumC = 0;
 			
-		}
+			$('.reviewingPositiveNo').each(function(){ sumA = sumA + (this.value)*1; });
 
-		function calcuationNegativeNumbers(){
-			var sum = 0;
+			$("#reviewingPositiveSum").html(sumA);
+			// Net of All Positive Parameter Nos
+			if ({{$positive_factor}} > 0) {
+				$(".reviewingPositiveNetSum").html( (80*sumA/{{$total_marksA}}).toFixed(2) );
+			}else{
+				var inputVal = document.getElementById("exceptional_reviewing_marks").value;
+				$(".reviewingPositiveNetSum").html(inputVal);
+			}
+
 		    var marksB = {{$total_marksB}};
-			$('.reportingNegativeNo').each(function(){
-			    sum = sum + (this.value)*1;
-			});
-			$(".reportingNegativeSum").html(sum.toFixed(2));
-			
-		}
+			$('.reportingPersonalNo').each(function(){ sumB = sumB + (this.value)*1; });
+			$(".reviewingPersonalSum").html(sumB.toFixed(2));
 
-		function calcuationNetTotal(){
-			var A = $('#totalA').text();
+		 	
+		    var marksB = {{$total_marksB}};
+			$('.reportingNegativeNo').each(function(){ sumC = sumC + (this.value)*1; });
+			$(".reportingNegativeSum").html(sumC.toFixed(2));
+		 	
+		    var A = $('#totalA').text();
 			var B = $('#totalB').text();
 			var C = $('#totalC').text();
 			$("#Nettotal").html((A*1+B*1- C*1).toFixed(2));
-		}
+	});
 
-		
+
 		function showData(paramId)
 		{
 			$.ajax

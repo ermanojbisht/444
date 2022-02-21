@@ -22,7 +22,7 @@
 				<input type="hidden" name="acr_id" value='{{$acr->id}}'>
 				<div class="form-group">
 					<label for="good_work" class="fw-bold h5">
-					  	किए गए कार्यों का विवरण (अधिकतम 300 शब्दों मे)
+					  	स्वयं द्वारा किए गए कार्यों के संबंध मे विवरण व स्वयं का विश्लेषण (अधिकतम 300 शब्दों मे)
 					</label>
 					<textarea class="form-control rounded-0" id="good_work"  name="good_work" rows="10"
 					  	@if(!empty($acr->good_work))

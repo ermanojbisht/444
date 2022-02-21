@@ -14,6 +14,7 @@ use Carbon\CarbonPeriod;
 use File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
+use Log;
 
 class Acr extends Model
 {
@@ -453,6 +454,21 @@ class Acr extends Model
         return ($this->acr_type_id==30);
     }
 
+    public function getIsDurationMatchesAttribute()
+    {
+        $appraisalOfficerRecords=$this->appraisalOfficerRecords()->get();
+        $days=0;
+        $appraisalOfficerRecords->map(function($record) use (&$days){
+           $days+= $record->from_date->diffInDays($record->to_date);          
+        });
+
+        if($days===0){ return false; }      
+
+        $factor=($this->isTwoStep)?2:3;
+        
+        return ($this->from_date->diffInDays($this->to_date))===($days/$factor);
+    }
+
     public function getPdfFullFilePathAttribute()
     {
         return \Storage::disk('public')->path($this->pdf_file_path);
@@ -833,4 +849,6 @@ class Acr extends Model
 
         return $result;
     }
+
+
 }

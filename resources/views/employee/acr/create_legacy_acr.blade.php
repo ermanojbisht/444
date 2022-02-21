@@ -8,7 +8,7 @@
 @endsection
 
 @section('pagetitle')
-Add Defaulter Employee's ACR
+Add Legacy ACR Data
 @endsection
 
 @section('breadcrumb')
@@ -24,7 +24,7 @@ Add Defaulter Employee's ACR
 	<div class="card-body">
 		<div class="btn-group" role="group" aria-label="Basic outlined example">
 			<input type="button" id="assign_Officials" class="btn btn-outline-primary"
-				value="Add Defaulter Employee's ACR" />
+				value="Add Employee's Legacy ACR" />
 		</div>
 		<hr />
 		<br />
@@ -36,23 +36,19 @@ Add Defaulter Employee's ACR
 					<th>Employee Name</th>
 					<th>Employee Id</th>
 					<th>From Date</th>
-					<th>To Date</th>
-					<th>Created on</th>
-					<th>Status</th>
+					<th>To Date</th>					
 					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-				@foreach($defaulters_acrs as $acr)
+				@foreach($legacyAcrs as $acr)
 				<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 					<td>{{1+$loop->index }}</td>
 					<td>{{ $acr->employee->shriName}}</td>
 
 					<td>{{$acr->employee_id}} </td>
 					<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
-					<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>
-					<td>{{$acr->created_at->format('d M Y')}} </td>
-					<td>{{($acr->submitted_at == null ? 'Pending' : 'Submitted') }}</td>
+					<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>					
 					<td>
 						<div class="dropdown dropstart">
 							<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -62,37 +58,12 @@ Add Defaulter Employee's ACR
 									</use>
 								</svg>
 							</button>
-							<div class="dropdown-menu dropdown-menu-end">
-								@if (!$acr->submitted_at)
-
-								<a class="dropdown-item" href="{{route('acr.others.edit', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Edit Basic Detail
-								</a>
-
-								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
-								</a>
-								
-								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2))
-									@if($acr->isTwoStep || $acr->hasAppraisalOfficer(3))
-										<a class="dropdown-item" href="#">
-											<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST"
-												onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
-												{{ csrf_field() }}
-												<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR
-												</button>
-											</form>
-										</a>
-									@endif
-								@endif
-
-								@endif
+							<div class="dropdown-menu dropdown-menu-end">							
 								@if ($acr->isFileExist())
 								<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i> View ACR
 								</a>
 								@endif
-
 							</div>
 						</div>
 					</td>
@@ -117,9 +88,9 @@ Add Defaulter Employee's ACR
 				</div>
 				<div class="modal-body">
 					<form id="officerInsertUpdateForm" name="officerInsertUpdateForm" class="form-horizontal"
-						method="POST" action="{{route('acr.others.store')}}">
+						method="POST" action="{{route('acr.others.legacystore')}}">
 						@csrf
-						<div class="row">
+						<div class="row mb-3">
 							<div class="form-group col-md-6">
 								{!! Form::label('section', 'Service Class', []) !!}
 								{!! Form::select('section', ['All'=>'All','A'=>'A','B'=>'B','C'=>'C','D'=>'D'], 'All',
@@ -132,7 +103,7 @@ Add Defaulter Employee's ACR
 								['id'=>'employeeType','class'=>'form-select']) !!}
 							</div>
 						</div>
-						<br />
+						
 						<div class="row">
 							<div class="form-group col-md-12">
 								<div class="form-group">
@@ -150,30 +121,6 @@ Add Defaulter Employee's ACR
 								</div>
 							</div>
 						</div>
-						<br />
-
-
-						<div class="row mb-3">
-							<div class="col-md-12">
-								<p class="fw-semibold "> Select Type of ACR to be Filled : </p>
-							</div>
-							<div class="col-md-6">
-								<label for='acr_group_id' class="required "> Select Designation Group </label>
-								<select id="acr_group_id" name="acr_group_id" required class="form-select">
-									<option value=""> Select ACR Type </option>
-									@foreach ($acrGroups as $key=>$name)
-									<option value="{{$key}}"> {{$name}} </option>
-									@endforeach
-								</select>
-							</div>
-							<div class="col-md-6">
-								<label for='acr_type_id' class="required "> Select Acr Type </label>
-								<select id="acr_type_id" name="acr_type_id" required class="form-select">
-								</select>
-							</div>
-						</div>
- 
-
 
 						<div class="row">
 							<div class="col-md-12">
@@ -187,9 +134,7 @@ Add Defaulter Employee's ACR
 								</select>
 							</div>
 
-						</div>
-
-						
+						</div>						
 
 
 
@@ -211,11 +156,34 @@ Add Defaulter Employee's ACR
 								</div>
 							</div>
 						</div>
+
+						<div class="row">
+							<div class="form-group col-md-4">
+								{!! Form::label('report_no', 'Reporting No', []) !!}
+								{!! Form::text('report_no', '' , ['class'=>'form-control']) !!}								
+							</div>
+							<div class="form-group col-md-4">
+								{!! Form::label('review_no', 'Review No', []) !!}
+								{!! Form::text('review_no', '' , ['class'=>'form-control']) !!}								
+							</div>
+							<div class="form-group col-md-4">
+								{!! Form::label('accept_no', 'Accept No', []) !!}
+								{!! Form::text('accept_no', '' , ['class'=>'form-control']) !!}								
+							</div>
+														
+						</div>
+						<div class="row">
+							<div class="form-group col-md-12">
+								{!! Form::label('report_integrity', 'If integrity has been withhold then state the reasons otherwise leave blank ', []) !!}
+								{!! Form::textarea('report_integrity', '' , ['class'=>'form-control']) !!}								
+							</div>	
+						</div>
 						<div class="form-group mt-2">
 						</div>
 						<div class="row">
 							<div class="form-group mt-2">								
 								<input id="removeLogged" type="hidden" name="removeLogged" value="true" />
+								<input type="hidden" name="acr_type_id" value="0" />
 								<input type="submit" class="btn btn-primary " id="btnSave" value="Add Employee " />
 							</div>
 						</div>

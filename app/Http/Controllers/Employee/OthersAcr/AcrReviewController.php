@@ -35,19 +35,29 @@ class AcrReviewController extends Controller {
      */
     public function appraisal2(Acr $acr, Request $request) {
 
-        if (in_array($acr->acr_type_id, config('acr.basic.acrWithoutProcess'))) {
-            return view('employee.acr.form.report_appraisal_singlepage_Reviewing', compact('acr'));
+        if($acr->isSinglePage){
+            return view('employee.acr.form.single_page.review_create', compact('acr'));
         }
 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
+        $applicableParameters = $requiredParameters->where('applicable',1)->count();
+
+        if($applicableParameters == 0 ){
+            $exceptional_reporting_marks = $requiredParameters->sum('reporting_marks');
+            $exceptional_reviewing_marks = $requiredParameters->sum('reviewing_marks');
+        }else{
+            $exceptional_reporting_marks = $exceptional_reviewing_marks = 0;
+        }  
+
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
         $personal_attributes = $acr->peronalAttributeSWithMasterData();
 
-        $view = false; // make true for view only
-        return view('employee.acr.form.appraisal2', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view')); //'notApplicableParameters',
+       
+        return view('employee.acr.form.appraisal2', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'applicableParameters','exceptional_reporting_marks','exceptional_reviewing_marks')); 
     }
 
     public function storeAppraisal2(Request $request) {
+        //return $request->all();
         $this->validate($request,
             [
                 'marks_positive' => 'array',
@@ -64,17 +74,25 @@ class AcrReviewController extends Controller {
 
         $acr = Acr::findOrFail($request->acr_id);
 
-        foreach ($request->marks_positive as $parameterId => $reviewing_mark) {
-            $review_no = $review_no + $reviewing_mark * $request->positive_factor;
-            AcrParameter::UpdateOrCreate(
-                [
-                    'acr_id' => $request->acr_id,
-                    'acr_master_parameter_id' => $parameterId,
-                ],
-                [
-                    'reviewing_marks' => $reviewing_mark,
-                ]
+        if($request->positive_factor > 0){ // if altlest a parameter applicable 
+            foreach ($request->marks_positive as $parameterId => $reviewing_mark) {
+                $review_no = $review_no + $reviewing_mark * $request->positive_factor;
+                AcrParameter::UpdateOrCreate(
+                    [
+                        'acr_id' => $request->acr_id,
+                        'acr_master_parameter_id' => $parameterId,
+                    ],
+                    [
+                        'reviewing_marks' => $reviewing_mark,
+                    ]
+                );
+            }
+        }else{ // if no parameter applicable
+            $first = AcrParameter::where('acr_id',$request->acr_id)->first();
+            $first->Update(
+                ['reviewing_marks' => $request->exceptional_reviewing_marks]
             );
+            $review_no = $request->exceptional_reviewing_marks;
         }
 
         foreach ($request->personal_attributes as $attributeId => $attribute_mark) {

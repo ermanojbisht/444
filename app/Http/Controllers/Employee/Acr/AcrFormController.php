@@ -48,7 +48,7 @@ class AcrFormController extends Controller
     {
         // Check if Acr have only single Page data 
         if(in_array($acr->acr_type_id, config('acr.basic.acrWithoutProcess'))){
-            return view('employee.acr.form.createSinglePageAcr', compact('acr'));
+            return view('employee.acr.form.single_page.user_create', compact('acr'));
         }
         
         $data_groups = $acr->type1RequiremntsWithFilledData();

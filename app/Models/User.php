@@ -330,7 +330,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $dob = $employee->birth_date->format('d M y');
 
             return "
-                Name:$employee->name <br>
+                Name:$employee->shriName <br>
                 Designation:$designation <br>
                 DOB:$dob <br>
             ";
