@@ -23,7 +23,7 @@ Auth::routes(['verify' => true]);
 Route::get('acrs/{employee}', 'Employee\OthersAcr\AcrInboxController@view')->name('employee.acr.view')
     ->missing(fn ($request) => response()->view('errors.employee_not_found'));
 
-Route::get('officeacrs/{office}', 'Employee\OthersAcr\AcrInboxController@officeAcrsView')->name('office.acrs.view');
+Route::get('officeacrs', 'Employee\OthersAcr\AcrInboxController@officeAcrsView')->name('office.acrs.view');
 
 //employee system routes-------------------------
 Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], function () {

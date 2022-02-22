@@ -25,8 +25,8 @@ ACR Details
 
 	<div class="card-body">
 
-
-		<form method="GET" action="{{route('office.acrs.view', ['office'=> 0])}}">
+officeId:{{$officeId}}
+		<form method="GET" action="{{route('office.acrs.view')}}">
 
 			<div class="row">
 
@@ -39,9 +39,9 @@ ACR Details
 								@foreach ($Officetypes as $key => $values)
 									<option value="{{$key}}" > {{$values}} </option>
 								@endforeach
-							</select>
-
 						</select>
+
+						
 
 						{{-- {{ Form::select('officeType',($Officetypes),old('officeType'),['placeholder'=>'Select
 						Office Type','id'=>'officeTypeId','class'=>'form-select', 'required']) }} --}}
@@ -110,6 +110,7 @@ ACR Details
 				</tr>
 			</thead>
 			<tbody style="border:1px solid #C8CBD2;">
+				@if($acrs)
 				@foreach($acrs as $acr)
 				<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 					<td>{{1+$loop->index }}</td>
@@ -162,6 +163,7 @@ ACR Details
 
 				</tr>
 				@endforeach
+				@endif
 			</tbody>
 		</table>
 	</div>
