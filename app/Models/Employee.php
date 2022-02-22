@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Helper;
+use App\Models\Acr\Acr;
 use App\Models\Acr\AcrMasterTraining;
 use App\Models\Acr\EmpProposedTraining;
 use App\Models\HrGrievance\HrGrievance;
