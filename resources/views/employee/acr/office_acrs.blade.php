@@ -1,7 +1,7 @@
 @extends('layouts.type200.main')
 
 @section('pagetitle')
-{{$employee->shriName }}'s ACR Details
+ACR Details
 @endsection
 
 @section('breadcrumbNevigationButton')
@@ -23,10 +23,10 @@
 
 	<div class="row">
 		<div class="col-md-6">
-			<p class="fw-bold h5"> Employee Code : {{$employee->id }} </p>
+			<p class="fw-bold h5"> Office :  </p>
 		</div>
 		<div class="col-md-6">
-			<p class="fw-bold h5"> Designation : {{$employee->designation->name }} </p>
+			<p class="fw-bold h5"> Period :  </p>
 		</div>
 	</div>
 	<hr>
@@ -59,6 +59,7 @@
 			<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 				<td>{{1+$loop->index }}</td>
 				<td>
+					{{$acr->employee->shriName }} : {{$acr->employee->id }}<br>
 					@if($acr->accept_on)
 					<a href="{{route('acr.view',['acr'=>$acr])}}">{{$acr->id }}</a>
 					@else

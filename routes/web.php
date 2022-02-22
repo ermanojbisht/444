@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 
 Route::get('lang/{locale}', function ($locale) {
@@ -21,6 +22,8 @@ Auth::routes(['verify' => true]);
 
 Route::get('acrs/{employee}', 'Employee\OthersAcr\AcrInboxController@view')->name('employee.acr.view')
     ->missing(fn ($request) => response()->view('errors.employee_not_found'));
+
+Route::get('officeacrs/{office}', 'Employee\OthersAcr\AcrInboxController@officeAcrsView')->name('office.acrs.view');
 
 //employee system routes-------------------------
 Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], function () {
@@ -62,6 +65,7 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth', 'verif
     Route::post('deleteAcrAppreciation', 'Employee\Acr\AcrController@deleteAcrAppreciation')->name('deleteAcrAppreciation');
 
     Route::post('submitAcr', 'Employee\Acr\AcrController@submitAcr')->name('submit');
+    Route::post('destroy', 'Employee\Acr\AcrController@destroy')->name('destroy');
 
     Route::post('/getAcrTypefromAcrGroupId', 'Employee\Acr\AcrController@getAcrTypefromAcrGroupId')->name('getAcrType'); // Gives Acr Type object for drop down
 
@@ -106,7 +110,9 @@ Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => [
 
     //AcrDefaulterController
     Route::get('/defaulters/{office_id}', 'Employee\OthersAcr\AcrDefaulterController@index')->name('defaulters');
+    Route::get('/legacy/{office_id}', 'Employee\OthersAcr\AcrDefaulterController@legacyIndex')->name('legacy');
     Route::post('/store', 'Employee\OthersAcr\AcrDefaulterController@store')->name('store');
+    Route::post('/legacystore', 'Employee\OthersAcr\AcrDefaulterController@legacystore')->name('legacystore');
 
     Route::get('/edit/{acr}/defaulters', 'Employee\OthersAcr\AcrDefaulterController@edit')->name('edit');
     Route::post('/update/acr', 'Employee\OthersAcr\AcrDefaulterController@update')->name('update');
@@ -263,8 +269,15 @@ Route::get('client', function () {
 
 Route::get('/temp', 'TempController@temp');
 Route::get('/temp1', 'Employee\Acr\MonitorAcrController@countEsclation');
+Route::get('/temp2', 'Employee\Acr\MonitorAcrController@identify');
 
 //telegram
 Route::get('/telegram/connect', 'TelegramBotController@connect')->name('telegram.connect');
 Route::get('/telegram/callback', 'TelegramBotController@callback')->name('telegram.callback');
 Route::get('/telegram/telegramLogged', 'TelegramBotController@telegramLogged')->name('telegram.telegramLogged');
+
+//consume api
+Route::prefix('consume')->group(function () {
+    Route::get('apiwithoutkey', [UsersController::class, 'updateUserFromEmployee'])->name('apiWithoutKey');
+    Route::get('apiwithkey', [UsersController::class, 'updateUserFromEmployee'])->name('apiWithKey');
+});

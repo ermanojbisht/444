@@ -52,9 +52,30 @@ class AcrDefaulterController extends Controller
 
         $Offices = Office::whereIn('id', $allowed_Offices)->get()->pluck('name', 'id');
 
-        $defaulters_acrs = Acr::where('acr_type_id', 0)->whereIn('office_id', $allowed_Offices)->get();
+        $acrGroups = $this->defineAcrGroup();   
 
-        return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices'));
+        $defaulters_acrs = Acr::where('is_defaulter', 1)->whereIn('office_id', $allowed_Offices)->get();
+
+        return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices','acrGroups'));
+    }
+
+    /**
+     * @param $id
+     * $id => Instance Id
+     * To create Acr
+     */
+    public function legacyIndex($office_id = 0)
+    {
+        if ($office_id != 0)
+            abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $office_id), 403, 'You are Not Allowed to view this Office Employees');
+
+        $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
+
+        $Offices = Office::whereIn('id', $allowed_Offices)->get()->pluck('name', 'id');        
+
+        $legacyAcrs = Acr::where('acr_type_id', 0)->whereIn('office_id', $allowed_Offices)->get();
+
+        return view('employee.acr.create_legacy_acr', compact('legacyAcrs', 'Offices'));
     }
 
     /**
@@ -68,6 +89,7 @@ class AcrDefaulterController extends Controller
             $request,
             [
                 'office_id' => 'required',
+                'acr_type_id' => 'required',
                 'from_date' => 'required|date',
                 'to_date' => 'required|date',
                 'employee_id' => 'required' // in AppraisalOfficer acr_id , appraisal_officer_type, employee_id should not be repeated 
@@ -76,12 +98,50 @@ class AcrDefaulterController extends Controller
 
         $employee=Employee::findOrFail($request->employee_id);
 
-        $request->merge(['good_work' => 'ACR Not filled by '.$employee->name. '. This ACR has been filled as Defaulter\'s ACR.']);
-
+        $request->merge([
+            'good_work' => 'ACR Not filled by '.$employee->shriName. '. This ACR has been filled as Defaulter\'s ACR.',
+            'is_defaulter' => 1
+        ]);
+              
         $acr = Acr::create($request->all());
 
        
         return redirect(route('acr.others.defaulters', ['office_id' => 0]));
+    }
+
+     /**
+     * @param $request 
+     * To Store Indivitual ACR
+     */
+    public function legacystore(Request $request)
+    {
+        // validate appraisal_officer_type 
+        $this->validate(
+            $request,
+            [
+                'office_id' => 'required',
+                'acr_type_id' => 'required',
+                'from_date' => 'required|date|before:"2022-04-01',
+                'to_date' => 'required|date|after_or_equal:from_date|before:"2022-04-01',
+                'employee_id' => 'required', // in AppraisalOfficer acr_id , appraisal_officer_type, employee_id should not be repeated 
+                'report_no' => 'required|numeric',
+                'review_no' => 'required|numeric',
+                'accept_no' => 'required|numeric',
+                'report_integrity' => 'nullable',                
+            ]
+        );
+
+        $employee=Employee::findOrFail($request->employee_id);
+
+        /*$request->merge([
+            'good_work' => 'ACR Not filled by '.$employee->shriName. '. This ACR has been filled as Defaulter\'s ACR.',
+            'is_defaulter' => 1
+        ]);*/
+              
+        $acr = Acr::create($request->all());
+
+       
+        return redirect(route('acr.others.legacy', ['office_id' => 0]));
     }
 
 

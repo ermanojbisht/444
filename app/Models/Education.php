@@ -11,6 +11,7 @@ class Education extends Model
 
     public $table = 'educations';
     protected $keyType = 'string';
+    protected $connection='mysqlhrms';
     protected $fillable = [
         'id',
         'employee_id',

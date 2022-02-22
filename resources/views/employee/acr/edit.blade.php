@@ -27,7 +27,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 				<p class="fw-bold"> Name of the officer Reported Upon :- </p>
 			</div>
 			<div class="col-md-6">
-				<p class="fw-semibold  text-info"> {{$employee->name }} </p>
+				<p class="fw-semibold  text-info"> {{$employee->shriName }} </p>
 			</div>
 		</div>
 		<div class="row">
@@ -42,6 +42,10 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 		<form class="form-horizontal" method="POST" action="{{route('acr.update')}}">
 			@csrf
 			<div class="row">
+				@if($acr->checkSelfAppraisalFilled()['status'])
+				<input type="hidden" name="acr_type_id" value="{{ $acr->acr_type_id }}">
+				<p><strong>ACR Type :</strong> {{$acr->type->description}}</p>
+				@else
 				<div class="col-md-4">
 					<p class="fw-semibold"> Select Type of ACR to be Filled : </p>
 				</div>
@@ -64,6 +68,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 						@endforeach
 					</select>
 				</div>
+				@endif
 				<hr class="m-1" style="opacity: 0.1;">
 
 				<div class="col-md-4">

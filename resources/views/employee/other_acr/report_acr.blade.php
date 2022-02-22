@@ -31,7 +31,7 @@ My ACR
 					<p class="fw-bold"> Name of the officer Reported Upon :- </p>
 				</div>
 				<div class="col-md-6">
-					<p class="fw-semibold text-info"> {{$acr->employee->name }} </p>
+					<p class="fw-semibold text-info"> {{$acr->employee->shriName }} </p>
 				</div>
 			</div>
 			<div class="row">
@@ -57,14 +57,13 @@ My ACR
 			<div class="row">
 				<div class="col-md-12">
 					<input type="radio" class="align-middle" name="integrity" checked="true" id="integrity_yes" value='true' " />
-					<label for="integrity_yes" class="fw-semibold align-middle"> a. The general reputation of Sri/ Ms
-						<u> _ _ _ <span id="employee_name_yes"> {{$acr->employee->name }} </span> _ _ _ </u> for honesty
+					<label for="integrity_yes" class="fw-semibold align-middle"> a. The general reputation of 						<u> _ _ _ <span id="employee_name_yes"> {{$acr->employee->shriName }} </span> _ _ _ </u> for honesty
 						is good and I certify his / her integrity. </label>
 				</div>
 				<hr/>
 				<div class="col-md-12">
 					<input type="radio" class="align-middle" name="integrity" id="integrity_no" value='false'" />
-					<label for="integrity_no" class="fw-semibold align-middle"> b. The general reputation of Sri/ Ms
+					<label for="integrity_no" class="fw-semibold align-middle"> b. The general reputation of
 						<u> _ _ _ <span id="employee_name_no"> _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </span> _ _ _ </u> <br/>
 						for honesty is not good and  I withhold his / her integrity on account of the following reasons. </label>
 				</div>
@@ -100,7 +99,7 @@ My ACR
 		$('input[type=radio][name="integrity"]').change(function () {
 			if($(this).attr('value') == "true")
 			{
-				$("#employee_name_yes").html("{{$acr->employee->name }}");
+				$("#employee_name_yes").html("{{$acr->employee->shriName }}");
 				$("#employee_name_no").html(" _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ");
 				$("#lbl_reason").removeClass('required');
 				$("#reason").removeAttr('required');
@@ -109,7 +108,7 @@ My ACR
 			else
 			{
 				$("#employee_name_yes").html(" _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ ");
-				$("#employee_name_no").html('{{$acr->employee->name }} ');
+				$("#employee_name_no").html('{{$acr->employee->shriName }} ');
 
 				$("#lbl_reason").addClass('required');				
 				$("#reason").prop('required',true);

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
- 
+use App\Mail\Acr\AcrAlertMail;
+use App\Models\Acr\AcrNotification;
 use App\Models\HrGrievance\HrGrievance;
 use App\Models\OfficeJobDefault;
+use App\Notifications\Acr\AcrAlertNotification;
 use App\Notifications\VerifyUserNotification;
 use App\Traits\UserOfficesTrait;
 use Carbon\Carbon;
@@ -17,6 +19,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
+use Mail;
 use \DateTimeInterface;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -73,6 +76,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getIsAdminAttribute()
     {
         return $this->roles()->where('id', 1)->exists();
+    }
+
+    public function getShriNameAttribute()
+    {
+        if($this->employee){
+           return $this->employee->shriName;
+        }
+        return $this->name;
     }
 
     /**
@@ -245,6 +256,7 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      */
     public function hasPermissionTo(array $permission): bool//mkb checked
+
     {
         // check if the permission is available in any role
         foreach ($this->roles as $role) {
@@ -267,13 +279,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->roles()->where('name', $roleSlug)->count() == 1;
     }
- 
-    
+
+    /**
+     * @return mixed
+     */
     public function grievances()
     {
     	return $this->hasMany(HrGrievance::class, "employee_id", "employee_id");
     }
- 
 
     /**
      * @return mixed
@@ -286,15 +299,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function jobs()
     {
-        $officeTable=(new Office)->fulltable;
+        $officeTable = (new Office)->fulltable;
 
-        return OfficeJobDefault::where('user_id',$this->id)
-        ->join($officeTable, 'office_job_defaults.office_id', '=', $officeTable.'.id')
-        ->join('office_jobs', 'office_job_defaults.job_id', '=', 'office_jobs.id')
-        ->select('office_job_defaults.id', $officeTable.'.name as office_name','office_jobs.name')
-        ->orderBy('office_jobs.name')
-        ->orderBy($officeTable.'.id')
-        ->get();
+        return OfficeJobDefault::where('user_id', $this->id)
+            ->join($officeTable, 'office_job_defaults.office_id', '=', $officeTable.'.id')
+            ->join('office_jobs', 'office_job_defaults.job_id', '=', 'office_jobs.id')
+            ->select('office_job_defaults.id', $officeTable.'.name as office_name', 'office_jobs.name')
+            ->orderBy('office_jobs.name')
+            ->orderBy($officeTable.'.id')
+            ->get();
     }
 
     /**
@@ -325,7 +338,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $dob = $employee->birth_date->format('d M y');
 
             return "
-                Name:$employee->name <br>
+                Name:$employee->shriName <br>
                 Designation:$designation <br>
                 DOB:$dob <br>
             ";
@@ -336,7 +349,36 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function fromShashan()
     {
-       return substr($this->employee_id, 1, 3)=='sec';
+        return substr($this->employee_id, 1, 3) == 'sec';
+    }
 
+    /**
+     * @param $userPendingAcrs
+     */
+    public function acrAlertNotification($userPendingAcrs)
+    {
+        $previousNotification = AcrNotification::where('employee_id', $this->employee_id)
+            ->where('acr_id', 0)
+            ->where('through', 1) //for mail , may be 2 for sms
+            ->where('notification_type', 10) //2=for alert
+            ->whereDate('notification_on', Carbon::today())->first(); //todo search for today
+
+        if (!$previousNotification) {
+            $mail = Mail::to($this)
+                ->send(new AcrAlertMail($this, $userPendingAcrs));
+            if ($this->chat_id > 90000) {
+                $response = $this->notify(new AcrAlertNotification($this, $userPendingAcrs));
+            }
+
+            $data = [
+                'employee_id' => $this->employee_id,
+                'acr_id' => 0,
+                'notification_on' => now(),
+                'through' => 1,
+                'notification_type' => 10,
+                'notification_no' => 1
+            ];
+            AcrNotification::create($data);
+        }
     }
 }

@@ -21,9 +21,9 @@ Part -III Appraisal <small>(By Reporting Officer)</small>
 <div class="card">
 	<div class="card-body text-muted">
 		<p class="fw-bold h5">
-		  	किए गए कार्यों का विवरण (अधिकतम 300 शब्दों मे)
+		  	स्वयं द्वारा किए गए कार्यों के संबंध मे विवरण व स्वयं का विश्लेषण (अधिकतम 300 शब्दों मे)
 		</p>
-		<p>
+		<p class="text-info border border-primary p-3" style="min-height: 150px;">
 			{{$acr->good_work??' ----  '}}
 		</p>
 	</div>
@@ -33,9 +33,15 @@ Part -III Appraisal <small>(By Reporting Officer)</small>
 		<div class="card-body">
 			<div class="form-group">
 				<p class="fw-semibold h5">
-					टिप्पणी
+					 प्रतिवेदक अधिकारी की अभियुक्ति
+				</p> 
+				<p class="small px-3">
+				 	संबंधित क्रमचारी के व्यक्तित्व तथा कार्य के मूल्याकन हेतु मुख्यत: निम्नलिखित विशिष्ट पहलुओ की पृष्टभूमि मे वर्णात्मक शैली मे प्रतिवेदक अधिकारी द्वारा लिखी जाएगी 
 				</p>
-				<textarea class="form-control rounded-3" id="appraisal_note_1" name="appraisal_note_1">{{$acr->appraisal_note_1??''}}</textarea>
+			 	<p class="small px-3 py-0">(क) अभिव्यक्त करें की योग्यता , (ख) सहयोगियों से संबंध, (ग) बौद्धिक स्तर, (घ) श्रमशीलता एवं जागरूकता, (ड़) कर्तव्य निर्वहन के प्रति लग्न, (च) अन्य टिप्पणी</p>
+					 
+				</p>
+				<textarea class="form-control rounded-3" id="appraisal_note_1" name="appraisal_note_1" rows="10">{{$acr->appraisal_note_1??''}}</textarea>
 
 			</div>
 

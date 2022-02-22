@@ -31,7 +31,7 @@ Part - IV ( Assessment by the Accepting Authority)
 					<p class="fw-bold"> Name of the officer Reported Upon :- </p>
 				</div>
 				<div class="col-md-6">
-					<p class="fw-semibold text-info"> {{$acr->employee->name }} </p>
+					<p class="fw-semibold text-info"> {{$acr->employee->shriName }} </p>
 				</div>
 			</div>
 			<div class="row">

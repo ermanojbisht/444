@@ -17,7 +17,7 @@
 <table class="table table-bordered table-sm">
 	<tr>
 		<td class="fw-bold"> Name of the officer Reported Upon :- </td>
-		<td class="fw-semibold fs-5"> {{$employee->name }} </td>
+		<td class="fw-semibold fs-5"> {{$employee->shriName }} </td>
 	</tr>
 	<tr>
 		<td class="fw-bold"> Designation :- </td>
@@ -37,7 +37,7 @@
 @if (!$acr->is_active)
 <p style="padding:5px;width:100%;color: white!important; background-color:#E55353;text-align:center"
 	class="fw-semibold my-0">
-This ACR has been rejected by {{$acr->rejectUser()->name}} on @mkbdate($acr->rejectionDetail->created_at).
+This ACR has been rejected by {{$acr->rejectUser()->shriName}} on @mkbdate($acr->rejectionDetail->created_at).
 
 Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 </p>
@@ -112,7 +112,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 				{{config('acr.basic.appraisalOfficerType')[$appraisalOfficer->pivot->appraisal_officer_type]??'----'}}
 				Authority
 			</td>
-			<td>{{$appraisalOfficer->name}}</td>
+			<td>{{$appraisalOfficer->shriName}}</td>
 			<td>{{$appraisalOfficer->designation->name}}</td>
 			<td>
 				{{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->format('d
@@ -205,12 +205,12 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		@php $n = $n + 1; @endphp
 		<tr>
 			<td>8.{{1+$loop->index }}</td>
-			<td>{{$acr->employee->name}}</td>
+			<td>{{$acr->employee->shriName}}</td>
 			<td>{{$acr->employee_id}} </td>
 			<td>{{$acr->from_date}}</td>
 			<td>{{$acr->to_date }}</td>
 			<td>{{$acr->created_at->format('d M Y')}} </td>
-			<td>Status to be added</td>
+			<td>{{$acr->status()}}</td>
 		</tr>
 		@endforeach
 
@@ -218,12 +218,12 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		@php $n = $n + 1; @endphp
 		<tr>
 			<td>8.{{1+$loop->index }}</td>
-			<td>{{$acr->employee->name}}</td>
+			<td>{{$acr->employee->shriName}}</td>
 			<td>{{$acr->employee_id}} </td>
 			<td>{{$acr->from_date}}</td>
 			<td>{{$acr->to_date }}</td>
 			<td>{{$acr->created_at->format('d M Y')}} </td>
-			<td>Status to be added</td>
+			<td>{{$acr->status()}}</td>
 		</tr>
 		@endforeach
 
@@ -231,12 +231,12 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		@php $n = $n + 1; @endphp
 		<tr>
 			<td>8.{{1+$loop->index }}</td>
-			<td>{{$acr->employee->name}}</td>
+			<td>{{$acr->employee->shriName}}</td>
 			<td>{{$acr->employee_id}} </td>
 			<td>{{$acr->from_date}}</td>
 			<td>{{$acr->to_date }}</td>
 			<td>{{$acr->created_at->format('d M Y')}} </td>
-			<td>Status to be added</td>
+			<td>{{$acr->status()}}</td>
 		</tr>
 		@endforeach
 		@if($n == 0 )

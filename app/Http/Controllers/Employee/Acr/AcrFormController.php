@@ -48,7 +48,7 @@ class AcrFormController extends Controller
     {
         // Check if Acr have only single Page data 
         if(in_array($acr->acr_type_id, config('acr.basic.acrWithoutProcess'))){
-            return view('employee.acr.form.createSinglePageAcr', compact('acr'));
+            return view('employee.acr.form.single_page.user_create', compact('acr'));
         }
         
         $data_groups = $acr->type1RequiremntsWithFilledData();
@@ -60,7 +60,7 @@ class AcrFormController extends Controller
      * @param Acr     $acr
      * @param Request $request
      */
-    public function create2(Acr $acr, Request $request)
+    public function create2(Acr $acr)
     {
         $page = 2;
         return view('employee.acr.form.create2', compact('acr', 'page'));
@@ -69,7 +69,7 @@ class AcrFormController extends Controller
      * @param Acr     $acr
      * @param Request $request
      */
-    public function create3(Acr $acr, Request $request)
+    public function create3(Acr $acr)
     {
         $page = 3;
         $require_negative_parameters = $acr->acrMasterParameters()->where('type', 0)->get()->keyBy('id');
@@ -151,7 +151,7 @@ class AcrFormController extends Controller
         $acr = Acr::findOrFail($request->acr_id);
 
         foreach ($request->acr_master_parameter_id as $acr_master_parameter) {
-            if ($request->applicable[$acr_master_parameter] == 1 && ($request->target[$acr_master_parameter] || $request->achivement[$acr_master_parameter] || $request->status[$acr_master_parameter])) {
+            if ($request->applicable[$acr_master_parameter] == 1) { // && ($request->target[$acr_master_parameter] || $request->achivement[$acr_master_parameter] || $request->status[$acr_master_parameter]
                 AcrParameter::UpdateOrCreate(
                     [
                         'acr_id' => $request->acr_id,
@@ -209,10 +209,11 @@ class AcrFormController extends Controller
 
     public function store3(Request $request)
     {
+        //return $request->all();
         $acr = Acr::findOrFail($request->acr_id);
         foreach ($request->acr_master_parameter_id as $parameter_id) {
             foreach ($request->$parameter_id as $rowNo => $rowData) {
-                if ($rowData['col_1']) {
+               // if ($rowData['col_1']) {
 
                     AcrNegativeParameter::UpdateOrCreate(
                         [
@@ -232,15 +233,16 @@ class AcrFormController extends Controller
                             'col_9' => $rowData['col_9'] ?? ''
                         ]
                     );
-                }
+               // }
             }
         }
 
-        if ($request->final == 0) {
+        return Redirect()->back();
+        /*if ($request->final == 0) {
             return Redirect()->back()->with('success', 'Part -II Self-Appraisal Page -3 Data saved successfully');;
         } else {
             return redirect()->route('acr.form.addTrainningToEmployee', compact('acr'))->with('success', 'Part -II Self-Appraisal Page -3 Deduction Parameters saved successfully');
-        }
+        }*/
     }
 
     /**

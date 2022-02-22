@@ -8,19 +8,28 @@ return [
       3=>'Accepting'
    ],
 
+   'appraisalOfficerType2step'=>[
+      1=>'Reporting',
+      2=>'Reviewing',     
+   ],
+
    'acrProcessFields'=>[
       1=>'report_employee_id',
       2=>'review_employee_id',
       3=>'accept_employee_id'
    ],
 
+
    'duty'=>[
-      'submit'=>['field'=>'employee_id','period'=>30,'triggerOn'=>''],
-      'report'=>['field'=>'report_employee_id','period'=>30,'triggerOn'=>'submit','triggerDate'=>'submitted_at'],
-      'review'=>['field'=>'review_employee_id','period'=>30,'triggerOn'=>'report','triggerDate'=>'report_on'],
-      'accept'=>['field'=>'accept_employee_id','period'=>30,'triggerOn'=>'review','triggerDate'=>'review_on'],
-      //triggerOn accept ?  now target is submit beacause it's just back to user
-      'reject'=>['field'=>'employee_id','period'=>30,'triggerOn'=>'reject','triggerDate'=>'reject_on'],
+      'submit'=>['period'=>90,'triggerOn'=>'','targetemployee'=>'employee_id'],
+      'report'=>['period'=>30,'triggerOn'=>'submit','triggerDate'=>'submitted_at','targetemployee'=>'report_employee_id'],
+      //what duty is to perform. report means acr is at submit level report is to be done . iska triggerOn submit hoga
+      'review'=>['period'=>30,'triggerOn'=>'report','triggerDate'=>'report_on','targetemployee'=>'review_employee_id'],
+      'accept'=>['period'=>30,'triggerOn'=>'review','triggerDate'=>'review_on','targetemployee'=>'accept_employee_id'],
+
+      'reject'=>['period'=>30,'triggerOn'=>'reject','triggerDate'=>'submitted_at','targetemployee'=>'employee_id'],
+      //triggerDate might be anydate  [submitted_at,report_on, reviwed_on], field can be [report_employee_id,review_employee_id,accept_employee_id], triggerOn can be [submit,report,review]
+      //sabhi case mai targetemployee hai jise msg karna hai
    ],
 
    'acrLeaveType'=>[
@@ -35,7 +44,7 @@ return [
    ] ,
 
    'acrWithoutProcess'=>[
-      0,30
+      30,31
    ] ,
 
 

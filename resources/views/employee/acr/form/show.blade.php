@@ -37,7 +37,9 @@
 									@php 
 										$total_marks = $total_marks + $data->max_marks;
 									@endphp
-									<tr>
+									<tr
+										@if($data->applicable == 0) class="bg-light" @endif
+									>
 										<td>{{$loop->iteration}}</td>
 										<td>{{$data->description}}</td>
 										<td class="text-center">{{$data->max_marks}}</td>
@@ -59,7 +61,7 @@
 											@if($data->applicable != 0)
 												Yes
 											@else
-												No
+												<span class="text-danger">No</span>
 											@endif
 										</td>
 									</tr>		
@@ -76,20 +78,28 @@
 				@endforeach
 		</div>
 		<div class="card-body">
-			<p class="fw-semibold h5">
-                @if($acr->is_single_page)
-                किए गए कार्यों का विवरण (अधिकतम 300 शब्दों मे)
-                @else
-			  	2- Exceptionally good works done, if any, apart from routine duties during the period of appraisal
-                @endif
-			</p>
-			<p class="text-info">{{$acr->good_work??'--no data filled--'}}</p>
-            @if(!$acr->is_single_page)
-		  	<p class="fw-semibold h5">
-		  		3- Difficulties faced in performing the assigned 'Tasks/Duties'
-		  	</p>
-		  	<p class="text-info">{{$acr->difficultie??'--no data filled--'}}</p>
-            @endif
+			@if($acr->is_single_page)
+				<p class="fw-semibold h5">
+					किए गए कार्यों का विवरण (अधिकतम 300 शब्दों मे)
+				</p>
+				<p class="text-info border border-primary p-3" style="min-height: 150px;">
+					{{$acr->good_work??'--no data filled--'}}
+				</p>
+			@else
+				<p class="fw-semibold h5">
+					2- Exceptionally good works done, if any, apart from routine duties during the period of appraisal
+				</p>
+				<p class="text-info border border-primary p-3" style="min-height: 150px;">
+					{{$acr->good_work??'--no data filled--'}}
+				</p>
+				<p class="fw-semibold h5">
+					3- Difficulties faced in performing the assigned 'Tasks/Duties'
+				</p>
+				<p class="text-info border border-primary p-3" style="min-height: 150px;">
+					{{$acr->difficultie??'--no data filled--'}}
+				</p>
+
+			@endif
 		</div>
 		<div class="card-body">
 			@php
@@ -98,7 +108,6 @@
 			@foreach($negative_groups as $groupId => $datas)
 				@if($groupId < 3000)
 					@foreach($datas as $data)
-						
 						@php
 							$groupData = config('acr.group')[$groupId];
 							$slno = $slno+1;
@@ -114,56 +123,49 @@
 									@foreach($groupData['columns'] as $key=>$values)
 										<th>{{$values['text']}}</th>
 									@endforeach
-									<td></td>
 								</tr>
 							</thead>
 							<tbody>
 								@if($groupData['multi_rows'])
 									@php $n = 0; @endphp
-									@foreach($data->user_filled_data as $filled_data)
+									@forelse($data->user_filled_data as $filled_data)
 										@php  $n = $n+1; @endphp
-										<tr style="background-color:#F0FFF0;">
+										<tr>
 											@foreach($groupData['columns'] as $key=>$values)
 												<td>
 													@if ($values['input_type'])
-														
-															{{$filled_data[$values['input_name']]??'--'}}
-														
+														{{$filled_data[$values['input_name']]??'--'}}
 													@else
 														{{$filled_data->row_no}}
 													@endif
 												</td>
 											@endforeach
-
-											<td>
-												
-											</td>
 										<tr>
-									@endforeach
+									@empty	
+										<tr class="text-center">
+											@foreach($groupData['columns'] as $key=>$values)
+												<td> -- </td>
+											@endforeach
+										</tr>	
+									@endforelse
 								@else
-									@if(!empty($data->user_filled_data[0]))
-										<tr style="background-color:#F0FFF0;">
-									@else
-										<tr>
-									@endif
-										@foreach($groupData['columns'] as $key=>$values)
-											<td>
-												@if ($values['input_type'])
-														{{$data->user_filled_data[0][$values['input_name']]??'--'}}
-												@endif
-											</td>
-										@endforeach
-											<td>
-											
-											</td>
-										</tr>
+									<tr>
+									@forelse($groupData['columns'] as $key=>$values)
+										<td>
+											@if ($values['input_type'])
+													{{$data->user_filled_data[0][$values['input_name']]??'--'}}
+											@endif
+										</td>
+									@empty	
+										<td class="text-center"> -- </td>
+									@endforelse
+									</tr>
 								@endif
 							</tbody>
 						</table>
 						
 					@endforeach
 				@else
-					
 					@php $slno = $slno+1; @endphp
 					<p class="fw-semibold h5 text-info">4.{{$slno}}-  {!!config('acr.group')[$groupId]['head']!!}</p>
 					<table class="table table-bordered border-primary">
@@ -171,28 +173,27 @@
 							<tr class="text-center align-middle">
 								<th width="auto">Sl No.</th>
 								<th width="auto">Description</th>
-								<th width="50%">Action Taken</th>
+								@foreach(config('acr.group')[$groupId]['columns'] as $column)
+									<th width="auto">{{$column['text']}}</th>
+								@endforeach
 								<th width="auto" class="text-info">max. deduction</th>
 							</tr>
 						</thead>
 						<tbody>
 							@foreach($datas as $data)
 							<input type="hidden" name="acr_master_parameter_id[]" value='{{$data->id}}'>
-								@if(!empty($data->user_filled_data[0]))
-									<tr style="background-color:#F0FFF0;">
-								@else
 									<tr>
-								@endif
 									<td>
 										{{$loop->iteration}}
 									</td>
 									<td>
 										{{$data->description}}
 									</td>
-									<td>
-										{{$data->user_filled_data[0]['col_1']??''}}
-										
-									</td>
+									@foreach(config('acr.group')[$groupId]['columns'] as $column)
+										<td>
+											{{$data->user_filled_data[0][$column['input_name']]??'--'}}
+										</td>
+									@endforeach
 									<td class="text-center align-middle text-info">
 										{{$data->max_marks}}
 									</td>
@@ -200,31 +201,46 @@
 							@endforeach
 						</tbody>
 					</table>
-					
 				@endif
 			@endforeach
 		</div>
 		<div class="card-body">
             <P class="fw-semibold h5 ">
-                Training Details
+                5. Training Details
             </P>
-			@foreach($master_trainings as $key=>$trainings)
-			<div class="card-body">
-				<P class="fw-semibold h5 text-muted">
-					{{$key}}
-				</P>
-				<div class="row">
-					@foreach($trainings as $training)
-						<div class="form-check col-md-4  fs-5"> 
-						  <p style="width:100%;">
-							{{1+$loop->index }})  {{$training->description}}
-						  </p>
-						</div>
-					@endforeach
-				</div>
+			<table class="table table-sm">
+				<thead>
+				<tr>
+					<th width="10%" class="text-center">Sl No.</th>
+					<th>Topic </th>
+					<th>Training Name</th>
+				</tr>
+				</thead>
+				<tbody>
+					@php $n=0 @endphp
+					@forelse($master_trainings as $key=>$trainings)
+						@foreach($trainings as $training)
+							@php $n=$n+1 @endphp
+							<tr>
+								<td class="text-center">{{$n}}</td>
+								<td>{{$key}}</td>
+								<td>{{$training->description}}</td>
+							</tr>
+						@endforeach
+					@empty
+					@endforelse
+				</tbody>
+
+			</table>
+		</div>
+		<div>
+			<div class="float-end p-3 text-center fw-semibold">
+				<span class="pb-0">({{$acr->employee->shriName}})</span>
+				<br>
+				<span class="pt-0">Submitted on :{{$acr->submitted_at->format('d M Y')}}</span>
+				
 			</div>
-			<hr>
-			@endforeach
+			
 		</div>
 	</div>
 @endsection

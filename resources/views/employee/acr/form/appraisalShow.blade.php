@@ -11,16 +11,16 @@
 			1. Please state whether you agree with the responses relating to the accomplishments of the work plan and
 			unforeseen tasks as filled out in Section II. If not please furnish factual details.
 		</p>
-		<p class="text-info">{{$acr->appraisal_note_1??'--'}}</p>
+		<p class="text-info border border-primary p-3" style="min-height: 150px;">{{$acr->appraisal_note_1??'--'}}</p>
 		<p class="fw-semibold">
 			2. Please comment on the claim(if made) of exceptional contribution by the officer reoorted upon.
 		</p>
-		<p class="text-info">{{$acr->appraisal_note_2??'--'}}</p>
+		<p class="text-info border border-primary p-3" style="min-height: 150px;">{{$acr->appraisal_note_2??'--'}}</p>
 		<p class="fw-semibold">
 			3. Has the officer reported upon met with any significant failures in respect of his work? If yes, Please
 			furnish factual details.
 		</p>
-		<p class="text-info">{{$acr->appraisal_note_3??'--'}}</p>
+		<p class="text-info border border-primary p-3" style="min-height: 150px;">{{$acr->appraisal_note_3??'--'}}</p>
 	</div>
 	<div class="card-body">
 			@php $total_marksA = $reporting_marksA = $reviewing_marksA = 0; @endphp
@@ -59,8 +59,16 @@
 						<td>{{$loop->iteration}}</td>
 						<td class="{{$classtext??''}} text-start"> {{$required_parameter->description}} </td>
 						<td class="{{$classtext??''}}"> {{$required_parameter->max_marks}} </td>
-						<td> {{$required_parameter->reporting_marks??''}}{!!$not_applicable!!} </td>
-						<td> {{$required_parameter->reviewing_marks??''}}{!!$not_applicable!!} </td>
+						<td>
+							@if($applicableParameters != 0)
+								{{$required_parameter->reporting_marks??''}}
+							@endif 
+							{!!$not_applicable!!} 
+						</td>
+						<td> @if($applicableParameters != 0)
+								{{$required_parameter->reviewing_marks??''}}
+							@endif 
+							{!!$not_applicable!!} </td>
 					</tr>
 					@endforeach
 					@php
@@ -72,20 +80,32 @@
 						$net_reviewing_marksA = 0;
 					}
 					@endphp
-					<tr class="fw-semibold text-center">
-						<td></td>
-						<td class="text-end">Sum for 4- A</td>
-						<td>{{$total_marksA}}</td>
-						<td>{{$reporting_marksA??''}}</td>
-						<td>{{$reviewing_marksA??''}}</td>
-					</tr>
-					<tr class="bg-light fw-semibold text-center">
-						<td></td>
-						<td class="text-end">Say</td>
-						<td>80</td>
-						<td> {{$net_reporting_marksA}} </td>
-						<td> {{$net_reviewing_marksA}} </td>
-					</tr>
+					@if($applicableParameters == 0)
+						<tr class="bg-danger fw-bold" id="exceptional_row">
+							<td></td>
+							<td class="text-end">Due to User Declare all Parameters as not Applicable hence Number Given here </td>
+							<td class="text-center">80</td>
+							<td class="text-center">{{$exceptional_reporting_marks}}</td>
+							<td class="text-center">{{$exceptional_reviewing_marks}}</td>
+						</tr>
+					@else
+						<tr class="fw-semibold text-center">
+							<td></td>
+							<td class="text-end">Sum for 4- A</td>
+							<td>{{$total_marksA}}</td>
+							<td>
+								{{$reporting_marksA??''}}
+							</td>
+							<td>{{$reviewing_marksA??''}}</td>
+						</tr>
+						<tr class="bg-light fw-semibold text-center">
+							<td></td>
+							<td class="text-end">Say</td>
+							<td>80</td>
+							<td> {{$net_reporting_marksA}} </td>
+							<td> {{$net_reviewing_marksA}} </td>
+						</tr>
+					@endif
 					<tr class="fw-semibold fs-5">
 						<td colspan="5">4-B - Assessment of Personal Attributes</td>
 					</tr>
@@ -99,7 +119,6 @@
 						$total_marksB = $total_marksB + $personal_attribute->max_marks;
 						$reporting_marksB = $reporting_marksB + $personal_attribute->reporting_marks??0;
 						$reviewing_marksB = $reviewing_marksB + $personal_attribute->reviewing_marks??0;
-						
 					@endphp
 					<tr class="text-center">
 						<td> {{$loop->iteration}}</td>
@@ -161,8 +180,20 @@
 				<tr class="text-center">
 					<td class="text-start">Assessment of work</td>
 					<td>80</td>
-					<td>{{$net_reporting_marksA}}</td>
-					<td>{{$net_reviewing_marksA}}</td>
+					<td>
+						@if($applicableParameters == 0)
+							{{$exceptional_reporting_marks??''}}
+						@else
+							{{$net_reporting_marksA}}
+						@endif
+					</td>
+					<td>
+						@if($applicableParameters == 0)
+							{{$exceptional_reviewing_marks??''}}
+						@else
+							{{$net_reviewing_marksA}}
+						@endif
+					</td>
 				</tr>
 				<tr class="text-center">
 					<td class="text-start">Assessment of personal attributes</td>
@@ -208,14 +239,14 @@
 	<div class="d-flex justify-content-around">
 		@if($acr->report_on)
 		<div>
-			<p> Repored By : {{$acr->reportUser()->name}} </p>
+			<p> Repored By : {{$acr->reportUser()->shriName}} </p>
 			<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 		</div>
 		@endif
 		@if($acr->review_no)
 		<div>
-			<p> Reviewed By : {{  $acr->reviewUser()->name }} </p>
+			<p> Reviewed By : {{  $acr->reviewUser()->shriName }} </p>
 			<p> On : {{$acr->review_on->format('d M Y')}}</p>
 			
 		</div>

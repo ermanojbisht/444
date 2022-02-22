@@ -247,7 +247,7 @@ class TempController extends Controller
         //accept
 
 
-        //$pages[] = view('employee.acr.show', compact('acr'));
+
 
 
         $pdf = \App::make('snappy.pdf.wrapper');

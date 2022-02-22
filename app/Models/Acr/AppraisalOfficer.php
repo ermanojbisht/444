@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AppraisalOfficer extends Model
 {
+    protected $connection='mysqlhrms';
     protected $dates = [
         'from_date', 'to_date'
     ];

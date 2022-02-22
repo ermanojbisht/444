@@ -26,6 +26,7 @@ class AcrReportController extends Controller
      * @var mixed
      */
     protected $user;
+    protected $msg403 = 'Unauthorized action.You are not authorised to see this ACR details';
 
     /**
      * @return mixed
@@ -46,29 +47,50 @@ class AcrReportController extends Controller
      */
     public function appraisal1(Acr $acr, Request $request)
     {
-        if(in_array($acr->acr_type_id, config('acr.basic.acrWithoutProcess'))){
-            return view('employee.acr.form.report_appraisal_singlepage', compact('acr'));
+        abort_if($this->user->employee_id <> $acr->report_employee_id, 403, $this->msg403);
+
+        if($acr->isSinglePage){
+            return view('employee.acr.form.single_page.report_create', compact('acr'));
         }
 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
-        $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
-        $personal_attributes =  $acr->peronalAttributeSWithMasterData();
+        
+        $applicableParameters = $requiredParameters->where('applicable',1)->count();
 
-        $view = false; // make true for view only
-        return view('employee.acr.form.appraisal', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view')); //'notApplicableParameters',
+        if($applicableParameters == 0 ){
+            $exceptional_reporting_marks = $requiredParameters->sum('reporting_marks');
+        }else{
+            $exceptional_reporting_marks = 0;
+        }   
+
+        $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
+        
+        $personal_attributes =  $acr->peronalAttributeSWithMasterData();
+        
+        
+        return view('employee.acr.form.appraisal', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'applicableParameters','exceptional_reporting_marks')); //'notApplicableParameters',
     }
 
     public function show(Acr $acr, Request $request)
     {
         if($acr->isSinglePage){
-            return view('employee.acr.form.appraisalShowSinglePage', compact('acr'));
+            return view('employee.acr.form.single_page.report_review_show', compact('acr'));
         }
 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
+        
+        $applicableParameters = $requiredParameters->where('applicable',1)->count();
+
+        if($applicableParameters == 0 ){
+            $exceptional_reporting_marks = $requiredParameters->sum('reporting_marks');
+            $exceptional_reviewing_marks = $requiredParameters->sum('reviewing_marks');
+        }else{
+            $exceptional_reporting_marks = $exceptional_reviewing_marks = 0;
+        }   
         $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
         $personal_attributes =  $acr->peronalAttributeSWithMasterData();
 
-        return view('employee.acr.form.appraisalShow', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters'));
+        return view('employee.acr.form.appraisalShow', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters','applicableParameters','exceptional_reporting_marks','exceptional_reviewing_marks'));
     }
 
 
@@ -91,20 +113,29 @@ class AcrReportController extends Controller
         );
 
         $acr = Acr::findOrFail($request->acr_id);
+
+
         $report_no = 0;
 
-        foreach ($request->reporting_marks_positive as $parameterId => $reporting_mark_positive) {
-            $report_no = $report_no + $reporting_mark_positive * $request->positive_factor;
-            
-            AcrParameter::UpdateOrCreate(
-                [
-                    'acr_id' => $request->acr_id,
-                    'acr_master_parameter_id' => $parameterId,
-                ],
-                [
-                    'reporting_marks' => $reporting_mark_positive,
-                ]
+        if($request->positive_factor > 0){ // if altlest a parameter applicable 
+            foreach ($request->reporting_marks_positive as $parameterId => $reporting_mark_positive) {
+                $report_no = $report_no + $reporting_mark_positive * $request->positive_factor;
+                AcrParameter::UpdateOrCreate(
+                    [
+                        'acr_id' => $request->acr_id,
+                        'acr_master_parameter_id' => $parameterId,
+                    ],
+                    [
+                        'reporting_marks' => $reporting_mark_positive,
+                    ]
+                );
+            }
+        }else{ // if no parameter applicable
+            $first = AcrParameter::where('acr_id',$request->acr_id)->first();
+            $first->Update(
+                ['reporting_marks' => $request->exceptional_reporting_marks]
             );
+            $report_no = $request->exceptional_reporting_marks;
         }
 
         foreach ($request->personal_attributes as $attributeId => $attribute_mark) {
@@ -156,80 +187,17 @@ class AcrReportController extends Controller
         ]);
         return redirect(route('acr.others.index'))->with('success', 'Data Saved Successfully...');
     }
+
+
     // todo these function to be shifted in ACR Controller
     public function getUserParameterData($acrId, $paramId)
     {
-        $AcrMasterParameter =  AcrMasterParameter::where('id', $paramId)->first();
-
-        $AcrParameter =  AcrParameter::where('acr_master_parameter_id', $paramId)->where('acr_id', $acrId)->first();
-
-        $text = [];
-        $text[] = "<p class='fs-5 fw-semibold my-0'>User Input For </p>";
-        $text[] = "<p class='text-info fs-5 fw-bold'>" . $AcrMasterParameter->description . "</p>";
-        if (isset($AcrParameter)) {
-            if ($AcrParameter->is_applicable == 1) {
-                if ($AcrMasterParameter->config_group == 1001) {
-                    $text[] = "<p class='fs-5 fw-semibold'> Target : " . ($AcrParameter->user_target ?? '') . " " . $AcrMasterParameter->unit . "</p>";
-                    $text[] = "<p class='fs-5 fw-semibold'> Achivement : " . ($AcrParameter->user_achivement ?? '') . " " . $AcrMasterParameter->unit . "</p>";
-                } elseif ($AcrMasterParameter->config_group == 1002) {
-                    $text[] = "<p class='fs-5 fw-semibold'> status : " . $AcrParameter->status . "</p>";
-                } else {
-                }
-            } elseif ($AcrParameter->is_applicable == 0) {
-                $text[] = "<p class='fs-5 fw-semibold text-danger'> User Declare it as Not Applicable</p>";
-            } else {
-            }
-        } else {
-            $text[] = "<p class='fs-5 fw-semibold text-danger'> User not Filled any Data</p>";
-        }
-
-        return $text;
+        return Acr::findOrFail($acrId)->getUserParameterData($paramId);
     }
 
     public function getUserNegativeParameterData($acrId, $paramId)
     {
-        $text = [];
-
-        $AcrMasterParameter =  AcrMasterParameter::where('id', $paramId)->first();
-
-        $groupId = $AcrMasterParameter->config_group;
-
-        $AcrParameter =  AcrNegativeParameter::where('acr_master_parameter_id', $paramId)->where('acr_id', $acrId)->get();
-
-        $text[] = "<p class='fs-5 fw-semibold my-0'>User Input For </p>";
-        $text[] = "<p class='text-info fs-5 fw-bold'>" . $AcrMasterParameter->description . "</p>";
-
-        if (isset($AcrParameter)) {
-            if ($groupId > 2000 && $groupId < 3000) {
-                $text[] = '<table>';
-                $text[] = '<thead>';
-                $text[] = '<tr>';
-                foreach (config('acr.group')[$groupId]['columns'] as $key => $columns) {
-                    $text[] = '<th>' . $columns['text'] . '</th>';
-                }
-                $text[] = '</tr>';
-                $text[] = '</thead>';
-                $text[] = '<tbody>';
-                foreach ($AcrParameter as $Parameter) {
-                    $text[] = '<tr>';
-                    foreach (config('acr.group')[$groupId]['columns'] as $key => $columns) {
-                        if ($columns['input_type'] === false) {
-                            $text[] = '<td>Sl no</td>';
-                        } else {
-                            $text[] = '<td>' . $Parameter[$columns['input_name']] . '</td>';
-                        }
-                    }
-                    $text[] = "</tr>";
-                }
-                $text[] = "</tbody>";
-                $text[] = "</table>";
-            } elseif ($groupId > 3000) {
-                $text[] = "<p class='fs-5 fw-semibold text-danger'>to be develop</p>";
-            }
-        } else {
-            $text[] = "<p class='fs-5 fw-semibold text-danger'> User not Filled any Data</p>";
-        }
-        return $text;
+      return Acr::findOrFail($acrId)->getUserNegativeParameterData($paramId);
     }
 
 
