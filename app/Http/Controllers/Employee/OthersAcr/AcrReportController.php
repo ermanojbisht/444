@@ -232,46 +232,50 @@ class AcrReportController extends Controller
 
     public function getUserNegativeParameterData($acrId, $paramId)
     {
-        $text = [];
+       $text ='';
 
         $AcrMasterParameter =  AcrMasterParameter::where('id', $paramId)->first();
 
         $groupId = $AcrMasterParameter->config_group;
 
         $AcrParameter =  AcrNegativeParameter::where('acr_master_parameter_id', $paramId)->where('acr_id', $acrId)->get();
-
-        $text[] = "<p class='fs-5 fw-semibold my-0'>User Input For </p>";
-        $text[] = "<p class='text-info fs-5 fw-bold'>" . $AcrMasterParameter->description . "</p>";
-
+        $text = $text."<p class='fw-semibold bg-warning p-1'>" . $AcrMasterParameter->description . "</p>";
+       
         if (isset($AcrParameter)) {
             if ($groupId > 2000 && $groupId < 3000) {
-                $text[] = '<table>';
-                $text[] = '<thead>';
-                $text[] = '<tr>';
+                $text = $text.'<table class="table table-sm table-bordered"><thead><tr>';
                 foreach (config('acr.group')[$groupId]['columns'] as $key => $columns) {
-                    $text[] = '<th>' . $columns['text'] . '</th>';
+                    $text = $text.'<th class="text-info align-middle text-center small">' . $columns['text'] . '</th>';
                 }
-                $text[] = '</tr>';
-                $text[] = '</thead>';
-                $text[] = '<tbody>';
+                $text = $text.'</tr></thead><tbody>';
+                $n = 0;
                 foreach ($AcrParameter as $Parameter) {
-                    $text[] = '<tr>';
+                    $text = $text.'<tr>';
                     foreach (config('acr.group')[$groupId]['columns'] as $key => $columns) {
                         if ($columns['input_type'] === false) {
-                            $text[] = '<td>Sl no</td>';
+                            $n = $n + 1;
+                            $text = $text.'<td class="text-center small">'.$n.') </td>';
                         } else {
-                            $text[] = '<td>' . $Parameter[$columns['input_name']] . '</td>';
+                            $text = $text.'<td class="text-center small ">' . $Parameter[$columns['input_name']] . '</td>';
                         }
                     }
-                    $text[] = "</tr>";
+                    $text = $text."</tr>";
                 }
-                $text[] = "</tbody>";
-                $text[] = "</table>";
+                $text = $text."</tbody></table>";
             } elseif ($groupId > 3000) {
-                $text[] = "<p class='fs-5 fw-semibold text-danger'>to be develop</p>";
+                foreach ($AcrParameter as $Parameter) {
+                    foreach (config('acr.group')[$groupId]['columns'] as $key => $columns) {
+                        $text = $text
+                                ."<p>"
+                                .$columns['text']
+                                ."-- <span class='text-info'>"
+                                .$Parameter[$columns['input_name']]
+                                ."</span></p>";
+                    }
+                }
             }
         } else {
-            $text[] = "<p class='fs-5 fw-semibold text-danger'> User not Filled any Data</p>";
+            $text = $text."<p class='fw-semibold text-danger'> User not Filled any Data</p>";
         }
         return $text;
     }
