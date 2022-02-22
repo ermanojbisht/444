@@ -6,17 +6,17 @@
 @endsection
 
 @section('pagetitle')
-    Add Document
+Add Document
 @endsection
 
 @section('breadcrumb')
-@include('layouts._commonpartials._breadcrumb', 
+@include('layouts._commonpartials._breadcrumb',
 ['datas'=> [
-    ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
-    ['label'=> 'Grievance','active'=>false],
-    ['label'=> 'List','active'=>false, 'route' => 'employee.hr_grievance'],
-    ['label'=> 'Add Document for Grievance Id -> ' . $hr_grievance_id  ,'active'=>true],
-    ]])
+['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
+['label'=> 'Grievance','active'=>false],
+['label'=> 'List','active'=>false, 'route' => 'employee.hr_grievance.doclist1', 'routefielddata'=>[ $hr_grievance_id ]],
+['label'=> 'Add Document for Grievance Id -> ' . $hr_grievance_id ,'active'=>true],
+]])
 @endsection
 
 

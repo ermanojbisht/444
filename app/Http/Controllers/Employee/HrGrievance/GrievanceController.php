@@ -10,6 +10,7 @@ use App\Models\EeOffice;
 use App\Models\Employee;
 use App\Models\HrGrievance\HrGrievance;
 use App\Models\HrGrievance\HrGrievanceType;
+use App\Models\Office;
 use App\Traits\OfficeTypeTrait;
 use Gate;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,7 @@ class GrievanceController extends Controller
     // view all created grievance
     public function index()
     {
+
         $employee_name = $this->user->name;
         $grievances =  $this->user->grievances()->get();
 
@@ -56,7 +58,8 @@ class GrievanceController extends Controller
     public function create()
     {
         $grievanceTypes = HrGrievanceType::all();
-        $eeOffices = EeOffice::select(['id', 'name'])->whereIn('div_type', [1, 2])->get();
+        // $eeOffices =  EeOffice::select(['id', 'name'])->whereIn('div_type', [1, 2])->get();
+        $eeOffices =  Office::where('office_type',3)->select('name','id')->get();
         return view('employee.hr_grievance.create', compact('grievanceTypes', 'eeOffices'));
     }
 
@@ -68,6 +71,7 @@ class GrievanceController extends Controller
     public function store(StoreGrievanceRequest $request)
     {
         $hrGrievance = HrGrievance::create($request->validated());
+
         if ($request->is_document_upload == 1)
             return Redirect::route("employee.hr_grievance.addDoc", ['hr_grievance' => $hrGrievance->id]);
         else
@@ -103,7 +107,8 @@ class GrievanceController extends Controller
     {
         $grievanceTypes = HrGrievanceType::all();
         $officeType = $hr_grievance->office_type;
-        $eeOffices =  $this->officeListAsPerOfficeTypeObject($officeType);
+        //  $eeOffices =  $this->officeListAsPerOfficeTypeObject($officeType);
+        $eeOffices =  $this->getOfficeListAsPerOfficeTypeId($officeType);
         return view('employee.hr_grievance.edit', compact('hr_grievance', 'grievanceTypes', 'eeOffices'));
     }
 
@@ -131,7 +136,8 @@ class GrievanceController extends Controller
     {
         if ($request->ajax()) {
             $officeType = $request->officeType;
-            return $this->officeListAsPerOfficeTypeObject($officeType);
+            // return $this->officeListAsPerOfficeTypeObject($officeType);
+            return $this->getOfficeListAsPerOfficeTypeId($officeType);
         }
     }
 }

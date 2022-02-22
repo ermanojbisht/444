@@ -135,9 +135,6 @@ Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => [
 
 });
 
-
-
-
 // GrievanceController
 
 //employee system routes-------------------------  // 
@@ -156,18 +153,25 @@ Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['aut
     Route::post('ajaxDataForOffice', 'Employee\HrGrievance\GrievanceController@ajaxDataForOffice')->name('ajaxDataForOffice');
 });
 
-
-
 //employee system routes-------------------------------
 
 //ResolveGrievanceController
 
-Route::get('Resolve/HrGrievance', 'Employee\OthersHrGrievance\ResolveGrievanceController@index')->name('resolve_hr_grievance');
-Route::get('Resolve/HrGrievance/{hr_grievance}/Show', 'Employee\OthersHrGrievance\ResolveGrievanceController@show')->name('office.View.hrGrievance');
-Route::get('Resolve/HrGrievance/addDraft/{hr_grievance}', 'Employee\OthersHrGrievance\ResolveGrievanceController@addDraft')->name('office.resolve.hr_grievance.addDraftAnswer');
-Route::post('addDraft', 'Employee\OthersHrGrievance\ResolveGrievanceController@updateGrievance')->name('officer.hr_grievance.updateGrievance');
+Route::get('HrGrievance/Index', 'Employee\OthersHrGrievance\ResolveGrievanceController@index')->name('resolve_hr_grievance');
 
-Route::get('Resolve/hr_grievance/{hr_grievance}', 'Employee\OthersHrGrievance\ResolveGrievanceController@addFinalAnswer')->name('office.resolve.hr_grievance');
+Route::get('Resolve/HrGrievance/{hr_grievance}/Show', 'Employee\OthersHrGrievance\ResolveGrievanceController@show')->name('View.hrGrievance');
+
+
+Route::get('Resolve/{hr_grievance}/HrGrievance', 'Employee\OthersHrGrievance\ResolveGrievanceController@resolveGrievance')->name('view_hr_grievance');
+
+Route::get('Resolve/HrGrievance/{hr_grievance}/addDraft', 'Employee\OthersHrGrievance\ResolveGrievanceController@addDraft')->name('hr_grievance.resolve.addDraft');
+Route::post('Resolve/HrGrievance/updateDraft', 'Employee\OthersHrGrievance\ResolveGrievanceController@updateGrievance')->name('hr_grievance.updateGrievance');
+
+Route::get('Resolve/HrGrievance/{hr_grievance}/Final', 'Employee\OthersHrGrievance\ResolveGrievanceController@addFinalAnswer')->name('hr_grievance.resolve.final');
+Route::post('Resolve/HrGrievance/Final', 'Employee\OthersHrGrievance\ResolveGrievanceController@resolveFinalGrievance')->name('hr_grievance.resolveGrievance');
+
+
+
 
 
 //ResolveGrievanceController

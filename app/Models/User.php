@@ -271,7 +271,7 @@ class User extends Authenticatable implements MustVerifyEmail
     
     public function grievances()
     {
-    	return $this->hasMany(HrGrievance::class, "employee_id", "id");
+    	return $this->hasMany(HrGrievance::class, "employee_id", "employee_id");
     }
  
 
