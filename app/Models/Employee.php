@@ -163,7 +163,7 @@ class Employee extends Authenticatable
             return ['status' => false, 'msg' => 'From date ' . $start->format('d M y') . ' can not be less then To date' . $end->format('d M y')];
         }
 
-        if(Helper::currentFy($start->year, $start->month)===Helper::currentFy($end->year, $end->month)){
+        if(Helper::currentFy($start->year, $start->month)!==Helper::currentFy($end->year, $end->month)){
             return ['status' => false, 'msg' => 'From date ' . $start->format('d M y') . '  To date' . $end->format('d M y') .' should be of one financial year '];
         }
         //this ACR should not intersect // period overlaps with previos ACR line period record  
