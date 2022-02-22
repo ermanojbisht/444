@@ -3,21 +3,20 @@
 @include('cssbundle.datatablefor5',['button'=>true])
 @endsection
 
-{{-- 
+{{--
 @section('sidebarmenu')
 @include('layouts.type200._commonpartials._sidebarmenu',['active'=>'Grievance'])
 @endsection --}}
 
 @section('pagetitle')
-{{ $employee_name}}'s Grievances
+Resolve Grievances
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb',
 ['datas'=> [
 ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
-['label'=> 'Grievance','active'=>false],
-['label'=> 'List','active'=>true],
+['label'=> 'Others Grievance','active'=>true]
 ]])
 @endsection
 
@@ -38,13 +37,8 @@
                 <th class="text-center">Description</th>
                 <th class="text-center">Created on</th>
                 <th>Status</th>
+                <th>Resolve Grievance</th>
 
-                @if($canCreateDefaultAnswer)
-                <th> Create Default Answer</th>
-                @endif
-                @if($canCreateFinalAnswer)
-                <th> Create Final Answer</th>
-                @endif
             </tr>
         </thead>
         <tbody>
@@ -53,7 +47,7 @@
                 <td>{{1+$loop->index}}</td>
                 <td>{{$grievance->id}}</td>
                 <td>
-                    <a href="{{route('office.View.hrGrievance', ['hr_grievance' => $grievance->id])}}">
+                    <a href="{{route('View.hrGrievance', ['hr_grievance' => $grievance->id])}}">
                         <i class="cib-twitter"></i> {{$grievance->description}}
                     </a>
                 </td>
@@ -61,24 +55,15 @@
                 <td>
                     {{$grievance->currentStatus()}}
                 </td>
-                @if($canCreateDefaultAnswer)
                 <td>
-                    <a href="{{ route("office.resolve.hr_grievance.addDraftAnswer",['hr_grievance'=>$grievance->id]) }}" >
+                    <a href="{{ route('view_hr_grievance', ['hr_grievance' => $grievance->id] ) }}">
                         @if($grievance->draft_answer)
-                        <i class="cib-twitter"></i> Update Draft
+                        <i class="cib-twitter"></i> Update / Resolve Grievance
                         @else
-                        <i class="cib-twitter"></i> Draft Grievances Answer
+                        <i class="cib-twitter"></i> Resolve Grievance
                         @endif
                     </a>
                 </td>
-                @endif
-                @if($canCreateFinalAnswer)
-                <td>
-                    <a href="{{ route("office.resolve.hr_grievance",['hr_grievance'=>$grievance->id]) }}" >
-                          <i class="cib-twitter"></i>  Resolve Grievance
-                      </a>
-                </td>
-                @endif
             </tr>
             @endforeach
         </tbody>

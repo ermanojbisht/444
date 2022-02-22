@@ -168,7 +168,7 @@
                                     class="btn btn-primary" value="Update Grievance ( शिकायत / मांग / सुझाव सुधारें )"
                                     </button>
 
-                                <input type="hidden" id="employee_id" name="employee_id" value="{{Auth::id()}}">
+                                <input type="hidden" id="employee_id" name="employee_id" value="{{Auth::user()->employee_id}}">
                                 <input type="hidden" id="grievance_id" name="grievance_id" value="{{ $hr_grievance->id }}">
 
                             </div>

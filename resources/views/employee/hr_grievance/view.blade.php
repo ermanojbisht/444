@@ -117,11 +117,9 @@
                 @endif
 
                 <br />
-                <div class="text-medium-emphasis small">
-                    <input type="hidden" id="employee_id" name="employee_id" value="{{Auth::id()}}">
-                </div>
+                
 
-                {{-- if has history  --}}
+                {{-- ToDo:: if has history  --}}
 
             </div>
         </div>

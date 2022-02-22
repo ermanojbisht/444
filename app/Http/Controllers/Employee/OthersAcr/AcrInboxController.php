@@ -156,6 +156,38 @@ class AcrInboxController extends Controller
         return view('employee.acr.employee_acr', compact('acrs', 'employee'));
     }
 
+    public function officeAcrsView(Request $request)
+    {       
+        $officeId=($request->has('office_id'))?$request->office_id:0;     
+
+        //return  $start = $request->start;
+        if ($request->has('start') && $request->has('end')) {
+            //date validate             
+            $acrs = ACR::where('from_date', '>=' , $request->start)
+            ->where('to_date', '<=' , $request->end)->where('is_active',1);
+        }else{
+            $acrs =ACR::where('is_active',1);
+        }
+        if($officeId=='all'){
+            $acrs =$acrs->get();
+        }
+
+        if($officeId==0){
+            $acrs =false;
+        }
+
+        if($officeId>0){
+            $acrs =$acrs->where('office_id', $officeId)->get();
+        }
+    
+
+
+
+        $Officetypes = $this->defineOfficeTypes();
+
+        return view('employee.acr.office_acrs', compact('acrs','Officetypes','officeId'));
+    }
+
     /**
      * View Integrity Certificate for PDF 
      */

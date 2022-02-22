@@ -56,8 +56,7 @@ Add Grievance
 
                         <div class="col-md-6">
                             <label for="grievance_type_id" class="form-label required"> Employee Id (शिकायतकर्ता की ई०
-                                डी० ) </label>
-                            {{Auth::id()}}
+                                डी० ) </label> {{Auth::user()->employee_id}}
                         </div>
                         <div class="col-md-6">
                             <label for="grievance_type_id" class="form-label required"> Employee Name (शिकायतकर्ता का
@@ -86,7 +85,8 @@ Add Grievance
                         <select class="form-select" id="grievance_type_id" name="grievance_type_id" required>
                             <option value=""> Select Grievance Type </option>
                             @foreach($grievanceTypes as $grievance )
-                            <option value="{{$grievance->id}}" {{ old('grievance_type_id')==$grievance->id ? 'selected' :
+                            <option value="{{$grievance->id}}" {{ old('grievance_type_id')==$grievance->id ? 'selected'
+                                :
                                 '' }}> {{$grievance->name}}
                             </option>
                             @endforeach
@@ -94,39 +94,49 @@ Add Grievance
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <label for="office_type" class="form-label required"> Office Type ( ऑफिस का प्रकार) </label>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <select class="form-select" id="office_type" name="office_type" required
-                                onchange="getSetectedOffices()">
-                                <option value="0">EnC Ofice</option>
-                                <option value="1">Zone</option>
-                                <option value="2">Circle</option>
-                                <option value="3" selected>Division </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                <fieldset>
+                    <legend> Select Office who will resolve your grievance :</legend>
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <label for="office_id" class="form-label required"> Office ( ऑफिस ) </label>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <select class="form-select select2" id="office_id" name="office_id" required>
-                                <option value="">select Office</option>
-                                @foreach($eeOffices as $office)
-                                <option value="{{$office->id}}" {{ old('office_id')==$office->id ? 'selected' : '' }}>
-                                    {{$office->name}} </option>
-                                @endforeach
-                            </select>
+                    
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="office_type" class="form-label required"> Office Type ( ऑफिस का प्रकार) </label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select class="form-select" id="office_type" name="office_type" required
+                                    onchange="getSetectedOffices()">
+                                    <option value="0">EnC Ofice</option>
+                                    <option value="1">Zone</option>
+                                    <option value="2">Circle</option>
+                                    <option value="3" selected>Division </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="office_id" class="form-label required"> Office ( ऑफिस ) </label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select class="form-select select2" id="office_id" name="office_id" required>
+                                    <option value="">select Office</option>
+                                    @foreach($eeOffices as $office)
+                                    <option value="{{$office->id}}" {{ old('office_id')==$office->id ? 'selected' : ''
+                                        }}>
+                                        {{$office->name}} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+
                 <div class="row">
                     <div class="col-md-4">
                         <label for="description" class="form-label required "> Description of Grievance ( शिकायत का
@@ -174,7 +184,8 @@ Add Grievance
                                 <input type="submit" confirm("Press a button!"); id="btnAddRegDetails"
                                     class="btn btn-primary" value="Add Grievance ( शिकायत / मांग / सुझाव दर्ज करे)"
                                     </button>
-                                <input type="hidden" id="employee_id" name="employee_id" value="{{Auth::id()}}">
+                                <input type="hidden" id="employee_id" name="employee_id"
+                                    value="{{Auth::user()->employee_id}}">
                             </div>
                         </div>
                     </div>
@@ -184,7 +195,8 @@ Add Grievance
                 <div class="text-medium-emphasis small">
                     Note: <br />
                     This Grievance is editable for {{config('site.backdate.hrGrievance.allowedno')}} days.
-                    ( शिकायत जमा करने के, केवल {{config('site.backdate.hrGrievance.allowedno')}} दिनों तक ही सुधर किया जा
+                    ( शिकायत जमा करने के, केवल {{config('site.backdate.hrGrievance.allowedno')}} दिनों तक ही सुधर किया
+                    जा
                     सकेगा | )<br />
                     You can upload related documents in next screen
                     (आप अगली स्क्रीन पर जा कर संबंधित प्रपत्र अपलोड कर सकते हैं | )
@@ -236,7 +248,7 @@ Add Grievance
                         _token : _token
                     },
                     success: function (data) {
-                        bindDdlWithDataAndSetValue("office_id", data, "id", "name", true, "0", "Select Office", "");
+                        bindDdlWithDataAndSetValue("office_id", data, "id", "name", true, "", "Select Office", "");
                     }
                 }); //}
         }

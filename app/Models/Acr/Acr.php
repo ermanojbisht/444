@@ -2,6 +2,7 @@
 
 namespace App\Models\Acr;
 
+use App\Helpers\Helper;
 use App\Mail\Acr\AcrSumittedMail;
 use App\Models\Acr\AcrNotification;
 use App\Models\Acr\AcrType;
@@ -943,6 +944,7 @@ class Acr extends Model
         return $text;
     }
 
+
     public function isAcrDuetoLoggedUserfor($jobType){
     
         switch ($jobType) {
@@ -959,5 +961,13 @@ class Acr extends Model
         return $this->appraisalOfficerRecords()->where('employee_id',Auth::user()->employee_id)->where('appraisal_officer_type', $appraisal_officer_type)->first()->is_due;
 
     }
+    
+    public function getFinancialYearAttribute()
+    {
+       return Helper::currentFy($this->from_date->year, $this->from_date->month);
+    }
+
+
+
 
 }

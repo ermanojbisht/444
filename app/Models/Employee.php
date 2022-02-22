@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use App\Helpers\Helper;
+use App\Models\Acr\Acr;
 use App\Models\Acr\AcrMasterTraining;
 use App\Models\Acr\EmpProposedTraining;
 use App\Models\HrGrievance\HrGrievance;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -142,6 +146,40 @@ class Employee extends Authenticatable
     {
         return $this->belongsToMany(AcrMasterTraining::class, 'emp_proposed_trainings', 'employee_id','training_id')
             ->withPivot('is_active')->withTimestamps();
+    }
+
+    public function acrs()
+    {
+         return $this->hasMany(Acr::class);
+    }
+
+    public function activeAcrs()
+    {
+         return $this->acrs()->where('is_active',1);
+    }
+
+     public function checkAcrDateInBetweenPreviousACRFilled($start, $end)
+    {
+        if ($start > $end) {
+            return ['status' => false, 'msg' => 'From date ' . $start->format('d M y') . ' can not be less then To date' . $end->format('d M y')];
+        }
+
+        if(Helper::currentFy($start->year, $start->month)!==Helper::currentFy($end->year, $end->month)){
+            return ['status' => false, 'msg' => 'From date ' . $start->format('d M y') . '  To date' . $end->format('d M y') .' should be of one financial year '];
+        }
+        //this ACR should not intersect // period overlaps with previos ACR line period record  
+        $otherRecords = $this->activeAcrs()->get();
+
+        foreach ($otherRecords as  $record) {
+            $recordPeriod = CarbonPeriod::create($record->from_date, $record->to_date);
+            if ($recordPeriod->overlaps($start, $end)) {
+                return ['status' => false, 'msg' => 'Given period (' . $start->format('d M y') . ' - ' .
+                    $end->format('d M y') . ') intersect with period ( ' .
+                    $record->from_date->format('d M y') . ' - ' . $record->to_date->format('d M y') .
+                    ' ) in our record Employee ID = ' . $record->employee_id];
+            }
+        }
+        return ['status' => true, 'msg' => ''];
     }
     
 }

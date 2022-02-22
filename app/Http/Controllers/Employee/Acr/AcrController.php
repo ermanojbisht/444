@@ -83,7 +83,7 @@ class AcrController extends Controller
         $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
         $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
 
-        $result = $this->checkAcrDateInBetweenPreviousACRFilled($start, $end, $request->employee_id);
+        $result =Employee::findOrFail($request->employee_id)->checkAcrDateInBetweenPreviousACRFilled($start, $end);      
 
         if (!$result['status']) {
             return Redirect()->back()->with('fail', $result['msg']);
@@ -92,29 +92,7 @@ class AcrController extends Controller
         Acr::create($request->validated());
 
         return redirect(route('acr.myacrs'));
-    }
-
-
-    public function checkAcrDateInBetweenPreviousACRFilled($start, $end, $employee_id)
-    {
-        if ($start > $end) {
-            return ['status' => false, 'msg' => 'From date ' . $start->format('d M y') . ' can not be less then To date' . $end->format('d M y')];
-        }
-
-        //this ACR should not intersect // period overlaps with previos ACR line period record  
-        $otherRecords = Acr::where('employee_id', $employee_id)->where('is_active', '1')->get();
-
-        foreach ($otherRecords as  $record) {
-            $recordPeriod = CarbonPeriod::create($record->from_date, $record->to_date);
-            if ($recordPeriod->overlaps($start, $end)) {
-                return ['status' => false, 'msg' => 'Given period (' . $start->format('d M y') . ' - ' .
-                    $end->format('d M y') . ') intersect with period ( ' .
-                    $record->from_date->format('d M y') . ' - ' . $record->to_date->format('d M y') .
-                    ' ) in our record Employee ID = ' . $record->employee_id];
-            }
-        }
-        return ['status' => true, 'msg' => ''];
-    }
+    }    
 
 
     public function edit(Acr $acr)
@@ -151,8 +129,8 @@ class AcrController extends Controller
 
         $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
         $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
-
-        $result = $this->checkAcrDateInBetweenPreviousACRFilled($start, $end, $acr->employee_id);
+               
+        $result =Employee::findOrFail($acr->employee_id)->checkAcrDateInBetweenPreviousACRFilled($start, $end);  
         if (!$result['status']) {
             return Redirect()->back()->with('fail', $result['msg']);
         }
