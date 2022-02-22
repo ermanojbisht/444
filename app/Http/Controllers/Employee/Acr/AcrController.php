@@ -291,6 +291,17 @@ class AcrController extends Controller
         return redirect()->back();
     }
 
+    public function destroy(Request $request)
+    {
+        $acr = Acr::findOrFail($request->acr_id);
+
+        abort_if($acr->submitted_at, 403, 'ACR is already submitted so it can not be deleted');
+
+        $acr->delete();
+
+        return redirect()->back()->with('success','ACR deleted Successfully');
+    }
+
 
 
 

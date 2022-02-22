@@ -27,7 +27,7 @@
 		  		प्रतिवेदक अधिकारी द्वारा दिए गए अंक - {{$acr->report_no??' --??-- '}}
 			</p>
 			<div>
-				<p> प्रतिवेदक : {{$acr->reportUser()->name}} </p>
+				<p> प्रतिवेदक : {{$acr->reportUser()->shriName}} </p>
 				<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 			</div>
@@ -46,7 +46,7 @@
 		  		समीक्षक अधिकारी द्वारा दिए गए अंक - {{$acr->review_no??' --??-- '}}
 			</p>
 			<div>
-				<p> समीक्षक : {{$acr->reviewUser()->name}} </p>
+				<p> समीक्षक : {{$acr->reviewUser()->shriName}} </p>
 				<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 			</div>
@@ -66,7 +66,7 @@
 			  		स्वीकर्ता अधिकारी द्वारा दिए गए अंक - {{$acr->accept_no??' --??-- '}}
 				</p>
 				<div>
-					<p> स्वीकर्ता : {{$acr->acceptUser()->name}} </p>
+					<p> स्वीकर्ता : {{$acr->acceptUser()->shriName}} </p>
 					<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 				</div>

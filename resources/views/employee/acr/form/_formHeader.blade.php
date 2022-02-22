@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between p-2 bg-white border border-2">
 	<span class="fw-semibold h5 text-muted">
-		ACR of {{$acr->employee->name}} as {{$acr->type->description}}
+		ACR of {{$acr->employee->shriName}} as {{$acr->type->description}}
 	</span>
 	<span>
 		<div class="btn-group" role="group" aria-label="Basic outlined example">

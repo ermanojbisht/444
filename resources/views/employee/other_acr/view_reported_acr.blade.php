@@ -8,7 +8,7 @@
 		@if (!$acr->report_remark)
 		<i>
 			<p class="fw-semibold"> The general reputation of
-				<span class="text-info">Sri/ Ms {{$acr->employee->name }} </span> for honesty
+				<span class="text-info"> {{$acr->employee->shriName }} </span> for honesty
 				is good and I certify his / her integrity.
 			</p>
 		</i>
@@ -16,7 +16,7 @@
 		@else
 
 		<p class="fw-semibold"> The general reputation of
-			<span class="text-info"> Sri/ Ms {{$acr->employee->name }} </span>
+			<span class="text-info"> {{$acr->employee->shriName }} </span>
 			for honesty is not good and I withhold his / her integrity on account of the following reasons.
 		</p>
 
@@ -31,7 +31,7 @@
 		<div class="row">
 			<div class="col-md-3">
 				<p class="fw-semibold"> By
-					<span class="text-info"> {!! $acr->reportUser()->name !!} </span>
+					<span class="text-info"> {!! $acr->reportUser()->shriName !!} </span>
 				</p>
 
 				<p class="fw-semibold"> Date

@@ -7,7 +7,7 @@
 @endsection
 
 @section('pagetitle')
-{{Auth::User()->name}} ACR
+{{Auth::User()->shriName}}'s ACR
 @endsection
 
 @section('breadcrumbNevigationButton')
@@ -47,7 +47,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{{-- <td> {{$acr->creator->name}} ({{$acr->creator->designation}})</td> --}}
+				{{-- <td> {{$acr->creator->shriName}} ({{$acr->creator->designation}})</td> --}}
 				@foreach($acrs as $acr)
 				<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 					<td>{{1+$loop->index }}</td>
@@ -81,6 +81,15 @@
 								<a class="dropdown-item" href="{{route('acr.form.create1', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Part -II Self-Appraisal
 								</a>
+                                <a class="dropdown-item" href="#">
+                                    <form action="{{ route('acr.destroy') }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" >
+                                        <input type="hidden" name="_method" value="POST">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="acr_id" value="{{ $acr->id }}">
+                                        <button type="submit" style="width:100%;" class="btn btn-danger "> Delete ACR
+                                                </button>
+                                    </form>
+                                </a>
 
 								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2))
 									@if($acr->isTwoStep || $acr->hasAppraisalOfficer(3))

@@ -28,7 +28,7 @@
 
                     <p>
                     @if(auth()->user())
-                      &#128591; {{strtoupper(auth()->user()->name)}}
+                      &#128591; {{strtoupper(auth()->user()->shriName)}}
                       @if(strpos(auth()->user()->email, 'emp.com') !== false )
                       <p>For Security Resons .Please change your mail .</p>
                       @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))

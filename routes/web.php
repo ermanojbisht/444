@@ -63,6 +63,7 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth', 'verif
     Route::post('deleteAcrAppreciation', 'Employee\Acr\AcrController@deleteAcrAppreciation')->name('deleteAcrAppreciation');
 
     Route::post('submitAcr', 'Employee\Acr\AcrController@submitAcr')->name('submit');
+    Route::post('destroy', 'Employee\Acr\AcrController@destroy')->name('destroy');
 
     Route::post('/getAcrTypefromAcrGroupId', 'Employee\Acr\AcrController@getAcrTypefromAcrGroupId')->name('getAcrType'); // Gives Acr Type object for drop down
 

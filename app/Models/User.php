@@ -78,6 +78,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->roles()->where('id', 1)->exists();
     }
 
+    public function getShriNameAttribute()
+    {
+        if($this->employee){
+           return $this->employee->shriName;
+        }
+        return $this->name;
+    }
+
     /**
      * @param array $attributes
      */

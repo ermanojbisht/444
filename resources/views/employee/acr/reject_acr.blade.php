@@ -31,7 +31,7 @@ Part - IV ( Assessment by the Accepting Authority)
 					<p class="fw-bold"> Name of the officer Reported Upon :- </p>
 				</div>
 				<div class="col-md-6">
-					<p class="fw-semibold text-info"> {{$acr->employee->name }} </p>
+					<p class="fw-semibold text-info"> {{$acr->employee->shriName }} </p>
 				</div>
 			</div>
 			<div class="row">
@@ -81,7 +81,7 @@ Part - IV ( Assessment by the Accepting Authority)
 			<hr/>
 			<div class="col-md-3">
 					<p class="fw-bold"> Rejected By :-  
-					<span class="fw-semibold text-info"> {{$officer->name }} </span> </p>
+					<span class="fw-semibold text-info"> {{$officer->shriName }} </span> </p>
 				</div>
 			</div>
 		</form>

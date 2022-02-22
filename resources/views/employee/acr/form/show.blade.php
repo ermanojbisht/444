@@ -235,7 +235,7 @@
 		</div>
 		<div>
 			<div class="float-end p-3 text-center fw-semibold">
-				<span class="pb-0">({{$acr->employee->name}})</span>
+				<span class="pb-0">({{$acr->employee->shriName}})</span>
 				<br>
 				<span class="pt-0">Submitted on :{{$acr->submitted_at->format('d M Y')}}</span>
 				

@@ -40,7 +40,7 @@ Part -III Appraisal <small>(By Reporting Officer)</small>
 		</p>
 
 		<div class="pt-3">
-			<p> प्रतिवेदक अधिकारी  : {{$acr->reportUser()->name}} </p>
+			<p> प्रतिवेदक अधिकारी  : {{$acr->reportUser()->shriName}} </p>
 			<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 		</div>

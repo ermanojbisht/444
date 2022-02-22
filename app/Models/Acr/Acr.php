@@ -794,7 +794,7 @@ class Acr extends Model
                 $rejection_Reason = $rejection_Reason.'Reporting Officer ';
             }
 
-            return $rejection_Reason.$this->rejectUser()->name.' on '.$rejection->created_at->format('d M Y');
+            return $rejection_Reason.$this->rejectUser()->shriName.' on '.$rejection->created_at->format('d M Y');
         } else if ($this->accept_on) {
             return 'Accepted on '.$this->accept_on->format('d M Y');
         } else if ($this->review_on) {
@@ -830,7 +830,7 @@ class Acr extends Model
      */
     public function analysisForAlert()
     {
-        $result = ['name' => $this->employee->name, 'employee_id' => $this->employee_id, 'target_employee_id' => '', 'pending_process' => '', 'percentage_period' => ''];
+        $result = ['name' => $this->employee->shriName, 'employee_id' => $this->employee_id, 'target_employee_id' => '', 'pending_process' => '', 'percentage_period' => ''];
 
         $duties = ['report', 'review', 'accept'];
         foreach ($duties as $key => $duty) {
