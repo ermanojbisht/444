@@ -143,22 +143,30 @@ class AcrInboxController extends Controller
 
     public function officeAcrsView($office, Request $request)
     {
-        if($office=='all'){
-            $acrs=Acr::all();
+        if ($office == 'all') {
+            $acrs = Acr::all();
         }
-        if($office==0){
-            $acrs=false;
-        }else{
-            $acrs = Acr::where('office_id', $office)->get();
+        else
+        {
+            if ($office == 0) {
+                $acrs = false;
+            }else
+            {
+                $acrs = Acr::where('office_id', $office)->get();
+            }
         }
- return  $start=$request->start;
-        if($request->has('start') && $request->has('end')){
-          return  $start=$request->start;
-            $end=$request->end;
-        }       
-       
 
-        return view('employee.acr.office_acrs', compact('acrs'));
+        //return  $start = $request->start;
+        if ($request->has('start') && $request->has('end')) {
+          
+            $acrs = ACR::where('from_date', '>=' , $request->start)
+            ->where('to_date', '<=' , $request->end)
+            ->where('office_id',$request->office_id)->get();
+        }
+
+        $Officetypes = $this->defineOfficeTypes();
+
+        return view('employee.acr.office_acrs', compact('acrs','Officetypes'));
     }
 
     /**
