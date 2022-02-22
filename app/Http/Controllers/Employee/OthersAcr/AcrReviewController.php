@@ -147,9 +147,13 @@ class AcrReviewController extends Controller {
 
     public function storeReviewedAcr(Request $request) {
         $acr = Acr::findOrFail($request->acr_id);
+        $acr_is_due = $acr->isAcrDuetoLoggedUserfor('review');
 
-        if ($acr->review_no <= 0) {
+        if ($acr->review_no > 0 || !$acr_is_due) {
+        
+        }else{
             return redirect()->back()->with('fail', 'Please process the ACR');
+
         }
 
         $acr->update(['review_on' => now()]);
@@ -165,4 +169,7 @@ class AcrReviewController extends Controller {
 
         return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');
     }
+
+
+
 }

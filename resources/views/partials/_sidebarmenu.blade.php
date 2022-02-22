@@ -192,12 +192,6 @@
             </a>
         </li>
         <li class="c-sidebar-nav-item">
-            <a href="#" class="c-sidebar-nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
-                <span class="iconSvg">{!!config('mis_entry.svgIcon')['logout']!!}</span>
-                <span class="iconText">&#160;{{ trans('global.logout') }}</span>
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
             <a href="/Font.html" class="c-sidebar-nav-link" target="_blank">
                 <span class="iconSvg">{!!config('mis_entry.svgIcon')['fontconvert']!!}</span>
                 <span class="iconText">&#160;kruti<->Unicode</span>
@@ -207,6 +201,13 @@
             <a href="https://www.google.com/intl/hi/inputtools/try/" class="c-sidebar-nav-link" target="_blank">
                 <span class="iconSvg">{!!config('mis_entry.svgIcon')['googleInput']!!}</span>
                 <span class="iconText">&#160;Google Input Tool</span>                
+            </a>
+        </li>
+        
+        <li class="c-sidebar-nav-item">
+            <a href="#" class="c-sidebar-nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                <span class="iconSvg">{!!config('mis_entry.svgIcon')['logout']!!}</span>
+                <span class="iconText">&#160;{{ trans('global.logout') }}</span>
             </a>
         </li>
         @if(Auth::check())

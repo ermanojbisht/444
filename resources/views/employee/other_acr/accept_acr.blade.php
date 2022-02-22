@@ -86,7 +86,12 @@ Part - IV ( Assessment by the Accepting Authority)
 						</div>
 						<div class="col-md-6">
 							<input id="marks" name="marks" type="number" step="0.01" min="0" max="100" onblur="findGrades()" maxlength="3"
-								class="form-control" required placeholder="{{$acr->review_no}}" />
+								class="form-control" 
+								@if($acr_is_due)
+									required 
+								@endif
+
+								placeholder="{{$acr->review_no}}" />
 						</div>
 					</div>
 					<br />

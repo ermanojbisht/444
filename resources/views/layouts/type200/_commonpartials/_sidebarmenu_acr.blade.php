@@ -42,6 +42,18 @@
                 <span> Employee's ACR </span>
             </a>
         </li>
+        <hr>
+        <x-nav-item icon="language" href="{{url('../Font.html')}}" target="_blank" >KurtiDev to Unicode</x-nav-item>
+        <li class="nav-item">
+            <a class="nav-link" href="https://www.google.com/intl/hi/inputtools/try/" target="_blank">
+                <svg class="nav-icon">
+                    <use
+                        xlink:href="{{url('vendors/@coreui/icons/svg/brand.svg#cib-google')}}">
+                    </use>
+                </svg>
+                <span>Google Hindi Input</span>
+            </a>
+        </li>
     </ul>
     <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
 </div>

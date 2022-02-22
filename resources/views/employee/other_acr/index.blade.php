@@ -162,7 +162,7 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i>Process ACR
 													</a>
 
-													@if ($acr->review_no > 0)
+													@if ($acr->review_no > 0 || !$acr->is_due)
 													<a class="dropdown-item text-white bg-success" href="#">
 														<form method="POST"
 															action="{{ route('acr.others.review.save') }}"
@@ -230,8 +230,8 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i> View ACR
 													</a>
 													@endif
-
-													@if ($acr->review_no > 0)
+													@if ($acr->review_no > 0 || !$acr->is_due)
+													{{-- @if ($acr->review_no > 0) --}}
 													<a class="dropdown-item text-white bg-success " style="width: 100%;"
 														href="{{route('acr.others.accept.submit', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i> Process and Submit ACR

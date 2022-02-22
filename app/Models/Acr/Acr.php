@@ -943,6 +943,21 @@ class Acr extends Model
         return $text;
     }
 
+    public function isAcrDuetoLoggedUserfor($jobType){
+    
+        switch ($jobType) {
+            case 'review':
+                $appraisal_officer_type = 2;
+                break;
+             case 'accept':
+                $appraisal_officer_type = 3;
+                break;
+             case 'report':
+                $appraisal_officer_type = 1;
+                break;
+        }
+        return $this->appraisalOfficerRecords()->where('employee_id',Auth::user()->employee_id)->where('appraisal_officer_type', $appraisal_officer_type)->first()->is_due;
 
+    }
 
 }

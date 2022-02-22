@@ -45,13 +45,28 @@ class AcrInboxController extends Controller
     {
         $reported = Acr::whereNotNull('submitted_at')->where('report_employee_id', $this->user->employee_id)
             ->where('is_active', 1)->whereNull('report_on')->get();
+        $reported->map(function ($acr) {
+           $acr->is_due = $acr->isAcrDuetoLoggedUserfor('report');
+           return $acr;
+        });
+
+       
 
         $reviewed = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->user->employee_id)
             ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get();
+        $reviewed->map(function ($acr) {
+           $acr->is_due = $acr->isAcrDuetoLoggedUserfor('review');
+           return $acr;
+        });
 
         $accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->user->employee_id)
             ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNotNull('review_no')
             ->whereNull('accept_on')->get();
+
+        $accepted->map(function ($acr) {
+           $acr->is_due = $acr->isAcrDuetoLoggedUserfor('accept');
+           return $acr;
+        });
 
         return view('employee.other_acr.index', compact('reported', 'reviewed', 'accepted'));
     }
