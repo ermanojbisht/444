@@ -2,6 +2,7 @@
 
 namespace App\Models\Acr;
 
+use App\Helpers\Helper;
 use App\Mail\Acr\AcrSumittedMail;
 use App\Models\Acr\AcrNotification;
 use App\Models\Acr\AcrType;
@@ -941,6 +942,11 @@ class Acr extends Model
             $text = $text."<p class='fw-semibold text-danger'> User not Filled any Data</p>";
         }
         return $text;
+    }
+
+    public function getFinancialYearAttribute()
+    {
+       return Helper::currentFy($this->from_date->year, $this->from_date->month);
     }
 
 
