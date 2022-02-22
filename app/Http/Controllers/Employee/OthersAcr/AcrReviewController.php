@@ -17,6 +17,7 @@ class AcrReviewController extends Controller {
      * @var mixed
      */
     protected $user;
+    protected $msg403 = 'Unauthorized action.You are not authorised to see this ACR details';
 
     /**
      * @return mixed
@@ -34,7 +35,8 @@ class AcrReviewController extends Controller {
      * @param Request $request
      */
     public function appraisal2(Acr $acr, Request $request) {
-
+        abort_if($this->user->employee_id <> $acr->review_employee_id, 403, $this->msg403);
+        
         if($acr->isSinglePage){
             return view('employee.acr.form.single_page.review_create', compact('acr'));
         }

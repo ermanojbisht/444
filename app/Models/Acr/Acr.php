@@ -850,5 +850,99 @@ class Acr extends Model
         return $result;
     }
 
+     // todo these function to be shifted in ACR Controller
+    public function getUserParameterData($paramId)
+    {
+        $AcrMasterParameter =  AcrMasterParameter::where('id', $paramId)->first();
+        $AcrParameter =  $this->filledparameters()->where('acr_master_parameter_id', $paramId)->first();
+
+        $text = [];
+        $text[] = "<p class='fw-semibold bg-warning p-1'>" . $AcrMasterParameter->description . "</p>";
+        if (isset($AcrParameter)) {
+            if ($AcrParameter->is_applicable == 1) {
+                if ($AcrMasterParameter->config_group == 1001) {
+                    $text[] = "<p class='fw-semibold'>";
+                    if(empty($AcrParameter->user_achivement)){
+                        $text[] = "<span class='text-danger'> not filled </span>";
+                    }else{
+                        $text[] = "<span class='text-success'>".$AcrParameter->user_achivement." ".$AcrMasterParameter->unit."</span>";
+                    }
+                    $text[] = "</span> Achivement Against Target <span class='text-danger'>";
+                    if(empty($AcrParameter->user_target)){
+                        $text[] = "<span class='text-danger'> not filled </span>";
+                    }else{
+                        $text[] = "<span class='text-success'>".$AcrParameter->user_target." ".$AcrMasterParameter->unit."</span>";
+                    }
+                    $text[] = "</p>";
+                } elseif ($AcrMasterParameter->config_group == 1002) {
+                    $text[] = "<p class='fw-semibold text-success'> status : "
+                             . $AcrParameter->status 
+                             . "</p>";
+                } else {
+                    $text[] = "<p class='fw-semibold text-danger'> ....... </p>";
+                }
+            } elseif ($AcrParameter->is_applicable == 0) {
+                $text[] = "<p class='fw-semibold text-danger'> User Selected Not Applicable for This Parameter</p>";
+            } else {
+                $text[] = "<p class='fw-semibold text-danger'> ....... </p>";
+            }
+        } else {
+            $text[] = "<p class='fw-semibold text-danger'> User not Filled any Data</p>";
+        }
+
+        return $text;
+    }
+
+    public function getUserNegativeParameterData($paramId)
+    {
+       $text ='';
+
+        $AcrMasterParameter =  AcrMasterParameter::where('id', $paramId)->first();
+
+        $groupId = $AcrMasterParameter->config_group;
+
+        $AcrParameter =  $this->fillednegativeparameters()->where('acr_master_parameter_id', $paramId)->get();
+        $text = $text."<p class='fw-semibold bg-warning p-1'>" . $AcrMasterParameter->description . "</p>";
+       
+        if (isset($AcrParameter)) {
+            if ($groupId > 2000 && $groupId < 3000) {
+                $text = $text.'<table class="table table-sm table-bordered"><thead><tr>';
+                foreach (config('acr.group')[$groupId]['columns'] as $key => $columns) {
+                    $text = $text.'<th class="text-info align-middle text-center small">' . $columns['text'] . '</th>';
+                }
+                $text = $text.'</tr></thead><tbody>';
+                $n = 0;
+                foreach ($AcrParameter as $Parameter) {
+                    $text = $text.'<tr>';
+                    foreach (config('acr.group')[$groupId]['columns'] as $key => $columns) {
+                        if ($columns['input_type'] === false) {
+                            $n = $n + 1;
+                            $text = $text.'<td class="text-center small">'.$n.') </td>';
+                        } else {
+                            $text = $text.'<td class="text-center small ">' . $Parameter[$columns['input_name']] . '</td>';
+                        }
+                    }
+                    $text = $text."</tr>";
+                }
+                $text = $text."</tbody></table>";
+            } elseif ($groupId > 3000) {
+                foreach ($AcrParameter as $Parameter) {
+                    foreach (config('acr.group')[$groupId]['columns'] as $key => $columns) {
+                        $text = $text
+                                ."<p>"
+                                .$columns['text']
+                                ."-- <span class='text-info'>"
+                                .$Parameter[$columns['input_name']]
+                                ."</span></p>";
+                    }
+                }
+            }
+        } else {
+            $text = $text."<p class='fw-semibold text-danger'> User not Filled any Data</p>";
+        }
+        return $text;
+    }
+
+
 
 }

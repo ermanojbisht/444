@@ -23,6 +23,7 @@ class AcrIntegrityController extends Controller
      * @var mixed
      */
     protected $user;
+    protected $msg403 = 'Unauthorized action.You are not authorised to see this ACR details';
 
     /**
      * @return mixed
@@ -39,7 +40,7 @@ class AcrIntegrityController extends Controller
    
     public function viewIntegrity(Acr $acr)
     {
-
+        abort_if($this->user->employee_id <> $acr->report_employee_id, 403, $this->msg403);        
         return view('employee.other_acr.view_reported_acr', compact('acr'));
     }
 
