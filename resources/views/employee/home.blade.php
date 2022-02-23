@@ -41,7 +41,7 @@
                       @else
                       @if(!auth()->user()->email_verified_at))
                       <p>For Security Resons .Please verify your mail .</p>
-                        <a class="btn btn-info" href="{{ route('verification.notice') }}">
+                        <a class="btn btn-danger" href="{{ route('verification.notice') }}">
                             <i class="fa-fw fas fa-key c-sidebar-nav-icon">
                             </i>
                             Process Verification
