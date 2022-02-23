@@ -46,7 +46,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
         $this->mapWorkDocRoutes();
-        $this->mapInstanceRoutes();
+        $this->mapGrievanceRoutes();
+        $this->mapAcrRoutes();
 
         //
     }
@@ -96,13 +97,22 @@ class RouteServiceProvider extends ServiceProvider
 
 
 
-    protected function mapInstanceRoutes()
+    protected function mapGrievanceRoutes()
     {
-        Route::prefix('track')  // if you need to specify a route prefix
+        Route::prefix('employee/issue')  // if you need to specify a route prefix
              ->middleware('web') // specify here your middlewares
-            //->namespace($this->namespace.'\Track') // leave it as is
+            ->namespace($this->namespace.'\Employee') // leave it as is
             /** the name of your route goes here: */
-            ->group(base_path('routes/web_instance.php'));
+            ->group(base_path('routes/web_grievance.php'));
+    }
+
+    protected function mapAcrRoutes()
+    {
+        Route::prefix('acr')  // if you need to specify a route prefix
+             ->middleware('web') // specify here your middlewares
+            ->namespace($this->namespace.'\Employee') // leave it as is
+            /** the name of your route goes here: */
+            ->group(base_path('routes/web_acr.php'));
     }
 
 }
