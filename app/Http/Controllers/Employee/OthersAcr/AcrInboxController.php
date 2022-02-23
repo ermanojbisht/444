@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class AcrInboxController extends Controller
 {
@@ -162,9 +163,7 @@ class AcrInboxController extends Controller
 
     public function officeAcrsView(Request $request)
     {
-        $officeId = ($request->has('office_id')) ? $request->office_id : 0;
-        $startDate = "";
-        $endDate = "";
+        $officeId = ($request->has('office_id')) ? $request->office_id : 'none';
 
         if ($request->has('start') && $request->has('end')) {
             $this->validate(
@@ -174,22 +173,21 @@ class AcrInboxController extends Controller
                     'end' => 'required|date'
                 ]
             );
-            $acrs = ACR::where('from_date', '>=', $request->start)
-                ->where('to_date', '<=', $request->end)->where('is_active', 1);
-
-                $startDate = $request->start;
-                $endDate = $request->end;
-                
+            $startDate = $request->start;
+            $endDate = $request->end;
 
         } else {
-            $acrs = ACR::where('is_active', 1);
+            $endDate =Carbon::today()->toDateString();
+            $startDate = Carbon::today()->subMonths(12)->toDateString();
+
         }
+         $acrs = ACR::periodBetweenDates([$startDate,$endDate])->where('is_active', 1);
 
         if ($officeId === 'all') {
             $acrs = $acrs->get();
         }
 
-        if ($officeId == 0) {
+        if ($officeId === 'none') {
             $acrs = false;
         }
 

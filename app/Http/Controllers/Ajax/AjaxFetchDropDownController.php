@@ -48,7 +48,7 @@ class AjaxFetchDropDownController extends Controller
         $data = [];
         if ($request->has('term')) {
             $search = $request->term;
-            $query = Employee::select("id", "name")->where(function ($query) use ($search) {
+            $query = Employee::nonRetiredWithGraceMonths(12)->select("id", "name")->where(function ($query) use ($search) {
                 $query->where('name', 'LIKE', "%$search%")
                     ->orWhere('id', 'LIKE', "%$search%");
             });
@@ -77,7 +77,7 @@ class AjaxFetchDropDownController extends Controller
                 $query = $query->whereIn('designation_id', $designationsList);
             }
 
-            $query = $query->where('retirement_date', '>=', today()->subMonths(2)->format('Y-m-d'));
+            //$query = $query->where('retirement_date', '>=', today()->subMonths(2)->format('Y-m-d'));
 
             $data = $query->orderBy('name')->get();
         }

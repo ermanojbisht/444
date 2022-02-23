@@ -113,6 +113,14 @@ class Employee extends Authenticatable
         ->get();
     }
 
+    public function scopeNonRetiredWithGraceMonths($query,$backMonth=0)
+    {
+        if($backMonth==0){
+            return $query->whereDate('retirement_date',  '>=',Carbon::today()->toDateString());
+        }
+        return $query->whereDate('retirement_date',  '>=',Carbon::today()->subMonths($backMonth)->toDateString());
+    }
+
     public function grievances()
     {
     	return $this->hasMany(HrGrievance::class, "employee_id", "id");

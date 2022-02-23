@@ -11,6 +11,7 @@ use App\Models\Office;
 use App\Models\User;
 use App\Notifications\Acr\AcrSubmittedNotification;
 use Auth;
+use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use File;
 use Illuminate\Database\Eloquent\Model;
@@ -82,6 +83,20 @@ class Acr extends Model
              $acr->deletePdfFile();
              // do the rest of the cleanup...
         });
+    }
+
+    public function scopePeriodBetweenDates($query, array $dates)
+    {
+        $start = ($dates[0] instanceof Carbon) ? $dates[0] : Carbon::parse($dates[0]);
+        $end   = ($dates[1] instanceof Carbon) ? $dates[1] : Carbon::parse($dates[1]);
+
+        return $query->whereBetween('from_date', [
+            $start->startOfDay(),
+            $end->endOfDay()
+        ])->whereBetween('to_date', [
+            $start->startOfDay(),
+            $end->endOfDay()
+        ]);
     }
 
     /**
