@@ -25,7 +25,6 @@
                     @endif
                 </div>
                 <div class="card-body">
-
                     @if(auth()->user())
                         @if(strpos(auth()->user()->email, 'emp.com') !== false )
                                 @if(file_exists(app_path('Http/Controllers/Auth/ChangeEmailController.php')))
@@ -54,7 +53,7 @@
                               @endif
                         @endif
                     @endif
-                    @if(strpos(auth()->user()->email, 'emp.com') == false && auth()->user()->email_verified_at)
+                    @if(strpos(auth()->user()->email, 'emp.com') == false && auth()->user()->email_verified_at && $fromShashan == false)
                     <div class="row p-3">
                         @if($user_grievance_count)
                             <div class="col-lg-3 col-md-4 col-sm-12 ">
@@ -79,26 +78,26 @@
                             </div>
                         @endif
                         @if($user_acr_count)
-                        <div class="col-lg-3 col-md-4 col-sm-12 ">
-                            <div class="card">
-                                <div class="card-body ">
-                                    <div class="row">
-                                        <div class="col-5">
-                                            <p class="display-2 font-weight-bold">
-                                            {{$user_acr_count}}
-                                            </p>
-                                        </div>
-                                        <div class="col-7 d-flex align-items-center">
-                                            <p class="h4 text-center">ACR Submitted</p>
+                            <div class="col-lg-3 col-md-4 col-sm-12 ">
+                                <div class="card">
+                                    <div class="card-body ">
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <p class="display-2 font-weight-bold">
+                                                {{$user_acr_count}}
+                                                </p>
+                                            </div>
+                                            <div class="col-7 d-flex align-items-center">
+                                                <p class="h4 text-center">ACR Submitted</p>
+                                            </div>
                                         </div>
                                     </div>
+                                    <a class="card-footer text-right text-decoration-none bg-light  " href="{{route('acr.myacrs')}}">
+                                        <span>view</span>
+                                        <i class="fa fa-arrow-circle-right" ></i>
+                                    </a>
                                 </div>
-                                <a class="card-footer text-right text-decoration-none bg-light  " href="{{route('acr.myacrs')}}">
-                                    <span>view</span>
-                                    <i class="fa fa-arrow-circle-right" ></i>
-                                </a>
                             </div>
-                        </div>
                         @endif
                         @if($user_acr_to_report_count)
                             <div class="col-lg-3 col-md-4 col-sm-12 ">
@@ -145,26 +144,26 @@
                             </div>
                         @endif
                         @if($user_acr_to_accept_count)
-                        <div class="col-lg-3 col-md-4 col-sm-12 ">
-                            <div class="card">
-                                <div class="card-body ">
-                                    <div class="row">
-                                        <div class="col-5">
-                                            <p class="display-2 font-weight-bold">
-                                            {{$user_acr_to_accept_count}}
-                                            </p>
-                                        </div>
-                                        <div class="col-7 d-flex align-items-center">
-                                            <p class="h4 text-center">At Accepting Officer</p>
+                            <div class="col-lg-3 col-md-4 col-sm-12 ">
+                                <div class="card">
+                                    <div class="card-body ">
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <p class="display-2 font-weight-bold">
+                                                {{$user_acr_to_accept_count}}
+                                                </p>
+                                            </div>
+                                            <div class="col-7 d-flex align-items-center">
+                                                <p class="h4 text-center">At Accepting Officer</p>
+                                            </div>
                                         </div>
                                     </div>
+                                    <a class="card-footer text-right text-decoration-none bg-light  " href="{{route('acr.others.index')}}">
+                                        <span>view</span>
+                                        <i class="fa fa-arrow-circle-right" ></i>
+                                    </a>
                                 </div>
-                                <a class="card-footer text-right text-decoration-none bg-light  " href="{{route('acr.others.index')}}">
-                                    <span>view</span>
-                                    <i class="fa fa-arrow-circle-right" ></i>
-                                </a>
                             </div>
-                        </div>
                         @endif
                     </div>
                     @endif
