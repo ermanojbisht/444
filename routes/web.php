@@ -12,28 +12,22 @@ Route::get('lang/{locale}', function ($locale) {
     return redirect()->back();
 })->name('changeLang');
 
-
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', 'Employee\HomeController@dashboard')->name('employee.home');
-    Route::post('employeeBasicData', 'Employee\HomeController@employeeBasicData')->name('employee.basicData');
-});
-//Auth::routes();
-Auth::routes(['verify' => true]);
-
 Route::get('acrs/{employee}', 'Employee\OthersAcr\AcrInboxController@view')->name('employee.acr.view')
     ->missing(fn ($request) => response()->view('errors.employee_not_found'));
 
 Route::get('officeacrs', 'Employee\OthersAcr\AcrInboxController@officeAcrsView')->name('office.acrs.view');
 
-//employee system routes-------------------------
-Route::group(['prefix' => '', 'as' => 'employee.', 'namespace' => 'Employee'], function () {
+//-----------------------------------------------------------------------------------------------------------------------------
+//Auth::routes();
+Auth::routes(['verify' => true]);
 
-    Route::group(['middleware' => ['auth', 'verified']], function () {
-    });
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/', 'Employee\HomeController@dashboard')->name('employee.home');
+    Route::post('employeeBasicData', 'Employee\HomeController@employeeBasicData')->name('employee.basicData');
 });
+
+
 //employee system routes-------------------------------
-
-
 // acr routes-------------------------  // 
 
 Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth', 'verified']], function () {
@@ -98,8 +92,7 @@ Route::group(['prefix' => 'acr', 'as' => 'acr.', 'middleware' => ['auth', 'verif
     Route::get('form/{acr}/appraisal2', 'Employee\OthersAcr\AcrReviewController@appraisal2')->name('form.appraisal2');
     Route::post('form/appraisal2', 'Employee\OthersAcr\AcrReviewController@storeAppraisal2')->name('form.storeAppraisal2');
     Route::post('form/storeAcrWithoutProcessReview', 'Employee\OthersAcr\AcrReviewController@storeAcrWithoutProcessReview')->name('form.storeAcrWithoutProcessReview');
-
-    // todo these to be shifted 
+  
     Route::get('getUserParameterData/{acrId}/{paramId}', 'Employee\OthersAcr\AcrReportController@getUserParameterData')->name('ajax.getUserParameterData');
     Route::get('getUserNegativeParameterData/{acrId}/{paramId}', 'Employee\OthersAcr\AcrReportController@getUserNegativeParameterData')->name('ajax.getUserNegativeParameterData');
 });
@@ -138,12 +131,10 @@ Route::group(['prefix' => 'acr/others', 'as' => 'acr.others.', 'middleware' => [
     Route::get('{acr}/reject/{dutyType}', 'Employee\OthersAcr\AcrInboxController@reject')->name('reject');
     Route::post('/reject/acr', 'Employee\OthersAcr\AcrInboxController@storeReject')->name('storeReject');
 
-
 });
 
 // GrievanceController
 
-//employee system routes-------------------------  // 
 Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['auth']], function () {
 
     Route::get('hr_grievance', 'Employee\HrGrievance\GrievanceController@index')->name('hr_grievance');
@@ -159,8 +150,6 @@ Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['aut
     Route::post('ajaxDataForOffice', 'Employee\HrGrievance\GrievanceController@ajaxDataForOffice')->name('ajaxDataForOffice');
 });
 
-//employee system routes-------------------------------
-
 //ResolveGrievanceController
 
 Route::get('HrGrievance/Index', 'Employee\OthersHrGrievance\ResolveGrievanceController@index')->name('resolve_hr_grievance');
@@ -175,10 +164,6 @@ Route::post('Resolve/HrGrievance/updateDraft', 'Employee\OthersHrGrievance\Resol
 
 Route::get('Resolve/HrGrievance/{hr_grievance}/Final', 'Employee\OthersHrGrievance\ResolveGrievanceController@addFinalAnswer')->name('hr_grievance.resolve.final');
 Route::post('Resolve/HrGrievance/Final', 'Employee\OthersHrGrievance\ResolveGrievanceController@resolveFinalGrievance')->name('hr_grievance.resolveGrievance');
-
-
-
-
 
 //ResolveGrievanceController
 
@@ -261,11 +246,7 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 Route::Post('dynamicdependent', 'Ajax\AjaxFetchDropDownController@index')->name('dynamicdependent');
 
 
-Route::get('client', function () {
-    return view('temp');
-});
-
-
+//
 
 Route::get('/temp', 'TempController@temp');
 Route::get('/temp1', 'Employee\Acr\MonitorAcrController@countEsclation');
