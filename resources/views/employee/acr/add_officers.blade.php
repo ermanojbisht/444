@@ -126,7 +126,7 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 					  		<p class="text-info p-0 m-0 small">Start Date of {{$officerType}} dose not match with ACR Start Date</p>
 			    		@endif
 			    		@if($checkEndDaysGap !=0)
-					  		<p class="text-info p-0 m-0 small">End Date of {{$officerType}} dose not match with ACR Start Date</p>
+					  		<p class="text-info p-0 m-0 small">End Date of {{$officerType}} dose not match with ACR End Date</p>
 			    		@endif
 				</div>
 				<div class="card-footer text-muted d-flex justify-content-between">

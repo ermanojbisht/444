@@ -71,7 +71,7 @@ Part -II Self-Appraisal <small>Page -3 Deduction Parameters</small>
 										</td>
 									@endforeach
 									<td>
-										<button type="submit" id="{{$data->id}}" class="btn btn-outline-primary">Save</button>
+										<button type="submit" id="{{$data->id}}" class="btn btn-outline-primary">Update</button>
 									</td>
 								</tr>
 							@endforeach
