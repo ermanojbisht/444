@@ -158,7 +158,7 @@ class Employee extends Authenticatable
          return $this->acrs()->where('is_active',1);
     }
 
-     public function checkAcrDateInBetweenPreviousACRFilled($start, $end)
+     public function checkAcrDateInBetweenPreviousACRFilled($start, $end , $excludidAcrId = false)
     {
         if ($start > $end) {
             return ['status' => false, 'msg' => 'From date ' . $start->format('d M y') . ' can not be less then To date' . $end->format('d M y')];
@@ -171,6 +171,9 @@ class Employee extends Authenticatable
         $otherRecords = $this->activeAcrs()->get();
 
         foreach ($otherRecords as  $record) {
+            
+            if ($record->id == $excludidAcrId) { continue;   }
+
             $recordPeriod = CarbonPeriod::create($record->from_date, $record->to_date);
             if ($recordPeriod->overlaps($start, $end)) {
                 return ['status' => false, 'msg' => 'Given period (' . $start->format('d M y') . ' - ' .

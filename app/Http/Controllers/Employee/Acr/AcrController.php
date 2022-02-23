@@ -129,8 +129,8 @@ class AcrController extends Controller
 
         $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
         $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
-               
-        $result =Employee::findOrFail($acr->employee_id)->checkAcrDateInBetweenPreviousACRFilled($start, $end);  
+
+        $result =Employee::findOrFail($acr->employee_id)->checkAcrDateInBetweenPreviousACRFilled($start, $end, $request->acr_id);  
         if (!$result['status']) {
             return Redirect()->back()->with('fail', $result['msg']);
         }
