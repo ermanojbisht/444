@@ -1,23 +1,10 @@
 <style type="text/css">
     .iconText{
-        font-size: 15px;
-        font-weight: bold;
+        font-size: 12px;
         color: white;
     }
-    .iconSvg{
-        height: 26px;
-        width: 26px;
-        fill: white; 
-        stroke-width: 3;
-        stroke-linecap: round;
-        stroke-linejoin:  round; 
-    }
     .iconlogo{
-        width: 100%;
         fill: #88bce8; 
-        stroke-width: 3;
-        stroke-linecap: round;
-        stroke-linejoin:  round; 
     }
 
 </style>
@@ -25,24 +12,21 @@
 <div id="sidebar" class="c-sidebar c-sidebar-fixed c-sidebar-lg-show">
 
     <div class="c-sidebar-brand d-md-down-none">
-        <a class="c-sidebar-brand-full h4" href="#">
+        <a class="c-sidebar-brand-full p-3" href="#">
             <span class="iconlogo">{!!config('mis_entry.svgIcon')['employee']!!}</span>
         </a>
     </div>
     <ul class="c-sidebar-nav">
         <li class="c-sidebar-nav-item">
             <a href="{{ route("employee.home") }}" class="c-sidebar-nav-link">
-
-                <span class="iconSvg">{!!config('mis_entry.svgIcon')['dashboard']!!}</span>
+                <i class="fa fa-vcard c-sidebar-nav-icon"> </i>
                 <span class="iconText">&#160;{{ trans('global.dashboard') }}</span>
-
-                
             </a>
         </li>
         @can('user_management_access')
             <li class="c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
-                    <span class="iconSvg">{!!config('mis_entry.svgIcon')['users']!!}</span>
+                    <i class="fa fa-users fa-key c-sidebar-nav-icon"> </i>
                     <span class="iconText">&#160;{{ trans('cruds.userManagement.title') }}</span>
                 </a>
                 <ul class="c-sidebar-nav-dropdown-items">
@@ -125,7 +109,7 @@
         @can('office_job_access')
             <li class="c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
-                    <span class="iconSvg">{!!config('mis_entry.svgIcon')['alert']!!}</span>
+                    <i class="far fa-user-circle c-sidebar-nav-icon"></i>
                     <span class="iconText">&#160;Jobs</span>
                 </a>
                 <ul class="c-sidebar-nav-dropdown-items">
@@ -153,7 +137,6 @@
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.audit-logs.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/audit-logs") || request()->is("admin/audit-logs/*") ? "active" : "" }}">
                                 <i class="fa-fw fas fa-file-alt c-sidebar-nav-icon">
-
                                 </i>
                                 <span class="iconText">{{ trans('cruds.auditLog.title') }}</span>
                             </a>
@@ -163,16 +146,11 @@
             </li>
         @endcan
 
-
-
-
-
         @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
             {{-- @can('profile_password_edit') --}}
                 <li class="c-sidebar-nav-item">
                     <a class="c-sidebar-nav-link {{ request()->is('profile/password') || request()->is('profile/password/*') ? 'active' : '' }}" href="{{ route('profile.password.edit') }}">
-                        <i class="fa-fw fas fa-key c-sidebar-nav-icon">
-                        </i>
+                        <i class="fa-fw fas fa-key c-sidebar-nav-icon"> </i>
                         <span class="iconText">{{ trans('global.change_password') }}</span>
                     </a>
                 </li>
@@ -181,44 +159,31 @@
 
         <li class="c-sidebar-nav-item">
             <a href="{{route('employee.hr_grievance')}}" class="c-sidebar-nav-link" target="_self">
-                <span class="iconSvg">{!!config('mis_entry.svgIcon')['estimate']!!}</span>
+                <i class="fa fa-comments c-sidebar-nav-icon"></i>
                 <span class="iconText">&#160;Track Hr Grievance</span>
             </a>
         </li> 
         <li class="c-sidebar-nav-item">
             <a href="{{route('acr.myacrs')}}" class="c-sidebar-nav-link" target="_self">
-                <span class="iconSvg">{!!config('mis_entry.svgIcon')['estimate']!!}</span>
+                <i class="fa fa-copy c-sidebar-nav-icon"> </i>
                 <span class="iconText">&#160;Track ACR</span>
             </a>
         </li>
         <li class="c-sidebar-nav-item">
-            <a href="/Font.html" class="c-sidebar-nav-link" target="_blank">
-                <span class="iconSvg">{!!config('mis_entry.svgIcon')['fontconvert']!!}</span>
-                <span class="iconText">&#160;kruti<->Unicode</span>
-            </a>
-        </li>
-        <li class="c-sidebar-nav-item">
-            <a href="https://www.google.com/intl/hi/inputtools/try/" class="c-sidebar-nav-link" target="_blank">
-                <span class="iconSvg">{!!config('mis_entry.svgIcon')['googleInput']!!}</span>
-                <span class="iconText">&#160;Google Input Tool</span>                
-            </a>
-        </li>
-        
-        <li class="c-sidebar-nav-item">
             <a href="#" class="c-sidebar-nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
-                <span class="iconSvg">{!!config('mis_entry.svgIcon')['logout']!!}</span>
+                <i class="fas fa-power-off c-sidebar-nav-icon"></i>
                 <span class="iconText">&#160;{{ trans('global.logout') }}</span>
             </a>
         </li>
         @if(Auth::check())
-        @if(Auth::user()->chat_id <= 10000)
-        <li class="c-sidebar-nav-item">
-          <a href="{{ route('telegram.connect') }}" class="c-sidebar-nav-link">
-            @include('icon.icon',['icon'=>'telegram','width'=>25,'height'=>25])
-            <span class="iconText">Telegtam Integeration</span>
-          </a>
-        </li>
-        @endif
+            @if(Auth::user()->chat_id <= 10000)
+            <li class="c-sidebar-nav-item">
+              <a href="{{ route('telegram.connect') }}" class="c-sidebar-nav-link">
+                @include('icon.icon',['icon'=>'telegram','width'=>24,'height'=>24])
+                <span class="iconText">Telegtam Integeration</span>
+              </a>
+            </li>
+            @endif
         @endif
     </ul>
     <div class="btn-toolbar p-0" role="toolbar" aria-label="Toolbar with button groups">
