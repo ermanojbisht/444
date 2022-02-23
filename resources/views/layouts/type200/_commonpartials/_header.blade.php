@@ -69,9 +69,17 @@
                       <a href="{{ route('telegram.connect') }}" class="dropdown-item">
                         @include('icon.icon',['icon'=>'telegram','width'=>25,'height'=>25])
                         <span class="iconText">Telegtam Integeration</span>
-                      </a>
+                      </a>                    
 
                     @endif
+                        <a  href="{{ route('profile.password.edit') }}" class="dropdown-item">
+                            <i class="fa-fw fas fa-key c-sidebar-nav-icon"> </i>
+                            <span class="iconText">Change Password</span>
+                        </a>
+                        <a  href="{{ route('profile.email.edit') }}" class="dropdown-item">
+                            <i class="fa-fw fas fa-key c-sidebar-nav-icon"> </i>
+                            <span class="iconText">Change Email</span>
+                        </a>
                     @endif
                     {{-- <a class="dropdown-item" href="#">
                         <svg class="icon me-2">
