@@ -146,16 +146,7 @@
             </li>
         @endcan
 
-        @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
-            {{-- @can('profile_password_edit') --}}
-                <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link {{ request()->is('profile/password') || request()->is('profile/password/*') ? 'active' : '' }}" href="{{ route('profile.password.edit') }}">
-                        <i class="fa-fw fas fa-key c-sidebar-nav-icon"> </i>
-                        <span class="iconText">{{ trans('global.change_password') }}</span>
-                    </a>
-                </li>
-            {{-- @endcan --}}
-        @endif
+       
 
         <li class="c-sidebar-nav-item">
             <a href="{{route('employee.hr_grievance')}}" class="c-sidebar-nav-link" target="_self">

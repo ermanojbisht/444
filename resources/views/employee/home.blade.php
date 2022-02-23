@@ -52,6 +52,22 @@
                       <br>Your telegram is not mapped with PWD System, You may like to share the info with set procedure .Consult to PWD IT Cell.  <a href="http://mis.pwduk.in/dms/index.php/summary/128-website-software-trainning-material/1276-subscribe-telegram-bot-for-pwd-alerts">You may follow this video link</a>
                       @endif --}}
                     @endif
+                     @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
+                     <div>
+                        <a class="btn btn-success" href="{{ route('profile.password.edit') }}">
+                            <i class="fa-fw fas fa-key c-sidebar-nav-icon"> </i>
+                            Change Password
+                        </a>
+                     </div>
+                    @endif
+                    @if(file_exists(app_path('Http/Controllers/Auth/ChangeEmailController.php')))
+                        <div>
+                            <a class="btn btn-success" href="{{ route('profile.email.edit') }}">
+                                <i class="fa-fw fas fa-key c-sidebar-nav-icon"> </i>
+                                Change Email
+                            </a>
+                        </div>
+                    @endif
                     </p>
 
                 </div>
