@@ -213,7 +213,7 @@ class AcrFormController extends Controller
         $acr = Acr::findOrFail($request->acr_id);
         foreach ($request->acr_master_parameter_id as $parameter_id) {
             foreach ($request->$parameter_id as $rowNo => $rowData) {
-               // if ($rowData['col_1']) {
+               if ($rowData['col_1']) {
 
                     AcrNegativeParameter::UpdateOrCreate(
                         [
@@ -233,7 +233,7 @@ class AcrFormController extends Controller
                             'col_9' => $rowData['col_9'] ?? ''
                         ]
                     );
-               // }
+               }
             }
         }
 
