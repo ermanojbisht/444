@@ -1,11 +1,11 @@
 <?php
 use Illuminate\Support\Facades\Route;
-
-Route::group(['middleware' => ['auth']],function(){
- 
 // Grievance
 
 // GrievanceController
+/*Route::group(['middleware' => ['auth']],function(){
+ 
+
 Route::get('grievance','App\Http\Controllers\Track\Grievance\GrievanceController@index')->name('grievance');
 
 Route::get('grievance/create','App\Http\Controllers\Track\Grievance\GrievanceController@create')->name('grievance.create');
@@ -15,4 +15,4 @@ Route::get('/dashboard',function(){
     return view('track.estimate.estimate-dashboard');
 } );
 
-} );
+} );*/

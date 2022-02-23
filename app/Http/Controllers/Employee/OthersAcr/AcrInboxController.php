@@ -8,6 +8,7 @@ use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrRejection;
 use App\Models\Employee;
+use App\Models\Office;
 use App\Traits\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
@@ -46,17 +47,17 @@ class AcrInboxController extends Controller
         $reported = Acr::whereNotNull('submitted_at')->where('report_employee_id', $this->user->employee_id)
             ->where('is_active', 1)->whereNull('report_on')->get();
         $reported->map(function ($acr) {
-           $acr->is_due = $acr->isAcrDuetoLoggedUserfor('report');
-           return $acr;
+            $acr->is_due = $acr->isAcrDuetoLoggedUserfor('report');
+            return $acr;
         });
 
-       
+
 
         $reviewed = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->user->employee_id)
             ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get();
         $reviewed->map(function ($acr) {
-           $acr->is_due = $acr->isAcrDuetoLoggedUserfor('review');
-           return $acr;
+            $acr->is_due = $acr->isAcrDuetoLoggedUserfor('review');
+            return $acr;
         });
 
         $accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->user->employee_id)
@@ -64,8 +65,8 @@ class AcrInboxController extends Controller
             ->whereNull('accept_on')->get();
 
         $accepted->map(function ($acr) {
-           $acr->is_due = $acr->isAcrDuetoLoggedUserfor('accept');
-           return $acr;
+            $acr->is_due = $acr->isAcrDuetoLoggedUserfor('accept');
+            return $acr;
         });
 
         return view('employee.other_acr.index', compact('reported', 'reviewed', 'accepted'));
@@ -157,35 +158,45 @@ class AcrInboxController extends Controller
     }
 
     public function officeAcrsView(Request $request)
-    {       
-        $officeId=($request->has('office_id'))?$request->office_id:0;     
+    {
+        $officeId = ($request->has('office_id')) ? $request->office_id : 0;
+        $startDate = "";
+        $endDate = "";
 
-        //return  $start = $request->start;
         if ($request->has('start') && $request->has('end')) {
-            //date validate             
-            $acrs = ACR::where('from_date', '>=' , $request->start)
-            ->where('to_date', '<=' , $request->end)->where('is_active',1);
-        }else{
-            $acrs =ACR::where('is_active',1);
+            $this->validate(
+                $request,
+                [
+                    'start' => 'required|date',
+                    'end' => 'required|date'
+                ]
+            );
+            $acrs = ACR::where('from_date', '>=', $request->start)
+                ->where('to_date', '<=', $request->end)->where('is_active', 1);
+
+                $startDate = $request->start;
+                $endDate = $request->end;
+                
+
+        } else {
+            $acrs = ACR::where('is_active', 1);
         }
-        if($officeId=='all'){
-            $acrs =$acrs->get();
+
+        if ($officeId === 'all') {
+            $acrs = $acrs->get();
         }
 
-        if($officeId==0){
-            $acrs =false;
+        if ($officeId == 0) {
+            $acrs = false;
         }
 
-        if($officeId>0){
-            $acrs =$acrs->where('office_id', $officeId)->get();
+        if ($officeId > 0) {
+            $acrs = $acrs->where('office_id', $officeId)->get();
         }
-    
 
+        $offices = Office::select('name', 'id')->get();
 
-
-        $Officetypes = $this->defineOfficeTypes();
-
-        return view('employee.acr.office_acrs', compact('acrs','Officetypes','officeId'));
+        return view('employee.acr.office_acrs', compact('acrs', 'officeId', 'offices', 'startDate', 'endDate'));
     }
 
     /**

@@ -25,45 +25,33 @@ ACR Details
 
 	<div class="card-body">
 
-officeId:{{$officeId}}
+	 
 		<form method="GET" action="{{route('office.acrs.view')}}">
 
 			<div class="row">
 
 				<div class="col-md-2">
-					<div class="form-group">
-						{{ Form::label('officeType','Select Office Type',[ 'class'=>' required']) }}
-
-						<select id='officeTypeId' name='officeType' required class="form-select ">
-								<option value="all"> All Office ACR's </option>
-								@foreach ($Officetypes as $key => $values)
-									<option value="{{$key}}" > {{$values}} </option>
-								@endforeach
-						</select>
-
-						
-
-						{{-- {{ Form::select('officeType',($Officetypes),old('officeType'),['placeholder'=>'Select
-						Office Type','id'=>'officeTypeId','class'=>'form-select', 'required']) }} --}}
-					</div>
-				</div>
-				<div class="col-md-2">
-					<div class="form-group">
-						{{ Form::label('office_id','Select Office Name',[ 'class'=>' required']) }}
-						<select id="office_id" name="office_id" required class="form-select select2">
+					<p class="fw-bold h5"> Office : </p>
+					<div class="form-group"> 
+						<select id='office_id' name='office_id' required class="form-select select2">
+							<option value="0" {{( $officeId==0 ? 'selected' : '' )}}> Select Office </option>
+							<option value="all" {{( $officeId=='all' ? 'selected' : '' )}}> All Office ACR's </option>
+							@foreach ($offices as $office)
+							<option value="{{$office->id}}" {{( $officeId==$office->id ?
+								'selected' : '' )}} > {{$office->name}} </option>
+							@endforeach
 						</select>
 					</div>
 				</div>
-
 				<div class="col-md-2">
 					<p class="fw-bold h5"> Start Date :
 						<input type="date" name="start" format="dd/mm/yyyy" class="form-control"
-							value="{{old('start')}}">
+							value="{{ $startDate }}">
 					</p>
 				</div>
 				<div class="col-md-2">
 					<p class="fw-bold h5"> End Date :
-						<input type="date" name="end" format="dd/mm/yyyy" class="form-control" value="{{old('end')}}">
+						<input type="date" name="end" format="dd/mm/yyyy" class="form-control" value="{{ $endDate}}">
 					</p>
 				</div>
 				<div class="col-md-2">
@@ -76,9 +64,7 @@ officeId:{{$officeId}}
 		<hr>
 
 		<div class="row">
-			<div class="col-md-6">
-				<p class="fw-bold h5"> Office : </p>
-			</div>
+			
 			<div class="col-md-6">
 				<p class="fw-bold h5"> Period : </p>
 			</div>
@@ -159,8 +145,6 @@ officeId:{{$officeId}}
 						' days' }} @endif </td>
 
 					@endif
-
-
 				</tr>
 				@endforeach
 				@endif
@@ -181,28 +165,10 @@ officeId:{{$officeId}}
 
 		$('.select2').select2({
 		});
-
-	
-		$('#officeTypeId').change(function (e) {
-			e.preventDefault();
-			$filterParam = $(this).val(); // or $('#officeTypeId').val();
-			$.ajax
-			({
-				url: '{{ url('getOfficesfromOfficeType') }}/' + $filterParam,
-				type: 'GET',
-				success: function (data) {
-					console.log(data); 
-					bindDdlWithDataAndSetValue("office_id", data, "id", "name", true, "", "Select Office", "");
-				}
-			});
-		});
     });
 
 </script>
 @include('layouts._commonpartials.js._select2')
-@include('partials.js._employeeSelect2DropDownJs')
-@include('partials.js._employeeDDProcessHelperJs')
 
-@include('partials.js._makeDropDown')
 
 @endsection
