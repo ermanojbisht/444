@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function dashboard()
     {
-        if($this->user->fromShashan()){
+        if(!$this->user->fromShashan()){
             $user_grievance_count=$this->user->grievances()->count();
             $user_acr_count=$this->user->employee->activeAcrs()->count();
             $user_acr_to_report_count=$this->user->pendingAcrsToProcess('report')->count();
