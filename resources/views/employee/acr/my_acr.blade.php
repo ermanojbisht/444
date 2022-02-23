@@ -16,9 +16,9 @@
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb',
-[ 'datas'=> [
-['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-['label'=> 'My Acrs','active'=>true]]])
+	[ 'datas'=> [
+	['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+	['label'=> 'My Acrs','active'=>true]]])
 @endsection
 
 @section('content')
@@ -39,8 +39,8 @@
 			<thead class="table-light  fw-bold">
 				<tr class="align-middle">
 					<th>#</th>
-					<th>From Date</th>
-					<th>To Date</th>
+					<th>Year</th>
+					<th>Period</th>
 					<th>Created on</th>
 					<th>Status</th>
 					<th></th>
@@ -51,8 +51,8 @@
 				@foreach($acrs as $acr)
 				<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 					<td>{{1+$loop->index }}</td>
-					<td>{{$acr->from_date->format('d M Y')}}</td>
-					<td>{{$acr->to_date->format('d M Y')}}</td>
+					<td>{{$acr->getFinancialYearAttribute()}}</td>
+					<td>{{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}}</td>
 					<td>{{$acr->created_at->format('d M Y')}} </td>
 					<td>{!! $acr->status() !!} </td>
 					<td>

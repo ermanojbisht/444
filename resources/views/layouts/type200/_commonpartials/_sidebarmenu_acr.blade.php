@@ -1,11 +1,13 @@
-<style type="text/css">
-    .nav-group .nav-item .nav-link::before {
-        content: "\2007 \2007 \2007";
-    }
-</style>
-
-<div class="sidebar sidebar-dark sidebar-fixed" id="sidebar">
-    <div class="sidebar-brand d-none d-md-flex p-0">
+{{-- <style type="text/css">
+.nav-link:hover{
+    background-color: powderblue!important;
+    font-weight: bold;
+    color: #fff!important;
+}
+   
+</style> --}}
+<div class="sidebar sidebar-fixed" id="sidebar">
+    <div class="sidebar-brand d-none d-md-flex p-2">
         <svg class="sidebar-brand-full p-0" width="100%" height="46" alt="PWD Logo" style="fill:powderblue;">
             {!!config('mis_entry.svgIcon')['acrs']!!}
         </svg>
@@ -42,8 +44,12 @@
                 <span> Employee's ACR </span>
             </a>
         </li>
-        <hr>
-        <x-nav-item icon="language" href="{{url('../Font.html')}}" target="_blank" >KurtiDev to Unicode</x-nav-item>
+
+        {{-- At Bottom --}}
+        <li class="nav-title mt-auto">Tools For Hindi Typing</li>
+        <li class="nav-item ">
+            <x-nav-item icon="language" href="{{url('../Font.html')}}" target="_blank" >KurtiDev to Unicode</x-nav-item>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="https://www.google.com/intl/hi/inputtools/try/" target="_blank">
                 <svg class="nav-icon">
