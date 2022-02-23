@@ -1,23 +1,10 @@
 <style type="text/css">
     .iconText{
         font-size: 12px;
-        /*font-weight: bold;*/
         color: white;
     }
-    .iconSvg{
-        height: 26px;
-        width: 26px;
-        fill: white; 
-        stroke-width: 3;
-        stroke-linecap: round;
-        stroke-linejoin:  round; 
-    }
     .iconlogo{
-        width: 100%;
         fill: #88bce8; 
-        stroke-width: 3;
-        stroke-linecap: round;
-        stroke-linejoin:  round; 
     }
 
 </style>
@@ -25,7 +12,7 @@
 <div id="sidebar" class="c-sidebar c-sidebar-fixed c-sidebar-lg-show">
 
     <div class="c-sidebar-brand d-md-down-none">
-        <a class="c-sidebar-brand-full h4" href="#">
+        <a class="c-sidebar-brand-full p-3" href="#">
             <span class="iconlogo">{!!config('mis_entry.svgIcon')['employee']!!}</span>
         </a>
     </div>
@@ -34,8 +21,6 @@
             <a href="{{ route("employee.home") }}" class="c-sidebar-nav-link">
                 <i class="fa fa-vcard c-sidebar-nav-icon"> </i>
                 <span class="iconText">&#160;{{ trans('global.dashboard') }}</span>
-
-                
             </a>
         </li>
         @can('user_management_access')
@@ -174,9 +159,7 @@
 
         <li class="c-sidebar-nav-item">
             <a href="{{route('employee.hr_grievance')}}" class="c-sidebar-nav-link" target="_self">
-                <i class="fa fa-comments c-sidebar-nav-icon">
-                </i>
-                {{-- <span class="iconSvg">{!!config('mis_entry.svgIcon')['estimate']!!}</span> --}}
+                <i class="fa fa-comments c-sidebar-nav-icon"></i>
                 <span class="iconText">&#160;Track Hr Grievance</span>
             </a>
         </li> 
