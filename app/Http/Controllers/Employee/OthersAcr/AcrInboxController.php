@@ -44,8 +44,9 @@ class AcrInboxController extends Controller
      */
     public function index()
     {
-        $reported = Acr::whereNotNull('submitted_at')->where('report_employee_id', $this->user->employee_id)
-            ->where('is_active', 1)->whereNull('report_on')->get();
+        /*$reported = Acr::whereNotNull('submitted_at')->where('report_employee_id', $this->user->employee_id)
+            ->where('is_active', 1)->whereNull('report_on')->get();*/
+        $reported =$this->user->pendingAcrsToProcess('report');
         $reported->map(function ($acr) {
             $acr->is_due = $acr->isAcrDuetoLoggedUserfor('report');
             return $acr;
@@ -53,16 +54,18 @@ class AcrInboxController extends Controller
 
 
 
-        $reviewed = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->user->employee_id)
-            ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get();
+        /*$reviewed = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->user->employee_id)
+            ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get();*/
+        $reviewed =$this->user->pendingAcrsToProcess('review');
         $reviewed->map(function ($acr) {
             $acr->is_due = $acr->isAcrDuetoLoggedUserfor('review');
             return $acr;
         });
 
-        $accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->user->employee_id)
+        /*$accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->user->employee_id)
             ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNotNull('review_no')
-            ->whereNull('accept_on')->get();
+            ->whereNull('accept_on')->get();*/
+        $accepted =$this->user->pendingAcrsToProcess('accept');
 
         $accepted->map(function ($acr) {
             $acr->is_due = $acr->isAcrDuetoLoggedUserfor('accept');

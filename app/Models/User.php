@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Mail\Acr\AcrAlertMail;
+use App\Models\Acr\Acr;
 use App\Models\Acr\AcrNotification;
 use App\Models\HrGrievance\HrGrievance;
 use App\Models\OfficeJobDefault;
@@ -392,5 +393,18 @@ class User extends Authenticatable implements MustVerifyEmail
             ];
             AcrNotification::create($data);
         }
+    }
+
+    public function pendingAcrsToProcess($dutyType='report')
+    {
+        $duty = config('acr.basic.duty')[$dutyType];
+        return Acr::whereNotNull($duty['triggerDate'])->where($duty['targetemployee'], $this->employee_id)
+            ->where('is_active', 1)->whereNull($dutyType.'_on')->get();
+
+        /*$reviewed = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->user->employee_id)
+            ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get();*/
+        /*$accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->user->employee_id)
+            ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNotNull('review_no')
+            ->whereNull('accept_on')->get();*/
     }
 }
