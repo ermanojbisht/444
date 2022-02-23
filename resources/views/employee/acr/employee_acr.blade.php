@@ -79,18 +79,18 @@
 				<td> @if ($acr->submitted_at)
 					{{ $acr->report_on ? Carbon\Carbon::parse($acr->report_on)->format('d M Y')
 					: 'Pending since ' .
-					Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->submitted_at)). ' days' }} @endif
+					Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->submitted_at)) . ' days' }} @endif
 				</td>
 				<td>{{$acr->review_employee_id ? $acr->reviewUser()->shriName : '' }} </td>
 				<td> @if ($acr->report_on)
 					{{ $acr->review_on ? Carbon\Carbon::parse($acr->review_on)->format('d M Y') :
-					'Pending since ' . Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->report_on)). '
+					'Pending since ' . Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->report_on)) . '
 					days' }} @endif
 				</td>
 				<td>{{$acr->accept_employee_id ? $acr->acceptUser()->shriName : '' }} </td>
 				<td>@if ($acr->review_on)
 					{{ $acr->accept_on ? Carbon\Carbon::parse($acr->accept_on)->format('d M Y') :
-					'Pending since ' . Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->review_on)).
+					'Pending since ' . Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->review_on)) .
 					' days' }} @endif </td>
 
 				@endif

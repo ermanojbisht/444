@@ -279,7 +279,7 @@ class Acr extends Model
         foreach ($records as $key => $record) {
             //Log::info(print_r($record, true));
 
-            if ($record->from_date->diffInDays($record->to_date) >= 90 && $responsible_employee_id === '') {
+            if ($record->from_date->diffInDays($record->to_date) + 1 >= 90 && $responsible_employee_id === '') {
                 $record->is_due = 1;
                 $responsible_employee_id = $record->employee_id;
             } else {
@@ -460,14 +460,14 @@ class Acr extends Model
         $appraisalOfficerRecords=$this->appraisalOfficerRecords()->get();
         $days=0;
         $appraisalOfficerRecords->map(function($record) use (&$days){
-           $days+= $record->from_date->diffInDays($record->to_date);          
+           $days+= $record->from_date->diffInDays($record->to_date)+1;          
         });
 
         if($days===0){ return false; }      
 
         $factor=($this->isTwoStep)?2:3;
         
-        return ($this->from_date->diffInDays($this->to_date))===($days/$factor);
+        return ($this->from_date->diffInDays($this->to_date)) +1 ===($days/$factor);
     }
 
     public function getPdfFullFilePathAttribute()

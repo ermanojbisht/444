@@ -47,7 +47,7 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 
 	<div class="card-body">
 		@php
-			$total_period = Carbon\Carbon::parse($acr->from_date)->diffInDays(Carbon\Carbon::parse($acr->to_date));
+			$total_period = $acr->from_date->diffInDays($acr->to_date)+1;
 		@endphp
 
 		@if(!$acr->isSubmitted())
@@ -91,11 +91,10 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 					    @foreach ($appraisalOfficer as $reporting_Officer)
 			    		<tr class="@if($reporting_Officer->pivot->is_due == 1) bg-light @endif">
 					    	@php 
-					    		$reporting_days = $reporting_days + Carbon\Carbon::parse($reporting_Officer->pivot->from_date)->diffInDays(Carbon\Carbon::parse($reporting_Officer->pivot->to_date));
+					    		$reporting_days = $reporting_days + Carbon\Carbon::parse($reporting_Officer->pivot->from_date)->diffInDays(Carbon\Carbon::parse($reporting_Officer->pivot->to_date)) + 1;
 					    		array_push($reporting_start, $reporting_Officer->pivot->from_date);
 					    		array_push($reporting_end, $reporting_Officer->pivot->to_date);
 					    	@endphp
-
 					    	<td>{{$loop->iteration}}</td>
 					    	<td>{{$reporting_Officer->name}}</td>
 					    	<td>
@@ -104,7 +103,7 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 					    		{{Carbon\Carbon::parse($reporting_Officer->pivot->to_date)->format('d M Y')}}
 					    	</td>
 					    	<td>
-					    		{{Carbon\Carbon::parse($reporting_Officer->pivot->from_date)->diffInDays(Carbon\Carbon::parse($reporting_Officer->pivot->to_date))}} Days
+					    		{{Carbon\Carbon::parse($reporting_Officer->pivot->from_date)->diffInDays(Carbon\Carbon::parse($reporting_Officer->pivot->to_date)) +1 }} Days
 					    	</td>
 					    	<td>
 					    		@if($reporting_Officer->pivot->is_due == 1)
@@ -118,8 +117,8 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 
 			    	</table>
 			    	@php
-			    		$checkStartDaysGap = Carbon\Carbon::parse($acr->from_date)->diffInDays(Carbon\Carbon::parse(min($reporting_start)));
-			    		$checkEndDaysGap = Carbon\Carbon::parse($acr->to_date)->diffInDays(Carbon\Carbon::parse(min($reporting_end)));
+			    		$checkStartDaysGap = $acr->from_date->diffInDays(Carbon\Carbon::parse(min($reporting_start)))+1;
+			    		$checkEndDaysGap = $acr->to_date->diffInDays(Carbon\Carbon::parse(min($reporting_end)))+1;
 
 			    	@endphp
 			    		@if($checkStartDaysGap !=0)
@@ -306,9 +305,7 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 		if(from_date != "" && to_date != "")
 		{
 			const diffTime = Math.abs(to_date - from_date);
-			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-			 
-
+			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; 
 			$("#days_in_number").html("Your Period of Appraisal  is for " + diffDays + " Days");
 		}
 	}

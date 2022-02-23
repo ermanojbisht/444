@@ -122,7 +122,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 				M Y')}}
 
 				({{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->diffInDays
-				(Carbon\Carbon::parse($appraisalOfficer->pivot->to_date))}}
+				(Carbon\Carbon::parse($appraisalOfficer->pivot->to_date)) +1 }}
 				Days)
 			</td>
 			<td>
@@ -152,7 +152,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 			</td>
 			<td>
 				{{$leave->from_date->format('d M Y')}} - {{$leave->to_date->format('d M Y')}}
-				({{Carbon\Carbon::parse($leave->from_date)->diffInDays(Carbon\Carbon::parse($leave->to_date))}} Days)
+				({{Carbon\Carbon::parse($leave->from_date)->diffInDays(Carbon\Carbon::parse($leave->to_date)) +1 }} Days)
 			</td>
 		</tr>
 		@empty

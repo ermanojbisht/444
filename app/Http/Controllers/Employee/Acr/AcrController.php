@@ -175,8 +175,6 @@ class AcrController extends Controller
         if (!$permission) {
             abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         }
-
-        
         $appraisalOfficers =  $acr->appraisalOfficers()->get()->groupBy('pivot.appraisal_officer_type');
 
         return view('employee.acr.add_officers', compact('acr', 'appraisalOfficers'));
@@ -250,20 +248,17 @@ class AcrController extends Controller
             $permission = true;
         }
         if (!$permission) {
-            abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
-
-            $result = $acr->checkSelfAppraisalFilled();
-            if (!$result['status']) {
-                return Redirect()->back()->with('fail', $result['msg']);
-            }
+            abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);           
         }
 
-        // $mobileNo = '91' . $acr->reportUser()->contact_no;
-        // $message = $acr->submitUser()->name  . ' has marked his ACR to you as Reviewing officer for the period of ' .
-        //     $acr->from_date->format('d M Y') . ' - ' . $acr->to_date->format('d M Y');
-
+        $result = $acr->checkSelfAppraisalFilled();
+        if (!$result['status']) {
+            return Redirect()->back()->with('fail', $result['msg']);
+        }
+        if (!$acr->isDurationMatches) {
+            return Redirect()->back()->with('fail', 'Appraisal officer date not matches, please revisit your data');
+        }
         $acr->update(['submitted_at' => now()]);
-
         dispatch(new MakeAcrPdfOnSubmit($acr, 'submit'));
 
         return redirect()->back();
