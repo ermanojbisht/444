@@ -94,6 +94,10 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::get('password', 'ChangePasswordController@edit')->name('password.edit');
         Route::post('password', 'ChangePasswordController@update')->name('password.update');
     }
+    if (file_exists(app_path('Http/Controllers/Auth/ChangeEmailController.php'))) {
+        Route::get('email', 'ChangeEmailController@edit')->name('email.edit');
+        Route::post('email', 'ChangeEmailController@update')->name('email.update');
+    }
 });
 
 Route::Post('dynamicdependent', 'Ajax\AjaxFetchDropDownController@index')->name('dynamicdependent');

@@ -18,24 +18,9 @@ class ChangePasswordController extends Controller
     }
 
     public function update(UpdatePasswordRequest $request)
-    {
-        //first get whther email is requested to change
-        $user=auth()->user();
-
-        if(($request->email===$user->email)){
-            $emailChanged=false;
-        }else{
-            $emailChanged=true;
-        }
-
-        
+    {                
         auth()->user()->update($request->validated());
-
-        if($emailChanged){
-            auth()->user()->update(['email_verified_at',Null]);
-            $user->sendEmailVerificationNotification();
-        }
-
+        
         return redirect()->route('employee.home')->with('message', __('global.change_password_success'));
     }
 }

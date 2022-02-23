@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 
-class UpdatePasswordRequest extends FormRequest
+class UpdateEmailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +28,8 @@ class UpdatePasswordRequest extends FormRequest
      */
     public function rules()
     {
-        return [            
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        return [
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . auth()->id()]            
         ];
     }
 }
