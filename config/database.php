@@ -76,6 +76,19 @@ return [
             ]) : [],
         ],
 
+         'sqlsrv' => [
+            'driver' => 'sqlsrv',
+            'url' => env('SQLDATABASE_URL'),
+            'host' => env('SQLDB_HOST', 'localhost'),
+            'port' => env('SQLDB_PORT', '1433'),
+            'database' => env('SQLDB_DATABASE', 'forge'),
+            'username' => env('SQLDB_USERNAME', 'forge'),
+            'password' => env('SQLDB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
+
     ],
 
     /*
