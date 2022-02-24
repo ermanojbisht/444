@@ -27,12 +27,13 @@ class ChangeEmailController extends Controller
         }
 
         auth()->user()->update($request->validated());
-
+        $user->email_verified_at=null;
+        $user->save();
         
-        $user->update(['email_verified_at',null]);
+        
         $user->sendEmailVerificationNotification();
       
 
-        return redirect()->route('employee.home')->with('message', __('global.change_password_success'));
+        return redirect()->route('employee.home')->with('message', 'email updated , please verify your mail address through a link on your inbox');
     }
 }

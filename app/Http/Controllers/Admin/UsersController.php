@@ -366,7 +366,7 @@ class UsersController extends Controller
 
     public function updateUserFromEmployee()
     {
-        $url = "http://localhost/pwd/api/employee/010096004";
+        $url = "http://localhost/pwd/api/v1/employee";
 
 
         /*$client = new Client();
