@@ -29,9 +29,15 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'api' => [
-            'throttle:60,1',
-            'bindings',
+            //'throttle:60,1',  //upto 7
+            //'bindings',  //upto 7 it's similar to \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
             \App\Http\Middleware\AuthGates::class,
+
         ],
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,

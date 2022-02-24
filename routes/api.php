@@ -21,7 +21,18 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::apiResource('ee-offices', 'EeOfficeApiController');
     Route::apiResource('employee', 'EmployeesApiController');
 });
+
+
+
 Route::post('login', '\App\Http\Controllers\Api\V1\Admin\UsersApiLoginController@login');
+
+
+
+Route::post('/tokens/create', function (Request $request) {
+    $token = $request->user()->createToken($request->token_name);
+
+    return ['token' => $token->plainTextToken];
+});
 
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], function () {

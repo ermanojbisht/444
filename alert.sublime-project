@@ -1,8 +1,23 @@
 {
-	"folders":
-	[
-		{
-			"path": "."
-		}
-	]
+    "folders":
+    [
+        {
+            "path": "."
+        }
+    ],
+    "settings":
+  {
+    "find_and_replace_by_project_with_exclusions": [
+      "*.log",
+      "*.sqlite3",
+      "*.gitignore",
+      "bootstrap/",
+      "database/",
+      "node_modules/",
+      "public/",
+      "storage/",
+      "test/",
+
+    ]
+  }
 }

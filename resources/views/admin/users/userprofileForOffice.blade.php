@@ -105,6 +105,27 @@
             </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-12 ">
+                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-user"></i>API Token</h3>
+                        <a class="btn btn-xs btn-info" href="{{route('admin.token.create',['user'=>$userInfo->id])}}">Add Api Token</a>
+                        <a class="btn btn-xs btn-info" href="{{route('admin.token.destroy',['user'=>$userInfo->id])}}">Delete Api Tokens</a>
+                    </div>
+                    <div class="box-body">
+                        <ul>
+                        @foreach($userInfo->tokens as $token)
+                            <li>Name: {{$token->name}} ,
+                                Abilities: @foreach($token->abilities as $ability) {{$ability}}, @endforeach
+                            </li>
+                        @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </div>
+
 
 
 

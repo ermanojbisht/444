@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
-use Laravel\Passport\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens;
 use Mail;
 use \DateTimeInterface;
 
@@ -34,14 +34,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /*protected static function boot()
     {
-        parent::boot();
+    parent::boot();
 
-        static::updating(function (User $user) {
-            if (in_array('email', $user->getChanges())) {
-                $user->email_verified_at = null;
-                $user->sendEmailVerificationNotification();
-            }
-        });
+    static::updating(function (User $user) {
+    if (in_array('email', $user->getChanges())) {
+    $user->email_verified_at = null;
+    $user->sendEmailVerificationNotification();
+    }
+    });
     }*/
 
     /**
@@ -91,11 +91,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->roles()->where('id', 1)->exists();
     }
 
+    /**
+     * @return mixed
+     */
     public function getShriNameAttribute()
     {
-        if($this->employee){
-           return $this->employee->shriName;
+        if ($this->employee) {
+            return $this->employee->shriName;
         }
+
         return $this->name;
     }
 
@@ -298,7 +302,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function grievances()
     {
-    	return $this->hasMany(HrGrievance::class, "employee_id", "employee_id");
+        return $this->hasMany(HrGrievance::class, "employee_id", "employee_id");
     }
 
     /**
@@ -395,16 +399,20 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
-    public function pendingAcrsToProcess($dutyType='report')
+    /**
+     * @param $dutyType
+     */
+    public function pendingAcrsToProcess($dutyType = 'report')
     {
         $duty = config('acr.basic.duty')[$dutyType];
+
         return Acr::whereNotNull($duty['triggerDate'])->where($duty['targetemployee'], $this->employee_id)
             ->where('is_active', 1)->whereNull($dutyType.'_on')->get();
 
         /*$reviewed = Acr::whereNotNull('submitted_at')->where('review_employee_id', $this->user->employee_id)
-            ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get();*/
+        ->where('is_active', 1)->whereNotNull('report_on')->whereNull('review_on')->get();*/
         /*$accepted = Acr::whereNotNull('submitted_at')->where('accept_employee_id', $this->user->employee_id)
-            ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNotNull('review_no')
-            ->whereNull('accept_on')->get();*/
+    ->where('is_active', 1)->whereNotNull('report_on')->whereNotNull('review_on')->whereNotNull('review_no')
+    ->whereNull('accept_on')->get();*/
     }
 }

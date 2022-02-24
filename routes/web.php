@@ -49,9 +49,6 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
     Route::get('/fetchAOffices/{officeType}', 'UsersController@fetchAOffices');  // Gives Html to select multiple Office
     Route::get('/getOfficesfromOfficeType/{officeType}', 'UsersController@getOfficeListAsPerOfficeTypeId'); // Gives json object to select Office in drop down
 
-    Route::get('/addTelegramPattern/{user}', 'UsersController@addTelegramPattern')->name('addTelegramPattern');
-    Route::post('/storeWorkPatternForTelegram', 'UsersController@storeWorkPatternForTelegram')->name('storeWorkPatternForTelegram');
-
     // Ce Offices
     Route::delete('ce-offices/destroy', 'CeOfficeController@massDestroy')->name('ce-offices.massDestroy');
     Route::post('ce-offices/parse-csv-import', 'CeOfficeController@parseCsvImport')->name('ce-offices.parseCsvImport');
@@ -85,6 +82,12 @@ Route::group(['prefix' => '', 'as' => 'admin.', 'namespace' => 'Admin', 'middlew
 
 
     Route::get('getdistrictdetails/{districtid}/{dropdown}', 'AjaxController@districtDetail');
+
+    //token UserTokenController
+    Route::get('/createToken/{user}', 'UserTokenController@create')->name('token.create');
+    Route::post('/storeToken', 'UserTokenController@store')->name('token.store');
+    Route::get('/destroyToken/{user}', 'UserTokenController@destroy')->name('token.destroy');
+
 });
 
 
@@ -119,3 +122,7 @@ Route::prefix('consume')->group(function () {
     Route::get('apiwithoutkey', [UsersController::class, 'updateUserFromEmployee'])->name('apiWithoutKey');
     Route::get('apiwithkey', [UsersController::class, 'updateUserFromEmployee'])->name('apiWithKey');
 });
+
+
+
+

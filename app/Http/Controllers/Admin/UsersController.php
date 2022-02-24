@@ -318,38 +318,7 @@ class UsersController extends Controller
         ];
     }
 
-    public function addTelegramPattern(User $user)
-    {
-        return view('admin.users.createPattern', compact('user'));
-    }
 
-    /**
-     * @param Request $request
-     */
-    public function storeWorkPatternForTelegram(Request $request)
-    {
-        $user = User::findOrFail($request->user_id);
-        $WORK_code = $request->WORK_code;
-        $patterns = WorkToNotify::where('user_id', $request->user_id)
-            ->where('WORK_code', $WORK_code)->first();
-        if ($patterns) {
-            Log::info("patterns = ".print_r($patterns, true));
-
-            return redirect()->back()->with('fail', $request->WORK_code.' pattern already exists');
-        } else {
-            if (!$user->chat_id > 10000) {
-                return redirect()->back()->with('fail', 'Teleram integration is not done by user');
-            }
-            WorkToNotify::create([
-                'user_id' => $request->user_id,
-                'WORK_code' => $request->WORK_code,
-                'user_type' => 1,
-                'chat_id' => $user->chat_id
-            ]);
-
-            return redirect()->back()->with('success', $request->WORK_code." pattern is added");
-        }
-    }
 
     /**
      * @param $request
