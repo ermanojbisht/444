@@ -66,7 +66,7 @@
                                                 </p>
                                             </div>
                                             <div class="col-7 d-flex align-items-center">
-                                                <p class="h4 text-center">Grievance</p>
+                                                <p class="h4">My Grievance</p>
                                             </div>
                                         </div>
                                     </div>
@@ -88,7 +88,7 @@
                                                 </p>
                                             </div>
                                             <div class="col-7 d-flex align-items-center">
-                                                <p class="h4 text-center">ACR Submitted</p>
+                                                <p class="h4">My ACRs</p>
                                             </div>
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@
                                                 </p>
                                             </div>
                                             <div class="col-7 d-flex align-items-center">
-                                                <p class="h4 text-center">At Reporting Officer</p>
+                                                <p class="h4">Pending for Report</p>
                                             </div>
                                         </div>
                                     </div>
@@ -132,7 +132,7 @@
                                                 </p>
                                             </div>
                                             <div class="col-7 d-flex align-items-center">
-                                                <p class="h4 text-center">At Reviewing Officer</p>
+                                                <p class="h4">Pending for Review</p>
                                             </div>
                                         </div>
                                     </div>
@@ -154,7 +154,7 @@
                                                 </p>
                                             </div>
                                             <div class="col-7 d-flex align-items-center">
-                                                <p class="h4 text-center">At Accepting Officer</p>
+                                                <p class="h4">Pending for Accept</p>
                                             </div>
                                         </div>
                                     </div>
