@@ -44,6 +44,7 @@
                 <span> Employee's ACR </span>
             </a>
         </li>
+        <x-nav-item icon="user-plus" href="{{route('office.acrs.view',['office_id' => Auth::user()->employee->office_idd])}}">Report</x-nav-item>
 
         {{-- At Bottom --}}
         <li class="nav-title mt-auto">Tools For Hindi Typing</li>

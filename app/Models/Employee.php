@@ -92,6 +92,14 @@ class Employee extends Authenticatable
         }
         return $shri.$this->name;
     }
+
+    public function getOfficeIddAttribute()
+    {
+        if($this->office_type==0 || !$this->office_type ){
+            return 1;
+        }
+        return ((($this->office_type)*1000)+$this->office_id);
+    }
     /**
      * Scope a query to only include AE Emp.
      *
