@@ -82,7 +82,7 @@
 						<td>{{1+$loop->index }}</td> 
 						<td class="text-start">
 							<a class="text-decoration-none" href="{{route('employee.acr.view',['employee'=>$acr->employee_id])}}">
-								{{$acr->employee->shriName }}
+								{{$acr->employee->name }}
 							</a>
 						</td>
 						<td> {{$acr->employee->id }}</td>
