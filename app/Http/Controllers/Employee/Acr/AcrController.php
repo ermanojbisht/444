@@ -175,7 +175,7 @@ class AcrController extends Controller
         if (!$permission) {
             abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         }
-        $appraisalOfficers =  $acr->appraisalOfficers()->get()->groupBy('pivot.appraisal_officer_type');
+        $appraisalOfficers =  $acr->appraisalOfficers()->get()->groupBy('pivot.appraisal_officer_type')->sortBy('pivot.from_date');
 
         return view('employee.acr.add_officers', compact('acr', 'appraisalOfficers'));
     }

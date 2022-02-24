@@ -10,90 +10,81 @@
 
 @section('pagetitle')
 @if ($acr->acr_type_id == 0)
-
-<small> Assign Officers </small>  Defaulters ACR
-
+	<small> Assign Officers </small>  Defaulters ACR
 @else
-Part 1 ( Basic Information ) <small> Assign Officers </small>
-
+	Part 1 ( Basic Information ) <small> Assign Officers </small>
 @endif
+
 @endsection
 
 @section('breadcrumb')
-
-
-@if ($acr->acr_type_id == 0)
-
-@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
-['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-['label'=> 'View All Defaulters Acrs', 'route'=>'acr.others.defaulters' ,'routefielddata' => 0,'active'=>false],
-['label'=> 'Assign Officers','active'=>true]
-]])
-@else
-@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
-['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
-['label'=> 'Assign Officers','active'=>true]
-]])
-
-@endif
-
+	@if ($acr->acr_type_id == 0)
+		@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
+		['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+		['label'=> 'View All Defaulters Acrs', 'route'=>'acr.others.defaulters' ,'routefielddata' => 0,'active'=>false],
+		['label'=> 'Assign Officers','active'=>true]
+		]])
+	@else
+		@include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
+		['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+		['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
+		['label'=> 'Assign Officers','active'=>true]
+		]])
+	@endif
 @endsection
 
 @section('content')
-
+@php
+	$total_period = $acr->from_date->diffInDays($acr->to_date)+1;
+@endphp
 <div class="card">
-
-
-	<div class="card-body">
-		@php
-			$total_period = $acr->from_date->diffInDays($acr->to_date)+1;
-		@endphp
-
+	<div class="card-header">
 		@if(!$acr->isSubmitted())
-			<div class="d-flex justify-content-between">
-				<input type="button" id="assign_Officials" class="btn btn-outline-primary" value="Assign Officials" />
-				<a href="{{route('acr.myacrs')}}" class="btn btn-outline-primary">Back</a>
+			<div class="d-flex justify-content-between" >
+				<p class="fw-semibold fs-5 ">
+					Assign Reporting, Reviewing and Accepting Officer <br>
+					<small>
+						For ACR Period {{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}} ({{$total_period}} Days)
+					</small> 
+				</p>
+				<p class="fw-semibold fs-5">
+					<a href="{{route('acr.myacrs')}}" class="btn btn-outline-primary btn-sm col-12">Back</a>
+					<br>
+					<a href="{{route('acr.edit',['acr'=>$acr->id ])}}" class="btn btn-outline-primary btn-sm col-12">Edit ACR Period</a>
+				</p>
 			</div>
-			<p class="fw-semibold fs-5">
-				For ACR Period {{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}}
-				({{$total_period}} Days) 
-				<a href="{{route('acr.edit',['acr'=>$acr ])}}" class="btn btn-outline-primary btn-sm">Edit Period</a>
-			</p>
+		@endif	
+	</div>
+	<div class="card-body">
+		@if(!$acr->isSubmitted())
+			<input type="button" id="assign_Officials" class="btn btn-outline-primary" value="Assign Officials" />
 		@endif
-		@foreach($appraisalOfficers as $key=>$appraisalOfficer)
-			@php
-				if($key== 1){ $officerType = "Reporting  Officers"; }
-			 	elseif($key== 2){ $officerType = "Reviewing  Officers"; }
-			 	elseif($key== 3){ $officerType = "Accepting  Officers"; }
-			 	else{ $officerType = ""; }
-			@endphp
+		@forelse($appraisalOfficers as $key=>$appraisalOfficer)
 			<div class="card mb-3">
 				<div class="card-header bg-dark text-light d-flex justify-content-between">
-					<p class="fw-semibold fs-5 p-0 m-0">{{$officerType}} List</p>
+					<p class="fw-semibold fs-5 p-0 m-0">{{config('acr.basic.appraisalOfficerType')[$key]??''}} Officers List</p>
 					<form  action="{{ route('acr.deleteAcrOfficers', [ 'acr_id'=> $acr->id, 'appraisal_officer_type'=>$key]) }}" method="POST" >
 						{{ csrf_field() }}
 						<button type="submit" class="btn btn-sm  btn-light "> 
 							<svg class="icon">
 								<use xlink:href={{asset('vendors/@coreui/icons/svg/free.svg#cil-trash')}}></use>
 							</svg>
-							Clear All {{$officerType}}
+							Clear All {{config('acr.basic.appraisalOfficerType')[$key]??''}} Officers
 						</button>
 					</form>
 				</div>
 				<div class="card-body">
 					@php 
 						$reporting_days = 0;
-						$reporting_start = []; 
-						$reporting_end = [];
+						$dates = []; 
 					@endphp
 			    	<table class="table table-sm">
 					    @foreach ($appraisalOfficer as $reporting_Officer)
 			    		<tr class="@if($reporting_Officer->pivot->is_due == 1) bg-light @endif">
 					    	@php 
 					    		$reporting_days = $reporting_days + Carbon\Carbon::parse($reporting_Officer->pivot->from_date)->diffInDays(Carbon\Carbon::parse($reporting_Officer->pivot->to_date)) + 1;
-					    		array_push($reporting_start, $reporting_Officer->pivot->from_date);
-					    		array_push($reporting_end, $reporting_Officer->pivot->to_date);
+					    		array_push($dates, $reporting_Officer->pivot->from_date);
+					    		array_push($dates, $reporting_Officer->pivot->to_date);
 					    	@endphp
 					    	<td>{{$loop->iteration}}</td>
 					    	<td>{{$reporting_Officer->name}}</td>
@@ -107,9 +98,9 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 					    	</td>
 					    	<td>
 					    		@if($reporting_Officer->pivot->is_due == 1)
-					    			Due 
+					    			<span class="text-success">Due</span>
 					    		@else
-					    			not Due 
+					    			<span class="text-danger">Not Due</span> 
 					    		@endif
 					    	</td>
 			    		</tr>
@@ -117,27 +108,28 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 
 			    	</table>
 			    	@php
-			    		$checkStartDaysGap = $acr->from_date->diffInDays(Carbon\Carbon::parse(min($reporting_start)))+1;
-			    		$checkEndDaysGap = $acr->to_date->diffInDays(Carbon\Carbon::parse(min($reporting_end)))+1;
-
+			    		$checkStartDaysGap = $acr->from_date->diffInDays(Carbon\Carbon::parse(min($dates)));
+			    		$checkEndDaysGap = $acr->to_date->diffInDays(Carbon\Carbon::parse(max($dates)));
 			    	@endphp
 			    		@if($checkStartDaysGap !=0)
-					  		<p class="text-info p-0 m-0 small">Start Date of {{$officerType}} dose not match with ACR Start Date</p>
+					  		<p class="text-danger p-0 m-0">Start Date of {{config('acr.basic.appraisalOfficerType')[$key]??''}} Officers dose not match with ACR Start Date</p>
 			    		@endif
 			    		@if($checkEndDaysGap !=0)
-					  		<p class="text-info p-0 m-0 small">End Date of {{$officerType}} dose not match with ACR End Date</p>
+					  		<p class="text-danger p-0 m-0">End Date of {{config('acr.basic.appraisalOfficerType')[$key]??''}} Officers dose not match with ACR End Date</p>
 			    		@endif
 				</div>
 				<div class="card-footer text-muted d-flex justify-content-between">
 					@if($reporting_days != $total_period)
-						<p class="p-0 m-0 text-danger">Missing {{$total_period - $reporting_days}} Days</p>
+						<p class="p-0 m-0 text-danger">Period for {{$total_period - $reporting_days}} Days Missing</p>
 					@else
 						 <p class="p-0 m-0 ">ok</p>
 					@endif
-					<p class="p-0 m-0 text-info">{{$officerType}} Selected for Total {{$reporting_days}} Days</p> 
+					<p class="p-0 m-0 text-info">{{config('acr.basic.appraisalOfficerType')[$key]??''}} Selected for Total {{$reporting_days}} Days</p> 
 				</div>
 			</div>
-		@endforeach
+		@empty
+			<p class="text-center text-info fw-semibold fs-5">Please Click on [Assign Officials] Button to Add Assign Reporting, Reviewing and Accepting Officer</p>
+		@endforelse
 	</div>
 </div>
 
@@ -147,29 +139,29 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 	<div class="modal fade" id="hrms-model" aria-hidden="true" tabindex="-1" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title fw-bold" id="OfficialType">
+				<div class="modal-header bg-light py-1">
+					<p class="modal-title fw-bold" id="OfficialType">
 						Add Appraisal Officers<br>
-						<small>( for Period : {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }}</small>
-					</h4>
+						<small>for Period : {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }}</small>
+					</p>
 				</div>
 				<div class="modal-body">
 					<form id="officerInsertUpdateForm" name="officerInsertUpdateForm" class="form-horizontal"
 						method="POST" action="{{route('acr.addAcrOfficers')}}">
 						@csrf
 						<div class="form-group mt-2">
-							{!! Form::label('Select officer ', '', ['class' => 'required'] ) !!}
+							{!! Form::label('Select officer Authority', '', ['class' => 'required'] ) !!}
 							<select id="appraisal_officer_type" name="appraisal_officer_type" class="form-select"
 								required>
-								<option value=""> Select Officer </option>
+								<option value="" disabled selected> Select</option>
 								@if($acr->isTwoStep)
-								@php $officers=config('acr.basic.appraisalOfficerType2step'); @endphp
+									@php $officers=config('acr.basic.appraisalOfficerType2step'); @endphp
 								@else
-								@php $officers=config('acr.basic.appraisalOfficerType'); @endphp								
+									@php $officers=config('acr.basic.appraisalOfficerType'); @endphp
 								@endif
 								@foreach($officers as $key => $value)								
 								<option value="{{$key}}" {{ old('appraisal_officer_type')==$key ? 'selected' : '' }}>
-									{{$value}}
+									{{$value}} Authority
 								</option>
 								@endforeach
 							</select>
@@ -229,7 +221,6 @@ Part 1 ( Basic Information ) <small> Assign Officers </small>
 						</div>
 						<div class="form-group mt-2">
 						</div>
-					
 				</div>
 				<div class="modal-footer">
 					<div class="row">
