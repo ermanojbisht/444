@@ -32,7 +32,7 @@ class Kernel extends HttpKernel
             //'throttle:60,1',  //upto 7
             //'bindings',  //upto 7 it's similar to \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            //\Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 

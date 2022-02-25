@@ -34,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         //Passport::routes();
         //mkb this i got from laravel 8 documentation
          if (! $this->app->routesAreCached()) {
-            Passport::routes();
+            //Passport::routes();
         }
         //Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');  
         //done it thruogh config file
