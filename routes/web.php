@@ -117,7 +117,7 @@ Route::get('/telegram/connect', 'TelegramBotController@connect')->name('telegram
 Route::get('/telegram/callback', 'TelegramBotController@callback')->name('telegram.callback');
 Route::get('/telegram/telegramLogged', 'TelegramBotController@telegramLogged')->name('telegram.telegramLogged');
 
-//consume api
+//consume api experimental
 Route::prefix('consume')->group(function () {
     Route::get('apiwithoutkey', [UsersController::class, 'updateUserFromEmployee'])->name('apiWithoutKey');
     Route::get('apiwithkey', [UsersController::class, 'updateUserFromEmployee'])->name('apiWithKey');

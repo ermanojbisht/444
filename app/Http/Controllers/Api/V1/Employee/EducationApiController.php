@@ -34,10 +34,10 @@ class EducationApiController extends Controller
                 return $this->success($education, 'Education Created');
             }
 
-            return $this->error(400, $validator->errors());
+            return $this->error($validator->errors(), 400);
         }
 
-        return $this->error(401, 'Unauthorized Access');
+        return $this->error('Unauthorized Access', 401);
 
         //return (new CeOfficeResource($ceOffice))->response()->setStatusCode(Response::HTTP_CREATED);
     }
@@ -63,10 +63,10 @@ class EducationApiController extends Controller
                 return $this->success($education, 'Education Updated');
             }
 
-            return $this->error(400, $validator->errors());
+            return $this->error($validator->errors(), 400);
         }
 
-        return $this->error(401, 'Unauthorized Access');
+        return $this->error('Unauthorized Access', 401);
     }
 
     /**
@@ -77,5 +77,15 @@ class EducationApiController extends Controller
         $education->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    protected function educationValidationRules(): array
+    {
+        return [
+            'employee_id' => 'required|string',
+            'qualifiaction' => 'required|string',
+            'year' => 'required|integer',
+            'qualifiaction_type_id' => 'required|integer'
+        ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,7 @@ trait ApiResponserTrait
      * @param  int|null  $code
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function success($data, string $message = null, int $code = 200)
+    protected function success($data, string $message = null, int $code = 200): JsonResponse
     {
         return response()->json([
             'status' => 'Success',
@@ -40,7 +41,7 @@ trait ApiResponserTrait
      * @param  array|string|null  $data
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function error(string $message = null, int $code, $data = null)
+    protected function error(string $message = null, int $code, $data = null): JsonResponse
     {
         return response()->json([
             'status' => 'Error',
@@ -48,5 +49,7 @@ trait ApiResponserTrait
             'data' => $data
         ], $code);
     }
+
+
 
 }

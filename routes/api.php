@@ -1,8 +1,12 @@
 <?php
+use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:api']], function () {
     // Users
     Route::apiResource('users', 'UsersApiController');
+    Route::post('createUserFromEmployee', 'UsersApiController@createUserFromEmployee')->name('createUserFromEmployee');
+
+
     // Permissions
     Route::apiResource('permissions', 'PermissionsApiController');
 
@@ -24,6 +28,9 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
 
 
+
+
+
 Route::post('login', '\App\Http\Controllers\Api\V1\Admin\UsersApiLoginController@login');
 
 
@@ -35,8 +42,13 @@ Route::post('/tokens/create', function (Request $request) {
 });
 
 
-Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin'], function () {
+Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1', 'middleware'=>['auth:api']], function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 
+
+    Route::post('education','Employee\EducationApiController@store')->name('education.store');
    // Route::get('work/{work}','WorkApiController@show')->name('work.show');
 
 });
