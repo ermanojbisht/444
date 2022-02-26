@@ -50,7 +50,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\SetLocale::class,
             \App\Http\Middleware\ApprovalMiddleware::class,
             \App\Http\Middleware\VerificationMiddleware::class,
-            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class, //mkb added for jwt and should be added after EncryptCookies
+           // \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class, //mkb added for jwt and should be added after EncryptCookies
             \App\Http\Middleware\LanguageManager::class,
         ],
     ];
