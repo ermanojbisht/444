@@ -13,6 +13,10 @@ Route::group(['prefix' => '', 'as' => 'acr.', 'middleware' => ['auth', 'verified
     Route::post('/update/acr', 'Acr\AcrController@update')->name('update');
 
 
+    Route::get('/edit/{acr}/alteredAcr', 'Acr\AlterAcrController@edit')->name('edit.alteredAcr');
+    Route::post('/update/{acr}/alteredAcr', 'Acr\AlterAcrController@update')->name('update.alteredAcr');
+
+
     Route::get('/{acr}/view', 'Acr\AcrController@show')->name('view');
     Route::get('/{acr}/view/part1', 'Acr\AcrController@showPart1')->name('view.part1');
 

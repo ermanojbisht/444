@@ -23,6 +23,7 @@ Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/', 'Employee\HomeController@dashboard')->name('employee.home');
+    Route::get('/home', function(){ return redirect()->route('employee.home'); });
     Route::post('employeeBasicData', 'Employee\HomeController@employeeBasicData')->name('employee.basicData');
 });
 
