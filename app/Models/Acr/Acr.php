@@ -589,7 +589,7 @@ class Acr extends Model
         $this->mailNotificationFor($targetDutyType = 'submit', $notification_type = 5);
     }
 
-    public function correctNotification()
+    public function correctnoticeNotification()
     {
         //now target is submit beacause it's just back to user
         $this->mailNotificationFor($targetDutyType = 'correctnotice', $notification_type = 7);
