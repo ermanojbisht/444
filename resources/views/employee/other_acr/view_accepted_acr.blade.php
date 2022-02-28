@@ -77,7 +77,7 @@
 		</div>
 	</div>
 	@if($acr->old_accept_no)
-			<p class="text-info fw-semibold">After Representation Marks And Grade Change as below:</p>
+			<p class="text-info fw-semibold">After successful representation marks and grade has been changed as below:</p>
 			<div class="col-md-6">
 				<div class="row">
 					<div class="col-md-6">
