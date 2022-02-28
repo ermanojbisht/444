@@ -59,13 +59,13 @@ class AlterAcrController extends Controller
         $this->validate($request,
             [
                 'accept_no' => 'required',
-                'final_accept_remark'=>'required | min:20'
+                'final_accept_remark'=>'required|min:20',
                 'old_accept_no'=>'required'
             ]
         );
         $acr->update(
-            $request->all();
-        ) 
+            $request->all()
+        ) ;
         //    make pdf  and mail notification
         dispatch(new MakeAcrPdfOnSubmit($acr, 'accept'));
 
