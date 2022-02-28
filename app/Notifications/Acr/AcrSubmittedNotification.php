@@ -91,6 +91,9 @@ class AcrSubmittedNotification extends Notification implements ShouldQueue
             case 'accept':
                     $body .= $acr->employee->name.'\'s performance report has been reviewed by '.$acr->userOnBasisOfDuty('review')->name.'  on '.$acr->review_on->format('d M Y ').' . Please visit your inbox section at HRMS/Track AR portal.';
                 break;
+            case 'correctnotice':
+                    $body .= $acr->employee->name.'\'s performance report has been corrected on '.$acr->updated_at->format('d M Y ').' . Please visit your inbox section at HRMS/Track AR portal.';
+                break;
             case 'submit':
                  if($acr->isTwoStep){
                     $body .= 'Your performance report has been reviewed by '.$acr->userOnBasisOfDuty('review')->name.'  on '.$acr->review_on->format('d M Y ').' . Please visit your myacr section at HRMS/Track AR portal.';

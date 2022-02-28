@@ -63,6 +63,10 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
             $this->acr->acceptNotification();
         }
 
+        if($this->milstone=='correctnotice'){
+            $this->acr->correctnoticeNotification();
+        }
+
         if($this->milstone=='reject'){
             $this->acr->rejectNotification();
         }
@@ -73,7 +77,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
     {
         $pages = []; $view = true;
         $acr=$this->acr;
-        if(in_array($this->milstone, ['submit','report','review','accept','reject'])){
+        if(in_array($this->milstone, ['submit','report','review','accept','reject','correctnotice'])){
             list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted,$officeWithParentList) = $this->acr->firstFormData();
             $pages[] = view('employee.acr.view_part1', ['acr'=>$this->acr, 'employee'=> $employee,'appraisalOfficers' => $appraisalOfficers, 'leaves'=> $leaves, 'appreciations'=>$appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted ,'officeWithParentList'=>$officeWithParentList]);
 
@@ -99,7 +103,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
         //appraisalShowSinglePage
         //acr form by user ?//todo
         //$errors=collect([]);
-        if(in_array($this->milstone, ['report','review','accept']) ){
+        if(in_array($this->milstone, ['report','review','accept','correctnotice']) ){
 
             if($acr->isSinglePage){
                 $pages[] = view('employee.acr.form.single_page.report_review_show', compact('acr'));
@@ -125,7 +129,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
 
         }
 
-        if($this->milstone=='accept'){
+        if(in_array($this->milstone, ['accept','correctnotice']) ){
             $pages[] =view('employee.other_acr.view_accepted_acr', compact('acr'));
         }
 

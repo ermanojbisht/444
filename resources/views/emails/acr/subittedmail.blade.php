@@ -16,6 +16,11 @@ Please visit your inbox section at HRMS/Track AR portal.
 Please visit your inbox section at HRMS/Track AR portal.
 @endif
 
+@if($targetDutyType=='correctnotice')
+{{$acr->employee->shriName}}'s performance report has been corrected on @mkbdate($acr->updated_at).
+Please visit your inbox section at HRMS/Track AR portal.
+@endif
+
 @if($targetDutyType=='submit')
 @if($acr->isTwoStep)
 Your performance report has been reviewed by {{$acr->userOnBasisOfDuty('review')->shriName}} on @mkbdate($acr->review_on).
