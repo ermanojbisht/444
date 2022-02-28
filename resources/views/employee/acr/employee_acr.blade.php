@@ -97,12 +97,14 @@
 							</svg>
 						</a>
 						@can('acr-special')
-			        	<a href="{{route('acr.edit.alteredAcr',['acr'=>$acr])}}" class="text-decoration-none">
-							<svg class="icon icon-xl">
-								<use xlink:href="{{url('vendors/@coreui/icons/svg/free.svg#cil-pencil')}}">
-								</use>
-							</svg>
-						</a>
+							@if(!$acr->old_accept_no)
+					        	<a href="{{route('acr.edit.alteredAcr',['acr'=>$acr])}}" class="text-decoration-none">
+									<svg class="icon icon-xl">
+										<use xlink:href="{{url('vendors/@coreui/icons/svg/free.svg#cil-pencil')}}">
+										</use>
+									</svg>
+								</a>
+							@endif
 				        @endcan
 					@else
 							--
