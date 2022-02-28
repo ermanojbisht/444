@@ -66,7 +66,7 @@ class AlterAcrController extends Controller {
         //    make pdf  and mail notification
         dispatch(new MakeAcrPdfOnSubmit($acr, 'accept'));
 
-        return redirect()->back()->with('success', 'ACR Final Marks Updated');
+        return redirect()->route('employee.acr.view',['employee'=>$acr->employee_id])->with('success', 'ACR Final Marks Updated');
     }
 
     /**
