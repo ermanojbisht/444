@@ -3,19 +3,19 @@
 namespace App\Http\Controllers\Employee\Acr;
 
 use App\Http\Controllers\Controller;
-use App\Models\Acr\Acr;
-use Illuminate\Http\Request;
 use App\Jobs\Acr\MakeAcrPdfOnSubmit;
+use App\Models\Acr\Acr;
+use Gate;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class AlterAcrController extends Controller
-{
+class AlterAcrController extends Controller {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         //
     }
 
@@ -25,8 +25,7 @@ class AlterAcrController extends Controller
      * @param  \App\Models\Acr\Acr  $acr
      * @return \Illuminate\Http\Response
      */
-    public function show(Acr $acr)
-    {
+    public function show(Acr $acr) {
         //
     }
 
@@ -36,14 +35,13 @@ class AlterAcrController extends Controller
      * @param  \App\Models\Acr\Acr  $acr
      * @return \Illuminate\Http\Response
      */
-    public function edit(Acr $acr)
-    {
+    public function edit(Acr $acr) {
 
         abort_if(Gate::denies('acr-special'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        if($acr->old_accept_no || !$acr->accept_no){
+        if ($acr->old_accept_no || !$acr->accept_no) {
             return 'not allowed as alreadey updated';
         }
-        return view('employee.acr.alteracr',compact('acr'));
+        return view('employee.acr.alteracr', compact('acr'));
     }
 
     /**
@@ -53,24 +51,22 @@ class AlterAcrController extends Controller
      * @param  \App\Models\Acr\Acr  $acr
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Acr $acr)
-    {
+    public function update(Request $request, Acr $acr) {
         abort_if(Gate::denies('acr-special'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->validate($request,
             [
                 'accept_no' => 'required',
-                'final_accept_remark'=>'required|min:20',
-                'old_accept_no'=>'required'
+                'final_accept_remark' => 'required|min:20',
+                'old_accept_no' => 'required',
             ]
         );
         $acr->update(
             $request->all()
-        ) ;
+        );
         //    make pdf  and mail notification
         dispatch(new MakeAcrPdfOnSubmit($acr, 'accept'));
 
-
-        return redirect()->back()->with('success','ACR Final Marks Updated');
+        return redirect()->route('employee.acr.view',['employee'=>$acr->employee_id])->with('success', 'ACR Final Marks Updated');
     }
 
     /**
@@ -79,8 +75,7 @@ class AlterAcrController extends Controller
      * @param  \App\Models\Acr\Acr  $acr
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Acr $acr)
-    {
+    public function destroy(Acr $acr) {
         //
     }
 }

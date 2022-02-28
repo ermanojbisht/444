@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <form class="form-horizontal" method="POST" action="{{route('acr.update.alteredAcr',['acr'=>$acr])}}">
+        <form class="form-horizontal" method="POST" action="{{route('acr.uupdate.alteredAcr',['acr'=>$acr])}}">
             @csrf
             <input type="hidden" name="acr_id" value="{{$acr->id}}" />
             <input type="hidden" name="old_accept_no" value="{{$acr->accept_no}}" />
