@@ -47,11 +47,19 @@
 			<div class="col-md-6">
 				<div class="row">
 					<div class="col-md-6">
-						<p class="fw-semibold "> Marks : {{$acr->accept_no }} </p>
+						<p class="fw-semibold "> Marks : 
+							@if($acr->old_accept_no)
+								{{$acr->old_accept_no }} 
+							@else
+								{{$acr->accept_no }} 
+							@endif
+						</p>
 					</div>
-					<div class="col-md-6">
-						<p class="fw-semibold"> Grade : {{$acr->grade}} </p>
-					</div>
+					@if(!$acr->old_accept_no)
+						<div class="col-md-6">
+							<p class="fw-semibold"> Grade : {{$acr->grade}} </p>
+						</div>
+					@endif
 				</div>
 			</div>
 		</div>
@@ -62,14 +70,30 @@
 				<p class="fw-semibold"> By
 					<span class="text-info"> {!! $acr->acceptUser()->shriName !!} </span>
 				</p>
-
 				<p class="fw-semibold"> Date
 					<span class="text-info"> {!! $acr->accept_on->format('d&#160;M&#160;Y') !!} </span>
 				</p>
 			</div>
 		</div>
-
 	</div>
+	@if($acr->old_accept_no)
+			<p class="text-info fw-semibold">After Representation Marks And Grade Change as below:</p>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-6">
+						<p class="fw-semibold "> Marks : {{$acr->accept_no }} </p>
+					</div>
+					<div class="col-md-6">
+						<p class="fw-semibold"> Grade : {{$acr->grade}} </p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<p class="fw-semibold "> Order Details : {{$acr->final_accept_remark }} </p>
+					</div>
+				</div>
+			</div>
+	@endif
 </div>
 
 @endsection
