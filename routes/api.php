@@ -5,6 +5,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Users
     Route::apiResource('users', 'UsersApiController');
     Route::post('createUserFromEmployee', 'UsersApiController@createUserFromEmployee')->name('createUserFromEmployee');
+    Route::get('userWithEmployeeCode/{employee_id}', 'UsersApiController@userWithEmployeeCode')->name('userWithEmployeeCode');
 
 
     // Permissions

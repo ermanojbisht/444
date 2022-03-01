@@ -140,4 +140,14 @@ class UsersApiController extends Controller
             'contact_no' => 'nullable|integer'
         ];
     }
+
+    public function userWithEmployeeCode($employee_id)
+    {
+       $user= User::whereEmployeeId($employee_id)->first();
+       if($user){
+            return $this->success($user, 'User exist');
+       }
+       return $this->error("user with employee_id $employee_id not exist", 400);
+
+    }
 }

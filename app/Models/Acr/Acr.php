@@ -38,7 +38,7 @@ class Acr extends Model
         'review_duration_lapsed', 'accept_duration_lapsed',
         'report_no', 'report_on', 'report_remark',
         'review_no', 'review_on', 'review_remark',
-        'accept_no', 'accept_on', 'accept_remark','is_defaulter'
+        'accept_no', 'accept_on', 'accept_remark','is_defaulter',  'old_accept_no','final_accept_remark'
     ];
 
     /**
@@ -589,6 +589,14 @@ class Acr extends Model
         $this->mailNotificationFor($targetDutyType = 'submit', $notification_type = 5);
     }
 
+    public function correctnoticeNotification()
+    {
+        //now target is submit beacause it's just back to user
+        $this->mailNotificationFor($targetDutyType = 'correctnotice', $notification_type = 7);
+    }
+
+
+
     public function rejectNotification()
     {
         // on reject targetduty is againsubmit or rejecr itself
@@ -607,7 +615,7 @@ class Acr extends Model
             $previousNotification = AcrNotification::where('employee_id', $targetEmployee->employee_id)
                 ->where('acr_id', $this->id)
                 ->where('through', 1) //for mail , may be 2 for sms
-                ->where('notification_type', $notification_type) //2=for report
+                ->where('notification_type', $notification_type) //2=for report 7=correctnotice
                 ->orderBy('notification_on', 'DESC')->first();
 
             if (!$previousNotification) {
@@ -632,6 +640,13 @@ class Acr extends Model
                         //on review event , accept is targeted
                         //accept user is as target
                         $mail->cc($this->userOnBasisOfDuty('review'));
+                        //$mail->cc($this->userOnBasisOfDuty('report'));
+                        //$mail->cc($this->submitUser());
+                        break;
+                    case 'correctnotice':
+                        //on review event , accept is targeted
+                        //accept user is as target
+                        //$mail->cc($this->userOnBasisOfDuty('review'));
                         //$mail->cc($this->userOnBasisOfDuty('report'));
                         //$mail->cc($this->submitUser());
                         break;

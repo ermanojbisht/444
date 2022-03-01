@@ -36,12 +36,13 @@
 		<thead class="table-light fw-bold">
 			<tr class="align-middle text-center">
 				<th rowspan="2">#</th>
-				<th rowspan="2">Acr Id</th>
+				
 				<th colspan="2">Period</th>
 				<th rowspan="2">Submitted on</th>
 				<th colspan="2">Reported</th>
 				<th colspan="2">Reviewed</th>
 				<th colspan="2">Accepted</th>
+				<th rowspan="2">Acr Id</th>
 			</tr>
 			<tr class="align-middle text-center">
 				<th>From </th>
@@ -52,19 +53,14 @@
 				<th>on Date </th>
 				<th>By </th>
 				<th>on Date </th>
+
 			</tr>
 		</thead>
 		<tbody>
 			@foreach($acrs as $acr)
 			<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 				<td>{{1+$loop->index }}</td>
-				<td>
-					@if($acr->accept_on)
-					<a href="{{route('acr.view',['acr'=>$acr])}}">{{$acr->id }}</a>
-					@else
-					Under Process
-					@endif
-				</td>
+				
 				<td>{!! $acr->from_date->format('d&#160;M&#160;Y') !!}</td>
 				<td>{!! $acr->to_date->format('d&#160;M&#160;Y') !!}</td>
 				<td>{!! ($acr->submitted_at) ?  $acr->submitted_at->format('d&#160;M&#160;Y') : 'New Created ' !!} </td>
@@ -92,7 +88,29 @@
 					{{ $acr->accept_on ? Carbon\Carbon::parse($acr->accept_on)->format('d M Y') :
 					'Pending since ' . Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->review_on)) .
 					' days' }} @endif </td>
+				<td>
+					@if($acr->accept_on)
+						<a href="{{route('acr.view',['acr'=>$acr])}}" class="text-decoration-none">
+							<svg class="icon icon-xl">
+								<use xlink:href="{{url('vendors/@coreui/icons/svg/free.svg#cil-cloud-download')}}">
+								</use>
+							</svg>
+						</a>
+						@can('acr-special')
+							@if(!$acr->old_accept_no)
+					        	<a href="{{route('acr.edit.alteredAcr',['acr'=>$acr])}}" class="text-decoration-none">
+									<svg class="icon icon-xl">
+										<use xlink:href="{{url('vendors/@coreui/icons/svg/free.svg#cil-pencil')}}">
+										</use>
+									</svg>
+								</a>
+							@endif
+				        @endcan
+					@else
+							--
+					@endif
 
+				</td>
 				@endif
 
 

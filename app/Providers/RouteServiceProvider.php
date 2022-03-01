@@ -2,26 +2,29 @@
 
 namespace App\Providers;
 
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * This namespace is applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'App\Http\Controllers';
-
-    /**
      * The path to the "home" route for your application.
+     *
+     * This is used by Laravel authentication to redirect users after login.
      *
      * @var string
      */
     public const HOME = '/home';
+    /**
+     * The controller namespace for the application.
+     *
+     * When present, controller route declarations will automatically be prefixed with this namespace.
+     *
+     * @var string|null
+     */protected $namespace = 'App\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -30,26 +33,27 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->configureRateLimiting();
 
-        parent::boot();
+        $this->routes(function () {
+            $this->mapApiRoutes();
+            $this->mapWebRoutes();
+            $this->mapWorkDocRoutes();
+            $this->mapGrievanceRoutes();
+            $this->mapAcrRoutes();
+        });
     }
 
     /**
-     * Define the routes for the application.
+     * Configure the rate limiters for the application.
      *
      * @return void
      */
-    public function map()
+    protected function configureRateLimiting()
     {
-        $this->mapApiRoutes();
-
-        $this->mapWebRoutes();
-        $this->mapWorkDocRoutes();
-        $this->mapGrievanceRoutes();
-        $this->mapAcrRoutes();
-
-        //
+        RateLimiter::for ('api', function (Request $request) {
+            return Limit::perMinute(1000)->by(optional($request->user())->id ?: $request->ip());
+        });
     }
 
     /**
@@ -62,8 +66,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -74,45 +78,40 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
     }
 
-    /**
-     * Define the User routes of the application.
-     *
-     *
-     * @return void
-     */
     protected function mapWorkDocRoutes()
     {
         Route::middleware('web') // specify here your middlewares
             ->namespace($this->namespace) // leave it as is
-            /** the name of your route goes here: */
+        /**
+         * the name of your route goes here:
+         */
             ->group(base_path('routes/web_docs.php'));
     }
 
-
-
-
-
     protected function mapGrievanceRoutes()
     {
-        Route::prefix('employee/issue')  // if you need to specify a route prefix
-             ->middleware('web') // specify here your middlewares
+        Route::prefix('employee/issue') // if you need to specify a route prefix
+            ->middleware('web') // specify here your middlewares
             ->namespace($this->namespace.'\Employee') // leave it as is
-            /** the name of your route goes here: */
+        /**
+         * the name of your route goes here:
+         */
             ->group(base_path('routes/web_grievance.php'));
     }
 
     protected function mapAcrRoutes()
     {
-        Route::prefix('acr')  // if you need to specify a route prefix
-             ->middleware('web') // specify here your middlewares
+        Route::prefix('acr') // if you need to specify a route prefix
+            ->middleware('web') // specify here your middlewares
             ->namespace($this->namespace.'\Employee') // leave it as is
-            /** the name of your route goes here: */
+        /**
+         * the name of your route goes here:
+         */
             ->group(base_path('routes/web_acr.php'));
     }
-
 }
