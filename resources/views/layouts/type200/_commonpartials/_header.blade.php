@@ -49,7 +49,7 @@
                 <a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button"  aria-haspopup="true" aria-expanded="false">
                     @if(Auth::check())
                         <div class="avatar avatar-md">
-                            <img class="avatar-img" src="{{asset('../images/user_profile_pics/male.jpg')}}" alt="{{Auth::user()->name}}">
+                            <img class="avatar-img" src="{{asset('../images/user_profile_pics/male.jpg')}}" alt="{{Auth::user()->shriName}}">
                         </div>
                     @else
                         <div class="avatar avatar-md">
@@ -60,7 +60,7 @@
                 <div class="dropdown-menu dropdown-menu-end pt-0">
                     <div class="dropdown-header bg-light py-2">
                         @if(Auth::check())
-                        <div class="fw-semibold">{{Auth::user()->name}}</div>
+                        <div class="fw-semibold">{{Auth::user()->shriName}}</div>
                         @endif
                     </div>
                     @if(Auth::check())

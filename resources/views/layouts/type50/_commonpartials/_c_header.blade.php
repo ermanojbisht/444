@@ -11,7 +11,7 @@
 
     <ul class="c-header-nav ml-auto">
         @if(auth()->user())
-          &#128591; {{strtoupper(auth()->user()->name)}}
+          &#128591; {{strtoupper(auth()->user()->shriName)}}
           @if(strpos(auth()->user()->email, 'emp.com') !== false )
           <br>Please change your mail .
           @endif
