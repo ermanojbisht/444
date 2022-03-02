@@ -48,15 +48,14 @@ You may visit following link.
 HRMS
 @endcomponent
 
-
- <small>
-@component('mail::button', ['url' => config('site.dmsSiteBaseAddress').'/index.php/download/128-website-software-trainning-material/1276-subscribe-telegram-bot-for-pwd-alerts','color' => 'green'])
+@component('mail::button', ['url' => config('site.dmsSiteBaseAddress').'/index.php/category/288','color' => 'green'])
 Trainning content for ACR process
 @endcomponent
-</small>
+
 @endcomponent
 
 
 Thanks,<br>
 {{ config('app.name') }}
 @endcomponent
+/category/288
