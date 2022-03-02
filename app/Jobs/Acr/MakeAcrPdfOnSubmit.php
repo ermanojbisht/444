@@ -137,6 +137,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
         $this->pdf->setOption('margin-top',15);
         $this->pdf->setOption('cover', view('employee.acr.pdfcoverpage', ['acr'=>$this->acr]));
         $this->pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
+        $this->pdf->setOption('header-html',  view('employee.acr.pdfheader'));
         $this->pdf->loadHTML($pages);
     }
 }
