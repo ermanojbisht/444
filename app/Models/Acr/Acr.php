@@ -551,7 +551,7 @@ class Acr extends Model
         //$fullpath=\Storage::disk('public')->path($this->pdf_file_path);
         if ($forced || (!$this->isFileExist())) {
             $path = $this->pdf_file_path;
-            File::ensureDirectoryExists(dirname($this->pdfFullFilePath), $mode = 0755, $recursive = true);
+            File::ensureDirectoryExists(dirname($this->pdfFullFilePath), $mode = 0775, $recursive = true);
             $this->deletePdfFile();
             $pdf->save(\Storage::disk('public')->path($path));
         }
