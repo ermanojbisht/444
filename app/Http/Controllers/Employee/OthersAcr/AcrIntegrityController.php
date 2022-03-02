@@ -7,7 +7,7 @@ use App\Http\Requests\Acr\StoreAcrRequest;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrRejection;
 use App\Models\Employee;
-use App\Traits\AcrFormTrait;
+use App\Traits\Acr\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
 use Helper;

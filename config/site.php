@@ -46,6 +46,7 @@ return [
     'missite_base_address_local' => env('MIS_SITE_BASE_ADD_lOCAL','http://localhost/pwd'),
     'imsite_base_address_local' => env('IM_SITE_BASE_ADD_lOCAL','http://localhost/im'),
     'imsite_base_address' => 'http://mis.pwduk.in/im',
+    'dmsSiteBaseAddress' => 'http://mis.pwduk.in/dms',
     'missite_workdetail_address' => 'workDetail',  
 
     'yesNo' => ['No','Yes' ],

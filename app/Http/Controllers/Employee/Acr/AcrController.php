@@ -12,7 +12,7 @@ use App\Models\Acr\Appreciation;
 use App\Models\Acr\Leave;
 use App\Models\Employee;
 use App\Models\Office;
-use App\Traits\AcrFormTrait;
+use App\Traits\Acr\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;

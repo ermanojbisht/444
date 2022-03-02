@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Controllers\Controller;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrBasic;
-use App\Models\Acr\AcrParameter;
 use App\Models\Acr\AcrNegativeParameter;
+use App\Models\Acr\AcrParameter;
 use App\Models\CeOffice;
 use App\Models\EeOffice;
 use App\Models\Office;
 use App\Models\SeOffice;
 use App\Models\User;
+use App\Traits\Acr\AcrPdfArrangeTrait;
 use Illuminate\Http\Request;
 use Log;
 
 class TempController extends Controller
 {
-    
+    use AcrPdfArrangeTrait;
     /**
      * @return mixed
      */
@@ -219,42 +221,19 @@ class TempController extends Controller
     public function temp1()
     {
 
-        $pages = array();
-        //$data_groups = $acr->type1RequiremntsWithFilledData();
-        //$pages[] = view('employee.acr.form.create1', compact('acr', 'data_groups'));
+        $acr=Acr::find(1);
+        $milestone='submit';
 
-        //first page
-        list($employee, $appraisalOfficers, $leaves, $appreciations, $inbox, $reviewed, $accepted) = $acr->firstFormData();
-        $pages[] = view('employee.acr.view_part1', ['acr' => $acr, 'employee' => $employee, 'appraisalOfficers' => $appraisalOfficers, 'leaves' => $leaves, 'appreciations' => $appreciations, 'inbox' => $inbox, 'reviewed' => $reviewed, 'accepted' => $accepted]);
-
-        $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
-        $requiredNegativeParameters = $acr->type2RequiremntsWithFilledData();
-        $personal_attributes =  $acr->peronalAttributeSWithMasterData();
-
-
-
-        $view = true;
-
-        if ($acr->isScope('level', 'review')) {
-            //review
-            $pages[] = view('employee.acr.form.appraisal2', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view'));
-        } else {
-            if ($acr->isScope('level', 'report')) {
-                //report
-                $pages[] = view('employee.acr.form.appraisal', compact('acr', 'requiredParameters', 'personal_attributes', 'requiredNegativeParameters', 'view'));
-            }
-        }
-        //accept
-
-
-
-
+        $pages = $this->arrangePagesForPdf($acr, $milestone);
 
         $pdf = \App::make('snappy.pdf.wrapper');
-        $pdf->setOption('margin-top', 5);
-        $pdf->setOption('cover', View::make('employee.acr.pdfcoverpage', compact('acr')));
+        $pdf->setOption('margin-top', 10);
+        $pdf->setOption('cover', view('employee.acr.pdfcoverpage', compact('acr')));
+        $pdf->setOption('header-html', view('employee.acr.pdfheader'));
         $pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
         $pdf->loadHTML($pages);
+
+        $acr->createPdfFile($pdf, true);
 
 
 
