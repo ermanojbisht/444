@@ -366,6 +366,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function fromShashan()
     {
+        if(in_array($this->employee_id,['cm','pwd_minister'])){
+            return true;
+        }
         return substr($this->employee_id, 1, 3) == 'sec';
     }
 
