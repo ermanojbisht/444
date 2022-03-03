@@ -814,29 +814,54 @@ class Acr extends Model
      */
     public function status()
     {
-        if ($this->is_active == 0) {
-            $rejection = $this->rejectionDetail()->first();
-            $rejection_Reason = ' Rejected By ';
-            if (!$this->report_on) {
-                $rejection_Reason = $rejection_Reason.' Reporting Officer ';
-            } else if (!$this->review_on) {
-                $rejection_Reason = $rejection_Reason.'Reporting Officer ';
-            } else if (!$this->accept_on) {
-                $rejection_Reason = $rejection_Reason.'Reporting Officer ';
-            }
+       $statusNo=$this->statusNo();
+       switch ($statusNo) {
+           case 1:
+               return 'New Created';
+               break;
+            case 2:
+               return 'Submitted on '.$this->submitted_at->format('d M Y');
+               break;
+            case 3:
+               return 'Reported on '.$this->report_on->format('d M Y');
+               break;
+            case 4:
+               return 'Reviewed on '.$this->review_on->format('d M Y');
+               break;
+            case 5:
+               return 'Accepted on '.$this->accept_on->format('d M Y');
+               break;
+            case 6:
+               return 'Corrected ';
+               break;
+            case 100:
+               $rejection = $this->rejectionDetail()->first();
+               return'Rejected by '.$this->rejectUser()->shriName.' on '.$rejection->created_at->format('d M Y'); 
+               break;           
+       }
+    }
 
-            return $rejection_Reason.$this->rejectUser()->shriName.' on '.$rejection->created_at->format('d M Y');
-        } else if ($this->accept_on) {
-            return 'Accepted on '.$this->accept_on->format('d M Y');
-        } else if ($this->review_on) {
-            return 'Reviewed on '.$this->review_on->format('d M Y');
-        } else if ($this->report_on) {
-            return 'Reported on '.$this->report_on->format('d M Y');
-        } else if ($this->submitted_at) {
-            return 'Submitted on '.$this->submitted_at->format('d M Y');
-        } else {
-            return 'New Created';
+    public function statusNo()
+    {
+        if ($this->is_active == 0){
+            return 100;
         }
+        if ($this->old_accept_no) {
+            return 6;
+        }
+        if ($this->accept_on) {
+            return 5;
+        }
+        if ($this->review_on) {
+            return 4;
+        }
+        if ($this->report_on) {
+            return 3;
+        }
+        if ($this->submitted_at) {
+            return 2;
+        }
+        return 1;        
     }
 
     public function status_bg_color()

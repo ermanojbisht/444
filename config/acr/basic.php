@@ -49,18 +49,4 @@ return [
    'acrWithoutProcess'=>[
       30,31
    ] ,
-
-   'cover'=>[
-        0=>'5bb.png',
-        1=>'vbb.png',
-        2=>'rbb.png',
-        3=>'gbb.png',
-        4=>'obb.png',
-        5=>'obb.png',
-        6=>'obb.png',
-   ]
-
-
-
-
 ];
