@@ -14,6 +14,7 @@ use App\Traits\Acr\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
 use Helper;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,7 +57,12 @@ class AcrDefaulterController extends Controller
 
         $acrGroups = $this->defineAcrGroup();   
 
-        $defaulters_acrs = Acr::where('is_defaulter', 1)->whereIn('office_id', $allowed_Offices)->get();
+        $defaulters_acrs = Acr::with('employee')->where('is_defaulter', 1)
+        ->get();
+
+        $defaulters_acrs=$defaulters_acrs->filter(function($acr)use ($allowed_Offices){
+           return in_array($acr->employee->office_idd,$allowed_Offices);
+        });
 
         return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices','acrGroups'));
     }

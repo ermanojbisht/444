@@ -10,6 +10,7 @@ use App\Models\Acr\AcrNegativeParameter;
 use App\Models\Acr\AcrParameter;
 use App\Models\CeOffice;
 use App\Models\EeOffice;
+use App\Models\Employee;
 use App\Models\Office;
 use App\Models\SeOffice;
 use App\Models\User;
@@ -25,6 +26,14 @@ class TempController extends Controller
      */
     public function temp()
     {
+        $employees=Employee::whereOfficeIdd(0)->get()->take(5000);
+        foreach ($employees as $key => $employee) {
+            $employee->updateOfficeIdd();
+
+        }
+
+        return;
+
         $acr = Acr::findOrFail(32);
 
         return $acr->reportUser();
