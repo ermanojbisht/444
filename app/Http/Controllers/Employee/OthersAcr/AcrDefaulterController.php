@@ -99,6 +99,7 @@ class AcrDefaulterController extends Controller
         );
 
         $employee=Employee::findOrFail($request->employee_id);
+        abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $employee->office_idd), 403, 'You are Not Allowed to add selected Employees from this office');
 
         $request->merge([
             'good_work' => 'ACR Not filled by '.$employee->shriName. '. This ACR has been filled as Defaulter\'s ACR.',
