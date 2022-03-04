@@ -114,20 +114,21 @@ class AcrDefaulterController extends Controller
 
     public function acknowledged(Acr $acr)
     {
-       if( !$acr->isAcknowledged && !$acr->submitted_on){
-            $creater=$acr->is_defaulter==1?$this->user->shriName .' ( HR ) ' :$acr->employee->shriName.' ( Employee ) ';
-            $acr->update(['is_defaulter',2]);
-            $msg="ACR created by $creater has been acknowledged on ".now()->format('d M Y H:i');
-            //send msg to employee to submit his acr
-            //on acknowledged it will not make any PDF , it will send msg only as a job
-            //job name is bit misleading
-            dispatch(new MakeAcrPdfOnSubmit($acr, 'acknowledge',$msg));
+       if($this->user->canDoJobInOffice('acknowledge-acr',$acr->employee->office_idd)){
+           if( !$acr->isAcknowledged && !$acr->submitted_on){
+                $creater=$acr->is_defaulter==1?$this->user->shriName .' ( HR ) ' :$acr->employee->shriName.' ( Employee ) ';
+                $acr->update(['is_defaulter',2]);
+                $msg="ACR created by $creater has been acknowledged on ".now()->format('d M Y H:i');
+                //send msg to employee to submit his acr
+                //on acknowledged it will not make any PDF , it will send msg only as a job
+                //job name is bit misleading
+                dispatch(new MakeAcrPdfOnSubmit($acr, 'acknowledge',$msg));
 
-            return redirect(route('acr.others.defaulters', ['office_id' => 0]))->with('message','Acr has been successfully acknowledged');
+                return redirect(route('acr.others.defaulters', ['office_id' => 0]))->with('message','Acr has been successfully acknowledged');
 
+           }
        }
-       abort_if(true, 403, $this->msg403);
-
+       abort(403, $this->msg403);
     }
 
      /**
