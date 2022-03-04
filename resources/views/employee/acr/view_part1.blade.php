@@ -202,9 +202,9 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 	<tbody>
 		@php $n = 0 @endphp
 		@foreach($inbox as $acr)
-		@php $n = $n + 1; @endphp
+        @php $n = $n + 1; @endphp
 		<tr>
-			<td>8.{{1+$loop->index }}</td>
+			<td>8.{{$n }}</td>
 			<td>{{$acr->employee->shriName}}</td>
 			<td>{{$acr->employee_id}} </td>
 			<td>{{$acr->from_date}}</td>
@@ -217,7 +217,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		@foreach($reviewed as $acr)
 		@php $n = $n + 1; @endphp
 		<tr>
-			<td>8.{{1+$loop->index }}</td>
+			<td>8.{{$n }}</td>
 			<td>{{$acr->employee->shriName}}</td>
 			<td>{{$acr->employee_id}} </td>
 			<td>{{$acr->from_date}}</td>
@@ -230,7 +230,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		@foreach($accepted as $acr)
 		@php $n = $n + 1; @endphp
 		<tr>
-			<td>8.{{1+$loop->index }}</td>
+			<td>8.{{$n }}</td>
 			<td>{{$acr->employee->shriName}}</td>
 			<td>{{$acr->employee_id}} </td>
 			<td>{{$acr->from_date}}</td>
