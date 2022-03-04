@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employee\OthersAcr;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\StoreAcrRequest;
+use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrRejection;
 use App\Models\Acr\AcrType;
@@ -25,6 +26,7 @@ class AcrDefaulterController extends Controller
      * @var mixed
      */
     protected $user;
+    protected $msg403 = 'Unauthorized action.You are not authorised to procees this ACR ';
 
     /**
      * @return mixed
@@ -100,13 +102,32 @@ class AcrDefaulterController extends Controller
 
         $request->merge([
             'good_work' => 'ACR Not filled by '.$employee->shriName. '. This ACR has been filled as Defaulter\'s ACR.',
-            'is_defaulter' => 1
+            'is_defaulter' => 1  //means acr has been loaded by HR
         ]);
               
         $acr = Acr::create($request->all());
 
        
         return redirect(route('acr.others.defaulters', ['office_id' => 0]));
+    }
+
+
+    public function acknowledged(Acr $acr)
+    {
+       if( !$acr->isAcknowledged && !$acr->submitted_on){
+            $creater=$acr->is_defaulter==1?$this->user->shriName .' ( HR ) ' :$acr->employee->shriName.' ( Employee ) ';
+            $acr->update(['is_defaulter',2]);
+            $msg="ACR created by $creater has been acknowledged on ".now()->format('d M Y H:i');
+            //send msg to employee to submit his acr
+            //on acknowledged it will not make any PDF , it will send msg only as a job
+            //job name is bit misleading
+            dispatch(new MakeAcrPdfOnSubmit($acr, 'acknowledge',$msg));
+
+            return redirect(route('acr.others.defaulters', ['office_id' => 0]))->with('message','Acr has been successfully acknowledged');
+
+       }
+       abort_if(true, 403, $this->msg403);
+
     }
 
      /**

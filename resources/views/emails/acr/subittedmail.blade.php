@@ -1,6 +1,11 @@
 @component('mail::message')
 Dear {{$reportingEmployee->shriName}}
 
+@if($targetDutyType=='acknowledge')
+{{$acr->employee->shriName}} 's  {{$msg}}.
+Please visit your inbox section at HRMS/Track AR portal.
+@endif
+
 @if($targetDutyType=='report')
 {{$acr->employee->shriName}} has submitted his/her self appraisal on @mkbdate($acr->submitted_at).
 Please visit your inbox section at HRMS/Track AR portal.
@@ -40,6 +45,7 @@ Please visit your 'myacr' section and recreate your acr .
 ACR Period : {{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}}
 
 You are hereby intimated for futher action.
+Please follow relevent orders to follow the appraisal process.
 
 @component('mail::panel')
 You may visit following link.

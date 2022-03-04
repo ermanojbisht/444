@@ -574,6 +574,11 @@ class Acr extends Model
         }
     }
 
+    public function acknowledgedNotification($msg)
+    {
+        $this->mailNotificationFor($targetDutyType = 'acknowledge', $notification_type = 1,$msg);
+    }
+
     public function submitNotification()
     {
         $this->mailNotificationFor($targetDutyType = 'report', $notification_type = 2);
@@ -590,7 +595,7 @@ class Acr extends Model
             $this->acceptNotification();
         }else{
             $this->mailNotificationFor($targetDutyType = 'accept', $notification_type = 4);
-        }
+    }
     }
 
     public function acceptNotification()
@@ -617,7 +622,7 @@ class Acr extends Model
      * @param $targetDutyType
      * @param $notification_type
      */
-    public function mailNotificationFor($targetDutyType, $notification_type)
+    public function mailNotificationFor($targetDutyType, $notification_type,$msg=false)
     {
         $targetEmployee = $this->userOnBasisOfDuty($targetDutyType);
         if ($targetEmployee) {
@@ -625,16 +630,21 @@ class Acr extends Model
             $previousNotification = AcrNotification::where('employee_id', $targetEmployee->employee_id)
                 ->where('acr_id', $this->id)
                 ->where('through', 1) //for mail , may be 2 for sms
-                ->where('notification_type', $notification_type) //2=for report 7=correctnotice
+                ->where('notification_type', $notification_type) //2=for report 7=correctnotice 1=acknowledge
                 ->orderBy('notification_on', 'DESC')->first();
 
             if (!$previousNotification) {
                 $mail = Mail::to($targetEmployee);
                 if ($targetEmployee->chat_id > 90000) {
-                    $response = $targetEmployee->notify(new AcrSubmittedNotification($this, $targetEmployee, $targetDutyType));
+                    $response = $targetEmployee->notify(new AcrSubmittedNotification($this, $targetEmployee, $targetDutyType,$msg));
                 }
 
                 switch ($targetDutyType) {
+                    case 'acknowledge':
+                        //on acknowledge event  , filling and further process is targeted
+                        //employee is as target
+                        $mail->cc(Auth::user()); //cc to HR on error we may remove it
+                        break;
                     case 'report':
                         //on submit event  , report is targeted
                         //reportUser is as target
@@ -678,7 +688,8 @@ class Acr extends Model
                         $mail->cc([$this->userOnBasisOfDuty('review'), $this->userOnBasisOfDuty('report'), $this->userOnBasisOfDuty('accept')]);
                         break;
                 }
-                $mail->send(new AcrSumittedMail($this, $targetEmployee, $targetDutyType));
+                $mail->send(new AcrSumittedMail($this, $targetEmployee, $targetDutyType,$msg));
+                //$msg is false in other cases except acknowledgedNotification
 
                 $data = [
                     'employee_id' => $targetEmployee->employee_id,

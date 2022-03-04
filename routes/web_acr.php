@@ -82,6 +82,7 @@ Route::group(['prefix' => 'others', 'as' => 'acr.others.', 'middleware' => ['aut
 
     Route::get('/edit/{acr}/defaulters', 'OthersAcr\AcrDefaulterController@edit')->name('edit');
     Route::post('/update/acr', 'OthersAcr\AcrDefaulterController@update')->name('update');
+    Route::post('/acknowledged/{acr}', 'OthersAcr\AcrDefaulterController@acknowledged')->name('acknowledged');
 
 
     // AcrInboxController
