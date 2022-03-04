@@ -395,6 +395,16 @@ class Acr extends Model
         return $require_negative_parameters->groupBy('config_group');
     }
 
+    public function getIsAcknowledgedAttribute()
+    {
+        return $this->is_defaulter==2;
+    }
+
+    public function getIsbyhrAttribute()
+    {
+        return $this->is_defaulter==1;
+    }
+
     /**
      * @return mixed
      */
