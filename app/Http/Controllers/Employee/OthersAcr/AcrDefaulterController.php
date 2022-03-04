@@ -17,6 +17,7 @@ use Helper;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class AcrDefaulterController extends Controller
 {
@@ -46,25 +47,41 @@ class AcrDefaulterController extends Controller
      * $id => Instance Id
      * To create Acr
      */
-    public function index($office_id = 0)
+    public function index(Request $request)
     {
-        if ($office_id != 0)
+        if($request->has('office_id')){
+            $office_id=$request->office_id;
             abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $office_id), 403, 'You are Not Allowed to view this Office Employees');
-
+        }
         $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
 
         $Offices = Office::whereIn('id', $allowed_Offices)->get()->pluck('name', 'id');
 
-        $acrGroups = $this->defineAcrGroup();   
+        $acrGroups = $this->defineAcrGroup();
 
-        $defaulters_acrs = Acr::with('employee')->where('is_defaulter', 1)
-        ->get();
+        $defaulters_acrs = Acr::with('employee')->where('is_defaulter', 1)->get();
+        if($request->has('office_id')){
+            $office_id=$request->office_id;
+            if($office_id==2){
 
-        $defaulters_acrs=$defaulters_acrs->filter(function($acr)use ($allowed_Offices){
-           return in_array($acr->employee->office_idd,$allowed_Offices);
-        });
+                $defaulters_acrs=$defaulters_acrs->filter(function($acr)use ($allowed_Offices){
+                   return in_array($acr->employee->office_idd,$allowed_Offices);
+                });
+            }else{
 
-        return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices','acrGroups'));
+                $defaulters_acrs=$defaulters_acrs->filter(function($acr)use ($office_id){
+                   return ($acr->employee->office_idd==$office_id);
+                });
+            }
+
+
+        }else{
+            $office_id='0';
+            $defaulters_acrs=[];
+
+        }
+
+        return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices','acrGroups','office_id'));
     }
 
     /**
