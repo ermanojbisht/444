@@ -153,7 +153,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 					<table class="table table-sm table-bordered">
 						<tr class="bg-light"> 
 							<th>Authority Type</th>
-							<th>Officer Type</th>
+							<th>Officer Name</th>
 							<th>Period</th>
 							<th>Remark</th>
 						</tr>
