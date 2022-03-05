@@ -57,7 +57,7 @@ class AcrDefaulterController extends Controller
         }
         $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
 
-        $Offices = Office::where('is_exist',1)->get()->pluck('name', 'id');
+        $Offices = Office::where('is_exist',1)->orderBy('name')->get()->pluck('name', 'id');
 
         $acrGroups = $this->defineAcrGroup();
 
@@ -125,6 +125,15 @@ class AcrDefaulterController extends Controller
 
         $employee=Employee::findOrFail($request->employee_id);
         abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $employee->office_idd), 403, 'You are Not Allowed to add selected Employees from this office');
+        //acr dates are not overlaps
+        $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
+        $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
+
+        $result =$employee->checkAcrDateInBetweenPreviousACRFilled($start, $end);      
+
+        if (!$result['status']) {
+            return Redirect()->back()->with('fail', $result['msg']);
+        }
 
         $request->merge([
             'good_work' => 'ACR Not filled by '.$employee->shriName. '. This ACR has been filled as Defaulter\'s ACR.',
