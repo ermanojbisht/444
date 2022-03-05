@@ -131,7 +131,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 							<p class="fw-bold"> Selected ACR Type:- </p>
 						</div>
 						<div class="col-md-6">
-							<p class="fw-semibold  text-info"> {{$acr->type->description}} </p>
+							<p class="fw-semibold  text-success"> {{$acr->type->description}} </p>
 						</div>
 					</div>
 					<div class="row">
@@ -139,7 +139,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 							<p class="fw-bold"> Period :- </p>
 						</div>
 						<div class="col-md-6">
-							<p class="fw-semibold  text-info">{{$acr->from_date->format('d-M-Y') }} - {{$acr->to_date->format('d-M-Y') }}</p>
+							<p class="fw-semibold  text-success">{{$acr->from_date->format('d-M-Y') }} - {{$acr->to_date->format('d-M-Y') }}</p>
 						</div>
 					</div>
 					<div class="row">
@@ -147,26 +147,26 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 							<p class="fw-bold"> Place of Posting :- </p>
 						</div>
 						<div class="col-md-6">
-							<p class="fw-semibold  text-info">{{$acr->office->name }}</p>
+							<p class="fw-semibold  text-success">{{$acr->office->name }}</p>
 						</div>
 					</div>
 					<table class="table table-sm table-bordered">
-						<tr class="bg-light"> 
+						<tr class="bg-light "> 
 							<th>Authority Type</th>
 							<th>Officer Name</th>
 							<th>Period</th>
 							<th>Remark</th>
 						</tr>
-						@foreach($appraisalOfficers as $appraisalOfficer)
-							<tr>
-								<td>{{config('acr.basic.appraisalOfficerType')[$appraisalOfficer->pivot->appraisal_officer_type]??''}} Officers</td>
-								<td>{{$appraisalOfficer->name}}</td>
-								<td>
+						@forelse($appraisalOfficers as $appraisalOfficer)
+							<tr >
+								<td class="text-success">{{config('acr.basic.appraisalOfficerType')[$appraisalOfficer->pivot->appraisal_officer_type]??''}} Officers</td>
+								<td class="text-success">{{$appraisalOfficer->name}}</td>
+								<td class="text-success">
 									{{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->format('d-M-Y')}}
 									 - 
 									{{Carbon\Carbon::parse($appraisalOfficer->pivot->to_date)->format('d-M-Y')}} 
 								</td>
-								<td>
+								<td class="text-success">
 									@if($appraisalOfficer->pivot->is_due == 1)
 						    			<span class="text-success">Due</span>
 						    		@else
@@ -174,7 +174,11 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 						    		@endif
 								</td>
 							</tr>
-						@endforeach
+						@empty
+							<tr>
+								<td colspan="4" class="text-center text-danger">no data filled</td>
+							</tr>
+						@endforelse
 					</table>
 				@endif
 				<hr class="m-1" style="opacity: 0.1;">
@@ -217,8 +221,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 					@endforeach
 				</div>
 				<hr class="m-1" style="opacity: 0.1;">
-				<p>Note:- Text in <span class="text-info">Blue color</span> from HRMS Data, if any Correction contact to
-					Office Administrator</p>
+				<p>Note:- Text in <span class="text-info">Blue color</span> from HRMS Data, if any Correction contact to Office Administrator</p>
 			</div>
 			<div class="row">
 				<div class="col-md-3">
