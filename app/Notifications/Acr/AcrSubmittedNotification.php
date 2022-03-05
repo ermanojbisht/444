@@ -84,7 +84,7 @@ class AcrSubmittedNotification extends Notification implements ShouldQueue
         $body='';
         switch ($targetDutyType) {
             case 'acknowledge':
-                $body .= $acr->employee->name.' \'s  '.$msg. '. Please visit your inbox section at HRMS/Track AR portal.';
+                $body .= $acr->employee->name.' \'s  '.$this->msg. '. Please visit your inbox section at HRMS/Track AR portal.';
                 break;
             case 'report':
                 $body .= $acr->employee->name.' has submiited his/her self appraisal on '.$acr->submitted_at->format('d M Y').'. Please visit your inbox section at HRMS/Track AR portal.';

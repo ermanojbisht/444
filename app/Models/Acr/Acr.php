@@ -838,8 +838,7 @@ class Acr extends Model
      */
     public function status()
     {
-       $statusNo=$this->statusNo();
-       Log::info("statusNo = ".print_r($statusNo,true));
+       $statusNo=$this->statusNo();       
        switch ($statusNo) {
            case 1:
                return 'New Created on '.$this->created_at->format('d M Y');;
