@@ -26,7 +26,7 @@ Add Defaulter Employee's ACR
         <select class="form-control select2" name="office_idd" id="office_idd">
             <option value="0" >Select Office</option>
             <option value="2" {{($office_id==2)?'selected':''}} >all</option>
-            @foreach($Offices as $id=>$name)
+            @foreach($allowed_Offices as $id=>$name)
                 <option value="{{ $id }}" {{($id==$office_id)?'selected':''}}>{{ $name }}</option>
             @endforeach
         </select>

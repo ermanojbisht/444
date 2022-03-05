@@ -55,9 +55,11 @@ class AcrDefaulterController extends Controller
                 abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $office_id), 403, 'You are Not Allowed to view this Office Employees');
             }
         }
-        $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
+        $allowed_Offices_array = $this->user->OfficeToAnyJob(['create-others-acr-job']);
 
         $Offices = Office::where('is_exist',1)->orderBy('name')->get()->pluck('name', 'id');
+        $allowed_Offices = Office::whereIn('id', $allowed_Offices_array)->get()->pluck('name', 'id');
+
 
         $acrGroups = $this->defineAcrGroup();
 
@@ -66,8 +68,8 @@ class AcrDefaulterController extends Controller
             $office_id=$request->office_id;
             if($office_id==2){
 
-                $defaulters_acrs=$defaulters_acrs->filter(function($acr)use ($allowed_Offices){
-                   return in_array($acr->employee->office_idd,$allowed_Offices);
+                $defaulters_acrs=$defaulters_acrs->filter(function($acr)use ($allowed_Offices_array){
+                   return in_array($acr->employee->office_idd,$allowed_Offices_array);
                 });
             }else{
 
@@ -83,7 +85,7 @@ class AcrDefaulterController extends Controller
 
         }
 
-        return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices','acrGroups','office_id'));
+        return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices','acrGroups','office_id','allowed_Offices'));
     }
 
     /**
