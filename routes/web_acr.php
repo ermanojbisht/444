@@ -75,13 +75,14 @@ Route::group(['prefix' => '', 'as' => 'acr.', 'middleware' => ['auth', 'verified
 Route::group(['prefix' => 'others', 'as' => 'acr.others.', 'middleware' => ['auth', 'verified']], function () {
 
     //AcrDefaulterController
-    Route::get('/defaulters/{office_id}', 'OthersAcr\AcrDefaulterController@index')->name('defaulters');
+    Route::get('/defaulters', 'OthersAcr\AcrDefaulterController@index')->name('defaulters');
     Route::get('/legacy/{office_id}', 'OthersAcr\AcrDefaulterController@legacyIndex')->name('legacy');
     Route::post('/store', 'OthersAcr\AcrDefaulterController@store')->name('store');
     Route::post('/legacystore', 'OthersAcr\AcrDefaulterController@legacystore')->name('legacystore');
 
     Route::get('/edit/{acr}/defaulters', 'OthersAcr\AcrDefaulterController@edit')->name('edit');
     Route::post('/update/acr', 'OthersAcr\AcrDefaulterController@update')->name('update');
+    Route::post('/acknowledged/{acr}', 'OthersAcr\AcrDefaulterController@acknowledged')->name('acknowledged');
 
 
     // AcrInboxController

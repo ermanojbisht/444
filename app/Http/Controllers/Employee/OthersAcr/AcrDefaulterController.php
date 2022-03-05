@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Employee\OthersAcr;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Acr\StoreAcrRequest;
+use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use App\Models\Acr\Acr;
 use App\Models\Acr\AcrRejection;
 use App\Models\Acr\AcrType;
@@ -13,8 +14,10 @@ use App\Traits\Acr\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
 use Helper;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class AcrDefaulterController extends Controller
 {
@@ -25,6 +28,7 @@ class AcrDefaulterController extends Controller
      * @var mixed
      */
     protected $user;
+    protected $msg403 = 'Unauthorized action.You are not authorised to procees this ACR ';
 
     /**
      * @return mixed
@@ -43,20 +47,41 @@ class AcrDefaulterController extends Controller
      * $id => Instance Id
      * To create Acr
      */
-    public function index($office_id = 0)
+    public function index(Request $request)
     {
-        if ($office_id != 0)
+        if($request->has('office_id')){
+            $office_id=$request->office_id;
             abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $office_id), 403, 'You are Not Allowed to view this Office Employees');
-
+        }
         $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
 
         $Offices = Office::whereIn('id', $allowed_Offices)->get()->pluck('name', 'id');
 
-        $acrGroups = $this->defineAcrGroup();   
+        $acrGroups = $this->defineAcrGroup();
 
-        $defaulters_acrs = Acr::where('is_defaulter', 1)->whereIn('office_id', $allowed_Offices)->get();
+        $defaulters_acrs = Acr::with('employee')->where('is_defaulter', 1)->get();
+        if($request->has('office_id')){
+            $office_id=$request->office_id;
+            if($office_id==2){
 
-        return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices','acrGroups'));
+                $defaulters_acrs=$defaulters_acrs->filter(function($acr)use ($allowed_Offices){
+                   return in_array($acr->employee->office_idd,$allowed_Offices);
+                });
+            }else{
+
+                $defaulters_acrs=$defaulters_acrs->filter(function($acr)use ($office_id){
+                   return ($acr->employee->office_idd==$office_id);
+                });
+            }
+
+
+        }else{
+            $office_id='0';
+            $defaulters_acrs=[];
+
+        }
+
+        return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices','acrGroups','office_id'));
     }
 
     /**
@@ -97,16 +122,37 @@ class AcrDefaulterController extends Controller
         );
 
         $employee=Employee::findOrFail($request->employee_id);
+        abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $employee->office_idd), 403, 'You are Not Allowed to add selected Employees from this office');
 
         $request->merge([
             'good_work' => 'ACR Not filled by '.$employee->shriName. '. This ACR has been filled as Defaulter\'s ACR.',
-            'is_defaulter' => 1
+            'is_defaulter' => 1  //means acr has been loaded by HR
         ]);
               
         $acr = Acr::create($request->all());
 
        
         return redirect(route('acr.others.defaulters', ['office_id' => 0]));
+    }
+
+
+    public function acknowledged(Acr $acr)
+    {
+       if($this->user->canDoJobInOffice('acknowledge-acr',$acr->employee->office_idd)){
+           if( !$acr->isAcknowledged && !$acr->submitted_on){
+                $creater=$acr->is_defaulter==1?$this->user->shriName .' ( HR ) ' :$acr->employee->shriName.' ( Employee ) ';
+                $acr->update(['is_defaulter',2]);
+                $msg="ACR created by $creater has been acknowledged on ".now()->format('d M Y H:i');
+                //send msg to employee to submit his acr
+                //on acknowledged it will not make any PDF , it will send msg only as a job
+                //job name is bit misleading
+                dispatch(new MakeAcrPdfOnSubmit($acr, 'acknowledge',$msg));
+
+                return redirect(route('acr.others.defaulters', ['office_id' => 0]))->with('message','Acr has been successfully acknowledged');
+
+           }
+       }
+       abort(403, $this->msg403);
     }
 
      /**

@@ -11,6 +11,7 @@ use Log;
 class AcrSumittedMail extends Mailable
 {
     public $acr;
+    public $msg;
     public $reportingEmployee;
     public $targetDutyType;
 
@@ -21,11 +22,13 @@ class AcrSumittedMail extends Mailable
      * Create a new message instance.
      *
      * @return void
+     * //$msg is false in other cases except acknowledgedNotification
      */
-    public function __construct($acr, $reportingEmployee, $targetDutyType)
+    public function __construct($acr, $reportingEmployee, $targetDutyType,$msg=false)
     {
         //
         $this->acr = $acr;
+        $this->msg = $msg;
         $this->reportingEmployee = $reportingEmployee;
         //Log::info("reportingEmployee = ".print_r($reportingEmployee,true));
 
@@ -39,8 +42,14 @@ class AcrSumittedMail extends Mailable
      */
     public function build()
     {
+        if($this->msg===false){
+            return $this->subject('ACR of '.$this->acr->employee->name. '( '.$this->acr->employee_id.' )'.now()->format('d-m-y H:i:s'))
+            ->markdown('emails.acr.subittedmail')
+            ->attach($this->acr->pdfFullFilePath,['mime'=>'application/pdf']);
+        }
         return $this->subject('ACR of '.$this->acr->employee->name. '( '.$this->acr->employee_id.' )'.now()->format('d-m-y H:i:s'))
-        ->markdown('emails.acr.subittedmail')
-        ->attach($this->acr->pdfFullFilePath,['mime'=>'application/pdf']);;
+        ->markdown('emails.acr.subittedmail');
+
+
     }
 }

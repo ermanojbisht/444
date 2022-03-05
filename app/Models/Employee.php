@@ -39,7 +39,7 @@ class Employee extends Authenticatable
 		  'birth_date',
 		  'retirement_date',
 		  'office_type',
-		  'designation_id','password', 'remember_token'
+		  'designation_id','password', 'remember_token','office_idd'
     ];
     protected $dates = ['joining_date','birth_date','retirement_date'];
     protected $primaryKey = 'id';
@@ -93,12 +93,14 @@ class Employee extends Authenticatable
         return $shri.$this->name;
     }
 
-    public function getOfficeIddAttribute()
+    public function updateOfficeIdd()
     {
         if($this->office_type==0 || !$this->office_type ){
-            return 1;
+            $officeIdd= 1;
+        }else{
+            $officeIdd= ((($this->office_type)*1000)+$this->office_id);
         }
-        return ((($this->office_type)*1000)+$this->office_id);
+        $this->update(['office_idd'=>$officeIdd,'timestamps' => false]);
     }
     /**
      * Scope a query to only include AE Emp.

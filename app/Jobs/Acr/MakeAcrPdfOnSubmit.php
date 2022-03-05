@@ -18,6 +18,10 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
      */
     public $acr;
     /**
+     * @var mixed false for all cases accept acknowledge
+     */
+    public $acknowledgeMsg;
+    /**
      * @var mixed
      */
     public $pdf;
@@ -33,11 +37,12 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Acr $acr, $milestone)
+    public function __construct(Acr $acr, $milestone,$acknowledgeMsg=false)
     {
         //Log::info("in __construct  MakeAcrPdfOnSubmit milestone $milestone");
 
         $this->acr = $acr;
+        $this->acknowledgeMsg = $acknowledgeMsg;
         $this->milestone = $milestone;
     }
 
@@ -49,9 +54,15 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
 
     public function handle()
     {
-        $this->arrangeAcrView();
+        if($this->acknowledgeMsg===false){
+            $this->arrangeAcrView();
+            $this->acr->createPdfFile($this->pdf, true);
+        }
 
-        $this->acr->createPdfFile($this->pdf, true);
+
+        if ($this->milestone == 'acknowledge') {
+            $this->acr->acknowledgedNotification($this->acknowledgeMsg);
+        }
 
         if ($this->milestone == 'submit') {
             $this->acr->submitNotification();

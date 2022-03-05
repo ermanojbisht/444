@@ -20,6 +20,19 @@ Add Defaulter Employee's ACR
 
 @section('content')
 
+<div class="row">
+    <div class="form-group col-md-4">
+        <label class="" for="office_idd">Office</label>
+        <select class="form-control select2" name="office_idd" id="office_idd">
+            <option value="0" >Select Office</option>
+            <option value="2" {{($office_id==2)?'selected':''}} >all</option>
+            @foreach($Offices as $id=>$name)
+                <option value="{{ $id }}" {{($id==$office_id)?'selected':''}}>{{ $name }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+
 <div class="card">
 	<div class="card-body">
 		<div class="btn-group" role="group" aria-label="Basic outlined example">
@@ -295,7 +308,17 @@ Add Defaulter Employee's ACR
 		}
 	}
 
+$('#office_idd').change( function(e) {
+    e.preventDefault();
+    var url = '{{route('acr.others.defaulters')}}';
+    var office_id = $(this).val();
+    url += '?office_id='+office_id
+    window.location.href = url;
+});
+
 </script>
+
+
 
 @include('partials.js._makeDropDown')
 

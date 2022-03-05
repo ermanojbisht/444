@@ -37,13 +37,14 @@ class AcrSubmittedNotification extends Notification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($acr, $reportingEmployee, $targetDutyType)
+    public function __construct($acr, $reportingEmployee, $targetDutyType,$msg=false)
     {
         //
         $this->acr = $acr;
+        $this->msg = $msg;
         $this->targetDutyType = $targetDutyType;
         $this->reportingEmployee = $reportingEmployee;
-        $this->makeMsg();
+
     }
 
     /**
@@ -82,6 +83,9 @@ class AcrSubmittedNotification extends Notification implements ShouldQueue
         $acr = $this->acr;
         $body='';
         switch ($targetDutyType) {
+            case 'acknowledge':
+                $body .= $acr->employee->name.' \'s  '.$msg. '. Please visit your inbox section at HRMS/Track AR portal.';
+                break;
             case 'report':
                 $body .= $acr->employee->name.' has submiited his/her self appraisal on '.$acr->submitted_at->format('d M Y').'. Please visit your inbox section at HRMS/Track AR portal.';
                 break;
@@ -112,7 +116,7 @@ class AcrSubmittedNotification extends Notification implements ShouldQueue
                 break;
         }
 
-        $msg = "*".'ACR Notification'."*\n".
+        $telegramMessage = "*".'ACR Notification'."*\n".
         "Dear ".$this->reportingEmployee->name."\n".
         $body."\n".
         'ACR Period : '.$acr->from_date->format('d M Y').' to '.$acr->to_date->format('d M Y')."\n".
@@ -130,13 +134,10 @@ class AcrSubmittedNotification extends Notification implements ShouldQueue
         // (Optional) Inline Buttons
         //
         return TelegramFile::create()
-        ->content($msg)
+        ->content($telegramMessage)
         ->document($acr->pdfFullFilePath, 'acr_'.$acr->employee_id.'_id_'.$acr->id.'.pdf');
     }
 
-    public function makeMsg()
-    {
-    }
 
     /**
      * Get the array representation of the notification.
