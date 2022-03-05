@@ -148,7 +148,7 @@ class AcrDefaulterController extends Controller
     public function edit(Acr $acr)
     {
         //abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
-        abort_if($acr->acr_type_id <> '0', 403, 'Only Defaulter ACR can only be edited here...');
+        abort_if($acr->acr_type_id <> '0', 403, 'Only Defaulter ACR can only be edited here...');//todo is it needed
         
         if ($acr->isSubmitted()) {
             return Redirect()->back()->with('fail', ' ACR is already Submitted, can not be edited...');
