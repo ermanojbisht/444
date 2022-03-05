@@ -57,7 +57,7 @@ class AcrDefaulterController extends Controller
         }
         $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
 
-        $Offices = Office::whereIn('id', $allowed_Offices)->get()->pluck('name', 'id');
+        $Offices = Office::where('is_exist',1)->get()->pluck('name', 'id');
 
         $acrGroups = $this->defineAcrGroup();
 
