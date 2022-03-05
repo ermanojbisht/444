@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Mail\Acr\AcrSumittedMail;
 use App\Models\Acr\AcrNotification;
 use App\Models\Acr\AcrType;
+use App\Models\Acr\Leave;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Models\User;
@@ -732,7 +733,7 @@ class Acr extends Model
             array_pop($officeWithParentList);
         }
 
-        $leaves = Leave::where('acr_id', $this->id)->get();
+        $leaves = $this->leaves();
         $appreciations = Appreciation::where('acr_id', $this->id)->get();
 
         $inbox = Acr::whereNotNull('submitted_at')->where('report_employee_id', $this->employee_id)
@@ -1056,6 +1057,26 @@ class Acr extends Model
     public function getFinancialYearAttribute()
     {
        return Helper::currentFy($this->from_date->year, $this->from_date->month);
+    }
+
+    public function leaves()
+    {
+        $leaves = Leave::where('employee_id', $this->employee_id)
+        ->where('from_date','<=',$this->to_date)
+        ->where('to_date','>=',$this->from_date)
+        ->get();
+
+        $acr=$this;
+
+        return $leaves->map(function($row) use($acr){
+            if($row->from_date<$acr->from_date){
+               $row->from_date= $acr->from_date;
+            }
+            if($row->to_date>$acr->to_date){
+               $row->to_date= $acr->to_date;
+            }
+            return $row;
+        });
     }
 
 

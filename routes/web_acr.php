@@ -25,8 +25,8 @@ Route::group(['prefix' => '', 'as' => 'acr.', 'middleware' => ['auth', 'verified
 
     Route::post('deleteAcrOfficers', 'Acr\AcrController@deleteAcrOfficers')->name('deleteAcrOfficers');
 
-    Route::get('addLeaves/{acr}', 'Acr\AcrController@addLeaves')->name('addLeaves');
-    Route::post('addAcrLeaves', 'Acr\AcrController@addAcrLeaves')->name('addAcrLeaves');
+    Route::get('createLeaves/{acr}', 'Acr\AcrController@createLeaves')->name('createLeaves');
+    Route::post('storeLeaves', 'Acr\AcrController@storeLeaves')->name('storeLeaves');
     Route::post('deleteAcrLeaves', 'Acr\AcrController@deleteAcrLeaves')->name('deleteAcrLeaves');
 
     Route::get('addAppreciation/{acr}', 'Acr\AcrController@addAppreciation')->name('addAppreciation');

@@ -303,19 +303,20 @@ class AcrController extends Controller
     }
 
 
-    public function addLeaves(Acr $acr)
+    public function createLeaves(Acr $acr)
     {
         abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
-        $leaves = Leave::where('acr_id', $acr->id)->get();
+        $leaves = $acr->leaves();
         return view('employee.acr.add_leaves', compact('acr', 'leaves'));
     }
 
 
-    public function addAcrLeaves(StoreAcrLeaveRequest $request) // 
+    public function storeLeaves(StoreAcrLeaveRequest $request) //
     {
 
+        $employee_id=$request->employee_id;
         $acr = Acr::findOrFail($request->acr_id);
-        abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
+        abort_if($this->user->employee_id <> $employee_id, 403, $this->msg403);
 
         $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
         $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
@@ -327,7 +328,7 @@ class AcrController extends Controller
 
         Leave::create($request->validated());
 
-        return redirect(route('acr.addLeaves', ['acr' => $acr->id]))->with('success', 'Leave added Sucessfully');
+        return redirect(route('acr.createLeaves', ['acr' => $acr]))->with('success', 'Leave added Sucessfully');
     }
 
 

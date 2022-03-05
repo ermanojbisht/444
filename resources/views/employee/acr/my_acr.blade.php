@@ -74,8 +74,8 @@
 										<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
 									</a>
 								@endif
-								<a class="dropdown-item" href="{{route('acr.addLeaves', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Add Leaves / Absence
+								<a class="dropdown-item" href="{{route('acr.createLeaves', ['acr' => $acr])}}">
+									<i class="cib-twitter"></i>view Leaves / Absence by HR
 								</a>
 								<a class="dropdown-item" href="{{route('acr.addAppreciation', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Appreciation / Honors
