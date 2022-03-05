@@ -38,14 +38,21 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 				<p class="fw-semibold  text-info"> {{$employee->birth_date->format('d M Y')}} </p>
 			</div>
 		</div>
-		<hr />
+		<hr class="m-1" style="opacity: 0.1;">
 		<form class="form-horizontal" method="POST" action="{{route('acr.update')}}">
 			@csrf
 			<div class="row">
 				@if(!$acr->is_acknowledged )
 					@if($acr->checkSelfAppraisalFilled()['status'])
 						<input type="hidden" name="acr_type_id" value="{{ $acr->acr_type_id }}">
-						<p><strong>ACR Type :</strong> {{$acr->type->description}}</p>
+						<div class="row">
+							<div class="col-md-4">
+								<p class="fw-bold">Selected ACR Type :- </p>
+							</div>
+							<div class="col-md-6">
+								<p class="fw-semibold  text-info">{{$acr->type->description}}</p>
+							</div>
+						</div>
 					@else
 						<div class="col-md-4">
 							<p class="fw-semibold"> Select Type of ACR to be Filled : </p>
@@ -113,13 +120,64 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 							</select>
 						</div>
 					</div>
-					<hr class="m-1" style="opacity: 0.1;">
 				@else
-				<input type="hidden" name="acr_type_id" value="{{$acr->acr_type_id}}"> 
-				<p>Selected ACR Type:{{$acr->type->description}}</p>
-
+					
+					<input type="hidden" name="acr_type_id" value="{{$acr->acr_type_id}}"> 
+					<input type="hidden" name="from_date" value="{{$acr->from_date->format('Y-m-d')}}"> 
+					<input type="hidden" name="to_date" value="{{$acr->to_date->format('Y-m-d')}}"> 
+					<input type="hidden" name="office_id" value="{{$acr_office->id}}"> 
+					<div class="row">
+						<div class="col-md-4">
+							<p class="fw-bold"> Selected ACR Type:- </p>
+						</div>
+						<div class="col-md-6">
+							<p class="fw-semibold  text-info"> {{$acr->type->description}} </p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<p class="fw-bold"> Period :- </p>
+						</div>
+						<div class="col-md-6">
+							<p class="fw-semibold  text-info">{{$acr->from_date->format('d-M-Y') }} - {{$acr->to_date->format('d-M-Y') }}</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<p class="fw-bold"> Place of Posting :- </p>
+						</div>
+						<div class="col-md-6">
+							<p class="fw-semibold  text-info">{{$acr->office->name }}</p>
+						</div>
+					</div>
+					<table class="table table-sm table-bordered">
+						<tr class="bg-light"> 
+							<th>Authority Type</th>
+							<th>Officer Type</th>
+							<th>Period</th>
+							<th>Remark</th>
+						</tr>
+						@foreach($appraisalOfficers as $appraisalOfficer)
+							<tr>
+								<td>{{config('acr.basic.appraisalOfficerType')[$appraisalOfficer->pivot->appraisal_officer_type]??''}} Officers</td>
+								<td>{{$appraisalOfficer->name}}</td>
+								<td>
+									{{Carbon\Carbon::parse($appraisalOfficer->pivot->from_date)->format('d-M-Y')}}
+									 - 
+									{{Carbon\Carbon::parse($appraisalOfficer->pivot->to_date)->format('d-M-Y')}} 
+								</td>
+								<td>
+									@if($appraisalOfficer->pivot->is_due == 1)
+						    			<span class="text-success">Due</span>
+						    		@else
+						    			<span class="text-danger">Not Due</span> 
+						    		@endif
+								</td>
+							</tr>
+						@endforeach
+					</table>
 				@endif
-
+				<hr class="m-1" style="opacity: 0.1;">
 				<div class="col-md-6">
 					<p class="fw-semibold required"> Date of filing Property Return for the Calander Year: - </p>
 				</div>

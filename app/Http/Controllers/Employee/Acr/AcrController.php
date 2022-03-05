@@ -110,6 +110,8 @@ class AcrController extends Controller
         $Officetypes = $this->defineOfficeTypes();
         $acrGroups = $this->defineAcrGroup();
 
+        $appraisalOfficers = $acr->appraisalOfficers()->get();
+
         return view('employee.acr.edit', compact(
             'acr',
             'acr_selected_group_type',
@@ -118,7 +120,8 @@ class AcrController extends Controller
             'Offices',
             'employee',
             'Officetypes',
-            'acrGroups'
+            'acrGroups',
+            'appraisalOfficers'
         ));
     }
 
@@ -136,7 +139,6 @@ class AcrController extends Controller
         }
 
         $acr->update([
-            'acr_group_id' => $request->acr_group_id,
             'acr_type_id' => $request->acr_type_id,
             'from_date' => $request->from_date,
             'to_date' => $request->to_date,
