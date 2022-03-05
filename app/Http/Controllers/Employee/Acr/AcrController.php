@@ -168,6 +168,7 @@ class AcrController extends Controller
 
     public function addOfficers(Acr $acr)
     {
+        abort_if($acr->is_acknowledged, 403, $this->msg403);
         $permission = false;
         if ($acr->is_defaulter  && $this->user->hasPermissionTo(['create-others-acr'])) {
             $permission = true;

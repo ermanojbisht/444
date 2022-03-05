@@ -88,16 +88,29 @@ Add Defaulter Employee's ACR
 								
 								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2))
 									@if($acr->isTwoStep || $acr->hasAppraisalOfficer(3))
-										<a class="dropdown-item" href="#">
-											<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST"
-												onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
-												{{ csrf_field() }}
-												<button type="submit" style="width:100%;" class="btn btn-success "> Submit ACR
-												</button>
-											</form>
-										</a>
+										@can('acknowledge-acr')
+											<form action="{{ route('acr.others.acknowledged') }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" >
+		                                        <input type="hidden" name="_method" value="POST">
+		                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+		                                        <input type="hidden" name="acr_id" value="{{ $acr->id }}">
+		                                        <button type="submit" style="width:100%;" class="btn btn-danger "> Acknowledge ACR
+		                                                </button>
+		                                    </form>
+										@endcan
 									@endif
 								@endif
+								@if(!$acr->is_acknowledged)
+								<a class="dropdown-item" href="#"> 
+                                    <form action="{{ route('acr.destroy') }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" >
+                                        <input type="hidden" name="_method" value="POST">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <input type="hidden" name="acr_id" value="{{ $acr->id }}">
+                                        <button type="submit" style="width:100%;" class="btn btn-danger "> Delete ACR
+                                                </button>
+                                    </form>
+                                </a>
+                                @endif
+
 
 								@endif
 								@if ($acr->isFileExist())

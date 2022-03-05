@@ -65,13 +65,15 @@
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
 
-								@if (!$acr->submitted_at && ! $acr->is_defaulter)
+								@if (!$acr->submitted_at && ! $acr->is_byhr)
 								<a class="dropdown-item" href="{{route('acr.edit', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Edit Basic Detail
 								</a>
-								<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
-								</a>
+								@if(!$acr->is_acknowledged )
+									<a class="dropdown-item" href="{{route('acr.addOfficers', ['acr' => $acr->id])}}">
+										<i class="cib-twitter"></i>Add Officers For Report / Review / Accept ACR
+									</a>
+								@endif
 								<a class="dropdown-item" href="{{route('acr.addLeaves', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Leaves / Absence
 								</a>
@@ -81,15 +83,17 @@
 								<a class="dropdown-item" href="{{route('acr.form.create1', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i>Add Part -II Self-Appraisal
 								</a>
-                                <a class="dropdown-item" href="#">
-                                    <form action="{{ route('acr.destroy') }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" >
-                                        <input type="hidden" name="_method" value="POST">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="hidden" name="acr_id" value="{{ $acr->id }}">
-                                        <button type="submit" style="width:100%;" class="btn btn-danger "> Delete ACR
-                                                </button>
-                                    </form>
-                                </a>
+								@if(!$acr->is_acknowledged )
+	                                <a class="dropdown-item" href="#">
+	                                    <form action="{{ route('acr.destroy') }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" >
+	                                        <input type="hidden" name="_method" value="POST">
+	                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+	                                        <input type="hidden" name="acr_id" value="{{ $acr->id }}">
+	                                        <button type="submit" style="width:100%;" class="btn btn-danger "> Delete ACR
+	                                                </button>
+	                                    </form>
+	                                </a>
+                                @endif
 
 								@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2))
 									@if($acr->isTwoStep || $acr->hasAppraisalOfficer(3))

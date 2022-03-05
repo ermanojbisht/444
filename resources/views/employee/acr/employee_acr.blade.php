@@ -38,7 +38,7 @@
 				<th rowspan="2">#</th>
 				
 				<th colspan="2">Period</th>
-				<th rowspan="2">Submitted on</th>
+				<th rowspan="2">Status</th>
 				<th colspan="2">Reported</th>
 				<th colspan="2">Reviewed</th>
 				<th colspan="2">Accepted</th>
@@ -63,7 +63,7 @@
 				
 				<td>{!! $acr->from_date->format('d&#160;M&#160;Y') !!}</td>
 				<td>{!! $acr->to_date->format('d&#160;M&#160;Y') !!}</td>
-				<td>{!! ($acr->submitted_at) ?  $acr->submitted_at->format('d&#160;M&#160;Y') : 'New Created ' !!} </td>
+				<td>{{$acr->status() }}</td>
 
 				@if(! $acr->is_active )
 				<td colspan="6">
@@ -89,6 +89,17 @@
 					'Pending since ' . Carbon\Carbon::parse(now())->diffInDays(Carbon\Carbon::parse($acr->review_on)) .
 					' days' }} @endif </td>
 				<td>
+					@if(!$acr->submitted_at && !$acr->is_acknowledged)
+						@can('acknowledge-acr')
+							<form action="{{ route('acr.others.acknowledged') }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" >
+                                <input type="hidden" name="_method" value="POST">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="acr_id" value="{{ $acr->id }}">
+                                <button type="submit" style="width:100%;" class="btn btn-danger "> Acknowledge ACR
+                                        </button>
+                            </form>
+						@endcan
+					@endif
 					@if($acr->accept_on)
 						<a href="{{route('acr.view',['acr'=>$acr])}}" class="text-decoration-none">
 							<svg class="icon icon-xl">

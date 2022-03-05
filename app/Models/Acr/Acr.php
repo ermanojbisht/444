@@ -839,23 +839,30 @@ class Acr extends Model
     public function status()
     {
        $statusNo=$this->statusNo();
+       Log::info("statusNo = ".print_r($statusNo,true));
        switch ($statusNo) {
            case 1:
-               return 'New Created';
+               return 'New Created on '.$this->created_at->format('d M Y');;
                break;
-            case 2:
-               return 'Submitted on '.$this->submitted_at->format('d M Y');
+           case 2:
+               return 'Created by HR on '.$this->created_at->format('d M Y');;
                break;
-            case 3:
-               return 'Reported on '.$this->report_on->format('d M Y');
+           case 3:
+               return 'Acknowledged on '.$this->updated_at->format('d M Y');;
                break;
             case 4:
-               return 'Reviewed on '.$this->review_on->format('d M Y');
+               return 'Submitted on '.$this->submitted_at->format('d M Y');
                break;
             case 5:
-               return 'Accepted on '.$this->accept_on->format('d M Y');
+               return 'Reported on '.$this->report_on->format('d M Y');
                break;
             case 6:
+               return 'Reviewed on '.$this->review_on->format('d M Y');
+               break;
+            case 7:
+               return 'Accepted on '.$this->accept_on->format('d M Y');
+               break;
+            case 8:
                return 'Corrected ';
                break;
             case 100:
@@ -871,18 +878,24 @@ class Acr extends Model
             return 100;
         }
         if ($this->old_accept_no) {
-            return 6;
+            return 8;
         }
         if ($this->accept_on) {
-            return 5;
+            return 7;
         }
         if ($this->review_on) {
-            return 4;
+            return 6;
         }
         if ($this->report_on) {
-            return 3;
+            return 5;
         }
         if ($this->submitted_at) {
+            return 4;
+        }
+        if ($this->is_defaulter == 2) {
+            return 3;
+        }
+        if ($this->is_defaulter == 1) {
             return 2;
         }
         return 1;        

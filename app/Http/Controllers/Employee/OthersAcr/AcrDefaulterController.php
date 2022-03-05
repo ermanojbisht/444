@@ -51,7 +51,9 @@ class AcrDefaulterController extends Controller
     {
         if($request->has('office_id')){
             $office_id=$request->office_id;
-            abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $office_id), 403, 'You are Not Allowed to view this Office Employees');
+            if(!in_array($office_id,[0,2])){
+                abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $office_id), 403, 'You are Not Allowed to view this Office Employees');
+            }
         }
         $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
 
@@ -136,19 +138,21 @@ class AcrDefaulterController extends Controller
     }
 
 
-    public function acknowledged(Acr $acr)
+    public function acknowledged(Request $request)
     {
-       if($this->user->canDoJobInOffice('acknowledge-acr',$acr->employee->office_idd)){
+        $acr = Acr::findOrFail($request->acr_id);      
+        if($this->user->canDoJobInOffice('acknowledge-acr-job',$acr->employee->office_idd)){
            if( !$acr->isAcknowledged && !$acr->submitted_on){
                 $creater=$acr->is_defaulter==1?$this->user->shriName .' ( HR ) ' :$acr->employee->shriName.' ( Employee ) ';
-                $acr->update(['is_defaulter',2]);
+                $acr->update(['is_defaulter'=>2]);
                 $msg="ACR created by $creater has been acknowledged on ".now()->format('d M Y H:i');
+                Log::info("msg = ".print_r($msg,true));
                 //send msg to employee to submit his acr
                 //on acknowledged it will not make any PDF , it will send msg only as a job
                 //job name is bit misleading
                 dispatch(new MakeAcrPdfOnSubmit($acr, 'acknowledge',$msg));
 
-                return redirect(route('acr.others.defaulters', ['office_id' => 0]))->with('message','Acr has been successfully acknowledged');
+                return redirect(route('acr.others.defaulters', ['office_id' => $acr->employee->office_idd]))->with('message','Acr has been successfully acknowledged');
 
            }
        }
@@ -194,12 +198,10 @@ class AcrDefaulterController extends Controller
     public function edit(Acr $acr)
     {
         //abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
-        abort_if($acr->acr_type_id <> '0', 403, 'Only Defaulter ACR can only be edited here...');//todo is it needed
+        abort_if($acr->is_defaulter != 1, 403, 'Only Others unprocessed ACR can only be edited here...');//todo is it needed
+        abort_if($acr->isSubmitted(), 403, 'ACR is already Submitted, can not be edited...');//todo is it needed
         
-        if ($acr->isSubmitted()) {
-            return Redirect()->back()->with('fail', ' ACR is already Submitted, can not be edited...');
-        }
-
+      
         $acr_selected_group_type = AcrType::where('id', $acr->acr_type_id)->select('description as name', 'group_id', 'id')->first();
         $acr_office = Office::where('id', $acr->office_id)->select('office_type', 'name', 'id')->first();
 

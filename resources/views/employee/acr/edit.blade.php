@@ -42,76 +42,83 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 		<form class="form-horizontal" method="POST" action="{{route('acr.update')}}">
 			@csrf
 			<div class="row">
-				@if($acr->checkSelfAppraisalFilled()['status'])
-				<input type="hidden" name="acr_type_id" value="{{ $acr->acr_type_id }}">
-				<p><strong>ACR Type :</strong> {{$acr->type->description}}</p>
+				@if(!$acr->is_acknowledged )
+					@if($acr->checkSelfAppraisalFilled()['status'])
+						<input type="hidden" name="acr_type_id" value="{{ $acr->acr_type_id }}">
+						<p><strong>ACR Type :</strong> {{$acr->type->description}}</p>
+					@else
+						<div class="col-md-4">
+							<p class="fw-semibold"> Select Type of ACR to be Filled : </p>
+						</div>
+						<div class="col-md-4">
+							<label for='acr_group_id' class="required "> Select Designation Group </label>
+							<select id="acr_group_id" name="acr_group_id" required class="form-select">
+								<option value=""> Select ACR Type </option>
+								@foreach ($acrGroups as $key=>$name)
+								<option value="{{$key}}" {{( $acr_selected_group_type->group_id == $key ?
+									'selected' : '' )}} > {{$name}} </option>
+								@endforeach
+							</select>
+						</div>
+						<div class="col-md-4">
+							<label for='acr_type_id' class="required "> Select Acr Type </label>
+							<select id="acr_type_id" name="acr_type_id" required class="form-select">
+								@foreach ($acr_Types as $acr_type)
+								<option value="{{$acr_type->id}}" {{( $acr_selected_group_type->id == $acr_type->id ?
+									'selected' : '' )}} > {{$acr_type->name}} </option>
+								@endforeach
+							</select>
+						</div>
+					@endif
+					<hr class="m-1" style="opacity: 0.1;">
+
+					<div class="col-md-4">
+						<p class="fw-semibold"> Period Of Appraisal : </p>
+					</div>
+					<div class="col-md-4">
+						<label for='from_date' class="required "> Enter From Date </label>
+						<input type="date" name="from_date" value="{{$acr->from_date->format('Y-m-d') }}" required
+							class="form-control" />
+					</div>
+					<div class="col-md-4">
+						<label for='to_date' class="required "> Enter To Date </label>
+						<input type="date" name="to_date" value="{{$acr->to_date->format('Y-m-d') }}" required
+							class="form-control" />
+					</div>
+				
+
+					<hr class="m-1" style="opacity: 0.1;">
+					<div class="col-md-4">
+						<p class="fw-semibold"> Place of Posting During the Appraisal Period : </p>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							{{ Form::label('officeType','Place of Posting ',[ 'class'=>' required']) }}
+							<select id='officeTypeId' class='form-select' required>
+								@foreach ($Officetypes as $key=>$name)
+								<option value="{{$key}}" {{( (old('officeTypeId')==$key || $key==$acr_office->
+									office_type) ? 'selected' : '' )}}> {{$name}} </option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							{{ Form::label('office_id','Select Office Name',[ 'class'=>' required']) }}
+							<select id="office_id" name="office_id" required class="form-select select2">
+								@foreach ($Offices as $office)
+								<option value="{{$office->id}}" {{( $acr_office->id == $office->id ?
+									'selected' : '' )}} > {{$office->name}} </option>
+								@endforeach
+							</select>
+						</div>
+					</div>
+					<hr class="m-1" style="opacity: 0.1;">
 				@else
-				<div class="col-md-4">
-					<p class="fw-semibold"> Select Type of ACR to be Filled : </p>
-				</div>
-				<div class="col-md-4">
-					<label for='acr_group_id' class="required "> Select Designation Group </label>
-					<select id="acr_group_id" name="acr_group_id" required class="form-select">
-						<option value=""> Select ACR Type </option>
-						@foreach ($acrGroups as $key=>$name)
-						<option value="{{$key}}" {{( $acr_selected_group_type->group_id == $key ?
-							'selected' : '' )}} > {{$name}} </option>
-						@endforeach
-					</select>
-				</div>
-				<div class="col-md-4">
-					<label for='acr_type_id' class="required "> Select Acr Type </label>
-					<select id="acr_type_id" name="acr_type_id" required class="form-select">
-						@foreach ($acr_Types as $acr_type)
-						<option value="{{$acr_type->id}}" {{( $acr_selected_group_type->id == $acr_type->id ?
-							'selected' : '' )}} > {{$acr_type->name}} </option>
-						@endforeach
-					</select>
-				</div>
+				<input type="hidden" name="acr_type_id" value="{{$acr->acr_type_id}}"> 
+				<p>Selected ACR Type:{{$acr->type->description}}</p>
+
 				@endif
-				<hr class="m-1" style="opacity: 0.1;">
-
-				<div class="col-md-4">
-					<p class="fw-semibold"> Period Of Appraisal : </p>
-				</div>
-				<div class="col-md-4">
-					<label for='from_date' class="required "> Enter From Date </label>
-					<input type="date" name="from_date" value="{{$acr->from_date->format('Y-m-d') }}" required
-						class="form-control" />
-				</div>
-				<div class="col-md-4">
-					<label for='to_date' class="required "> Enter To Date </label>
-					<input type="date" name="to_date" value="{{$acr->to_date->format('Y-m-d') }}" required
-						class="form-control" />
-				</div>
-
-				<hr class="m-1" style="opacity: 0.1;">
-				<div class="col-md-4">
-					<p class="fw-semibold"> Place of Posting During the Appraisal Period : </p>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						{{ Form::label('officeType','Place of Posting ',[ 'class'=>' required']) }}
-						<select id='officeTypeId' class='form-select' required>
-							@foreach ($Officetypes as $key=>$name)
-							<option value="{{$key}}" {{( (old('officeTypeId')==$key || $key==$acr_office->
-								office_type) ? 'selected' : '' )}}> {{$name}} </option>
-							@endforeach
-						</select>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-group">
-						{{ Form::label('office_id','Select Office Name',[ 'class'=>' required']) }}
-						<select id="office_id" name="office_id" required class="form-select select2">
-							@foreach ($Offices as $office)
-							<option value="{{$office->id}}" {{( $acr_office->id == $office->id ?
-								'selected' : '' )}} > {{$office->name}} </option>
-							@endforeach
-						</select>
-					</div>
-				</div>
-				<hr class="m-1" style="opacity: 0.1;">
 
 				<div class="col-md-6">
 					<p class="fw-semibold required"> Date of filing Property Return for the Calander Year: - </p>
