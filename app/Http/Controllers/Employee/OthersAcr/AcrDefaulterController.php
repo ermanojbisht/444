@@ -197,7 +197,7 @@ class AcrDefaulterController extends Controller {
         $acr_office = Office::where('id', $acr->office_id)->select('office_type', 'name', 'id')->first();
 
         $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
-        $Offices = Office::whereIn('id', $allowed_Offices)->get()->pluck('name', 'id');
+        $Offices = Office::whereIsExist(1)->get()->pluck('name', 'id');
         // $Offices = Office::select('name', 'id')->get();
         $employee = Employee::findOrFail($this->user->employee_id);
         $Officetypes = $this->defineOfficeTypes();

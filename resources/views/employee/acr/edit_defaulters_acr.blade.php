@@ -85,7 +85,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 						<select id="office_id" name="office_id" required class="form-select select2">
 							<option value=""> Select Office </option>
 							@foreach ($Offices as $key => $values)
-							<option value="{{$key}}"> {{$values}} </option>
+							<option value="{{$key}}" {{($acr->office_id==$key)?'selected':''}}> {{$values}} </option>
 							@endforeach
 							{{-- @foreach ($Offices as $office)
 							<option value="{{$office->id}}" {{( $acr_office->id == $office->id ?
