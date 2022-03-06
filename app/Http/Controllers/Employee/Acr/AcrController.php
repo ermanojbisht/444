@@ -55,7 +55,7 @@ class AcrController extends Controller
             return redirect()->route('acr.others.index');
         }
 
-        $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->orderBy('id', 'DESC')->get();
+        $acrs = Acr::where('employee_id', '=', $this->user->employee_id)->orderBy('from_date', 'DESC')->get();
 
         return view('employee.acr.my_acr', compact('acrs'));
     }
