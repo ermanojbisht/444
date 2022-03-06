@@ -24,9 +24,7 @@ class StoreAcrLeaveRequest extends FormRequest
      */
     public function rules()
     {
-        Log::info($this->worktype_id);
-        
-        $rules['acr_id'] =  'required';
+        $rules['employee_id'] =  'required';
         $rules['type_id'] =  'required|numeric';
         $rules['from_date'] = 'required|date';
         $rules['to_date'] = 'required|date'; 

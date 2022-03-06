@@ -46,7 +46,7 @@
 								</svg>
 							</button>
 							<div class="dropdown-menu">
-								@if (!$acr->submitted_at && ! $acr->is_byhr)
+								@if (!$acr->submitted_at && !$acr->is_byhr)
 										<a class="dropdown-item border-bottom border-1 border-info" href="{{route('acr.edit', ['acr' => $acr->id])}}">
 											Edit Basic Detail
 										</a>
@@ -55,6 +55,9 @@
 											Add Appraisal Officers
 										</a>
 									@endif
+										<a class="dropdown-item border-bottom border-1 border-info" href="{{route('acr.createLeaves', ['acr' => $acr])}}">
+											view Leaves / Absence by HR
+										</a>
 										<a class="dropdown-item border-bottom border-1 border-info" href="{{route('acr.addAppreciation', ['acr' => $acr->id])}}">
 											Add Appreciation / Honors
 										</a>
@@ -72,16 +75,18 @@
 		                                </a>
 	                                @endif
 									@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2))
-										@if($acr->isTwoStep || $acr->hasAppraisalOfficer(3))
-											<a class="dropdown-item border-bottom border-1 border-info" href="#">
-												<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST" onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ) ');" class="d-grid">
-													{{ csrf_field() }}
-													<input class="btn btn-success btn-sm text-light" type="submit" value="Submit ACR">
-												</form>
-											</a>
+										@if($acr->hasAppraisalOfficer(1) && $acr->hasAppraisalOfficer(2))
+											@if($acr->isTwoStep || $acr->hasAppraisalOfficer(3))
+												<a class="dropdown-item border-bottom border-1 border-info" href="#">
+													<form action="{{ route('acr.submit', [ 'acr_id'=> $acr->id]) }}" method="POST" onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ) ');" class="d-grid">
+														{{ csrf_field() }}
+														<input class="btn btn-success btn-sm text-light" type="submit" value="Submit ACR">
+													</form>
+												</a>
+											@endif
 										@endif
-									@endif
-								@endif  
+									@endif 
+								@endif 
 								@if ($acr->accept_on || ($acr->submitted_at && !$acr->report_on && !$acr->review_on))
 									@if ($acr->isFileExist())
 										<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
@@ -101,46 +106,8 @@
 						</div>
 					</td>
 				</tr>
-
-
 				@endforeach
 
-				{{-- <div class="dropdown-menu dropdown-menu-end">
-					@if($acr->estimate)
-					<a class="dropdown-item"
-						href="{{route('track.estimate.view', ['acr_estimate' => $acr->estimate->id])}}">
-						<i class="cib-twitter"></i>View
-					</a>
-					<a class="dropdown-item" href="{{route('efc.show', ['acr_estimate' => $acr->estimate->id])}}">
-						<i class="cib-twitter"></i>EFC
-					</a>
-					@endif
-					@if(($acr->user_id == Auth::id()) ||
-					($acr->lastHistory() && $acr->lastHistory()->to_id
-					&& $acr->lastHistory()->to_id == Auth::id()))
-
-					@if(! $acr->estimate)
-					<a class="dropdown-item" href="{{route('estimate.create', ['id' => $acr->id])}}">
-						Add Estimate
-					</a>
-					@else
-					<a class="dropdown-item" href="{{route('estimate.edit', ['estimateId' => $acr->estimate->id])}}">
-						Edit Estimate
-					</a>
-					<a class="dropdown-item"
-						href="{{route('estimate.editDetails', ['acr_estimate' => $acr->estimate->id])}}">
-						Edit Estimate Details
-					</a>
-					<a class="dropdown-item"
-						href="{{route('movement', ['acrId' => $acr->id,'senderId' => Auth::id()])}}">
-						Move acr
-					</a>
-					<a class="dropdown-item" href="{{route('editEstimateStatus', ['acrId' => $acr->id])}}">
-						Update acr
-					</a>
-					@endif
-					@endif
-				</div> --}}
 			</tbody>
 		</table>
 	</div>

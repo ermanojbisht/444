@@ -50,6 +50,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1', 'middle
 
 
     Route::post('education','Employee\EducationApiController@store')->name('education.store');
+    Route::post('leave','Employee\LeaveApiController@store')->name('leave.store');
    // Route::get('work/{work}','WorkApiController@show')->name('work.show');
 
 });

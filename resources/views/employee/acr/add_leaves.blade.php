@@ -26,7 +26,7 @@ Part 1 ( Basic Information ) <small> Leaves </small>
 
 	<div class="card-body">
 
-		@if(!$acr->isSubmitted())
+		@if(!$acr->isSubmitted() && false)
 		<div class="row">
 			<div class="col-md-3">
 				<input type="button" id="add_leave" class="btn btn-primary " value="Add Leaves" />
@@ -45,14 +45,14 @@ Part 1 ( Basic Information ) <small> Leaves </small>
 			<tbody>
 				@forelse ($leaves as $leave)
 				<tr>
-					<td>{{1+$loop->index }}</td>
+					<td>{{$loop->iteration }}</td>
 					<td> {{config('acr.basic.acrLeaveType')[$leave->type_id]}}
-						({{Carbon\Carbon::parse($leave->from_date)->
-						diffInDays(Carbon\Carbon::parse($leave->to_date)) +1 }} Days)</td>
+						({{$leave->from_date->
+						diffInDays($leave->to_date) +1 }} Days)</td>
 					<td>{{$leave->from_date->format('d M Y')}}</td>
 					<td>{{$leave->to_date->format('d M Y')}}
 					</td>
-					@if(!$acr->isSubmitted())
+					@if(!$acr->isSubmitted() && false)
 					<td>
 						<form
 							action="{{ route('acr.deleteAcrLeaves', [ 'acr_id'=> $acr->id, 'leave_id'=>$leave->id]) }}"
@@ -82,7 +82,7 @@ Part 1 ( Basic Information ) <small> Leaves </small>
 					<h4 class="modal-title" id="OfficialType"></h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" method="POST" action="{{route('acr.addAcrLeaves')}}">
+					<form class="form-horizontal" method="POST" action="{{route('acr.storeLeaves')}}">
 						@csrf
 						<p class="h4"> Leave (Other that casual leave) or Period of absence :- </p>
 
@@ -119,7 +119,8 @@ Part 1 ( Basic Information ) <small> Leaves </small>
 
 						<div class="row">
 							<div class="col-md-3">
-								<input type="hidden" name="acr_id" value="{{$acr->id}}" />
+								<input type="hidden" name="employee_id" value="{{$acr->employee_id}}" />
+                                <input type="hidden" name="acr_id" value="{{$acr->id}}" />
 								<input type="submit" class="btn btn-primary " value="Save" />
 							</div>
 						</div>
