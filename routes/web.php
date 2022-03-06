@@ -17,6 +17,7 @@ Route::get('acrs/{employee}', 'Employee\Acr\AcrReportsController@show')->name('e
 
 Route::get('officeacrs', 'Employee\Acr\AcrReportsController@officeAcrs')->name('office.acrs.view');
 Route::get('employeesWithoutAcr/{office_id}/{year}', 'Employee\Acr\AcrReportsController@officeEmployeeListWithoutAcr')->name('office.employeesWithoutAcr.list');
+Route::post('filter','Employee\Acr\AcrReportsController@filter')->name('filter');
 
 //-----------------------------------------------------------------------------------------------------------------------------
 //Auth::routes();

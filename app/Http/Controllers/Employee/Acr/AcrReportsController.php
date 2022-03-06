@@ -12,6 +12,7 @@ use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Log;
 
 class AcrReportsController extends Controller {
 
@@ -97,6 +98,7 @@ class AcrReportsController extends Controller {
 
             $designationABC=Designation::select('id')->whereIn('section',['A','B','C'])->get()->pluck('id');
             $office=Office::findOrFail($office_id);
+            $offices=Office::select('id','name')->whereIsExist(1)->orderBy('name')->get();
 
 
             $employeeList=Employee::nonRetiredWithGraceMonths(0)
@@ -107,13 +109,27 @@ class AcrReportsController extends Controller {
             })
             ->when($office_id,function($query) use($office_id){
                 return $query->where('office_idd',$office_id);
-            })->get();
+            })->orderBy('name')->get();
         }else{
             $employeeList=$office=[];
         }
 
-        return view('employee.acr.noacr',compact('employeeList','office','year'));
+        return view('employee.acr.noacr',compact('employeeList','office','year','offices','office_id'));
 
+    }
+
+    public function filter(Request $request)
+    {
+        $url=$request->has('url')?$request->url:'';
+        switch ($url) {
+            case 'office_id-year':
+                return redirect()->route('office.employeesWithoutAcr.list',['office_id'=>$request->office_id,'year'=>$request->year]);
+                break;
+
+            default:
+                return redirect()->back();
+                break;
+        }
     }
 
 
