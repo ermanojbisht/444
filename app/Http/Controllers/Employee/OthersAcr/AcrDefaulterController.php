@@ -225,7 +225,8 @@ class AcrDefaulterController extends Controller {
 
         $acr = Acr::findOrFail($request->acr_id);
         //abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
-        abort_if($acr->acr_type_id != '0', 403, 'Only Defaulter ACR can only be updated here...');
+        abort_if($acr->is_defaulter != 1, 403, 'Only Others unprocessed ACR can only be edited here...');
+        abort_if($acr->isSubmitted(), 403, 'ACR is already Submitted, can not be edited...');
 
         $acr->update([
             'from_date' => $request->from_date,
