@@ -31,8 +31,8 @@
 						<p class="fw-bold mb-0"> Office : </p>
 						<div class="form-group"> 
 							<select id='office_id' name='office_id' required class="form-select select2">
-								<option value="none" {{( $officeId=='none' ? 'selected' : '' )}} > Select Office </option>
-								<option value="all" {{( $officeId=='all' ? 'selected' : '' )}}> All</option>
+								<option value="0" {{( $officeId=='0' ? 'selected' : '' )}} > Select Office </option>
+								<option value="2" {{( $officeId=='2' ? 'selected' : '' )}}> All</option>
 								@foreach ($offices as $office)
 								<option value="{{$office->id}}" {{( $officeId==$office->id ?
 									'selected' : '' )}} > {{$office->name}} </option>

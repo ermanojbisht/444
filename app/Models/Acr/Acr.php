@@ -24,7 +24,7 @@ class Acr extends Model
     /**
      * @var string
      */
-    protected $table = 'acrs';
+    protected $table = 'hrms.acrs';
     protected $connection='mysqlhrms';
 
     /**
@@ -98,6 +98,12 @@ class Acr extends Model
             $start->startOfDay(),
             $end->endOfDay()
         ]);
+    }
+
+
+    public function scopeInYear($query, int $year)
+    {
+        return $this->scopePeriodBetweenDates($query,[$year.'-04-01',($year+1).'-03-31']);
     }
 
     /**
