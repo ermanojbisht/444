@@ -178,12 +178,17 @@ class AcrDefaulterController extends Controller {
 
         $employee = Employee::findOrFail($request->employee_id);
 
-        /*$request->merge([
-        'good_work' => 'ACR Not filled by '.$employee->shriName. '. This ACR has been filled as Defaulter\'s ACR.',
-        'is_defaulter' => 1
-        ]);*/
+        $request->merge([
+            'submitted_on'=>$request->to_date,
+            'report_on'=>$request->to_date,
+            'review_on'=>$request->to_date,
+            'accept_on'=>$request->to_date,
+            'good_work' => 'Legacy data of  '.$employee->shriName. '. has been filled ',
+        
+        ]);
 
         $acr = Acr::create($request->all());
+
 
         return redirect(route('acr.others.legacy', ['office_id' => 0]));
     }
