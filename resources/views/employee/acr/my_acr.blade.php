@@ -2,8 +2,13 @@
 
 @section('styles')
 @endsection
+
 @section('sidebarmenu')
-@include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
+	@include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
+@endsection
+
+@section('headscripts')
+	<script src="{{ asset('../js/jquery/jquery-3.2.1.min') }}"></script>
 @endsection
 
 @section('pagetitle')
@@ -15,10 +20,12 @@
 		[ 'datas'=> [
 		['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
 		['label'=> 'My Acrs','active'=>true]]])
-	@endsection
+@endsection
+
 @section('content')
+
 	<div class="card shadow-lg p-0 mb-5 bg-body rounded">
-		<table class="table border mb-0">
+		<table class="table border mb-0" id="myTable">
 			<thead class="fw-bold">
 				<tr class="text-center">
 					<th >#</th>
@@ -31,14 +38,14 @@
 			</thead>
 			<tbody>
 				@foreach($acrs as $acr)
-				<tr class="{!! $acr->status_bg_color() !!} text-center" style="--cui-bg-opacity: .25;">
+				<tr class="{!! $acr->status_bg_color() !!} text-center align-middle" style="--cui-bg-opacity: .25;">
 					<td>{{1+$loop->index }}</td>
 					<td>{{$acr->getFinancialYearAttribute()}}</td>
 					<td>{{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}}</td>
 					<td>{{$acr->created_at->format('d M Y')}} </td>
 					<td>{!! $acr->status() !!} </td>
 					<td>
-						<div class="dropdown">
+						<div class="dropdown" id="{{1+$loop->index}}">
 							<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false">
 								<svg class="icon icon-xl">
@@ -86,6 +93,7 @@
 											@endif
 										@endif
 									@endif 
+								
 								@endif 
 								@if ($acr->accept_on || ($acr->submitted_at && !$acr->report_on && !$acr->review_on))
 									@if ($acr->isFileExist())
@@ -102,6 +110,11 @@
 										</a>
 									@endif
 								@endif
+								@if (!$acr->submitted_at && $acr->is_byhr)
+									<script type="text/javascript">
+										$('#{{1+$loop->index}}').addClass("d-none");
+									</script>
+								@endif
 							</div>
 						</div>
 					</td>
@@ -116,6 +129,14 @@
 
 
 @section('footscripts')
+
+<script src="{{ asset('../js/jquery.table.marge.js') }}"></script>
+<script type="text/javascript">
+	$('#myTable').margetable({
+	  type: 2,
+	  colindex: [1]
+	});
+</script>
 	{{-- <script src="{{ asset('../plugins/datatables/jquery.dataTables.min.js') }}"></script>
 	<script type="text/javascript">
 		$(document).ready(function () {
