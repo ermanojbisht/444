@@ -66,6 +66,13 @@ class Employee extends Authenticatable
         });
     }
 
+    public function office()
+    {
+        return $this->belongsTo(Office::class,'office_idd')->withDefault(function ($office) {
+            $office->name = 'Unknown';
+        });
+    }
+
     public function getNameempAttribute()
     {
         return $this->name.":".$this->id;
@@ -182,7 +189,7 @@ class Employee extends Authenticatable
          return $this->acrs()->where('is_active',1);
     }
 
-     public function checkAcrDateInBetweenPreviousACRFilled($start, $end , $excludidAcrId = false)
+    public function checkAcrDateInBetweenPreviousACRFilled($start, $end , $excludidAcrId = false)
     {
         if ($start > $end) {
             return ['status' => false, 'msg' => 'From date ' . $start->format('d M y') . ' can not be less then To date' . $end->format('d M y')];

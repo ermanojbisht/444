@@ -23,4 +23,9 @@ class Designation extends Model
      * @var string
      */
     protected $primaryKey = 'id';
+
+    public function scopeClasses($query,array $serviceGroup)
+    {
+        return $query->select('id')->whereIn('section',$serviceGroup);
+    }
 }

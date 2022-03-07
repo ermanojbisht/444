@@ -96,20 +96,17 @@ class AcrReportsController extends Controller {
         $year=($year)?:Helper::currentFyYear();
         if($office_id){
 
-            $designationABC=Designation::select('id')->whereIn('section',['A','B','C'])->get()->pluck('id');
             $office=Office::findOrFail($office_id);
             $offices=Office::select('id','name')->whereIsExist(1)->orderBy('name')->get();
 
-
             $employeeList=Employee::nonRetiredWithGraceMonths(0)
-            ->whereIn('designation_id',$designationABC)
-            //->whereIn('id',['010096004'])
+            ->whereIn('designation_id',Designation::classes(['A','B','C'])->get()->pluck('id'))
             ->whereDoesntHave('acrs',function($query) use ($year){
                 return $query->inYear($year);
             })
             ->when($office_id,function($query) use($office_id){
                 return $query->where('office_idd',$office_id);
-            })->orderBy('name')->get();
+            })->orderBy('name')->with('office')->get();
         }else{
             $employeeList=$office=[];
         }
@@ -117,20 +114,5 @@ class AcrReportsController extends Controller {
         return view('employee.acr.noacr',compact('employeeList','office','year','offices','office_id'));
 
     }
-
-    public function filter(Request $request)
-    {
-        $url=$request->has('url')?$request->url:'';
-        switch ($url) {
-            case 'office_id-year':
-                return redirect()->route('office.employeesWithoutAcr.list',['office_id'=>$request->office_id,'year'=>$request->year]);
-                break;
-
-            default:
-                return redirect()->back();
-                break;
-        }
-    }
-
 
 }

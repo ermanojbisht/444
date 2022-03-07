@@ -68,7 +68,7 @@
 						<th>Name</th>
 						<th>Id</th>
 						<th>Designation</th>
-						<th>Office</th>
+						<th>last office</th>
 					</tr>
 				</thead>
 				<tbody style="border:1px solid #C8CBD2;">
