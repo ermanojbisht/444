@@ -7,10 +7,6 @@
 	@include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
 @endsection
 
-@section('headscripts')
-	<script src="{{ asset('../js/jquery/jquery-3.2.1.min') }}"></script>
-@endsection
-
 @section('pagetitle')
 	{{Auth::User()->shriName}}'s ACR
 @endsection
@@ -137,20 +133,5 @@
 	  colindex: [1]
 	});
 </script>
-	{{-- <script src="{{ asset('../plugins/datatables/jquery.dataTables.min.js') }}"></script>
-	<script type="text/javascript">
-		$(document).ready(function () {
-	        $("#success-alert").fadeTo(5000, 500).slideUp(500, function () {
-	            $("#success-alert").slideUp(500);
-	        });
-	    });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            // Datatables Responsive
-            $("#user_Request_Details").DataTable({
-                responsive: true
-            });
-        });
-	</script> --}}
 
 @endsection
