@@ -487,6 +487,11 @@ class Acr extends Model
         return ($this->acr_type_id==30);
     }
 
+    public function getIsLegacyAttribute()
+    {
+        return ($this->acr_type_id==0);
+    }
+
     public function getIsDurationMatchesAttribute()
     {
         $appraisalOfficerRecords=$this->appraisalOfficerRecords()->get();
@@ -848,13 +853,13 @@ class Acr extends Model
        $statusNo=$this->statusNo();       
        switch ($statusNo) {
            case 1:
-               return 'New Created on '.$this->created_at->format('d M Y');;
+               return 'New Created on '.$this->created_at->format('d M Y');
                break;
            case 2:
-               return 'Created by HR on '.$this->created_at->format('d M Y');;
+               return 'Created by HR on '.$this->created_at->format('d M Y');
                break;
            case 3:
-               return 'Acknowledged on '.$this->updated_at->format('d M Y');;
+               return 'Acknowledged on '.$this->updated_at->format('d M Y');
                break;
             case 4:
                return 'Submitted on '.$this->submitted_at->format('d M Y');
@@ -870,6 +875,8 @@ class Acr extends Model
                break;
             case 8:
                return 'Corrected ';
+            case 9:
+               return 'Legacy Data  filled on '.$this->created_at->format('d M Y');
                break;
             case 100:
                $rejection = $this->rejectionDetail()->first();
@@ -882,6 +889,9 @@ class Acr extends Model
     {
         if ($this->is_active == 0){
             return 100;
+        }
+        if ($this->acr_type_id==0) {
+            return 9;
         }
         if ($this->old_accept_no) {
             return 8;
