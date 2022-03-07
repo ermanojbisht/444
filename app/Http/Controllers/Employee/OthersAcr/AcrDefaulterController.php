@@ -179,7 +179,7 @@ class AcrDefaulterController extends Controller {
         $employee = Employee::findOrFail($request->employee_id);
 
         $request->merge([
-            'submitted_on'=>$request->to_date,
+            'submitted_at'=>$request->to_date,
             'report_on'=>$request->to_date,
             'review_on'=>$request->to_date,
             'accept_on'=>$request->to_date,
