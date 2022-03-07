@@ -43,6 +43,7 @@
 				<th colspan="2">Reviewed</th>
 				<th colspan="2">Accepted</th>
 				<th rowspan="2">Acr Id</th>
+				<th rowspan="2">analysis</th>
 			</tr>
 			<tr class="align-middle text-center">
 				<th>From </th>
@@ -123,6 +124,13 @@
 
 				</td>
 				@endif
+				<td>
+					@if($acr->missing >1)               
+                    wrong ( {{($acr->missing-1)}} ) days
+                    @else
+                    ok!
+                    @endif
+				</td>
 
 
 			</tr>
