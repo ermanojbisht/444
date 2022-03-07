@@ -99,7 +99,7 @@
 											</svg>
 											View ACR
 										</a>
-									@elseif($acr->submitted_at)
+									@elseif($acr->submitted_at && !$acr->is_legacy)
 										<a class="dropdown-item" onclick="javascript:window.location.reload();">
 											  <span class="spinner-border spinner-border-sm text-info" role="status" aria-hidden="true"></span>
 											  <span>Refresh</span>
