@@ -99,19 +99,52 @@ class AcrReportsController extends Controller {
             $office=Office::findOrFail($office_id);
             $offices=Office::select('id','name')->whereIsExist(1)->orderBy('name')->get();
 
+            $allEmployeesQuery=Employee::nonRetiredWithGraceMonths(0)
+            ->whereIn('designation_id',Designation::classes(['A','B','C'])->get()->pluck('id'))
+            ->when($office_id,function($query) use($office_id){
+                return $query->where('office_idd',$office_id);
+            });
+
+            $totalEmployees=$allEmployeesQuery->count();
+
+            $employeeWithFilledAcr= $allEmployeesQuery->whereHas('acrs',function($query) use ($year){
+                return $query->inYear($year);
+            })->with('acrs',function($query) use ($year){
+                return $query->inYear($year);
+            })->get();
+
+            $daysInSelectedYear=Helper::daysBetweenDate($dates=[$year.'-04-01',($year+1).'-03-31'],true);
+            Log::info("daysInSelectedYear = ".print_r($daysInSelectedYear,true));
+            $noOfemployeefilledAcr=$employeeWithFilledAcr->count();
+            $employeeWithFilledAcr=$employeeWithFilledAcr->filter(function($employee) use($daysInSelectedYear){
+                $days=$employee->acrs->sum(function($acr){
+                    return $acr->from_date->diffInDays($acr->to_date)+1;
+                });                
+               return $days==$daysInSelectedYear;
+            }); 
+
+            $noOfemployeeWithcompleteAcr=$employeeWithFilledAcr->count();
+
+
+
+
+
             $employeeList=Employee::nonRetiredWithGraceMonths(0)
             ->whereIn('designation_id',Designation::classes(['A','B','C'])->get()->pluck('id'))
+            ->when($office_id,function($query) use($office_id){
+                return $query->where('office_idd',$office_id);
+            })
             ->whereDoesntHave('acrs',function($query) use ($year){
                 return $query->inYear($year);
             })
-            ->when($office_id,function($query) use($office_id){
-                return $query->where('office_idd',$office_id);
-            })->orderBy('name')->with('office')->get();
+            ->orderBy('name')->with('office')->get();
+            
         }else{
             $employeeList=$office=[];
         }
 
-        return view('employee.acr.noacr',compact('employeeList','office','year','offices','office_id'));
+        return view('employee.acr.noacr',
+            compact('employeeList','office','year','offices','office_id','totalEmployees','noOfemployeeWithcompleteAcr','noOfemployeefilledAcr'));
 
     }
 

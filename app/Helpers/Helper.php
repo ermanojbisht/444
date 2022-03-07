@@ -315,6 +315,14 @@ class Helper
 		$string= preg_replace($url, '<a href="$0" target="_blank" title="$0"><span class="glyphicon glyphicon-tree-conifer" aria-hidden="true"></span></a>', $text);
         return($string);  
 	}
+
+	public function daysBetweenDate(array $dates,$includeLastDay=true)
+	{
+		$start = ($dates[0] instanceof Carbon) ? $dates[0] : Carbon::parse($dates[0]);
+        $end   = ($dates[1] instanceof Carbon) ? $dates[1] : Carbon::parse($dates[1]);
+        $days=$start->diffInDays($end);
+        return($includeLastDay)?$days+1:$days;        
+	}
 	public static function getDateFromString($string) {
         $matches = "";
 		$pattern = "/(\d{2}\/\d{2}\/\d{4})/";

@@ -11,10 +11,6 @@
 	@include('layouts._commonpartials.css._datatable')
 @endsection
 
-@section('breadcrumbNevigationButton')
-
-@endsection
-
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb',
 [ 'datas'=> [
@@ -25,6 +21,9 @@
 @endsection
 
 @section('content')
+Total:{{$totalEmployees}},
+Filled:{{$noOfemployeefilledAcr}},
+Complete Filled:{{$noOfemployeeWithcompleteAcr}},
 	<div class="card">
 		<div class="card-header">
 			<form method="post" action="{{route('filter')}}">
