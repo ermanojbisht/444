@@ -89,7 +89,8 @@ class AcrController extends Controller
             return Redirect()->back()->with('fail', $result['msg']);
         }
 
-        Acr::create($request->validated());
+        $acr=Acr::create($request->validated());
+        $acr->employee->updateMissing();
 
         return redirect(route('acr.myacrs'));
     }    
@@ -146,6 +147,7 @@ class AcrController extends Controller
             'property_filing_return_at' => $request->property_filing_return_at,
             'professional_org_membership' => $request->professional_org_membership
         ]);
+        $acr->employee->updateMissing();
 
         return redirect(route('acr.myacrs'));
     }
@@ -270,10 +272,12 @@ class AcrController extends Controller
     public function destroy(Request $request)
     {
         $acr = Acr::findOrFail($request->acr_id);
-
+        $employee=$acr->employee;
         abort_if($acr->submitted_at, 403, 'ACR is already submitted so it can not be deleted');
 
         $acr->delete();
+
+        $employee->updateMissing();
 
         return redirect()->back()->with('success','ACR deleted Successfully');
     }

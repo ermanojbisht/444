@@ -132,6 +132,7 @@ class AcrDefaulterController extends Controller {
         ]);
 
         $acr = Acr::create($request->all());
+        $acr->employee->updateMissing();
 
         return redirect(route('acr.others.defaulters', ['office_id' => 0]));
     }
@@ -238,6 +239,7 @@ class AcrDefaulterController extends Controller {
             'to_date' => $request->to_date,
             'office_id' => $request->office_id,
         ]);
+        $acr->employee->updateMissing();
 
         return redirect(route('acr.others.defaulters', ['office_id' => 0]));
     }
