@@ -83,7 +83,7 @@ class Acr extends Model
 
              $acr->deletePdfFile();
              // do the rest of the cleanup...
-        });        
+        });
 
     }
 
