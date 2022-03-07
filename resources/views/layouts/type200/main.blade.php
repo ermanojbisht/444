@@ -7,6 +7,7 @@
 @include('layouts.type200._commonpartials.css.selected',['list'=>['_main','_simplebar',]])
 @yield('styles')
 @yield('headscripts')
+@include('layouts.type200._commonpartials.js.selected',['list'=>['_jquery','_coreui']])
 <style type="text/css">
     tr:hover {font-weight: bolder;}
 </style>
@@ -32,7 +33,7 @@
 
 
 {{-- coreui --}}
-@include('layouts.type200._commonpartials.js.selected',['list'=>['_jquery','_coreui']])
+
 @yield('scripts')
 @yield('footscripts')
 
