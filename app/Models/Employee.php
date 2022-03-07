@@ -215,6 +215,32 @@ class Employee extends Authenticatable
         }
         return ['status' => true, 'msg' => ''];
     }
+
+    public function updateMissing()
+    {
+        $empAcrs = $this->acrs()->orderBy('from_date')->get();
+        $i = 0;
+        $len = $empAcrs->count();
+        foreach ($empAcrs as $key => $empAcr) {
+            /*Log::info("item = ".print_r($empAcr,false));*/
+            if ($i == 0) {
+                // first
+                $dateFromLast=$empAcr->from_date;
+                $dateToLast=$empAcr->to_date;
+                 $difference=1;
+            } else {
+                $dateFrom=$empAcr->from_date;
+                $dateTo=$empAcr->to_date;
+                $difference=$dateToLast->diffInDays($dateFrom,false);
+                $dateFromLast=$empAcr->from_date;
+                $dateToLast=$empAcr->to_date;
+            }
+            $i++;
+            $empAcr->missing=$difference;
+            $empAcr->save();
+
+        }
+    }
     
 }
 
