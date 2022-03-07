@@ -149,57 +149,6 @@ class AcrInboxController extends Controller
         return redirect(route('acr.others.index'));
     }
 
-
-
-    /**
-     * View Employee's Acr after Entering Employee Code from Side bar 
-     */
-    public function view(Employee $employee)
-    {
-        $acrs = Acr::where('employee_id', $employee->id)->get();
-
-        return view('employee.acr.employee_acr', compact('acrs', 'employee'));
-    }
-
-    public function officeAcrsView(Request $request)
-    {
-        $officeId = ($request->has('office_id')) ? $request->office_id : 'none';
-
-        if ($request->has('start') && $request->has('end')) {
-            $this->validate(
-                $request,
-                [
-                    'start' => 'required|date',
-                    'end' => 'required|date'
-                ]
-            );
-            $startDate = $request->start;
-            $endDate = $request->end;
-
-        } else {
-            $endDate =Carbon::today()->toDateString();
-            $startDate = Carbon::today()->subMonths(12)->toDateString();
-
-        }
-         $acrs = ACR::periodBetweenDates([$startDate,$endDate])->where('is_active', 1);
-
-        if ($officeId === 'all') {
-            $acrs = $acrs->get();
-        }
-
-        if ($officeId === 'none') {
-            $acrs = false;
-        }
-
-        if ($officeId > 0) {
-            $acrs = $acrs->where('office_id', $officeId)->get();
-        }
-
-        $offices = Office::select('name', 'id')->get();
-
-        return view('employee.acr.office_acrs', compact('acrs', 'officeId', 'offices', 'startDate', 'endDate'));
-    }
-
     /**
      * View Integrity Certificate for PDF 
      */

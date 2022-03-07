@@ -19,7 +19,7 @@ class Employee extends Authenticatable
 {
 	use Notifiable;
 
-    public $table = 'employees';
+    public $table = 'mispwd.employees';
     public $fulltable = 'mispwd.employees';
     protected $connection='mysqlmispwd';
 
@@ -170,6 +170,11 @@ class Employee extends Authenticatable
     public function acrs()
     {
          return $this->hasMany(Acr::class);
+    }
+
+    public function acrsInYear($year)
+    {
+        return $this->hasMany(Acr::class)->inYear($year);
     }
 
     public function activeAcrs()

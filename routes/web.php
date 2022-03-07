@@ -12,10 +12,12 @@ Route::get('lang/{locale}', function ($locale) {
     return redirect()->back();
 })->name('changeLang');
 
-Route::get('acrs/{employee}', 'Employee\OthersAcr\AcrInboxController@view')->name('employee.acr.view')
+Route::get('acrs/{employee}', 'Employee\Acr\AcrReportsController@show')->name('employee.acr.view')
     ->missing(fn ($request) => response()->view('errors.employee_not_found'));
 
-Route::get('officeacrs', 'Employee\OthersAcr\AcrInboxController@officeAcrsView')->name('office.acrs.view');
+Route::get('officeacrs', 'Employee\Acr\AcrReportsController@officeAcrs')->name('office.acrs.view');
+Route::get('employeesWithoutAcr/{office_id}/{year}', 'Employee\Acr\AcrReportsController@officeEmployeeListWithoutAcr')->name('office.employeesWithoutAcr.list');
+Route::post('filter','Employee\Acr\AcrReportsController@filter')->name('filter');
 
 //-----------------------------------------------------------------------------------------------------------------------------
 //Auth::routes();
