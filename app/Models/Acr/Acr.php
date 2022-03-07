@@ -83,11 +83,7 @@ class Acr extends Model
 
              $acr->deletePdfFile();
              // do the rest of the cleanup...
-        });
-
-        self::saved(function($acr) { 
-            $acr->employee->updateMissing();
-        });
+        });        
 
     }
 
