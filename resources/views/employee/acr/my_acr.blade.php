@@ -91,7 +91,7 @@
 									@endif 
 								
 								@endif 
-								@if ($acr->accept_on || ($acr->submitted_at && !$acr->report_on && !$acr->review_on))
+								@if ($acr->accept_on || (!$acr->report_on && !$acr->review_on))
 									@if ($acr->isFileExist())
 										<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
 											<svg class="icon icon-xl">
@@ -99,7 +99,7 @@
 											</svg>
 											View ACR
 										</a>
-									@else
+									@elseif($acr->submitted_at)
 										<a class="dropdown-item" onclick="javascript:window.location.reload();">
 											  <span class="spinner-border spinner-border-sm text-info" role="status" aria-hidden="true"></span>
 											  <span>Refresh</span>
