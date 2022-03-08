@@ -8,9 +8,9 @@
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
-['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
-['label'=> 'Assessment of Performance','active'=>true]
+	['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+	['label'=> 'My Acrs', 'route'=>'acr.myacrs' ,'active'=>false],
+	['label'=> 'Assessment of Performance','active'=>true]
 ]])
 
 @endsection
@@ -20,14 +20,7 @@
 		@include('employee.acr.form._formHeader',['acr'=>$acr])
 	</div>
 	<div class="card shadow-lg p-0 mb-5 bg-body rounded border border-2">
-		<a  href="{{ url()->previous() }}" class="text-end" 
-			style=" position: absolute; top: 10px; right: 10px;"
-			onmouseover="this.style.color='#ff0000'"
-			onmouseout="this.style.color='#00F'">
-			<svg class="icon icon-xl">
-				<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-x-circle')}}"></use>
-			</svg>
-		</a>
+		@include('employee.acr.form._goBackIcon')
 		<div class="card-body form-control">
 			<form class="form-horizontal" method="POST" action="{{route('acr.form.store1')}}">
 			    @csrf

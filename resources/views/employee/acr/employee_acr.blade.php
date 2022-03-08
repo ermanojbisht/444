@@ -13,11 +13,11 @@
 
 @section('content')
 <div class="card p-3 shadow-lg p-0 mb-5 bg-body rounded">
-	<div class="d-flex justify-content-between ">
+	<div class="d-flex justify-content-around ">
 		<p class="fw-bold h5"> Employee Code : {{$employee->id }} </p>
 		<p class="fw-bold h5"> Designation : {{$employee->designation->name }} </p>
 	</div>
-
+	@include('employee.acr.form._goBackIcon')
 	<table class="table mb-0 table-bordered " id="myTable">
 		<thead class="table-light fw-bold">
 			<tr class="align-middle text-center">

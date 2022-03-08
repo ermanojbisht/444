@@ -24,15 +24,7 @@
 
 <div class="card shadow-lg p-0 mb-5 bg-body rounded" style="position: relative; ">
 	<div class="card-body">
-		<a  href="{{ url()->previous() }}" class="text-end" 
-			style=" position: absolute; top: 10px; right: 10px;"
-			onmouseover="this.style.color='#ff0000'"
-			onmouseout="this.style.color='#00F'">
-			<svg class="icon icon-xl">
-				<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-x-circle')}}"></use>
-			</svg>
-		</a>
-
+		@include('employee.acr.form._goBackIcon')
 		<p class="fw-semibold fs-5">Appreciation / Honors during the period of appraisal from the department :</p>
 		@if(!$acr->isSubmitted())
 			<input type="button" id="add_leave" class="btn btn-primary mb-3" value="Add Appreciation" />

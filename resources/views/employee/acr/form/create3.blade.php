@@ -20,14 +20,7 @@ Part -II Self-Appraisal <small>Page -3 Deduction Parameters</small>
 </div>
 <div class="card border border-2 shadow-lg p-0 mb-5 bg-body rounded">
 	<div class="card-body">
-		<a  href="{{ url()->previous() }}" class="text-end" 
-				style=" position: absolute; top: 10px; right: 10px;"
-				onmouseover="this.style.color='#ff0000'"
-				onmouseout="this.style.color='#00F'">
-				<svg class="icon icon-xl">
-					<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-x-circle')}}"></use>
-				</svg>
-			</a>
+		@include('employee.acr.form._goBackIcon')
 		<p class="fw-semibold fs-5">निम्न मापदण्डो पर भारी गई सूचना के आधार पर Reporting अधिकारी तथा Review अधिकारी
 			द्वारा Negative Marks का निर्धारण करके PAR में अंकित किया जायेगा। जिन्हे Part-1 के आधार पर आकलित मार्क्स से
 			घटाया जाएगा</p>
