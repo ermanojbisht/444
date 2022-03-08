@@ -12,7 +12,7 @@
 	@endsection
 
 @section('content')
-<div class="card p-3">
+<div class="card p-3 shadow-lg p-0 mb-5 bg-body rounded">
 	<div class="d-flex justify-content-between ">
 		<p class="fw-bold h5"> Employee Code : {{$employee->id }} </p>
 		<p class="fw-bold h5"> Designation : {{$employee->designation->name }} </p>

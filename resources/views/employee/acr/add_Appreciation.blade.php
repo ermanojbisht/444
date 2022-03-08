@@ -9,7 +9,7 @@
 @endsection
 
 @section('pagetitle')
-Part 1 ( Basic Information ) <small> Appreciation / Honors </small>
+	Part 1 ( Basic Information ) <small> Appreciation / Honors </small>
 @endsection
 
 @section('breadcrumb')
@@ -22,16 +22,20 @@ Part 1 ( Basic Information ) <small> Appreciation / Honors </small>
 
 @section('content')
 
-<div class="card">
-
+<div class="card shadow-lg p-0 mb-5 bg-body rounded" style="position: relative; ">
 	<div class="card-body">
+		<a  href="{{ url()->previous() }}" class="text-end" 
+			style=" position: absolute; top: 10px; right: 10px;"
+			onmouseover="this.style.color='#ff0000'"
+			onmouseout="this.style.color='#00F'">
+			<svg class="icon icon-xl">
+				<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-x-circle')}}"></use>
+			</svg>
+		</a>
 
+		<p class="fw-semibold fs-5">Appreciation / Honors during the period of appraisal from the department :</p>
 		@if(!$acr->isSubmitted())
-		<div class="row">
-			<div class="col-md-3">
-				<input type="button" id="add_leave" class="btn btn-primary " value="Add Appreciation" />
-			</div>
-		</div>
+			<input type="button" id="add_leave" class="btn btn-primary mb-3" value="Add Appreciation" />
 		@endif
 		<table class="table datatable table-bordered table-striped table-hover">
 			<thead>
@@ -74,9 +78,7 @@ Part 1 ( Basic Information ) <small> Appreciation / Honors </small>
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="OfficialType">
-						Appreciation / Honors during the period of appraisal from the department :-
-					</h4>
+						<p class="fw-semibold">for period {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }} only</p>
 				</div>
 				<div class="modal-body">
 					<form class="form-horizontal" method="POST" action="{{route('acr.addAcrAppreciation')}}">
@@ -99,8 +101,6 @@ Part 1 ( Basic Information ) <small> Appreciation / Honors </small>
 								<textarea name="detail" class="form-control" > {{old('detail')}} </textarea>
 							</div>
 						</div>
-
-
 						<div class="row">
 							<div class="col-md-3">
 								<input type="hidden" name="acr_id" value="{{$acr->id}}" />
@@ -108,9 +108,6 @@ Part 1 ( Basic Information ) <small> Appreciation / Honors </small>
 							</div>
 						</div>
 					</form>
-				</div>
-				<div class="modal-footer">
-					<p class="h6"> ACR for Duration {{ $acr->from_date->format('d M Y') }} to {{ $acr->to_date->format('d M Y') }} </p>
 				</div>
 			</div>
 		</div>

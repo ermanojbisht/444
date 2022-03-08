@@ -37,27 +37,30 @@
 @php
 	$total_period = $acr->from_date->diffInDays($acr->to_date)+1;
 @endphp
-<div class="card">
-	<div class="card-header">
+<div class="card shadow-lg p-0 mb-5 bg-body rounded" style="position: relative; ">
+	<div class="card-body">
+		<a  href="{{ url()->previous() }}" class="text-end" 
+			style=" position: absolute; top: 10px; right: 10px;"
+			onmouseover="this.style.color='#ff0000'"
+			onmouseout="this.style.color='#00F'">
+			<svg class="icon icon-xl">
+				<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-x-circle')}}"></use>
+			</svg>
+		</a>
 		@if(!$acr->isSubmitted())
 			<div class="d-flex justify-content-between" >
 				<p class="fw-semibold fs-5 ">
 					Assign Reporting, Reviewing and Accepting Officer <br>
 					<small>
-						For ACR Period {{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}} ({{$total_period}} Days)
+						For ACR Period {{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}} ({{$total_period}} Days) 
+						<a href="{{route('acr.edit',['acr'=>$acr->id ])}}" class="btn badge rounded-pill bg-danger">Edit Period</a>
 					</small> 
-				</p>
-				<p class="fw-semibold fs-5">
-					<a href="{{route('acr.myacrs')}}" class="btn btn-outline-primary btn-sm col-12">Back</a>
-					<br>
-					<a href="{{route('acr.edit',['acr'=>$acr->id ])}}" class="btn btn-outline-primary btn-sm col-12">Edit ACR Period</a>
 				</p>
 			</div>
 		@endif	
-	</div>
-	<div class="card-body">
+	
 		@if(!$acr->isSubmitted())
-			<input type="button" id="assign_Officials" class="btn btn-outline-primary" value="Assign Officials" />
+			<input type="button" id="assign_Officials" class="btn btn-outline-primary mb-3" value="Assign Officials" />
 		@endif
 		@forelse($appraisalOfficers as $key=>$appraisalOfficer)
 			<div class="card mb-3">

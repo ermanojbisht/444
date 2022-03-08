@@ -19,7 +19,15 @@
 	<div class="mb-3">
 		@include('employee.acr.form._formHeader',['acr'=>$acr])
 	</div>
-	<div class="card border border-2">
+	<div class="card shadow-lg p-0 mb-5 bg-body rounded border border-2">
+		<a  href="{{ url()->previous() }}" class="text-end" 
+			style=" position: absolute; top: 10px; right: 10px;"
+			onmouseover="this.style.color='#ff0000'"
+			onmouseout="this.style.color='#00F'">
+			<svg class="icon icon-xl">
+				<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-x-circle')}}"></use>
+			</svg>
+		</a>
 		<div class="card-body form-control">
 			<form class="form-horizontal" method="POST" action="{{route('acr.form.store1')}}">
 			    @csrf
@@ -128,8 +136,9 @@
 							</tfoot>
 						</table>
 				@endforeach
-				<div class="text-end">
-			    	<button type="submit" class="btn btn-primary">Save and Continue
+				<div class="d-flex justify-content-between">
+			    	<a  class="btn btn-primary" href="{{ url()->previous() }}"> Back </a>
+			    	<button type="submit" class="btn btn-primary">Save and Continue</button>
 				</div>
 			</form>
 		</div>

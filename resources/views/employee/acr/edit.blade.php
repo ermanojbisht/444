@@ -20,8 +20,16 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 @endsection
 
 @section('content')
-<div class="card">
-	<div class="card-body">
+<div class="card shadow-lg p-0 mb-5 bg-body rounded" style="position: relative; ">
+	<div class="card-body" >
+		<a  href="{{route('acr.myacrs')}}" class="text-end" 
+			style=" position: absolute; top: 10px; right: 10px;"
+			onmouseover="this.style.color='#ff0000'"
+			onmouseout="this.style.color='#00F'">
+			<svg class="icon icon-xl">
+				<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-x-circle')}}"></use>
+			</svg>
+		</a>
 		<div class="row">
 			<div class="col-md-4">
 				<p class="fw-bold"> Name of the officer Reported Upon :- </p>
