@@ -29,6 +29,7 @@ class EducationApiController extends Controller
                 $education->qualifiaction = $request->input('qualifiaction');
                 $education->year = $request->input('year');
                 $education->qualifiaction_type_id = $request->input('qualifiaction_type_id');
+                $education->id = $request->input('id');
                 $education->save();
 
                 return $this->success($education, 'Education Created');
@@ -85,7 +86,8 @@ class EducationApiController extends Controller
             'employee_id' => 'required|string',
             'qualifiaction' => 'required|string',
             'year' => 'required|integer',
-            'qualifiaction_type_id' => 'required|integer'
+            'qualifiaction_type_id' => 'required|integer',
+            'id' => 'required|integer'
         ];
     }
 }
