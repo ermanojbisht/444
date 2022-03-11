@@ -94,7 +94,8 @@ class LeaveApiController extends Controller
             'employee_id' => 'required|string',
             'type_id' => 'required|integer',
             'from_date' => 'required|date',
-            'to_date' => 'required|date'
+            'to_date' => 'required|date',
+            'id' => 'required|integer'
         ];
     }
 }
