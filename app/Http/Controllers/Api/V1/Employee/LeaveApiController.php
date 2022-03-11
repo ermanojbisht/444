@@ -25,12 +25,20 @@ class LeaveApiController extends Controller
         if (1 == 1) {
             $validator = Validator::make($request->all(), $this->leaveValidationRules());
             if ($validator->passes()) {
-                $Leave = new Leave();
+                $data=[
+                    'employee_id'=>$request->input('employee_id'),
+                    'type_id'=>$request->input('type_id'),
+                    'from_date'=>$request->input('from_date'),
+                    'to_date'=>$request->input('to_date'),                   
+                    'id'=>$request->input('id'),
+                ];
+                Leave::updateOrCreate(['id'=>$request->input('id')],$data);
+               /* $Leave = new Leave();
                 $Leave->employee_id = $request->input('employee_id');
                 $Leave->type_id = $request->input('type_id');
                 $Leave->from_date = $request->input('from_date');
                 $Leave->to_date = $request->input('to_date');
-                $Leave->save();
+                $Leave->save();*/
 
                 return $this->success($Leave, 'Leave Created');
             }

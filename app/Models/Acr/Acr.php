@@ -1082,7 +1082,7 @@ class Acr extends Model
         ->where('from_date','<=',$this->to_date)
         ->where('to_date','>=',$this->from_date)
         ->get();
-
+        
         $acr=$this;
 
         return $leaves->map(function($row) use($acr){
