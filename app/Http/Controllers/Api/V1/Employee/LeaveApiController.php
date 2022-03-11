@@ -32,7 +32,7 @@ class LeaveApiController extends Controller
                     'to_date'=>$request->input('to_date'),                   
                     'id'=>$request->input('id'),
                 ];
-                Leave::updateOrCreate(['id'=>$request->input('id')],$data);
+                $leave=Leave::updateOrCreate(['id'=>$request->input('id')],$data);
                /* $Leave = new Leave();
                 $Leave->employee_id = $request->input('employee_id');
                 $Leave->type_id = $request->input('type_id');
@@ -40,7 +40,7 @@ class LeaveApiController extends Controller
                 $Leave->to_date = $request->input('to_date');
                 $Leave->save();*/
 
-                return $this->success($Leave, 'Leave Created');
+                return $this->success($leave, 'Leave Created');
             }
 
             return $this->error($validator->errors(), 400);

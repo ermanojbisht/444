@@ -31,7 +31,7 @@ class EducationApiController extends Controller
                     'qualifiaction_type_id'=>$request->input('qualifiaction_type_id'),                   
                     'id'=>$request->input('id'),
                 ];
-                Educationhrms::updateOrCreate(['id'=>$request->input('id')],$data);
+                $education=Educationhrms::updateOrCreate(['id'=>$request->input('id')],$data);
                /* $education = new Educationhrms();
                 $education->employee_id = $request->input('employee_id');
                 $education->qualifiaction = $request->input('qualifiaction');
