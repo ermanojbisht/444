@@ -24,13 +24,21 @@ class EducationApiController extends Controller
         if (1 == 1) {
             $validator = Validator::make($request->all(), $this->educationValidationRules());
             if ($validator->passes()) {
-                $education = new Educationhrms();
+                $data=[
+                    'employee_id'=>$request->input('employee_id'),
+                    'qualifiaction'=>$request->input('qualifiaction'),
+                    'year'=>$request->input('year'),
+                    'qualifiaction_type_id'=>$request->input('qualifiaction_type_id'),                   
+                    'id'=>$request->input('id'),
+                ];
+                Educationhrms::updateOrCreate(['id'=>$request->input('id')],$data);
+               /* $education = new Educationhrms();
                 $education->employee_id = $request->input('employee_id');
                 $education->qualifiaction = $request->input('qualifiaction');
                 $education->year = $request->input('year');
                 $education->qualifiaction_type_id = $request->input('qualifiaction_type_id');
                 $education->id = $request->input('id');
-                $education->save();
+                $education->save();*/
 
                 return $this->success($education, 'Education Created');
             }
