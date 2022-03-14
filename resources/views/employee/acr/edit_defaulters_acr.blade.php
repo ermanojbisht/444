@@ -14,8 +14,8 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-['label'=> 'View All Defaulters Acrs', 'route'=>'acr.others.defaulters' ,'routefielddata' => 0,'active'=>false],
-['label'=> 'Edit Defaulters ACR','active'=>true]
+['label'=> 'View All Initiated Acrs', 'route'=>'acr.others.defaulters' ,'routefielddata' => 0,'active'=>false],
+['label'=> 'Edit Initiated ACR','active'=>true]
 ]])
 @endsection
 

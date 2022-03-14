@@ -8,13 +8,13 @@
 @endsection
 
 @section('pagetitle')
-Add Defaulter Employee's ACR
+Other Employee ACR Initiated
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-['label'=> 'Add Others ACR' ,'active'=>true]
+['label'=> 'Initiate Other Employee ACR' ,'active'=>true]
 ]])
 @endsection
 
@@ -37,7 +37,7 @@ Add Defaulter Employee's ACR
 	<div class="card-body">
 		<div class="btn-group" role="group" aria-label="Basic outlined example">
 			<input type="button" id="assign_Officials" class="btn btn-outline-primary"
-				value="Add Defaulter Employee's ACR" />
+				value="Initiate Other Employee ACR" />
 		</div>
 		<hr />
 		<br />
