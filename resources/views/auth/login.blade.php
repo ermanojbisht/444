@@ -78,6 +78,11 @@
                         </div>
                     </div>
                 </form>
+                <p class="mt-3 fw-semibold">
+                    <a class="text-warning" href="http://mis.pwduk.in/dms/index.php/category/288-acr">
+                        For Manual Regarding ACR Click Here
+                    </a>
+                </p>
             </div>
         </div>
         <div class="card col-md-6 text-white bg-primary py-5">
@@ -96,6 +101,7 @@
                     ></script>
                     {{-- <button class="btn btn-lg btn-outline-light mt-3" type="button">Register Now!</button> --}}
                 </div>
+                
             </div>
         </div>
     </div>
