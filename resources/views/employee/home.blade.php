@@ -1,4 +1,23 @@
-@extends('layouts.type50.admin')
+@extends('layouts.type200.main')
+
+@section('styles')
+@endsection
+
+@section('sidebarmenu')
+    @include('layouts.type200._commonpartials._sidebarmenu_home')
+@endsection
+
+@section('pagetitle')
+   &#128591; {{Auth::User()->shriName}}
+@endsection
+
+@section('breadcrumb')
+    @include('layouts._commonpartials._breadcrumb',
+        [ 'datas'=> [
+        ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
+        ['label'=> 'My Acrs','active'=>true]]])
+@endsection
+
 @section('content')
 <div class="content">
     <div class="row">
