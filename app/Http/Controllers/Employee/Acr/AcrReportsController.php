@@ -114,7 +114,7 @@ class AcrReportsController extends Controller {
             })->get();
 
             $daysInSelectedYear=Helper::daysBetweenDate($dates=[$year.'-04-01',($year+1).'-03-31'],true);
-            Log::info("daysInSelectedYear = ".print_r($daysInSelectedYear,true));
+            //Log::info("daysInSelectedYear = ".print_r($daysInSelectedYear,true));
             $noOfemployeefilledAcr=$employeeWithFilledAcr->count();
             $employeeWithFilledAcr=$employeeWithFilledAcr->filter(function($employee) use($daysInSelectedYear){
                 $days=$employee->acrs->sum(function($acr){

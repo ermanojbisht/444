@@ -85,7 +85,7 @@ echo "hi";
 $id = DB::table('exception_logs')->insertGetId(
 array('type' => 1, 'message' => now())
 );
-Log::info("id generated = ".print_r($id,true));
+//Log::info("id generated = ".print_r($id,true));
 
 })
 ->everyMinute()

@@ -184,7 +184,7 @@ class TelegramBotController extends Controller
         $users = $request->users;
         if ($msg) {
             foreach ($users as $key => $user) {
-                Log::info("user = ".print_r($user, true));
+                //Log::info("user = ".print_r($user, true));
                 User::find($user)->notify(new WelcomeUserTG($msg));
             }
             flash()->overlay('office of each user has been updated', 'Success');

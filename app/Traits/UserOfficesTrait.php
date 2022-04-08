@@ -202,7 +202,7 @@ trait UserOfficesTrait {
                 $ceofficetable='mispwd.'.(new CeOffice)->table;
                // Log::info("this = ".print_r($ceofficetable,true));
                /* $connection=(new CeOffice)->tableName();
-                Log::info("this = ".print_r($connection,true));*/
+                //Log::info("this = ".print_r($connection,true));*/
 
 
                 $offices = DB::table($ceofficetable)

@@ -21,7 +21,6 @@ class AjaxFetchDropDownController extends Controller
      */
     public function index(Request $request)
     {
-        /*Log::info("this = ".print_r( $request->all(),true));*/
         //on basis of office type select office in office_id element
         if ($request->dependent == "employee_id") {
             return $this->employeeDropDown($request);
@@ -121,7 +120,7 @@ class AjaxFetchDropDownController extends Controller
      */
     public function ulbDropDown(Request $request, $htmloutput = false)
     {
-        Log::info("this = ".print_r($request->all(), true));
+        //Log::info("this = ".print_r($request->all(), true));
         $ulbList = Ulb::where('type_id', $request->key)
             ->select(DB::raw('id ,title as name'))->orderBy('name')->get();
 

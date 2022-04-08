@@ -476,7 +476,7 @@ class Helper
 			    );
 			   
 			}//splitted the text
-			Log::info("Spilltedarray first itteration = ".print_r($dataArray,true));
+			//Log::info("Spilltedarray first itteration = ".print_r($dataArray,true));
 			$Spilltedarray=array_merge($Spilltedarray,$dataArray);
     	}
     	//now go for = and upper to lower	    do not think needed as = and filtered
@@ -576,7 +576,7 @@ class Helper
 					}
 					$CountOfParameter=count($parameter);
 					$array['parameter']=implode(",",$parameter);
-					Log::info("parameter = ".print_r($parameter,true));
+					//Log::info("parameter = ".print_r($parameter,true));
 					if($CountOfParameter>1){
 						$array['operator']="in";
 						$array['redirect']=[

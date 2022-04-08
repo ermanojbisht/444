@@ -709,7 +709,7 @@ class Acr extends Model
                         }
                         break;
                 }
-                Log::info("targetEmployee1111 = ".print_r($targetEmployee,true));
+                //Log::info("targetEmployee1111 = ".print_r($targetEmployee,true));
                 
                 $mail->send(new AcrSumittedMail($this, $targetEmployee, $targetDutyType,$msg));
                 //$msg is false in other cases except acknowledgedNotification

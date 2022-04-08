@@ -40,8 +40,8 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
      */
     public function __construct(Acr $acr, $milestone,$acknowledgeMsg=false)
     {
-        Log::info("in __construct  MakeAcrPdfOnSubmit milestone= $milestone");
-        Log::info("in __construct  MakeAcrPdfOnSubmit acknowledgeMsg= $acknowledgeMsg");
+        //Log::info("in __construct  MakeAcrPdfOnSubmit milestone= $milestone");
+        //Log::info("in __construct  MakeAcrPdfOnSubmit acknowledgeMsg= $acknowledgeMsg");
 
         $this->acr = $acr;
         $this->acknowledgeMsg = $acknowledgeMsg;
@@ -87,7 +87,7 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
         }
 
         if ($this->milestone == 'reject') {
-            Log::info("in /var/www/444/app/Jobs/Acr/MakeAcrPdfOnSubmit.php ---reject");
+            //Log::info("in /var/www/444/app/Jobs/Acr/MakeAcrPdfOnSubmit.php ---reject");
             $this->acr->rejectNotification();
         }
     }

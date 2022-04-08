@@ -222,7 +222,6 @@ class Employee extends Authenticatable
         $i = 0;
         $len = $empAcrs->count();
         foreach ($empAcrs as $key => $empAcr) {
-            /*Log::info("item = ".print_r($empAcr,false));*/
             if ($i == 0) {
                 // first
                 $dateFromLast=$empAcr->from_date;

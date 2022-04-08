@@ -176,13 +176,13 @@ class TempController extends Controller
         "password"=>"123456"
         ]);*/
         //$response = Http::get('http://localhost:81/pwd/pic/w/129W521/159');
-        Log::info("response = ".print_r($response->json(), true));
-        Log::info("response = ".print_r($response->status(), true));
+        //Log::info("response = ".print_r($response->json(), true));
+        //Log::info("response = ".print_r($response->status(), true));
 
         return "hello";
 
         return $user = User::find(1710);
-        Log::info("user = ".print_r($user, true));
+        //Log::info("user = ".print_r($user, true));
 
         /*// Creating a token without scopes...
         return $token = $user->createToken('Token Name')->accessToken;

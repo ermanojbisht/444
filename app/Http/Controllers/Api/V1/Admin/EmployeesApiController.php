@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class EmployeesApiController extends Controller {
 
     public function store(Request $request) {
-        Log::info("this = " . print_r($request->all(), true));
+        //Log::info("this = " . print_r($request->all(), true));
         $employee = Employee::find($request->emp_code);
         return (new EmployeeResource($employee))
             ->response()
