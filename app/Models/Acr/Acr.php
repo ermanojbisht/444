@@ -701,6 +701,8 @@ class Acr extends Model
                         $mail->cc([$this->userOnBasisOfDuty('review'), $this->userOnBasisOfDuty('report'), $this->userOnBasisOfDuty('accept')]);
                         break;
                 }
+                Log::info("targetEmployee = ".print_r($targetEmployee,true));
+                
                 $mail->send(new AcrSumittedMail($this, $targetEmployee, $targetDutyType,$msg));
                 //$msg is false in other cases except acknowledgedNotification
 
