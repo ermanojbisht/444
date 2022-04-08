@@ -247,7 +247,7 @@
 		@if($acr->review_on)
 		<div>
 			<p> Reviewed By : {{  $acr->reviewUser()->shriName }} </p>
-			<p> On : {{$acr->review_on->format('d M Y')}}</p>
+			<p> On : {{($acr->review_on)?$acr->review_on->format('d M Y'),''}}</p>
 			
 		</div>
 		@endif
