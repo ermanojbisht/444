@@ -8,7 +8,7 @@
 @endsection
 
 @section('pagetitle')
-Part 1 ( Basic Information ) <small> Edit ACR </small>
+Part 1 ( Basic Information ) <small> Edit ACR</small>
 @endsection
 
 @section('breadcrumb')
@@ -92,12 +92,16 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 					</div>
 					<div class="col-md-4">
 						<label for='from_date' class="required "> Enter From Date </label>
-						<input type="date" name="from_date" value="{{$acr->from_date->format('Y-m-d') }}" required
+						{{-- <input type="date" name="from_date" value="{{$acr->from_date->format('Y-m-d') }}" required
+							class="form-control" /> --}}
+						<input type="date" name="from_date" value="{{old('from_date') ? old('from_date'):(($acr->from_date) ? $acr->from_date->format('Y-m-d') : '') }}" required
 							class="form-control" />
 					</div>
 					<div class="col-md-4">
 						<label for='to_date' class="required "> Enter To Date </label>
-						<input type="date" name="to_date" value="{{$acr->to_date->format('Y-m-d') }}" required
+						{{-- <input type="date" name="to_date" value="{{$acr->to_date->format('Y-m-d') }}" required
+							class="form-control" /> --}}
+						<input type="date" name="to_date" value="{{old('to_date') ? old('to_date'):(($acr->to_date) ? $acr->to_date->format('Y-m-d') : '') }}" required
 							class="form-control" />
 					</div>
 				
@@ -196,8 +200,8 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 				<div class="col-md-3">
 					<div class="form-group">
 						<input type="date" class="form-control"
-							value="{{$acr->property_filing_return_at ? $acr->property_filing_return_at->format('Y-m-d') : '' }}"
-							name="property_filing_return_at" />
+							value="{{old('property_filing_return_at') ? old('property_filing_return_at'):(($acr->property_filing_return_at) ? $acr->property_filing_return_at->format('Y-m-d') : '') }}"
+							name="property_filing_return_at"  required />
 					</div>
 				</div>
 				<hr class="m-1" style="opacity: 0.1;">

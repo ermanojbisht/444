@@ -104,6 +104,7 @@ class AcrController extends Controller
         }
 
         $acr_selected_group_type = AcrType::where('id', $acr->acr_type_id)->select('description as name', 'group_id', 'id')->first();
+
         $acr_Types = AcrType::where('group_id', $acr_selected_group_type->group_id)->select('description as name', 'id')->get();
         $acr_office = Office::where('id', $acr->office_id)->select('office_type', 'name', 'id')->first();
         $Offices = Office::select('name', 'id')->get();
@@ -128,6 +129,17 @@ class AcrController extends Controller
 
     public function update(Request $request)
     {
+         $this->validate(
+            $request,
+            [
+                'acr_type_id' => 'required',
+                'from_date' => 'required|date',
+                'to_date' => 'required|date|after:from_date',
+                'office_id'=>'required',
+                'property_filing_return_at'=>'required|date',
+                'professional_org_membership'=>'nullable',
+            ]
+        );
         $acr = Acr::findOrFail($request->acr_id);
         abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
 
