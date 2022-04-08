@@ -656,7 +656,9 @@ class Acr extends Model
                     case 'acknowledge':
                         //on acknowledge event  , filling and further process is targeted
                         //employee is as target
-                        $mail->cc(Auth::user()); //cc to HR on error we may remove it
+                        /*if(Auth::user()){
+                            $mail->cc(Auth::user()); //cc to HR on error we may remove it
+                        }*/
                         break;
                     case 'report':
                         //on submit event  , report is targeted
@@ -698,10 +700,16 @@ class Acr extends Model
                         //on reject event , submituser is targeted
                         //$mail->cc($this->userOnBasisOfDuty('review'));
                         //$mail->cc($this->userOnBasisOfDuty('report'));
-                        $mail->cc([$this->userOnBasisOfDuty('review'), $this->userOnBasisOfDuty('report'), $this->userOnBasisOfDuty('accept')]);
+                        $ccmails=[];
+                        if($this->userOnBasisOfDuty('report')){$ccmails[]=$this->userOnBasisOfDuty('report');}
+                        if($this->userOnBasisOfDuty('review')){$ccmails[]=$this->userOnBasisOfDuty('review');}
+                        if($this->userOnBasisOfDuty('accept')){$ccmails[]=$this->userOnBasisOfDuty('accept');}
+                        if(count($ccmails)>0){
+                            $mail->cc($ccmails);
+                        }
                         break;
                 }
-                Log::info("targetEmployee = ".print_r($targetEmployee,true));
+                Log::info("targetEmployee1111 = ".print_r($targetEmployee,true));
                 
                 $mail->send(new AcrSumittedMail($this, $targetEmployee, $targetDutyType,$msg));
                 //$msg is false in other cases except acknowledgedNotification

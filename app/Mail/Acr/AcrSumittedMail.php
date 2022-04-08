@@ -30,7 +30,7 @@ class AcrSumittedMail extends Mailable
         $this->acr = $acr;
         $this->msg = $msg;
         $this->reportingEmployee = $reportingEmployee;
-        Log::info("reportingEmployee = ".print_r($reportingEmployee,true));
+        Log::info("reportingEmployee2222 = ".print_r($reportingEmployee,true));
 
         $this->targetDutyType = $targetDutyType;
     }
