@@ -31,7 +31,7 @@ class Acr extends Model
      * @var array
      */
     protected $fillable = [
-        'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date', 'prpoerty_return_date',
+        'employee_id', 'acr_type_id', 'office_id', 'from_date', 'to_date', 
         'good_work', 'difficultie', 'appreciations', 'submitted_at',
         'report_employee_id', 'review_employee_id', 'accept_employee_id',
         'is_active', 'appraisal_note_1', 'appraisal_note_2', 'appraisal_note_3',
