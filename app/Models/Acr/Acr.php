@@ -226,6 +226,7 @@ class Acr extends Model
     /**
      * @param $start
      * @param $end
+     * input dates are in between acr fromdate todate
      */
     public function checkisDateInBetween($start, $end)
     {
