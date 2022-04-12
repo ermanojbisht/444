@@ -23,7 +23,7 @@
                 <span class="iconText">&#160;{{ trans('global.dashboard') }}</span>
             </a>
         </li>       
-        @canany(['user_management_access','asset_access'])
+        @canany(['user_management_access'])
             <li class="c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa fa-users fa-key c-sidebar-nav-icon"> </i>
@@ -50,7 +50,7 @@
                             </a>
                         </li>
                     @endcan                    
-                    @canany(['user_access','asset_access'])
+                    @canany(['user_access'])
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.users.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/users") || request()->is("admin/users/*") ? "active" : "" }}">
                                 <i class="fa-fw fas fa-user c-sidebar-nav-icon">
