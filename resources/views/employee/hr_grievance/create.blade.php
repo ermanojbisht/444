@@ -97,8 +97,6 @@ Add Grievance
                 <fieldset>
                     <legend> Select Office who will resolve your grievance :</legend>
 
-                    
-
                     <div class="row">
                         <div class="col-md-4">
                             <label for="office_type" class="form-label required"> Office Type ( ऑफिस का प्रकार) </label>
@@ -136,14 +134,13 @@ Add Grievance
 
                 </fieldset>
 
-
                 <div class="row">
                     <div class="col-md-4">
-                        <label for="description" class="form-label required "> Description of Grievance ( शिकायत का
-                            संछिप्त सार) </label>
+                        <label for="description" class="form-label required "> Description of Grievance 
+                            ( शिकायत का संछिप्त सार) </label>
                     </div>
                     <div class="col-md-6">
-                        <textarea class="form-control" id="description" rows="3" name="description"
+                        <textarea class="form-control" id="description" rows="3" minlength="10" name="description"
                             required>{{ old('description', '') }} </textarea>
                     </div>
                 </div>
@@ -162,8 +159,6 @@ Add Grievance
                         </div>
                     </div>
                 </div>
-
-
 
                 <div class="row">
                     <div class="col-md-12">

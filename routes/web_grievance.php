@@ -13,6 +13,7 @@ Route::group([ 'as' => 'employee.' ], function () {
     Route::post('update', 'HrGrievance\GrievanceController@update')->name('hr_grievance.update');
 
     Route::get('hr_grievance/{hr_grievance}', 'HrGrievance\GrievanceController@show')->name('hr_grievance.show');
+    Route::post('submit', 'HrGrievance\GrievanceController@submit')->name('hr_grievance.submit');
 
     Route::post('ajaxDataForOffice', 'HrGrievance\GrievanceController@ajaxDataForOffice')->name('ajaxDataForOffice');//todo detach it for base use
 });
@@ -23,7 +24,6 @@ Route::get('HrGrievance/Index', 'OthersHrGrievance\ResolveGrievanceController@in
 
 Route::group(['prefix'=>'resolve'], function () {
     Route::get('HrGrievance/{hr_grievance}/Show', 'OthersHrGrievance\ResolveGrievanceController@show')->name('View.hrGrievance');
-
 
     Route::get('{hr_grievance}/HrGrievance', 'OthersHrGrievance\ResolveGrievanceController@resolveGrievance')->name('view_hr_grievance');
 
