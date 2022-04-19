@@ -43,18 +43,7 @@ class UsersController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate = 'user_show';
-                $editGate = 'user_edit';
-                $deleteGate = 'user_delete';
-                $crudRoutePart = 'users';
-
-                return view('partials.datatablesActions', compact(
-                    'viewGate',
-                    'editGate',
-                    'deleteGate',
-                    'crudRoutePart',
-                    'row'
-                ));
+                return view('partials.datatablesActionsForUser', compact('row'));
             });
 
             $table->addColumn('designation', function ($row) {
@@ -203,13 +192,26 @@ class UsersController extends Controller
     {
         //an user can not have same id in different offices
         $userid = $request->get('id');
-        $jobs = $request->get('job');
+        $jobs = $request->get('job'); //OfficeJobDefault id array
 
         if ($jobs) {
             foreach ($jobs as $job) {
-                OfficeJobDefault::find($job)->delete();
+                $officeJobDefault=OfficeJobDefault::find($job);
+                $job_id=$officeJobDefault->job_id;
+                $officeJobDefault->delete();
+                //if user has no job_id=5,6 create-others-acr-job,acknowledge-acr-job  then remove permission 102,103
+                if(in_array($job_id, [5,6])){
+                    $anyJobExist=OfficeJobDefault::where('job_id',$job_id)->where('user_id',$userid)->first();
+                    if(!$anyJobExist){
+                        $permission=$this->permissionRelatedToJob($job_id);
+                        User::find($userid)->permissions()->detach($permission);
+                    }
+                }
             }
         }
+
+
+        $anyJobExist=OfficeJobDefault::where('job_id',$job_id)->where('user_id',$userid)->first();
 
         return redirect('/assignUserOffices/'.$userid)->with('status', 'User Office Updated Successfully!');
     }
@@ -229,6 +231,12 @@ class UsersController extends Controller
         $job_id = $request->get('job_id');
 
         $this->assignOffice($userid, $job_id, $offices);
+
+        //for job_id=5,6 add permission to user create-others-acr-job,acknowledge-acr-job
+        if(in_array($job_id, [5,6])){
+            $permission=$this->permissionRelatedToJob($job_id);
+            User::find($userid)->permissions()->syncWithoutDetaching([$permission]);
+        }
 
         return redirect('/assignUserOffices/'.$userid)->with('status', 'User Office Updated Successfully!');
     }
@@ -257,7 +265,10 @@ class UsersController extends Controller
                 return redirect()->back()->with('fail', "User having user id =$userid does't exist");
             }
 
-            $OfficeJob = OfficeJobDefault::create(['user_id'=>$userid,'office_id'=>$office_id,'job_id'=>$job_id, 'employee_id'=>$selectedUser->employee_id]);
+            $OfficeJob = OfficeJobDefault::updateOrcreate(
+                ['user_id'=>$userid,'office_id'=>$office_id,'job_id'=>$job_id],
+                ['user_id'=>$userid,'office_id'=>$office_id,'job_id'=>$job_id, 'employee_id'=>$selectedUser->employee_id]
+            );
             //head_emp_code will also change in office tables
             $OfficeJob->updateHeadEmpCodeInOfficeTables();
         }
@@ -355,5 +366,16 @@ class UsersController extends Controller
         return $responseBody = json_decode($response->getBody());
 
         return view('projects.apiwithkey', compact('responseBody'));
+    }
+
+    public function permissionRelatedToJob($job_id)
+    {
+        if($job_id==5){
+           return 102;
+        }
+
+        if($job_id==6){
+           return 103;
+        }
     }
 }

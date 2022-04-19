@@ -33,9 +33,9 @@ Resolve Grievances
         <thead class="table fw-bold">
             <tr class="align-middle ">
                 <th>#</th>
-                <th class="text-center">Grievance Id</th>
-                <th class="text-center">Description</th>
-                <th class="text-center">Created on</th>
+                <th>Grievance Id</th>
+                <th>Description</th>
+                <th>Created on</th>
                 <th>Status</th>
                 <th>Resolve Grievance</th>
 
@@ -56,13 +56,26 @@ Resolve Grievances
                     {{$grievance->currentStatus()}}
                 </td>
                 <td>
-                    <a href="{{ route('view_hr_grievance', ['hr_grievance' => $grievance->id] ) }}">
-                        @if($grievance->draft_answer)
-                        <i class="cib-twitter"></i> Update / Resolve Grievance
-                        @else
-                        <i class="cib-twitter"></i> Resolve Grievance
-                        @endif
-                    </a>
+
+                    <div class="dropdown" id="{{1+$loop->index}}">
+                        <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <svg class="icon icon-xl">
+                                <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-options')}}"></use>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu">
+
+                            <a class="dropdown-item"  href="{{ route('view_hr_grievance', ['hr_grievance' => $grievance->id] ) }}">
+                                @if($grievance->draft_answer)
+                                Update / Resolve Grievance
+                                @else
+                                Resolve Grievance
+                                @endif
+                            </a>
+                        </div>
+                    </div>
+
                 </td>
             </tr>
             @endforeach

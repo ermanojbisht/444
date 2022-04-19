@@ -116,12 +116,13 @@ Resolve Grievance
                 </div>
             </div>
 
-            @if($hr_grievance->documents)
+            @if(count($hr_grievance->documents) > 0)
             <div class="row">
                 <div class="col-md-4">
                     <label for="is_document_upload" class="form-label required"> Document </label>
                 </div>
                 <div class="col-md-8">
+
                     <a href="{{ route('employee.hr_grievance.doclist',['hr_grievance'=>$hr_grievance->id,
                         'is_question' => 1]) }}">
                         <i class="cib-twitter"></i> View Documents

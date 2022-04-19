@@ -7,7 +7,7 @@
 
 
 @section('sidebarmenu')
-@include('layouts.type200._commonpartials._sidebarmenu_hr_gr',['active'=>'Grievance'])
+@include('layouts.type200._commonpartials._sidebarmenu_hr_gr',['active'=>'Grienvance'])
 @endsection
 
 @section('pagetitle')
@@ -21,7 +21,10 @@ Resolve Grievance
 ['label'=> 'Others Grievance','active'=>false, 'route'=> 'resolve_hr_grievance'],
 ['label'=> 'Draft Resolvance','active'=>true],
 ]])
+
+
 @endsection
+
 
 @section('content')
 <div class="container-fluid">
@@ -98,7 +101,7 @@ Resolve Grievance
                 </div>
             </div>
 
-            @if($hr_grievance->documents)
+            @if(count($hr_grievance->documents) > 0)
             <div class="row">
                 <div class="col-md-4">
                     <label for="is_document_upload" class="form-label required"> Document </label>
@@ -110,8 +113,8 @@ Resolve Grievance
                     </a>
                 </div>
             </div>
-
             @endif
+
             <form action="{{ route('hr_grievance.updateGrievance') }}" method="POST"
                 onsubmit="return confirm('Resolvance Given are correct to my knowledge. ( उपरोक्त समस्या के निवारण से में सहमत हूँ  ) ??? ');">
                 @csrf
@@ -137,8 +140,11 @@ Resolve Grievance
                                     'Update Grievance ( शिकायत का निवारण अपडेट करें )'
                                    : 'Resolve Grievance ( शिकायत का निवारण  करें )'  }}"
                                     </button>
-                                <input type="hidden" id="hr_grievance_id" name="hr_grievance_id"
+                                    <input type="hidden" id="hr_grievance_id" name="hr_grievance_id"
                                     value="{{ $hr_grievance->id }}" />
+                                    <input type="hidden" id="status_id" name="status_id"
+                                    value="2" />
+                                    
                             </div>
                         </div>
                     </div>

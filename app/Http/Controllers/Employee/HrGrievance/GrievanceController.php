@@ -80,8 +80,16 @@ class GrievanceController extends Controller
 
     public function textMessageAfterAddingGrievance($hrGrievance_id, $actionCompleted)
     {
-        return  'Your Grievance has been ' . $actionCompleted . ', please note down your Grievance Id : ' . $hrGrievance_id . '\n Kindly note this Id for future reference. \n you can add doc \n ' .
-            ' 2 days editable ';
+        return  'Your Grievance has been ' . $actionCompleted . ', Please note down your Grievance Id : ' . $hrGrievance_id .
+        ' Kindly note this Id for future reference. Application will remain editable for 2 days ';
+    }
+
+    public function submit(Request $request)
+    {
+        $hrGrievance = HrGrievance::findOrFail($request->grievance_id);
+        $hrGrievance->update(['status_id' => 1]);
+
+        return Redirect::route('employee.hr_grievance')->with('success', 'Application Submitted Successfully');
     }
 
 

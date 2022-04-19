@@ -38,14 +38,15 @@ class ResolveGrievanceController extends Controller
         });
     }
 
-
-    // $user = User::whereEmployeeId('010096816')->first();
-    // return  $user->OfficeToAnyJob(['hr-gr-level-2', 'hr-gr-level-1']);
     // view all created grievance for your draft resolvance creating power permissiable Office
     public function index()
     {
-        $usersOffices = $this->user->OfficeToAnyJob(['hr-gr-level-2', 'hr-gr-level-1']); //
-        $grievances =  HrGrievance::whereIn("office_id", $usersOffices)->whereNull('final_answer')->get();
+        // $usersOffices = $this->user->OfficeToAnyJob(['hr-gr-level-2']);
+        // $grievances = HrGrievance::whereIn("office_id", $usersOffices)->where('status_id', '1')->get();
+
+        $usersOffices = $this->user->OfficeToAnyJob(['hr-gr-level-2','hr-gr-level-1']); // hr-gr-level-2 is for Draft and 1 for Final
+        $grievances = HrGrievance::whereIn("office_id", $usersOffices)->where('status_id', '>', 0)->get();  // 
+        // whereNull('final_answer')
         $employee_name = $this->user->name;
 
         return view('employee.others_hr_grievance.index', compact('employee_name', 'grievances'));
@@ -83,11 +84,12 @@ class ResolveGrievanceController extends Controller
      */
     public function show(HrGrievance $hr_grievance)
     {
+
         return view('employee.others_hr_grievance.viewGrievance', compact('hr_grievance'));
     }
 
     // view all created grievance for your Office
-    public function addDraft(HrGrievance $hr_grievance)
+    public function addDraft(HrGrievance $hr_grievance)  // view Add draft   
     {
         $canCreateDefaultAnswer = false;
         $canCreateFinalAnswer = false;
@@ -108,7 +110,7 @@ class ResolveGrievanceController extends Controller
         return view('employee.others_hr_grievance.addDraft', compact('hr_grievance'));
     }
 
-    public function updateGrievance(Request $request)
+    public function updateGrievance(Request $request)  // Update draft Answer 
     {
         $hrGrievance = HrGrievance::findorFail($request->hr_grievance_id);
         $hrGrievance->update($request->all());

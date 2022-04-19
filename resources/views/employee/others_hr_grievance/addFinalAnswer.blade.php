@@ -144,6 +144,7 @@
                                     value = "Resolve Grievance ( शिकायत का निवारण  करें )"  
                                 </button>
                                 <input type="hidden" id="hr_grievance_id" name="hr_grievance_id" value="{{ $hr_grievance->id }}" />
+                                <input type="hidden" id="status_id" name="status_id" value="3" />
                             </div>
                         </div>
                     </div>

@@ -24,7 +24,7 @@ class HrGrievance extends Model {
     }
 
     public function currentStatus() {
-        $status = [0=>'pending',1=>'draft',2=>'final',3=>'reopened'];
+        $status = [0=>'Created',1=>'Submitted',2=>'Draft Answer by Level 1 Officer',3=>'Final',4=>'Closed',5=>'Reopened'];
         return  $status[$this->status_id];
     }
  

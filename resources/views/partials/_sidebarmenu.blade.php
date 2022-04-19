@@ -22,8 +22,8 @@
                 <i class="fa fa-vcard c-sidebar-nav-icon"> </i>
                 <span class="iconText">&#160;{{ trans('global.dashboard') }}</span>
             </a>
-        </li>
-        @can('user_management_access')
+        </li>       
+        @canany(['user_management_access'])
             <li class="c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa fa-users fa-key c-sidebar-nav-icon"> </i>
@@ -49,8 +49,8 @@
                                 {{ trans('cruds.role.title') }}
                             </a>
                         </li>
-                    @endcan
-                    @can('user_access')
+                    @endcan                    
+                    @canany(['user_access'])
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.users.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/users") || request()->is("admin/users/*") ? "active" : "" }}">
                                 <i class="fa-fw fas fa-user c-sidebar-nav-icon">
