@@ -70,7 +70,7 @@ class AcrReportsController extends Controller {
 
         }
 
-        $acrs = ACR::periodBetweenDates( [ $startDate, $endDate ] )->where( 'is_active', 1 );
+        $acrs = ACR::periodBetweenDates( [ $startDate, $endDate ] )->with('office')->where( 'is_active', 1 );
 
         if ( $officeId == 2 )
         {
