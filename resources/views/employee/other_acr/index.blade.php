@@ -260,24 +260,3 @@ Other's ACR to be Worked Upon
 </div>
 
 @endsection
-
-
-
-@section('footscripts')
-<script src="{{ asset('../plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script type="text/javascript">
-	$(document).ready(function () {
-        $("#success-alert").fadeTo(5000, 500).slideUp(500, function () {
-            $("#success-alert").slideUp(500);
-        });
-    });
-
-        document.addEventListener("DOMContentLoaded", function () {
-            // Datatables Responsive
-            $("#user_Request_Details").DataTable({
-                responsive: true
-            });
-        });
-</script>
-
-@endsection
