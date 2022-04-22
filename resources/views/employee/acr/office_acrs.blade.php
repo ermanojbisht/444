@@ -67,7 +67,8 @@
 						<th>Employee Name</th>
 						<th>Employee Id</th>
 						<th>Designation</th>
-						<th>Office</th>
+						<th>Current Office</th>
+						<th>ACR Period Office</th>
 						<th>Year</th>
 						<th>Period</th>
 						<th>Submitted on</th>
@@ -85,9 +86,11 @@
 								{{$acr->employee->name }}
 							</a>
 						</td>
+
 						<td> {{$acr->employee->id }}</td>
 						<td> {{$acr->employee->designation->name }}</td>
 						<td> {{$acr->employee->last_office_name }}</td>
+						<td> {{$acr->office->name }}</td>
 						<td> {{$acr->getFinancialYearAttribute()}}</td>
 						<td>{!! $acr->from_date->format('d&#160;M&#160;Y') !!} - {!! $acr->to_date->format('d&#160;M&#160;Y') !!}</td>
 						<td>{!! ($acr->submitted_at) ? $acr->submitted_at->format('d&#160;M&#160;Y') : 'New Created ' !!}

@@ -69,11 +69,12 @@ class AcrReportsController extends Controller {
             $startDate = Carbon::today()->subMonths( 12 )->toDateString();
 
         }
-        $acrs = ACR::periodBetweenDates( [ $startDate, $endDate ] )->where( 'is_active', 1 );
 
-        if ( $officeId === 2 )
+        $acrs = ACR::periodBetweenDates( [ $startDate, $endDate ] )->with('office')->where( 'is_active', 1 );
+
+        if ( $officeId == 2 )
         {
-            $acrs = $acrs->get();
+           $acrs = $acrs->get();
         }
 
         if ( $officeId === 0 )
@@ -81,7 +82,7 @@ class AcrReportsController extends Controller {
             $acrs = false;
         }
 
-        if ( $officeId > 0 && $officeId !==2)
+        if ( $officeId > 0 && $officeId != 2)
         {
             $acrs = $acrs->where( 'office_id', $officeId )->get();
         }
