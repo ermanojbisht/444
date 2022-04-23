@@ -62,7 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'name_h', 'email', 'password', 'remember_token', 'notification_channel', 'notification_on', 'created_at', 'updated_at', 'oldcode', 'designation', 'approved', 'user_type', 'chat_id', 'email_verified_at', 'verified_at', 'deleted_at', 'verification_token', 'verified', 'status', 'emp_code', 'contact_no', 'remark'
+        'name', 'name_h', 'email', 'password', 'remember_token', 'notification_channel', 'notification_on', 'created_at', 'updated_at', 'oldcode', 'designation', 'approved', 'user_type', 'chat_id', 'email_verified_at', 'verified_at', 'deleted_at', 'verification_token', 'verified', 'status', 'emp_code', 'contact_no', 'remark','employee_id'
     ];
     /**
      * Route notifications for the Telegram channel.

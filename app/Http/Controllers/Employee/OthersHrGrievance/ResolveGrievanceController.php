@@ -138,3 +138,25 @@ class ResolveGrievanceController extends Controller
         return Redirect::route('resolve_hr_grievance')->with('success', 'Application Draft Saved Successfully');
     }
 }
+
+/*$usersOffices = $this->user->OfficeToAnyJob(['hr-gr-level-2','hr-gr-level-1']); // hr-gr-level-2 is for Draft and 1 for Final
+        $grievances = HrGrievance::whereIn("office_id", $usersOffices)->where('status_id', '>', 0)->get();  // 
+       
+        return $grievances=$grievances->map(function($grItem) { 
+            if($this->user->canDoJobInOffice('hr-gr-level-2',$grItem->office_id)){
+                if(in_array($grItem->status_id, [1,4])){
+                    $grItem->editable=1;  $grItem->view=1;
+                }
+            }
+            if($this->user->canDoJobInOffice('hr-gr-level-1',$grItem->office_id)){
+                if(in_array($grItem->status_id, [1,2])){
+                    $grItem->editable=1;  $grItem->view=1;
+                }
+            } 
+            return $grItem;
+        });
+        $grievances=$grievances->where('editable',1);
+       
+        $employee_name = $this->user->name;      
+
+        return view('employee.others_hr_grievance.index', compact('employee_name', 'grievances'));*/
