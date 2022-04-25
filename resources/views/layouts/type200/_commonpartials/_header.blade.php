@@ -130,7 +130,7 @@
                         Lock Account</a><a class="dropdown-item" href="#"> --}}
 
                         <svg class="icon me-2">
-                            <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
+                            <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-account-logout')}}"></use>
                         </svg>
                         Logout
                     </a>
