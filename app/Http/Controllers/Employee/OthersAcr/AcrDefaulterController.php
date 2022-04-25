@@ -170,10 +170,13 @@ class AcrDefaulterController extends Controller {
                 'from_date' => 'required|date|before:"2022-04-01',
                 'to_date' => 'required|date|after_or_equal:from_date|before:"2022-04-01',
                 'employee_id' => 'required', // in AppraisalOfficer acr_id , appraisal_officer_type, employee_id should not be repeated
-                'report_no' => 'required|numeric',
-                'review_no' => 'required|numeric',
-                'accept_no' => 'required|numeric',
+                'report_no' => 'nullable|numeric',
+                'review_no' => 'nullable|numeric',
+                'accept_no' => 'nullable|numeric',
                 'report_integrity' => 'nullable',
+                'appraisal_note_1' => 'nullable',
+                'appraisal_note_2' => 'nullable',
+                'appraisal_note_3' => 'nullable',
             ]
         );
 

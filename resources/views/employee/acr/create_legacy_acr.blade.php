@@ -83,7 +83,7 @@ Add Legacy ACR Data
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title" id="OfficialType">
-						Select Employe Whose ACR is to be written
+						Legacy ACR
 					</h4>
 				</div>
 				<div class="modal-body">
@@ -156,26 +156,46 @@ Add Legacy ACR Data
 								</div>
 							</div>
 						</div>
+						<hr>	
 
-						<div class="row">
-							<div class="form-group col-md-4">
-								{!! Form::label('report_no', 'Reporting No', []) !!}
-								{!! Form::text('report_no', '' , ['class'=>'form-control']) !!}								
-							</div>
-							<div class="form-group col-md-4">
-								{!! Form::label('review_no', 'Review No', []) !!}
-								{!! Form::text('review_no', '' , ['class'=>'form-control']) !!}								
-							</div>
-							<div class="form-group col-md-4">
-								{!! Form::label('accept_no', 'Accept No', []) !!}
-								{!! Form::text('accept_no', '' , ['class'=>'form-control']) !!}								
-							</div>
-														
-						</div>
+
+								<div class="row">
+									<div class="col-md-4"> 
+										{!! Form::label('report_no', 'Reporting No', []) !!}
+										{!! Form::text('report_no', '' , ['class'=>'form-control']) !!}		
+									</div>
+									<div class="col-md-8"> 
+										{!! Form::label('report_no', 'Remark for Report', []) !!}
+										{!! Form::text('appraisal_note_1', '' , ['class'=>'form-control']) !!}		
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-4"> 
+										{!! Form::label('review_no', 'Review No', []) !!}
+								{!! Form::text('review_no', '' , ['class'=>'form-control']) !!}	
+									</div>
+									<div class="col-md-8"> 
+										{!! Form::label('report_no', 'Remark for Review', []) !!}
+										{!! Form::text('appraisal_note_2', '' , ['class'=>'form-control']) !!}		
+									</div>
+								</div>						
+
+								<div class="row">
+									<div class="col-md-4"> 
+										{!! Form::label('accept_no', 'Accept No', []) !!}
+										{!! Form::text('accept_no', '' , ['class'=>'form-control']) !!}
+									</div>
+									<div class="col-md-8"> 
+										{!! Form::label('report_no', 'Remark for Accept', []) !!}
+										{!! Form::text('appraisal_note_3', '' , ['class'=>'form-control']) !!}		
+									</div>
+								</div>							
+
 						<div class="row">
 							<div class="form-group col-md-12">
 								{!! Form::label('report_integrity', 'If integrity has been withhold then state the reasons otherwise leave blank ', []) !!}
-								{!! Form::textarea('report_integrity', '' , ['class'=>'form-control']) !!}								
+								{!! Form::textarea('report_integrity', '' , ['class'=>'form-control', 'rows'=>2]) !!}								
 							</div>	
 						</div>
 						<div class="form-group mt-2">
@@ -184,7 +204,7 @@ Add Legacy ACR Data
 							<div class="form-group mt-2">								
 								<input id="removeLogged" type="hidden" name="removeLogged" value="true" />
 								<input type="hidden" name="acr_type_id" value="0" />
-								<input type="submit" class="btn btn-primary " id="btnSave" value="Add Employee " />
+								<input type="submit" class="btn btn-primary " id="btnSave" value="SAVE" />
 							</div>
 						</div>
 					</form>
