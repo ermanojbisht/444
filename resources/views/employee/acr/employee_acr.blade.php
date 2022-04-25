@@ -84,7 +84,8 @@
                                 <input type="hidden" name="acr_id" value="{{ $acr->id }}">
                                 <button type="submit" class="btn btn-outline-danger btn-sm">Acknowledge</button>
                             </form>
-						@endcan
+                            <a href="{{ route('acr.others.reject',['acr'=>$acr->id,'dutyType'=>'rejectByNodal'])}}" class="btn btn-outline-danger btn-sm">Reject</a>
+						@endcan						
 					@endif
 					@if($acr->accept_on)
 						<a href="{{route('acr.view',['acr'=>$acr])}}" class="text-decoration-none">

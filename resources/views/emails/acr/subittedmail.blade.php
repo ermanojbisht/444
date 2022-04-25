@@ -2,7 +2,7 @@
 Dear {{$reportingEmployee->shriName}}
 
 @if($targetDutyType=='acknowledge')
-{{$acr->employee->shriName}} 's  {{$msg}}.
+{{$acr->employee->shriName}} .  {{$msg}}.
 Please visit your inbox section at HRMS/Track AR portal.
 @endif
 

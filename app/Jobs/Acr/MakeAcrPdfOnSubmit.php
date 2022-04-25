@@ -90,6 +90,11 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
             //Log::info("in /var/www/444/app/Jobs/Acr/MakeAcrPdfOnSubmit.php ---reject");
             $this->acr->rejectNotification();
         }
+
+        if ($this->milestone == 'rejectByNodal') {
+            //Log::info("in /var/www/444/app/Jobs/Acr/MakeAcrPdfOnSubmit.php ---reject");
+            $this->acr->rejectByNodalNotification($this->acknowledgeMsg);
+        }
     }
 
     public function arrangeAcrView()

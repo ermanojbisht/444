@@ -593,6 +593,11 @@ class Acr extends Model
         $this->mailNotificationFor($targetDutyType = 'acknowledge', $notification_type = 1,$msg);
     }
 
+    public function rejectByNodalNotification($msg)//HERE acknowledge is negative
+    {
+        $this->mailNotificationFor($targetDutyType = 'acknowledge', $notification_type = 1,$msg);
+    }
+
     public function submitNotification()
     {
         $this->mailNotificationFor($targetDutyType = 'report', $notification_type = 2);

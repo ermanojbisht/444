@@ -130,9 +130,9 @@ class AcrInboxController extends Controller
     public function reject(Acr $acr, $dutyType)
     {
 
-        if (in_array($dutyType, ['report', 'review', 'accept'])) {
-            $officer = $acr->userOnBasisOfDuty($dutyType);
-            return view('employee.acr.reject_acr', compact('acr', 'officer', 'dutyType'));
+        if (in_array($dutyType, ['report', 'review', 'accept','rejectByNodal'])) {
+            
+            return view('employee.acr.reject_acr', compact('acr', 'dutyType'));
         }
 
         return Redirect()->back()->with('fail', 'Cannot reject ACR...');
@@ -144,8 +144,14 @@ class AcrInboxController extends Controller
         AcrRejection::create($request->all());
         $acr->update(['is_active' => 0]);
 
-        dispatch(new MakeAcrPdfOnSubmit($acr, 'reject'));
+        
 
+        if($request->dutyType=='rejectByNodal'){
+            dispatch(new MakeAcrPdfOnSubmit($acr, 'rejectByNodal','Your Acr has been rejected by '.$this->user->shriName . ' ( Office Nodal ) '));
+            return redirect(route('employee.acr.view',[$acr->employee_id]));
+        }
+
+        dispatch(new MakeAcrPdfOnSubmit($acr, 'reject'));
         return redirect(route('acr.others.index'));
     }
 

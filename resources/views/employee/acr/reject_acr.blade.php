@@ -8,7 +8,7 @@
 @endsection
 
 @section('pagetitle')
-Part - IV ( Assessment by the Accepting Authority)
+Rejection By the Authority {{Auth::user()->shriName}}
 @endsection
 
 @section('breadcrumb')
@@ -28,7 +28,7 @@ Part - IV ( Assessment by the Accepting Authority)
 		<div class="form-group">
 			<div class="row">
 				<div class="col-md-4">
-					<p class="fw-bold"> Name of the officer Reported Upon :- </p>
+					<p class="fw-bold"> Name of the Employee :- </p>
 				</div>
 				<div class="col-md-6">
 					<p class="fw-semibold text-info"> {{$acr->employee->shriName }} </p>
@@ -69,9 +69,8 @@ Part - IV ( Assessment by the Accepting Authority)
 			</div>
 			<br />  
 			<div class="row">
-				<div class="col-md-3">
-					{{-- employee_id will be of reporting / rejecting or accepting officer --}}
-					<input type="hidden" name="employee_id" value="{{$officer->employee_id}}" />
+				<div class="col-md-3">					
+					<input type="hidden" name="employee_id" value="{{Auth::user()->employee_id}}" />
 					<input type="hidden" name="dutyType" value="{{$dutyType}}" />
 					<input type="hidden" name="acr_id" value="{{$acr->id}}" />
 					<input type="submit" class="btn text-white btn-danger" value="Reject ACR" />
@@ -81,7 +80,7 @@ Part - IV ( Assessment by the Accepting Authority)
 			<hr/>
 			<div class="col-md-3">
 					<p class="fw-bold"> Rejected By :-  
-					<span class="fw-semibold text-info"> {{$officer->shriName }} </span> </p>
+					<span class="fw-semibold text-info"> {{Auth::user()->shriName}} </span> </p>
 				</div>
 			</div>
 		</form>
