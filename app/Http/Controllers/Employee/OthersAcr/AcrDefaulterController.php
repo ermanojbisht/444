@@ -162,6 +162,7 @@ class AcrDefaulterController extends Controller {
      */
     public function legacystore(Request $request) {
         // validate appraisal_officer_type
+        // todo office allowed,job allowed
         $this->validate(
             $request,
             [
