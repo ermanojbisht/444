@@ -56,7 +56,7 @@ Add Legacy ACR Data
 					<td>
 						 
 					</td>
-					{{-- <td>
+					<td>
 						<div class="dropdown dropstart">
 							<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false">
@@ -67,13 +67,13 @@ Add Legacy ACR Data
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
 								 
-								<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i> View ACR
+								<a class="dropdown-item" href="{{route('acr.others.legacy.edit', ['acr' => $acr->id])}}">
+									<i class="cib-twitter"></i> Edit ACR
 								</a>
 								 
 							</div>
 						</div>
-					</td> --}}
+					</td>
 				</tr>
 				@endforeach
 			</tbody>
@@ -202,9 +202,9 @@ Add Legacy ACR Data
 
 						<div class="row">
 							<div class="form-group col-md-12">
-								{!! Form::label('report_integrity', 'If integrity has been withhold then state the
+								{!! Form::label('report_remark', 'If integrity has been withhold then state the
 								reasons otherwise leave blank ', []) !!}
-								{!! Form::textarea('report_integrity', '' , ['class'=>'form-control', 'rows'=>2]) !!}
+								{!! Form::textarea('report_remark', '' , ['class'=>'form-control', 'rows'=>2]) !!}
 							</div>
 						</div>
 						<div class="form-group mt-2">

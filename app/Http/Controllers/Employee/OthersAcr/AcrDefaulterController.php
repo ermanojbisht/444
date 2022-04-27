@@ -90,7 +90,7 @@ class AcrDefaulterController extends Controller
             abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $office_id), 403, 'You are Not Allowed to view this Office Employees');
         }
         $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
-        $Offices = Office::select('name', 'id')->orderBy('name')->get();        
+        $Offices = Office::select('name', 'id')->orderBy('name')->get();
         $legacyAcrs = Acr::where('acr_type_id', 0)->get();  // ->whereIn('office_id', $allowed_Offices)
 
         return view('employee.acr.create_legacy_acr', compact('legacyAcrs', 'Offices'));
@@ -173,14 +173,14 @@ class AcrDefaulterController extends Controller
                     'acr_type_id' => 'required',
                     'from_date' => 'required|date', // |before:"2022-04-01
                     'to_date' => 'required|date|after_or_equal:from_date', // |before:"2022-04-01
-                    'employee_id' => 'required', 
+                    'employee_id' => 'required',
                     'report_no' => 'nullable|numeric',
                     'review_no' => 'nullable|numeric',
                     'accept_no' => 'nullable|numeric',
                     'report_integrity' => 'nullable',
-                    'appraisal_note_1' => 'required|alpha_num',
-                    'appraisal_note_2' => 'required|alpha_num',
-                    'appraisal_note_3' => 'required|alpha_num'
+                    'appraisal_note_1' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/",
+                    'appraisal_note_2' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/",
+                    'appraisal_note_3' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/"
                 ]
             );
         } else {
@@ -191,7 +191,7 @@ class AcrDefaulterController extends Controller
                     'acr_type_id' => 'required',
                     'from_date' => 'required|date', // |before:"2022-04-01'
                     'to_date' => 'required|date|after_or_equal:from_date', // |before:"2022-04-01'
-                    'employee_id' => 'required',   
+                    'employee_id' => 'required',
                     'report_no' => 'nullable|numeric',
                     'review_no' => 'nullable|numeric',
                     'accept_no' => 'nullable|numeric',
@@ -202,13 +202,13 @@ class AcrDefaulterController extends Controller
                 ]
             );
         }
-        
+
 
         $employee = Employee::findOrFail($request->employee_id);
         $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
         $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
 
-        $result =$employee->checkAcrDateInBetweenPreviousACRFilled($start, $end, false);  
+        $result = $employee->checkAcrDateInBetweenPreviousACRFilled($start, $end, false);
         if (!$result['status']) {
             return Redirect()->back()->with('fail', $result['msg']);
         }
@@ -226,6 +226,50 @@ class AcrDefaulterController extends Controller
 
         return redirect(route('acr.others.legacy', ['office_id' => 0]));
     }
+
+
+    public function editLegacyAcr(Acr $acr)
+    {
+        $employee = Employee::findOrFail($acr->employee_id);
+
+        return view('employee.other_acr.edit', compact('acr', 'employee'));
+    }
+
+    public function updateLegacyAcr(Request $request)
+    {
+
+        $this->validate(
+            $request,
+            [
+                'acr_id' => 'required',
+                'report_no' => 'nullable|numeric',
+                'review_no' => 'nullable|numeric',
+                'accept_no' => 'nullable|numeric',
+                'appraisal_note_1' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/",
+                'appraisal_note_2' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/",
+                'appraisal_note_3' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/",
+                'report_integrity' => 'nullable'
+            ]
+        );
+
+        $acr = Acr::findOrFail($request->acr_id);
+
+        $acr->update([
+            'report_no' => $request->report_no,
+            'review_no' => $request->review_no,
+            'accept_no' =>  $request->accept_no, 
+            'appraisal_note_1' => $request->appraisal_note_1,
+            'appraisal_note_2' => $request->appraisal_note_2,
+            'appraisal_note_3' => $request->appraisal_note_3,
+            'report_integrity' => $request->report_integrity
+        ]);
+
+
+        $employee = Employee::findOrFail($acr->employee_id);
+
+        return view('employee.other_acr.edit', compact('acr', 'employee'));
+    }
+
 
     public function edit(Acr $acr)
     {

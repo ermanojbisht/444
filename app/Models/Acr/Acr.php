@@ -36,7 +36,7 @@ class Acr extends Model
         'report_employee_id', 'review_employee_id', 'accept_employee_id',
         'is_active', 'appraisal_note_1', 'appraisal_note_2', 'appraisal_note_3',
         'professional_org_membership', 'property_filing_return_at', 'report_duration_lapsed',
-        'review_duration_lapsed', 'accept_duration_lapsed',
+        'review_duration_lapsed', 'accept_duration_lapsed','report_integrity',
         'report_no', 'report_on', 'report_remark',
         'review_no', 'review_on', 'review_remark',
         'accept_no', 'accept_on', 'accept_remark','is_defaulter',  'old_accept_no','final_accept_remark','missing'

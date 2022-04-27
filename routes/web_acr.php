@@ -76,9 +76,14 @@ Route::group(['prefix' => 'others', 'as' => 'acr.others.', 'middleware' => ['aut
 
     //AcrDefaulterController
     Route::get('/defaulters', 'OthersAcr\AcrDefaulterController@index')->name('defaulters');
-    Route::get('/legacy/{office_id}', 'OthersAcr\AcrDefaulterController@legacyIndex')->name('legacy');
+    Route::get('/legacy/{office_id}', 'OthersAcr\AcrDefaulterController@legacyIndex')->name('legacy'); 
+    
     Route::post('/store', 'OthersAcr\AcrDefaulterController@store')->name('store');
     Route::post('/legacystore', 'OthersAcr\AcrDefaulterController@legacystore')->name('legacystore');
+
+    Route::get('/edit/legacy/{acr}', 'OthersAcr\AcrDefaulterController@editLegacyAcr')->name('legacy.edit');
+    Route::post('/legacyupdate', 'OthersAcr\AcrDefaulterController@updateLegacyAcr')->name('legacyupdate');
+
 
     Route::get('/edit/{acr}/defaulters', 'OthersAcr\AcrDefaulterController@edit')->name('edit');
     Route::post('/update/acr', 'OthersAcr\AcrDefaulterController@update')->name('update');
