@@ -2,14 +2,17 @@
 
 namespace App\Jobs\Acr;
 
-use App\Traits\Acr\AcrPdfArrangeTrait;
 use App\Models\Acr\Acr;
+use App\Notifications\TgNotification;
+use App\Traits\Acr\AcrPdfArrangeTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Notification;
 use Log;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class MakeAcrPdfOnSubmit implements ShouldQueue
 {
@@ -107,5 +110,23 @@ class MakeAcrPdfOnSubmit implements ShouldQueue
         $this->pdf->setOption('footer-html', view('employee.acr.pdffooter'));
         $this->pdf->setOption('header-html', view('employee.acr.pdfheader'));
         $this->pdf->loadHTML($pages);
+    }
+
+    public function failed()
+    {
+        $lines=[
+            'MakeAcrPdfOnSubmit has some error ACR ID '.$this->acr->id,
+            'for job='.$this->milestone,
+        ];
+        $urls=[];
+
+        Notification::route('telegram', -476074323)
+            ->notify(new TgNotification($lines,$urls));
+
+
+        /*Telegram::sendMessage([
+            'chat_id' => -476074323,
+            'text' => 'MakeAcrPdfOnSubmit has some error ACR_ID:'.$this->acr->id.' for job='.$this->milestone
+        ]);*/
     }
 }
