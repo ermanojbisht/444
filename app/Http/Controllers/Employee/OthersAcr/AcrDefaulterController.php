@@ -14,8 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AcrDefaulterController extends Controller
-{
+class AcrDefaulterController extends Controller {
 
     use OfficeTypeTrait, AcrFormTrait;
 
@@ -28,8 +27,7 @@ class AcrDefaulterController extends Controller
     /**
      * @return mixed
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware(function ($request, $next) {
             // abort_if(Gate::denies('track_estimate'), Response::HTTP_FORBIDDEN, '403 Forbidden');
             $this->user = Auth::User();
@@ -42,8 +40,7 @@ class AcrDefaulterController extends Controller
      * $id => Instance Id
      * To create Acr
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         if ($request->has('office_id')) {
             $office_id = $request->office_id;
             if (!in_array($office_id, [0, 2])) {
@@ -71,9 +68,11 @@ class AcrDefaulterController extends Controller
                     return ($acr->employee->office_idd == $office_id);
                 });
             }
+
         } else {
             $office_id = '0';
             $defaulters_acrs = [];
+
         }
 
         return view('employee.acr.create_others_acr', compact('defaulters_acrs', 'Offices', 'acrGroups', 'office_id', 'allowed_Offices'));
@@ -84,14 +83,16 @@ class AcrDefaulterController extends Controller
      * $id => Instance Id
      * To create Acr
      */
-    public function legacyIndex($office_id = 0)
-    {
+    public function legacyIndex($office_id = 0) {
         if ($office_id != 0) {
             abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $office_id), 403, 'You are Not Allowed to view this Office Employees');
         }
+
         $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
-        $Offices = Office::select('name', 'id')->orderBy('name')->get();
-        $legacyAcrs = Acr::where('acr_type_id', 0)->get();  // ->whereIn('office_id', $allowed_Offices)
+
+        $Offices = Office::select('name', 'id')->orderBy('name')->get()->pluck('name', 'id');
+
+        $legacyAcrs = Acr::where('acr_type_id', 0)->whereIn('office_id', $allowed_Offices)->get();
 
         return view('employee.acr.create_legacy_acr', compact('legacyAcrs', 'Offices'));
     }
@@ -100,8 +101,7 @@ class AcrDefaulterController extends Controller
      * @param $request
      * To Store Indivitual ACR
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         // validate appraisal_officer_type
         $this->validate(
             $request,
@@ -137,8 +137,7 @@ class AcrDefaulterController extends Controller
         return redirect(route('acr.others.defaulters', ['office_id' => 0]));
     }
 
-    public function acknowledged(Request $request)
-    {
+    public function acknowledged(Request $request) {
         $acr = Acr::findOrFail($request->acr_id);
         if ($this->user->canDoJobInOffice('acknowledge-acr-job', $acr->employee->office_idd)) {
             if (!$acr->isAcknowledged && !$acr->submitted_on) {
@@ -151,6 +150,7 @@ class AcrDefaulterController extends Controller
                 dispatch(new MakeAcrPdfOnSubmit($acr, 'acknowledge', $msg));
 
                 return redirect(route('acr.others.defaulters', ['office_id' => $acr->employee->office_idd]))->with('message', 'Acr has been successfully acknowledged');
+
             }
         }
         abort(403, $this->msg403);
@@ -160,122 +160,50 @@ class AcrDefaulterController extends Controller
      * @param $request
      * To Store Indivitual ACR
      */
-    public function legacystore(Request $request)
-    {
+    public function legacystore(Request $request) {
         // validate appraisal_officer_type
         // todo office allowed,job allowed
-
-        if ($request->has("is_Final_Acr")) {
-            $this->validate(
-                $request,
-                [
-                    'office_id' => 'required',
-                    'acr_type_id' => 'required',
-                    'from_date' => 'required|date', // |before:"2022-04-01
-                    'to_date' => 'required|date|after_or_equal:from_date', // |before:"2022-04-01
-                    'employee_id' => 'required',
-                    'report_no' => 'nullable|numeric',
-                    'review_no' => 'nullable|numeric',
-                    'accept_no' => 'nullable|numeric',
-                    'report_integrity' => 'nullable',
-                    'appraisal_note_1' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/",
-                    'appraisal_note_2' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/",
-                    'appraisal_note_3' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/"
-                ]
-            );
-        } else {
-            $this->validate(
-                $request,
-                [
-                    'office_id' => 'required',
-                    'acr_type_id' => 'required',
-                    'from_date' => 'required|date', // |before:"2022-04-01'
-                    'to_date' => 'required|date|after_or_equal:from_date', // |before:"2022-04-01'
-                    'employee_id' => 'required',
-                    'report_no' => 'nullable|numeric',
-                    'review_no' => 'nullable|numeric',
-                    'accept_no' => 'nullable|numeric',
-                    'report_integrity' => 'nullable',
-                    'appraisal_note_1' => 'nullable',
-                    'appraisal_note_2' => 'nullable',
-                    'appraisal_note_3' => 'nullable'
-                ]
-            );
-        }
-
+        $this->validate(
+            $request,
+            [
+                'office_id' => 'required',
+                'acr_type_id' => 'required',
+                'from_date' => 'required|date|before:"2022-04-01',
+                'to_date' => 'required|date|after_or_equal:from_date|before:"2022-04-01',
+                'employee_id' => 'required', // in AppraisalOfficer acr_id , appraisal_officer_type, employee_id should not be repeated
+                'report_no' => 'nullable|numeric',
+                'review_no' => 'nullable|numeric',
+                'accept_no' => 'nullable|numeric',
+                'report_integrity' => 'nullable',
+                'appraisal_note_1' => 'nullable',
+                'appraisal_note_2' => 'nullable',
+                'appraisal_note_3' => 'nullable',
+            ]
+        );
 
         $employee = Employee::findOrFail($request->employee_id);
-        $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
-        $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
-
-        $result = $employee->checkAcrDateInBetweenPreviousACRFilled($start, $end, false);
-        if (!$result['status']) {
-            return Redirect()->back()->with('fail', $result['msg']);
-        }
 
         $request->merge([
-            'submitted_at' => $request->to_date,
-            'report_on' => $request->to_date,
-            'review_on' => $request->to_date,
-            'accept_on' => $request->to_date,
-            'good_work' => 'Legacy data of  ' . $employee->shriName . '. has been filled by ' . $this->user->shriName,
-            'difficultie' => $this->user->id
+            'submitted_at'=>$request->to_date,
+            'report_on'=>$request->to_date,
+            'review_on'=>$request->to_date,
+            'accept_on'=>$request->to_date,
+            'good_work' => 'Legacy data of  '.$employee->shriName. '. has been filled ',
+        
         ]);
 
         $acr = Acr::create($request->all());
 
+
         return redirect(route('acr.others.legacy', ['office_id' => 0]));
     }
 
-
-    public function editLegacyAcr(Acr $acr)
-    {
-        $employee = Employee::findOrFail($acr->employee_id);
-
-        return view('employee.other_acr.edit', compact('acr', 'employee'));
-    }
-
-    public function updateLegacyAcr(Request $request)
-    {
-
-        $this->validate(
-            $request,
-            [
-                'acr_id' => 'required',
-                'report_no' => 'nullable|numeric',
-                'review_no' => 'nullable|numeric',
-                'accept_no' => 'nullable|numeric',
-                'appraisal_note_1' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/",
-                'appraisal_note_2' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/",
-                'appraisal_note_3' => "required|regex:/^[0-9A-Za-z. \s,'-]*$/",
-                'report_integrity' => 'nullable'
-            ]
-        );
-
-        $acr = Acr::findOrFail($request->acr_id);
-
-        $acr->update([
-            'report_no' => $request->report_no,
-            'review_no' => $request->review_no,
-            'accept_no' =>  $request->accept_no, 
-            'appraisal_note_1' => $request->appraisal_note_1,
-            'appraisal_note_2' => $request->appraisal_note_2,
-            'appraisal_note_3' => $request->appraisal_note_3,
-            'report_integrity' => $request->report_integrity
-        ]);
-
-
-        $employee = Employee::findOrFail($acr->employee_id);
-
-        return view('employee.other_acr.edit', compact('acr', 'employee'));
-    }
-
-
-    public function edit(Acr $acr)
-    {
+    public function edit(Acr $acr) {
         //abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         abort_if($acr->is_defaulter != 1, 403, 'Only Others unprocessed ACR can only be edited here...'); //todo is it needed
         abort_if($acr->isSubmitted(), 403, 'ACR is already Submitted, can not be edited...'); //todo is it needed
+        abort_if(($acr->report_remark || $acr->review_remark || $acr->accept_remark ||
+        $acr->report_no || $acr->review_no || $acr->accept_no), 403, 'ACR is already finalized, can not be edited...'); //todo is it needed
 
         $acr_selected_group_type = AcrType::where('id', $acr->acr_type_id)->select('description as name', 'group_id', 'id')->first();
         $acr_office = Office::where('id', $acr->office_id)->select('office_type', 'name', 'id')->first();
@@ -296,8 +224,7 @@ class AcrDefaulterController extends Controller
         ));
     }
 
-    public function update(Request $request)
-    {
+    public function update(Request $request) {
 
         $this->validate(
             $request,
@@ -322,4 +249,5 @@ class AcrDefaulterController extends Controller
 
         return redirect(route('acr.others.defaulters', ['office_id' => 0]));
     }
+
 }

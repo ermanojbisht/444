@@ -66,10 +66,12 @@ Add Legacy ACR Data
 								</svg>
 							</button>
 							<div class="dropdown-menu dropdown-menu-end">
-								 
+								 @if(!($acr->report_remark || $acr->review_remark || $acr->accept_remark ||
+        							$acr->report_no || $acr->review_no || $acr->accept_no) )
 								<a class="dropdown-item" href="{{route('acr.others.legacy.edit', ['acr' => $acr->id])}}">
 									<i class="cib-twitter"></i> Edit ACR
 								</a>
+								@endif
 								 
 							</div>
 						</div>
