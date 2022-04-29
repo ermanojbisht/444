@@ -55,6 +55,7 @@ Add Legacy ACR Data
 					<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>
 					<td>
 						 
+						 {{$acr->report_remark }}
 					</td>
 					<td>
 						<div class="dropdown dropstart">
@@ -65,15 +66,17 @@ Add Legacy ACR Data
 									</use>
 								</svg>
 							</button>
-							<div class="dropdown-menu dropdown-menu-end">
-								 @if(!($acr->report_remark || $acr->review_remark || $acr->accept_remark ||
-        							$acr->report_no || $acr->review_no || $acr->accept_no) )
-								<a class="dropdown-item" href="{{route('acr.others.legacy.edit', ['acr' => $acr->id])}}">
-									<i class="cib-twitter"></i> Edit ACR
-								</a>
-								@endif
-								 
-							</div>
+								@if($acr->report_remark || $acr->review_remark || $acr->accept_remark ||
+                                    $acr->report_no || $acr->review_no || $acr->accept_no)            
+						 
+							    @else
+								    <div class="dropdown-menu dropdown-menu-end">
+								         <a class="dropdown-item" href="{{route('acr.others.legacy.edit', ['acr' => $acr->id])}}">
+											<i class="cib-twitter"></i> Edit ACR
+										</a>
+									</div>
+							    @endif
+							
 						</div>
 					</td>
 				</tr>

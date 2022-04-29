@@ -90,9 +90,9 @@ class AcrDefaulterController extends Controller {
 
         $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
 
-        $Offices = Office::select('name', 'id')->orderBy('name')->get()->pluck('name', 'id');
+        $Offices = Office::select('name', 'id')->orderBy('name')->get();
 
-        $legacyAcrs = Acr::where('acr_type_id', 0)->whereIn('office_id', $allowed_Offices)->get();
+       $legacyAcrs = Acr::where('acr_type_id', 0)->whereIn('office_id', $allowed_Offices)->get();
 
         return view('employee.acr.create_legacy_acr', compact('legacyAcrs', 'Offices'));
     }
