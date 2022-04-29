@@ -218,25 +218,27 @@ class AcrReportController extends Controller
             $request,
             [
                 'acr_id' => 'required|numeric',
-                'integrity' => 'required',
+                'report_integrity' => 'required',
                 'report_remark' => 'nullable',
             ]
         );
 
-        if ($request->integrity == 'false' && $request->reason == "") {
+        if (($request->report_integrity == '0' || $request->report_integrity  == '-1') && $request->reason == "") {
             return Redirect()->back()->with('fail', 'Remark is Mandatory, for integrity reasons...');
         }
 
         $acr = Acr::findOrFail($request->acr_id);
 
-        if ($request->integrity == 'false') {
+        if ($request->report_integrity == '0' || $request->report_integrity  == '-1') {
             $acr->update([
                 'report_on' => now(),
-                'report_remark' => $request->reason
+                'report_remark' => $request->reason,
+                'report_integrity' => $request->report_integrity
             ]);
         } else {
             $acr->update([
-                'report_on' => now() 
+                'report_on' => now(),
+                'report_integrity' => $request->report_integrity
             ]);
         }
 
