@@ -147,6 +147,7 @@ Add Legacy ACR Data
 							<div class="col-md-3">
 								<p> &nbsp; </p> 
 								<label for='office_id' class="required "> Select Office </label>
+								<br/>
 								<select name="office_id" id="office_id" required class="form-select select2">
 									<option value=""> Select Office </option>
 									@foreach ($Offices as $office)
@@ -288,7 +289,11 @@ Add Legacy ACR Data
 
 		$('#legacyAcr').DataTable();
 		$("#report_office_id").select2();
-		//$("#office_id").select2();
+		$("#office_id").select2({
+		   	dropdownParent: $("#hrms-model"),
+		    dropdownAutoWidth : true,
+    		width: 'auto',
+		});
 		findDateDiff();
  
 	});
