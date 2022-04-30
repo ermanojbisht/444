@@ -83,19 +83,31 @@ class AcrDefaulterController extends Controller {
      * $id => Instance Id
      * To create Acr
      */
-    public function legacyIndex($office_id = 0) {
-        if ($office_id != 0) {
+    public function legacyIndex($office_id) {
+        /*if ($office_id != 0) {
             abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $office_id), 403, 'You are Not Allowed to view this Office Employees');
+        }*/
+        // $allowed_Offices = Office::pluck('name','id');
+        //$allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
+         
+
+        switch ($office_id) {
+            case '2':
+                 $legacyAcrs = Acr::where('acr_type_id', 0)->get();                 
+                break;
+            case '0':
+                $legacyAcrs = [];  
+                break;
+            default:
+                $legacyAcrs = Acr::where('acr_type_id', 0)->where('office_id', $office_id)->get();              
+                break;
         }
 
-        $allowed_Offices = $this->user->OfficeToAnyJob(['create-others-acr-job']);
-
         $Offices = Office::select('name', 'id')->orderBy('name')->get();
-
-       $legacyAcrs = Acr::where('acr_type_id', 0)->whereIn('office_id', $allowed_Offices)->get();
-
-        return view('employee.acr.create_legacy_acr', compact('legacyAcrs', 'Offices'));
-    }
+           
+        return view('employee.acr.create_legacy_acr', compact('legacyAcrs', 'Offices','office_id'));
+        }
+    
 
     /**
      * @param $request
