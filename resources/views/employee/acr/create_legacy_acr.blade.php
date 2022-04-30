@@ -33,7 +33,7 @@ Add Legacy ACR Data
 			<div class="col-md-3">
 				<p class="fw-bold mb-0"> Office : </p>
 				<div class="form-group"> 
-					<select id='office_id' name='office_id' required class="form-select select2" onchange="findLegacyAcrInOffice()">
+					<select id='report_office_id' name='report_office_id' required class="form-select select2" onchange="findLegacyAcrInOffice()">
 						<option value="0" {{( $office_id=='0' ? 'selected' : '' )}} > Select Office </option>
 						<option value="2" {{( $office_id=='2' ? 'selected' : '' )}}> All</option>
 						@foreach ($Offices as $office)
@@ -154,7 +154,6 @@ Add Legacy ACR Data
 									@endforeach
 								</select>
 							</div>
-
 							<div class="col-md-9">
 								<p> Period of Appraisal : </p>
 								<div class="row" style="border:1px dashed gainsboro">
@@ -269,7 +268,6 @@ Add Legacy ACR Data
 			});
 		});
 
-		
 		$('#acr_group_id').change(function (e) {
 			e.preventDefault(); 
 			$.ajax
@@ -288,16 +286,16 @@ Add Legacy ACR Data
 			$('#hrms-model').modal('show');
 		});
 
-
 		$('#legacyAcr').DataTable();
-		$(".select2").select2();
+		$("#report_office_id").select2();
+		//$("#office_id").select2();
 		findDateDiff();
  
 	});
 	
 	function findLegacyAcrInOffice()
 	 {
-	 	let officeId = $("#office_id").val();
+	 	let officeId = $("#report_office_id").val();
 	 	var url='{{url('/acr/others/legacy')}}'+'/'+officeId; 	
 	 	window.location = url; 
 	 }
@@ -325,7 +323,6 @@ Add Legacy ACR Data
 			$("#appraisal_note_2").removeAttr("disabled"); 
 			$("#accept_no").removeAttr("disabled"); 
 			$("#appraisal_note_3").removeAttr("disabled"); 
-
 
 			$("#appraisal_note_1").attr("required", "required"); 
 			$("#appraisal_note_2").attr("required", "required"); 
