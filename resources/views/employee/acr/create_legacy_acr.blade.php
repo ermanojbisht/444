@@ -2,11 +2,7 @@
 
 @section('styles')
 @include('layouts._commonpartials.css._select2')
-<style>
-	.select2-selection {
-		height: 39px !important;
-	}
-</style>
+@include('layouts._commonpartials.css._datatable')
 @endsection
 @section('sidebarmenu')
 @include('layouts.type200._commonpartials._sidebarmenu_acr',['active'=>'arc'])
@@ -27,14 +23,31 @@ Add Legacy ACR Data
 
 <div class="card">
 	<div class="card-body">
-		<div class="btn-group" role="group" aria-label="Basic outlined example">
-			<input type="button" id="assign_Officials" class="btn btn-outline-primary"
-				value="Add Employee's Legacy ACR" />
+ 		<div class="row">
+			<div class="col-md-3">
+				<div class="btn-group" role="group" aria-label="Basic outlined example">
+					<input type="button" id="assign_Officials" class="btn btn-outline-primary"
+						value="Add Employee's Legacy ACR" />
+				</div>
+			</div>
+			<div class="col-md-3">
+				<p class="fw-bold mb-0"> Office : </p>
+				<div class="form-group"> 
+					<select id='office_id' name='office_id' required class="form-select select2" onchange="findLegacyAcrInOffice()">
+						<option value="0" {{( $office_id=='0' ? 'selected' : '' )}} > Select Office </option>
+						<option value="2" {{( $office_id=='2' ? 'selected' : '' )}}> All</option>
+						@foreach ($Offices as $office)
+						<option value="{{$office->id}}" {{( $office_id==$office->id ?
+							'selected' : '' )}} > {{$office->name}} </option>
+						@endforeach
+					</select>
+				</div>
+			</div>
 		</div>
 		<hr />
 		<br />
 
-		<table class="table border mb-0">
+		<table id="legacyAcr" class="table Datatable border mb-0">
 			<thead class="table-light  fw-bold">
 				<tr class="align-middle">
 					<th>#</th>
@@ -52,11 +65,7 @@ Add Legacy ACR Data
 					<td>{{ $acr->employee->shriName}}</td>
 					<td>{{$acr->employee_id}} </td>
 					<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
-					<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>
-					<td>
-						 
-						 {{$acr->report_remark }}
-					</td>
+					<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td> 
 					<td>
 						<div class="dropdown dropstart">
 							<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -67,13 +76,15 @@ Add Legacy ACR Data
 								</svg>
 							</button>
 								@if($acr->report_remark || $acr->review_remark || $acr->accept_remark ||
-                                    $acr->report_no || $acr->review_no || $acr->accept_no)            
-						 
+                                    $acr->report_no || $acr->review_no || $acr->accept_no)   
+
+                                    <div class="dropdown-menu dropdown-menu-end ">
+								         <span class="dropdown-item " > ACR Finalized </span>
+									</div>         
 							    @else
 								    <div class="dropdown-menu dropdown-menu-end">
 								         <a class="dropdown-item" href="{{route('acr.others.legacy.edit', ['acr' => $acr->id])}}">
-											<i class="cib-twitter"></i> Edit ACR
-										</a>
+											Edit ACR </a>
 									</div>
 							    @endif
 							
@@ -239,6 +250,8 @@ Add Legacy ACR Data
 @include('layouts._commonpartials.js._select2')
 @include('partials.js._employeeSelect2DropDownJs')
 @include('partials.js._employeeDDProcessHelperJs')
+@include('layouts._commonpartials.js._datatable')
+
 <script type="text/javascript">
 	$(document).ready(function () {
         $.fn.modal.Constructor.prototype.enforceFocus = function() {};
@@ -275,11 +288,19 @@ Add Legacy ACR Data
 			$('#hrms-model').modal('show');
 		});
 
+
+		$('#legacyAcr').DataTable();
+		$(".select2").select2();
 		findDateDiff();
  
-
 	});
- 
+	
+	function findLegacyAcrInOffice()
+	 {
+	 	let officeId = $("#office_id").val();
+	 	var url='{{url('/acr/others/legacy')}}'+'/'+officeId; 	
+	 	window.location = url; 
+	 }
  
 	function findDateDiff()
 	{
