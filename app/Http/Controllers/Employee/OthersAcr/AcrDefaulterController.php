@@ -194,7 +194,16 @@ class AcrDefaulterController extends Controller {
         );
 
         $employee = Employee::findOrFail($request->employee_id);
+        //acr dates are not overlaps
+        $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
+        $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
 
+        $result = $employee->checkAcrDateInBetweenPreviousACRFilled($start, $end);
+        
+        if (!$result['status']) {
+            return Redirect()->back()->with('fail', $result['msg']);
+        }
+        
         $request->merge([
             'submitted_at'=>$request->to_date,
             'report_on'=>$request->to_date,
