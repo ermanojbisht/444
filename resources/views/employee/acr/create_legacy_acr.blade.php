@@ -262,8 +262,7 @@ Add Legacy ACR Data
 			({
 				url: '{{ url('getOfficesfromOfficeType') }}/' + $filterParam,
 				type: 'GET',
-				success: function (data) {
-					console.log(data); 
+				success: function (data) {					
 					bindDdlWithDataAndSetValue("office_id", data, "id", "name", true, "", "Select Office", "");
 				}
 			});
@@ -276,8 +275,7 @@ Add Legacy ACR Data
 				url: "{{route('acr.getAcrType')}}",
 				type: 'POST',
 				data: {acr_group_id: $('#acr_group_id').val(), _token : $('meta[name="csrf-token"]').attr('content') },
-				success: function (data) {
-					console.log(data); 
+				success: function (data) {					
 					bindDdlWithDataAndSetValue("acr_type_id", data, "id", "name", true, "", "Select ACR Type", "");
 				}
 			});
