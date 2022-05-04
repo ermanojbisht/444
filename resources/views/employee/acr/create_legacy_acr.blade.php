@@ -287,7 +287,12 @@ Add Legacy ACR Data
 			$('#hrms-model').modal('show');
 		});
 
-		$('#legacyAcr').DataTable();
+		$('#legacyAcr').DataTable({
+	      dom: 'Bfrtip',
+	      buttons: [
+	            'copy', 'csv', 'excel', 'pdf', 'print'
+	        ]
+	    });
 		$("#report_office_id").select2();
 		$("#office_id").select2({
 		   	dropdownParent: $("#hrms-model"),
