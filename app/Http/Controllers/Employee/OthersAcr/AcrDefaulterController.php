@@ -93,13 +93,13 @@ class AcrDefaulterController extends Controller {
 
         switch ($office_id) {
             case '2':
-                 $legacyAcrs = Acr::where('acr_type_id', 0)->get();                 
+                 $legacyAcrs = Acr::where('acr_type_id', 0)->with(['office','employee','employee.designation'])->get();                 
                 break;
             case '0':
                 $legacyAcrs = [];  
                 break;
             default:
-                $legacyAcrs = Acr::where('acr_type_id', 0)->where('office_id', $office_id)->get();              
+                $legacyAcrs = Acr::where('acr_type_id', 0)->where('office_id', $office_id)->with(['office','employee','employee.designation'])->get();       //->with(['employee','employee.designation'])       
                 break;
         }
 
