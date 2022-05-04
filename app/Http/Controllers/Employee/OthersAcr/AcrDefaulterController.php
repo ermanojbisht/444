@@ -219,13 +219,27 @@ class AcrDefaulterController extends Controller {
         return redirect(route('acr.others.legacy', ['office_id' => 0]));
     }
 
+
+    public function editLegacyAcr(Acr $acr) {
+        //abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
+        abort_if($acr->acr_type_id != 0, 403, 'Only legacy unprocessed ACR can only be edited here...'); //todo is it needed
+        abort_if(($acr->report_remark || $acr->review_remark || $acr->accept_remark ||
+        $acr->report_no || $acr->review_no || $acr->accept_no), 403, 'ACR is already finalized, can not be edited...'); //todo is it needed
+        
+        $Offices = Office::select('name', 'id')->orderBy('name')->get();
+        $creater = $this->user;
+        return 'edit page is in progress';
+        return view('employee.acr.edit_legacy_acr', compact('acr','Offices','creater'));
+    }
+
+
+
+
     public function edit(Acr $acr) {
         //abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         abort_if($acr->is_defaulter != 1, 403, 'Only Others unprocessed ACR can only be edited here...'); //todo is it needed
         abort_if($acr->isSubmitted(), 403, 'ACR is already Submitted, can not be edited...'); //todo is it needed
-        abort_if(($acr->report_remark || $acr->review_remark || $acr->accept_remark ||
-        $acr->report_no || $acr->review_no || $acr->accept_no), 403, 'ACR is already finalized, can not be edited...'); //todo is it needed
-
+        
         $acr_selected_group_type = AcrType::where('id', $acr->acr_type_id)->select('description as name', 'group_id', 'id')->first();
         $acr_office = Office::where('id', $acr->office_id)->select('office_type', 'name', 'id')->first();
 
