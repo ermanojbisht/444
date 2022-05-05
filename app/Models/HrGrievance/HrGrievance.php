@@ -13,7 +13,7 @@ class HrGrievance extends Model {
     
     protected $connection='mysqlhrms';
     protected $fillable = [ 'id','grievance_type_id','description','office_type', 
-    'office_id','draft_answer','final_answer','employee_id','refference_grievance_id','status_id'];
+    'office_id','draft_answer','final_answer','employee_id','refference_grievance_id','status_id','subject'];
 
     public function grievanceType() {
         return $this->belongsTo(HrGrievanceType::class, "grievance_type_id", "id");
@@ -24,7 +24,8 @@ class HrGrievance extends Model {
     }
 
     public function currentStatus() {
-        $status = [0=>'Created',1=>'Submitted',2=>'Draft Answer by Level 1 Officer',3=>'Final',4=>'Closed',5=>'Reopened'];
+        $status = [0=>'Created', 1=>'Submitted', 2=>'Draft Answer by Level 1 Officer',
+        3=>'Final Answer by Level 2 Officer', 4=>'Reverted', 5=>'Reopened'];
         return  $status[$this->status_id];
     }
  

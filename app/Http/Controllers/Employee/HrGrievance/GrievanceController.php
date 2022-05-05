@@ -59,7 +59,7 @@ class GrievanceController extends Controller
     {
         $grievanceTypes = HrGrievanceType::all();
         // $eeOffices =  EeOffice::select(['id', 'name'])->whereIn('div_type', [1, 2])->get();
-        $eeOffices =  Office::where('office_type',3)->select('name','id')->get();
+        $eeOffices =  Office::where('office_type', 3)->select('name', 'id')->get();
         return view('employee.hr_grievance.create', compact('grievanceTypes', 'eeOffices'));
     }
 
@@ -81,7 +81,7 @@ class GrievanceController extends Controller
     public function textMessageAfterAddingGrievance($hrGrievance_id, $actionCompleted)
     {
         return  'Your Grievance has been ' . $actionCompleted . ', Please note down your Grievance Id : ' . $hrGrievance_id .
-        ' Kindly note this Id for future reference. Application will remain editable for 2 days ';
+            ' Kindly note this Id for future reference. Application will remain editable for 2 days ';
     }
 
     public function submit(Request $request)
@@ -91,6 +91,25 @@ class GrievanceController extends Controller
 
         return Redirect::route('employee.hr_grievance')->with('success', 'Application Submitted Successfully');
     }
+
+    public function reopen(Request $request)
+    {
+        $hrGrievance = HrGrievance::findOrFail($request->grievance_id);
+        $hrGrievance = HrGrievance::create(
+            [
+                'grievance_type_id' => $hrGrievance->grievance_type_id,
+                'subject' => $hrGrievance->subject . ' Reopened from Grievance id ' . $hrGrievance->id,
+                'description' => $hrGrievance->description,
+                'office_type' => $hrGrievance->office_type,
+                'office_id' => $hrGrievance->office_id,
+                'employee_id' => $hrGrievance->employee_id,
+                'refference_grievance_id' => $hrGrievance->id,
+                'status_id' => 0
+            ]
+        );
+        return Redirect::route('employee.hr_grievance')->with('success', 'Application Reopened Successfully');
+    }
+
 
 
     /**
@@ -132,6 +151,12 @@ class GrievanceController extends Controller
         $hr_grievance->update($request->validated());
         return Redirect::route('employee.hr_grievance')->with('success', $this->textMessageAfterAddingGrievance($hr_grievance->id, 'update'));
     }
+
+
+   
+
+
+
 
 
     /**

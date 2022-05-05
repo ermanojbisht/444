@@ -25,10 +25,10 @@ class StoreGrievanceRequest extends FormRequest
     public function rules()
     {  
         $rules['grievance_type_id'] =  'required|numeric|gt:0';
+        $rules['subject'] = 'required|min:10|max:50';
         $rules['description'] = 'required|min:10|max:400';
         $rules['office_type'] = 'required|numeric';
         $rules['office_id'] = 'required|numeric';
-
         $rules['employee_id'] = 'required';
         
         return $rules;

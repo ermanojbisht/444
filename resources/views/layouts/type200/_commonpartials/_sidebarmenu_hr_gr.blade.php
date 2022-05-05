@@ -22,10 +22,9 @@
         </x-nav-group>
         <x-nav-item icon="user-plus" href="{{route('resolve_hr_grievance')}}">View Other Grievances</x-nav-item>
 
-        {{-- <x-nav-group icon="applications" name="Reports">
-            <x-nav-item icon="description" href="{{route('estimate.report')}}">Instance Report</x-nav-item>
-            <x-nav-item icon="list" href="{{route('efc.index')}}">EFC List</x-nav-item>
-        </x-nav-group> --}}
+        <x-nav-group icon="applications" name="Reports">
+            <x-nav-item icon="description" href="{{route('office_hr_grievances')}}">Hr Grievances Report</x-nav-item>
+        </x-nav-group>
 
     </ul>
     <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>

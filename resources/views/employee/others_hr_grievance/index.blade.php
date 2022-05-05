@@ -42,13 +42,56 @@ Resolve Grievances
             </tr>
         </thead>
         <tbody>
-            @foreach($grievances as $grievance)
+            @php
+                $counter = 1;
+            @endphp
+
+            @foreach($grievancesL2 as $grievance)
             <tr>
-                <td>{{1+$loop->index}}</td>
+                <td> {{$counter}} </td>
                 <td>{{$grievance->id}}</td>
                 <td>
                     <a href="{{route('View.hrGrievance', ['hr_grievance' => $grievance->id])}}">
-                        <i class="cib-twitter"></i> {{$grievance->description}}
+                        <i class="cib-twitter"></i>
+                        {{Str::limit($grievance->description, 50, $end='.......')}}
+                    </a>
+                </td>
+                <td> {{$grievance->created_at->format('d M Y')}} </td>
+                <td>
+                    {{$grievance->currentStatus()}}
+                </td>
+                <td>
+
+                    <div class="dropdown" id="{{1+$loop->index}}">
+                        <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <svg class="icon icon-xl">
+                                <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-options')}}"></use>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item"
+                                href="{{ route('view_hr_grievance', ['hr_grievance' => $grievance->id] ) }}">
+                                Add Draft Answer
+                            </a>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+            @php
+            $counter = $counter +  1;
+            @endphp
+            @endforeach
+
+            @foreach($grievancesL1 as $grievance)
+            <tr>
+                <td> {{ $counter }} </td>
+                <td>{{$grievance->id}}</td>
+                <td>
+                    <a href="{{route('View.hrGrievance', ['hr_grievance' => $grievance->id])}}">
+                        <i class="cib-twitter"></i>
+                        {{Str::limit($grievance->description, 50, $end='.......')}}
                     </a>
                 </td>
                 <td> {{$grievance->created_at->format('d M Y')}} </td>
@@ -66,19 +109,37 @@ Resolve Grievances
                         </button>
                         <div class="dropdown-menu">
 
-                            <a class="dropdown-item"  href="{{ route('view_hr_grievance', ['hr_grievance' => $grievance->id] ) }}">
-                                @if($grievance->draft_answer)
-                                Update / Resolve Grievance
-                                @else
-                                Resolve Grievance
-                                @endif
+                            <a class="dropdown-item"
+                                href="{{ route('view_hr_grievance', ['hr_grievance' => $grievance->id] ) }}">
+                                Add Final Answer
                             </a>
+
+                            @if( $grievance->draft_answer && $grievance->status_id != 4)
+                            <a class="dropdown-item border-bottom border-1 border-info" href="#">
+                                <form
+                                    action="{{ route('hr_grievance.revertGrievance', [ 'grievance_id'=> $grievance->id]) }}"
+                                    method="POST" onsubmit="return confirm('I want to revert this grievance 
+                                    ( उपरोक्त शिकायत वापिस रिवर्ट करो ) ');" class="d-grid">
+                                    {{ csrf_field() }}
+                                    <button type="submit">
+                                        <svg class="icon icon-xl">
+                                            <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-plus')}}">
+                                            </use>
+                                        </svg>
+                                        Revert Grievance
+                                    </button>
+                                </form>
+                            </a>
+                            @endif
                         </div>
                     </div>
-
                 </td>
             </tr>
+            @php
+            $counter = $counter +  1;
+            @endphp
             @endforeach
+
         </tbody>
     </table>
     {{--

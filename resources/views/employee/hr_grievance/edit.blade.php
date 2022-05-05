@@ -25,7 +25,9 @@
 @include('layouts.type200._commonpartials._sidebarmenu_hr_gr',['active'=>'Grienvance'])
 @endsection
 
-
+@section('pagetitle')
+Edit your grievances ( शिकायत निवारण हेतु आवेदन फार्म)
+@endsection
 
 @section('content')
 

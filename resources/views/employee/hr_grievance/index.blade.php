@@ -74,17 +74,20 @@
                                     class="d-grid">
                                     {{ csrf_field() }}
 
-                                    <button class="btn btn-success btn-sm text-light" type="submit">
+                                    <a  type="submit">
                                         <svg class="icon icon-xl">
                                             <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-plus')}}">
                                             </use>
                                         </svg>
                                         Submit Grievance
-                                    </button>
+                                    </a>
                                 </form>
                             </a>
 
-                            @if (Helper::checkBackDate($grievance->created_at, false, 'hrGrievance'))
+                            {{-- @if (Helper::checkBackDate($grievance->created_at, false, 'hrGrievance')) 
+                                For reference to check data with in date eg to show for 2 days only 
+                            @endif --}}
+
                             <a class="dropdown-item"
                                 href="{{ route('employee.hr_grievance.addDoc',['hr_grievance'=>$grievance->id]) }}">
                                 <svg class="icon icon-xl">
@@ -100,12 +103,9 @@
                                 </svg>
                                 Edit
                             </a>
-                            @endif
-
-
-
 
                             @endif
+
 
                             <a class="dropdown-item"
                                 href="{{route('employee.hr_grievance.show', ['hr_grievance' => $grievance->id])}}">
@@ -115,6 +115,27 @@
                                 View Grievance
                             </a>
 
+
+                            @if( $grievance->status_id == 3)
+                            <a class="dropdown-item border-bottom border-1 border-info" href="#">
+                                <form
+                                    action="{{ route('employee.hr_grievance.reopen', [ 'grievance_id'=> $grievance->id]) }}"
+                                    method="POST" onsubmit="return confirm('Above Written Details are correct to my knowledge. 
+                                        ( उपरोक्त दिए गए डाटा एवं प्रपत्र सही हैं तथा इनसे में सहमत हूँ) ');"
+                                    class="d-grid">
+                                    {{ csrf_field() }}
+
+                                    <a type="submit">
+                                        <svg class="icon icon-xl">
+                                            <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-plus')}}">
+                                            </use>
+                                        </svg>
+                                        Re Open Grievance
+                                    </a>
+                                </form>
+                            </a>
+
+                            @endif
 
                         </div>
                     </div>

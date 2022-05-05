@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\OfficeJobDefault;
 use App\Models\HrGrievance\HrGrievance;
 use App\Models\HrGrievance\HrGrievanceType;
+use App\Models\Office;
 use App\Models\User;
 use App\Traits\OfficeTypeTrait;
+use Carbon\Carbon;
 use Gate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -41,50 +43,41 @@ class ResolveGrievanceController extends Controller
     // view all created grievance for your draft resolvance creating power permissiable Office
     public function index()
     {
-        // $usersOffices = $this->user->OfficeToAnyJob(['hr-gr-level-2']);
-        // $grievances = HrGrievance::whereIn("office_id", $usersOffices)->where('status_id', '1')->get();
 
-        $usersOffices = $this->user->OfficeToAnyJob(['hr-gr-level-2','hr-gr-level-1']); // hr-gr-level-2 is for Draft and 1 for Final
-        $grievances = HrGrievance::whereIn("office_id", $usersOffices)->where('status_id', '>', 0)->get();  // 
-        // whereNull('final_answer')
+        $OfficesAllowedL2 = $this->user->OfficeToAnyJob(['hr-gr-level-2']); // hr-gr-level-2 for Draft Answer
+        $grievancesL2 = HrGrievance::whereIn("office_id", $OfficesAllowedL2)->whereIn('status_id', [1, 4, 5])
+            ->whereNull('final_answer')->get();
+
+        $OfficesAllowedL1  = $this->user->OfficeToAnyJob(['hr-gr-level-1']); // hr-gr-level-1 for Final Answer
+        $grievancesL1 = HrGrievance::whereIn("office_id", $OfficesAllowedL1)->whereIn('status_id', [1, 2, 4, 5])->get();
+
         $employee_name = $this->user->name;
 
-        return view('employee.others_hr_grievance.index', compact('employee_name', 'grievances'));
+        return view('employee.others_hr_grievance.index', compact('employee_name', 'grievancesL1', 'grievancesL2'));
     }
 
 
     public function resolveGrievance(HrGrievance $hr_grievance)
     {
-        if ($hr_grievance->draft_answer) {  // draft has been given 
+        if ($this->user->canDoJobInOffice('hr-gr-level-1', $hr_grievance->office_id)) {
+            return redirect(route("hr_grievance.resolve.final", ['hr_grievance' => $hr_grievance->id]));
+        }
 
-            if ($this->user->canDoJobInOffice('hr-gr-level-1', $hr_grievance->office_id)) {
-                return redirect(route("hr_grievance.resolve.final", ['hr_grievance' => $hr_grievance->id]));
-            }
-
-            if ($this->user->canDoJobInOffice('hr-gr-level-2', $hr_grievance->office_id)) {
-                return redirect(route('hr_grievance.resolve.addDraft', ['hr_grievance' => $hr_grievance->id]));
-            }
-
-            abort_if(!$this->user->canDoJobInOffice('hr-gr-level-1', $hr_grievance->office_id), 403, 'You are Not Allowed to view this Office Employees');
-            abort_if(!$this->user->canDoJobInOffice('hr-gr-level-2', $hr_grievance->office_id), 403, 'You are Not Allowed to view this Office Employees');
-        } else {
-
-
-            abort_if(!$this->user->canDoJobInOffice('hr-gr-level-2', $hr_grievance->office_id), 403, 'You are Not Allowed to view this Office Employees');
+        if ($this->user->canDoJobInOffice('hr-gr-level-2', $hr_grievance->office_id)) {
             return redirect(route('hr_grievance.resolve.addDraft', ['hr_grievance' => $hr_grievance->id]));
         }
+
+        abort_if(
+            !$this->user->canDoJobInOffice(['hr-gr-level-1', 'hr-gr-level-2'], $hr_grievance->office_id),
+            403,
+            'You are Not Allowed to view this Office Employees'
+        );
     }
 
 
-    /**
-     * Display the specified Grievance.
-     *
-     * @param  \App\Models\Track\Grievance\HrGrievance
-     * @return \Illuminate\Http\Response
-     */
+    /**    Display the specified Grievance.  */
     public function show(HrGrievance $hr_grievance)
     {
-
         return view('employee.others_hr_grievance.viewGrievance', compact('hr_grievance'));
     }
 
@@ -110,32 +103,83 @@ class ResolveGrievanceController extends Controller
         return view('employee.others_hr_grievance.addDraft', compact('hr_grievance'));
     }
 
-    public function updateGrievance(Request $request)  // Update draft Answer 
+    public function updateGrievance(Request $request)  // Update draft Answer  
     {
         $hrGrievance = HrGrievance::findorFail($request->hr_grievance_id);
-        $hrGrievance->update($request->all());
+
+        $request->draft_answer = $this->user->shriName . '(' . $this->user->employee->designation->name . ') : \n '   . $request->draft_answer;
+
+        $hrGrievance->update([
+            'draft_answer' => $request->draft_answer,
+            'status_id' => 2
+        ]);
 
         return Redirect::route('resolve_hr_grievance')->with('success', 'Application Draft Saved Successfully');
     }
 
 
-    /**
-     * Display the specified Grievance.
-     *
-     * @param  \App\Models\Track\Grievance\HrGrievance
-     * @return \Illuminate\Http\Response
-     */
+    /* View Adding Final Resolving  Answer  */
     public function addFinalAnswer(HrGrievance $hr_grievance)
     {
         return view('employee.others_hr_grievance.addFinalAnswer', compact('hr_grievance'));
     }
 
+
+    /* Store Final Resolving  Answer    */
     public function resolveFinalGrievance(Request $request)
     {
         $hrGrievance = HrGrievance::findorFail($request->hr_grievance_id);
         $hrGrievance->update($request->all());
 
         return Redirect::route('resolve_hr_grievance')->with('success', 'Application Draft Saved Successfully');
+    }
+
+
+
+    public function revertGrievance(Request $request)
+    {
+        $hrGrievance = HrGrievance::findOrFail($request->grievance_id);
+        $hrGrievance->update(['status_id' => 4]);
+
+        return Redirect::route('resolve_hr_grievance')->with('danger', 'Application Reverted Successfully');
+    }
+
+
+    public function officeHrGrievances(Request $request)
+    {
+        $offices =  Office::select('id', 'name');
+
+        if ($request->has('start') && $request->has('end')) {
+            $this->validate(
+                $request,
+                [
+                    'start' => 'required|date',
+                    'end'   => 'required|date',
+                ]
+            );
+            $startDate = $request->start;
+            $endDate = $request->end;
+        } else {
+            $endDate = Carbon::today()->toDateString();
+            $startDate = Carbon::today()->subMonths(12)->toDateString();
+        }
+
+
+        $officeId = ($request->has('office_id')) ? $request->office_id : 0;
+        $grievanceTypes = HrGrievanceType::all();
+
+        $grievances = HrGrievance::get();
+
+
+
+        return view('employee.others_hr_grievance.office_grievance', compact(
+            'grievances',
+            'offices',
+            'officeId',
+            'grievanceTypes',
+            'startDate',
+            'endDate'
+        ));
     }
 }
 
