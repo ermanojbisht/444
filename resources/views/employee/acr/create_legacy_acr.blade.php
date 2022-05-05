@@ -52,6 +52,8 @@ Add Legacy ACR Data
 				<tr class="align-middle">
 					<th>#</th>
 					<th>Employee Name</th>
+					<th>Designation</th>
+					<th>Acr Period Office</th>
 					<th>Employee Id</th>
 					<th>From Date</th>
 					<th>To Date</th>
@@ -63,6 +65,8 @@ Add Legacy ACR Data
 				<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
 					<td>{{1+$loop->index }}</td>
 					<td>{{ $acr->employee->shriName}}</td>
+					<td>{{ $acr->employee->designation->name}}</td>
+					<td>{{ $acr->office->name}}</td>
 					<td>{{$acr->employee_id}} </td>
 					<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
 					<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td> 
@@ -262,8 +266,7 @@ Add Legacy ACR Data
 			({
 				url: '{{ url('getOfficesfromOfficeType') }}/' + $filterParam,
 				type: 'GET',
-				success: function (data) {
-					console.log(data); 
+				success: function (data) {					
 					bindDdlWithDataAndSetValue("office_id", data, "id", "name", true, "", "Select Office", "");
 				}
 			});
@@ -276,8 +279,7 @@ Add Legacy ACR Data
 				url: "{{route('acr.getAcrType')}}",
 				type: 'POST',
 				data: {acr_group_id: $('#acr_group_id').val(), _token : $('meta[name="csrf-token"]').attr('content') },
-				success: function (data) {
-					console.log(data); 
+				success: function (data) {					
 					bindDdlWithDataAndSetValue("acr_type_id", data, "id", "name", true, "", "Select ACR Type", "");
 				}
 			});
@@ -287,7 +289,12 @@ Add Legacy ACR Data
 			$('#hrms-model').modal('show');
 		});
 
-		$('#legacyAcr').DataTable();
+		$('#legacyAcr').DataTable({
+	      dom: 'Bfrtip',
+	      buttons: [
+	            'copy', 'csv', 'excel', 'pdf', 'print'
+	        ]
+	    });
 		$("#report_office_id").select2();
 		$("#office_id").select2({
 		   	dropdownParent: $("#hrms-model"),

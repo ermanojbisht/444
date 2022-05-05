@@ -93,13 +93,13 @@ class AcrDefaulterController extends Controller {
 
         switch ($office_id) {
             case '2':
-                 $legacyAcrs = Acr::where('acr_type_id', 0)->get();                 
+                 $legacyAcrs = Acr::where('acr_type_id', 0)->with(['office','employee','employee.designation'])->get();                 
                 break;
             case '0':
                 $legacyAcrs = [];  
                 break;
             default:
-                $legacyAcrs = Acr::where('acr_type_id', 0)->where('office_id', $office_id)->get();              
+                $legacyAcrs = Acr::where('acr_type_id', 0)->where('office_id', $office_id)->with(['office','employee','employee.designation'])->get();       //->with(['employee','employee.designation'])       
                 break;
         }
 
@@ -194,7 +194,16 @@ class AcrDefaulterController extends Controller {
         );
 
         $employee = Employee::findOrFail($request->employee_id);
+        //acr dates are not overlaps
+        $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
+        $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
 
+        $result = $employee->checkAcrDateInBetweenPreviousACRFilled($start, $end);
+        
+        if (!$result['status']) {
+            return Redirect()->back()->with('fail', $result['msg']);
+        }
+        
         $request->merge([
             'submitted_at'=>$request->to_date,
             'report_on'=>$request->to_date,
@@ -210,13 +219,27 @@ class AcrDefaulterController extends Controller {
         return redirect(route('acr.others.legacy', ['office_id' => 0]));
     }
 
+
+    public function editLegacyAcr(Acr $acr) {
+        //abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
+        abort_if($acr->acr_type_id != 0, 403, 'Only legacy unprocessed ACR can only be edited here...'); //todo is it needed
+        abort_if(($acr->report_remark || $acr->review_remark || $acr->accept_remark ||
+        $acr->report_no || $acr->review_no || $acr->accept_no), 403, 'ACR is already finalized, can not be edited...'); //todo is it needed
+        
+        $Offices = Office::select('name', 'id')->orderBy('name')->get();
+        $creater = $this->user;
+        return 'edit page is in progress';
+        return view('employee.acr.edit_legacy_acr', compact('acr','Offices','creater'));
+    }
+
+
+
+
     public function edit(Acr $acr) {
         //abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
         abort_if($acr->is_defaulter != 1, 403, 'Only Others unprocessed ACR can only be edited here...'); //todo is it needed
         abort_if($acr->isSubmitted(), 403, 'ACR is already Submitted, can not be edited...'); //todo is it needed
-        abort_if(($acr->report_remark || $acr->review_remark || $acr->accept_remark ||
-        $acr->report_no || $acr->review_no || $acr->accept_no), 403, 'ACR is already finalized, can not be edited...'); //todo is it needed
-
+        
         $acr_selected_group_type = AcrType::where('id', $acr->acr_type_id)->select('description as name', 'group_id', 'id')->first();
         $acr_office = Office::where('id', $acr->office_id)->select('office_type', 'name', 'id')->first();
 
