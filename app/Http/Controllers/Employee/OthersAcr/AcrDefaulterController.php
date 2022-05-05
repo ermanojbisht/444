@@ -127,7 +127,8 @@ class AcrDefaulterController extends Controller {
         );
 
         $employee = Employee::findOrFail($request->employee_id);
-        abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $employee->office_idd), 403, 'You are Not Allowed to add selected Employees from this office');
+        abort_if(!$this->user->canDoJobInOffice('create-others-acr-job', $employee->office_idd), 403,
+         'You are Not Allowed to add selected Employees from this office');
         //acr dates are not overlaps
         $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
         $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
@@ -146,7 +147,7 @@ class AcrDefaulterController extends Controller {
         $acr = Acr::create($request->all());
         $acr->employee->updateMissing();
 
-        return redirect(route('acr.others.defaulters', ['office_id' => 0]));
+        return redirect(route('acr.others.defaulters', ['office_id' => $request->office_id]));
     }
 
     public function acknowledged(Request $request) {
@@ -168,72 +169,7 @@ class AcrDefaulterController extends Controller {
         abort(403, $this->msg403);
     }
 
-    /**
-     * @param $request
-     * To Store Indivitual ACR
-     */
-    public function legacystore(Request $request) {
-        // validate appraisal_officer_type
-        // todo office allowed,job allowed
-        $this->validate(
-            $request,
-            [
-                'office_id' => 'required',
-                'acr_type_id' => 'required',
-                'from_date' => 'required|date|before:"2022-04-01',
-                'to_date' => 'required|date|after_or_equal:from_date|before:"2022-04-01',
-                'employee_id' => 'required', // in AppraisalOfficer acr_id , appraisal_officer_type, employee_id should not be repeated
-                'report_no' => 'nullable|numeric',
-                'review_no' => 'nullable|numeric',
-                'accept_no' => 'nullable|numeric',
-                'report_integrity' => 'nullable',
-                'appraisal_note_1' => 'nullable',
-                'appraisal_note_2' => 'nullable',
-                'appraisal_note_3' => 'nullable',
-            ]
-        );
-
-        $employee = Employee::findOrFail($request->employee_id);
-        //acr dates are not overlaps
-        $start = Carbon::createFromFormat('Y-m-d', $request->from_date)->startOfDay();
-        $end = Carbon::createFromFormat('Y-m-d', $request->to_date)->startOfDay();
-
-        $result = $employee->checkAcrDateInBetweenPreviousACRFilled($start, $end);
-        
-        if (!$result['status']) {
-            return Redirect()->back()->with('fail', $result['msg']);
-        }
-        
-        $request->merge([
-            'submitted_at'=>$request->to_date,
-            'report_on'=>$request->to_date,
-            'review_on'=>$request->to_date,
-            'accept_on'=>$request->to_date,
-            'good_work' => 'Legacy data of  '.$employee->shriName. '. has been filled ',
-        
-        ]);
-
-        $acr = Acr::create($request->all());
-
-
-        return redirect(route('acr.others.legacy', ['office_id' => 0]));
-    }
-
-
-    public function editLegacyAcr(Acr $acr) {
-        //abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);
-        abort_if($acr->acr_type_id != 0, 403, 'Only legacy unprocessed ACR can only be edited here...'); //todo is it needed
-        abort_if(($acr->report_remark || $acr->review_remark || $acr->accept_remark ||
-        $acr->report_no || $acr->review_no || $acr->accept_no), 403, 'ACR is already finalized, can not be edited...'); //todo is it needed
-        
-        $Offices = Office::select('name', 'id')->orderBy('name')->get();
-        $creater = $this->user;
-        return 'edit page is in progress';
-        return view('employee.acr.edit_legacy_acr', compact('acr','Offices','creater'));
-    }
-
-
-
+  
 
     public function edit(Acr $acr) {
         //abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);

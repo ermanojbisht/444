@@ -20,24 +20,27 @@ Other Employee ACR Initiated
 
 @section('content')
 
-<div class="row">
-    <div class="form-group col-md-4">
-        <label class="" for="office_idd">Office</label>
-        <select class="form-control select2" name="office_idd" id="office_idd">
-            <option value="0" >Select Office</option>
-            <option value="2" {{($office_id==2)?'selected':''}} >all</option>
-            @foreach($allowed_Offices as $id=>$name)
-                <option value="{{ $id }}" {{($id==$office_id)?'selected':''}}>{{ $name }}</option>
-            @endforeach
-        </select>
-    </div>
-</div>
-
 <div class="card">
 	<div class="card-body">
-		<div class="btn-group" role="group" aria-label="Basic outlined example">
-			<input type="button" id="assign_Officials" class="btn btn-outline-primary"
-				value="Initiate Other Employee ACR" />
+
+		<div class="row">
+			<div class="form-group col-md-4">
+				<div class="btn-group" role="group" aria-label="Basic outlined example">
+					<br/> 
+					<input type="button" id="assign_Officials" class="btn btn-outline-primary"
+						value="Initiate Other Employee ACR" />
+				</div>
+			</div>
+			<div class="form-group col-md-4">
+				<label class="" for="office_idd">Select Office : </label>
+				<select class="form-select " name="office_idd" id="office_idd">
+					<option value="0" >Select Office</option>
+					<option value="2" {{($office_id==2)?'selected':''}} >All Offices</option>
+					@foreach($allowed_Offices as $id=>$name)
+						<option value="{{ $id }}" {{($id==$office_id)?'selected':''}}>{{ $name }}</option>
+					@endforeach
+				</select>
+			</div>
 		</div>
 		<hr />
 		<br />
@@ -126,15 +129,13 @@ Other Employee ACR Initiated
 				@endforeach
 			</tbody>
 		</table>
-
-
 	</div>
 </div>
 
 <div>
 	<!-- boostrap model -->
 	<div class="modal fade" id="hrms-model" aria-hidden="true" tabindex="-1" role="dialog">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title" id="OfficialType">
@@ -146,21 +147,18 @@ Other Employee ACR Initiated
 						method="POST" action="{{route('acr.others.store')}}">
 						@csrf
 						<div class="row">
-							<div class="form-group col-md-6">
+							<div class="form-group col-md-4">
 								{!! Form::label('section', 'Service Class', []) !!}
 								{!! Form::select('section', ['All'=>'All','A'=>'A','B'=>'B','C'=>'C','D'=>'D'], 'All',
 								['id'=>'section','class'=>'form-select']) !!}
 							</div>
-							<div class="form-group col-md-6">
+							<div class="form-group col-md-4">
 								{!! Form::label('employeeType', 'Employee Type', []) !!}
 								{!! Form::select('employeeType',
 								['All'=>'All','er'=>'Engineer','office'=>'Office','other'=>'Other'], 'All',
 								['id'=>'employeeType','class'=>'form-select']) !!}
 							</div>
-						</div>
-						<br />
-						<div class="row">
-							<div class="form-group col-md-12">
+							<div class="form-group col-md-4">
 								<div class="form-group">
 									<label class="required" for="employee_id">Select officer</label>
 									<br />
@@ -177,13 +175,11 @@ Other Employee ACR Initiated
 							</div>
 						</div>
 						<br />
-
-
 						<div class="row mb-3">
 							<div class="col-md-12">
 								<p class="fw-semibold "> Select Type of ACR to be Filled : </p>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<label for='acr_group_id' class="required "> Select Designation Group </label>
 								<select id="acr_group_id" name="acr_group_id" required class="form-select">
 									<option value=""> Select ACR Type </option>
@@ -192,25 +188,22 @@ Other Employee ACR Initiated
 									@endforeach
 								</select>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<label for='acr_type_id' class="required "> Select Acr Type </label>
 								<select id="acr_type_id" name="acr_type_id" required class="form-select">
 								</select>
 							</div>
-						</div>
- 
-
-
-						<div class="row">
-							<div class="col-md-12">
-								<label for='office_id' class="required "> Select Office </label>
-								
+							<div class="col-md-4">
+								<label for='office_id' class="required "> Select Office : </label>
+								<br/>
+								<div class="form-group">
 								<select name="office_id" id="office_id" required class="form-select ">
 									<option value=""> Select Office </option>
 									@foreach ($Offices as $key => $values)
 										<option value="{{$key}}" > {{$values}} </option>
 									@endforeach
 								</select>
+							</div>
 							</div>
 
 						</div>
@@ -242,7 +235,7 @@ Other Employee ACR Initiated
 						<div class="row">
 							<div class="form-group mt-2">								
 								<input id="removeLogged" type="hidden" name="removeLogged" value="true" />
-								<input type="submit" class="btn btn-primary " id="btnSave" value="Add Employee " />
+								<input type="submit" class="btn btn-primary " id="btnSave" value="Add Employee's ACR " />
 							</div>
 						</div>
 					</form>
@@ -302,7 +295,12 @@ Other Employee ACR Initiated
 	});
  
     $(document).ready(function() {
-
+		$("#office_id").select2({
+		   	dropdownParent: $("#hrms-model"),
+		    dropdownAutoWidth : true,
+    		width: 'auto',
+		});
+		
 		findDateDiff();
 
     });

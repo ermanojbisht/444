@@ -9,21 +9,21 @@
 @endsection
 
 @section('pagetitle')
-Add Legacy ACR Data
+Legacy ACR's Data
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
-['label'=> 'Add Others ACR' ,'active'=>true]
+['label'=> 'Legacy ACRs' ,'active'=>true]
 ]])
 @endsection
 
 @section('content')
-
+ 
 <div class="card">
 	<div class="card-body">
- 		<div class="row">
+		<div class="row">
 			<div class="col-md-3">
 				<div class="btn-group" role="group" aria-label="Basic outlined example">
 					<input type="button" id="assign_Officials" class="btn btn-outline-primary"
@@ -32,9 +32,10 @@ Add Legacy ACR Data
 			</div>
 			<div class="col-md-3">
 				<p class="fw-bold mb-0"> Office : </p>
-				<div class="form-group"> 
-					<select id='report_office_id' name='report_office_id' required class="form-select select2" onchange="findLegacyAcrInOffice()">
-						<option value="0" {{( $office_id=='0' ? 'selected' : '' )}} > Select Office </option>
+				<div class="form-group">
+					<select id='report_office_id' name='report_office_id' required class="form-select select2"
+						onchange="findLegacyAcrInOffice()">
+						<option value="0" {{( $office_id=='0' ? 'selected' : '' )}}> Select Office </option>
 						<option value="2" {{( $office_id=='2' ? 'selected' : '' )}}> All</option>
 						@foreach ($Offices as $office)
 						<option value="{{$office->id}}" {{( $office_id==$office->id ?
@@ -69,7 +70,7 @@ Add Legacy ACR Data
 					<td>{{ $acr->office->name}}</td>
 					<td>{{$acr->employee_id}} </td>
 					<td>{{Carbon\Carbon::parse($acr->from_date)->format('d M Y')}}</td>
-					<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td> 
+					<td>{{Carbon\Carbon::parse($acr->to_date)->format('d M Y')}}</td>
 					<td>
 						<div class="dropdown dropstart">
 							<button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -79,19 +80,20 @@ Add Legacy ACR Data
 									</use>
 								</svg>
 							</button>
-								@if($acr->report_remark || $acr->review_remark || $acr->accept_remark ||
-                                    $acr->report_no || $acr->review_no || $acr->accept_no)   
+							@if($acr->appraisal_note_1 || $acr->appraisal_note_2 || $acr->appraisal_note_3 ||
+							$acr->report_no || $acr->review_no || $acr->accept_no)
 
-                                    <div class="dropdown-menu dropdown-menu-end ">
-								         <span class="dropdown-item " > ACR Finalized </span>
-									</div>         
-							    @else
-								    <div class="dropdown-menu dropdown-menu-end">
-								         <a class="dropdown-item" href="{{route('acr.others.legacy.edit', ['acr' => $acr->id])}}">
-											Edit ACR </a>
-									</div>
-							    @endif
-							
+							<div class="dropdown-menu dropdown-menu-end ">
+								<span class="dropdown-item "> ACR Finalized </span>
+							</div>
+							@else
+							<div class="dropdown-menu dropdown-menu-end">
+								<a class="dropdown-item"
+									href="{{route('acr.others.legacy.edit', ['acr' => $acr->id])}}">
+									Edit ACR </a>
+							</div>
+							@endif
+
 						</div>
 					</td>
 				</tr>
@@ -110,7 +112,7 @@ Add Legacy ACR Data
 			<div class="modal-content">
 				<div class="modal-header">
 					<h4 class="modal-title" id="OfficialType">
-						Legacy ACR
+						Add Legacy ACR
 					</h4>
 				</div>
 				<div class="modal-body">
@@ -149,9 +151,9 @@ Add Legacy ACR Data
 
 						<div class="row">
 							<div class="col-md-3">
-								<p> &nbsp; </p> 
+								<p> &nbsp; </p>
 								<label for='office_id' class="required "> Select Office </label>
-								<br/>
+								<br />
 								<select name="office_id" id="office_id" required class="form-select select2">
 									<option value=""> Select Office </option>
 									@foreach ($Offices as $office)
@@ -180,9 +182,10 @@ Add Legacy ACR Data
 						</div>
 
 						<input type="checkbox" name="is_Final_Acr" id="is_Final_Acr" onclick="fillFinalAcr(this)" />
-						{!! Form::label('is_Final_Acr', 'Is ACR Finalized (यदि ए०सी०आर० पुर्ण हो चुकी है तो चेकबॉक्स tick करें)', []) !!}
+						{!! Form::label('is_Final_Acr', 'Is ACR Finalized (यदि ए०सी०आर० पुर्ण हो चुकी है तो चेकबॉक्स
+						tick करें)', []) !!}
 
-						<hr>
+						<hr />
 
 						<div class="row">
 							<div class="col-md-3">
@@ -220,11 +223,25 @@ Add Legacy ACR Data
 							</div>
 						</div>
 
+						
+						<hr />
+
 						<div class="row">
-							<div class="form-group col-md-12">
+							<div class="form-group col-md-3">
+								{!! Form::label('report_integrity', 'Select integrity', []) !!}
+								<select id="report_integrity" name="report_integrity" class="form-select"
+									onchange="checkFillIntegrity()">
+									<option value="1"> Yes</option>
+									<option value="0"> No</option>
+									<option value="-1"> Withhold </option>
+								</select>
+							</div>
+							<div class="form-group col-md-9">
 								{!! Form::label('report_remark', 'If integrity has been withhold then state the
 								reasons otherwise leave blank ', []) !!}
-								{!! Form::textarea('report_remark', '' , ['class'=>'form-control', 'rows'=>2]) !!}
+								{!! Form::textarea('report_remark', '' , ['class'=>'form-control', 'rows'=>2,
+								'disabled'=>'disabled'])
+								!!}
 							</div>
 						</div>
 						<div class="form-group mt-2">
@@ -325,6 +342,21 @@ Add Legacy ACR Data
 		}
 	}
 
+	function checkFillIntegrity()
+	{
+		var integrity = $("#report_integrity").val(); 
+		if(integrity == "1")
+		{
+			$("#report_remark").val(""); 
+			$("#report_remark").attr("disabled", "disabled"); 
+		}else
+		{
+			$("#report_remark").val("");
+			$("#report_remark").removeAttr("disabled"); 
+		}
+	}
+	
+
 	function fillFinalAcr($chkFinalACR)
 	{
 		if($("#" + $chkFinalACR.id).is(":checked"))
@@ -361,6 +393,8 @@ Add Legacy ACR Data
 			
 		}
 	}
+
+
 
 </script>
 

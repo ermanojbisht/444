@@ -15,7 +15,7 @@ Edit <small> Legacy ACR </small>
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
 // ['label'=> 'My Acrs', 'route'=>'acr.others.legacy' ,'active'=>false],
-['label'=> 'Edit ACR','active'=>true]
+['label'=> 'Edit Legacy ACR','active'=>true]
 ]])
 @endsection
 
@@ -34,7 +34,7 @@ Edit <small> Legacy ACR </small>
 							<p class="fw-bold"> Name of the officer Reported Upon :- </p>
 						</div>
 						<div class="col-md-6">
-							<p class="fw-semibold text-info"> {{$employee->shriName }} </p>
+							<p class="fw-semibold text-info"> {{$acr->employee->shriName }} </p>
 						</div>
 					</div>
 					<div class="row">
@@ -42,7 +42,7 @@ Edit <small> Legacy ACR </small>
 							<p class="fw-bold"> Date of Birth :-</p>
 						</div>
 						<div class="col-md-6">
-							<p class="fw-semibold text-info"> {{$employee->birth_date->format('d M Y')}} </p>
+							<p class="fw-semibold text-info"> {{$acr->employee->birth_date->format('d M Y')}} </p>
 						</div>
 					</div>
 					<div class="row">

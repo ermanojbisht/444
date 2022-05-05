@@ -8,14 +8,14 @@
 @endsection
 
 @section('pagetitle')
-Part 1 ( Basic Information ) <small> Edit ACR </small>
+  <small> Edit Other's ACR </small>
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb', [ 'datas'=> [
 ['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false],
 ['label'=> 'View All Initiated Acrs', 'route'=>'acr.others.defaulters' ,'routefielddata' => 0,'active'=>false],
-['label'=> 'Edit Initiated ACR','active'=>true]
+['label'=> 'Edit Others ACR','active'=>true]
 ]])
 @endsection
 
@@ -27,7 +27,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 				<p class="fw-bold"> Name of the officer Reported Upon :- </p>
 			</div>
 			<div class="col-md-6">
-				<p class="fw-semibold  text-info"> {{$employee->shriName }} </p>
+				<p class="fw-semibold  text-info"> {{$acr->employee->shriName }} </p>
 			</div>
 		</div>
 		<div class="row">
@@ -35,7 +35,7 @@ Part 1 ( Basic Information ) <small> Edit ACR </small>
 				<p class="fw-bold"> Date of Birth :-</p>
 			</div>
 			<div class="col-md-6">
-				<p class="fw-semibold  text-info"> {{$employee->birth_date->format('d M Y')}} </p>
+				<p class="fw-semibold  text-info"> {{$acr->employee->birth_date->format('d M Y')}} </p>
 			</div>
 		</div>
 		<hr />
