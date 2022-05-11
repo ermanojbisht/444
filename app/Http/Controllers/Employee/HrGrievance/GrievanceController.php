@@ -44,7 +44,6 @@ class GrievanceController extends Controller
     // view all created grievance
     public function index()
     {
-
         $employee_name = $this->user->name;
         $grievances =  $this->user->grievances()->get();
 
@@ -57,9 +56,8 @@ class GrievanceController extends Controller
      */
     public function create()
     {
-        $grievanceTypes = HrGrievanceType::all();
-        // $eeOffices =  EeOffice::select(['id', 'name'])->whereIn('div_type', [1, 2])->get();
-        $eeOffices =  Office::where('office_type', 3)->select('name', 'id')->get();
+        $grievanceTypes = HrGrievanceType::all();  // $eeOffices =  EeOffice::select(['id', 'name'])->whereIn('div_type', [1, 2])->get();
+        $eeOffices = Office::select('name', 'id')->orderBy('name')->get();
         return view('employee.hr_grievance.create', compact('grievanceTypes', 'eeOffices'));
     }
 
@@ -75,13 +73,15 @@ class GrievanceController extends Controller
         if ($request->is_document_upload == 1)
             return Redirect::route("employee.hr_grievance.addDoc", ['hr_grievance' => $hrGrievance->id]);
         else
-            return Redirect::route('employee.hr_grievance')->with('success', $this->textMessageAfterAddingGrievance($hrGrievance->id, 'added'));
+            return Redirect::route('employee.hr_grievance')->with('success', 
+            $this->textMessageAfterAddingGrievance($hrGrievance->id, 'Created Successfully'));
     }
 
     public function textMessageAfterAddingGrievance($hrGrievance_id, $actionCompleted)
     {
+
         return  'Your Grievance has been ' . $actionCompleted . ', Please note down your Grievance Id : ' . $hrGrievance_id .
-            ' Kindly note this Id for future reference. Application will remain editable for 2 days ';
+            '.  Kindly note this Id for future reference. Application will remain editable till you submit the Grievance.';
     }
 
     public function submit(Request $request)
@@ -89,7 +89,12 @@ class GrievanceController extends Controller
         $hrGrievance = HrGrievance::findOrFail($request->grievance_id);
         $hrGrievance->update(['status_id' => 1]);
 
+        // $hrGrievance->grievanceAssignedToOfficers('hr-gr-level-1')
+        // todo :: mail to creater, L1 & L2
+
         return Redirect::route('employee.hr_grievance')->with('success', 'Application Submitted Successfully');
+
+
     }
 
     public function reopen(Request $request)
@@ -110,8 +115,6 @@ class GrievanceController extends Controller
         return Redirect::route('employee.hr_grievance')->with('success', 'Application Reopened Successfully');
     }
 
-
-
     /**
      * Display the specified Grievance.
      *
@@ -123,7 +126,6 @@ class GrievanceController extends Controller
         return view('employee.hr_grievance.view', compact('hr_grievance'));
     }
 
-
     /**
      * Edit the specified Grievance.
      *
@@ -133,9 +135,9 @@ class GrievanceController extends Controller
     public function edit(HrGrievance $hr_grievance)
     {
         $grievanceTypes = HrGrievanceType::all();
-        $officeType = $hr_grievance->office_type;
-        //  $eeOffices =  $this->officeListAsPerOfficeTypeObject($officeType);
-        $eeOffices =  $this->getOfficeListAsPerOfficeTypeId($officeType);
+        //$officeType = $hr_grievance->office_type;
+        //$eeOffices =  $this->getOfficeListAsPerOfficeTypeId($officeType);
+        $eeOffices = Office::select('name', 'id')->orderBy('name')->get();
         return view('employee.hr_grievance.edit', compact('hr_grievance', 'grievanceTypes', 'eeOffices'));
     }
 
@@ -149,15 +151,10 @@ class GrievanceController extends Controller
     {
         $hr_grievance = HrGrievance::findorFail($request->grievance_id);
         $hr_grievance->update($request->validated());
-        return Redirect::route('employee.hr_grievance')->with('success', $this->textMessageAfterAddingGrievance($hr_grievance->id, 'update'));
+
+        return Redirect::route('employee.hr_grievance')->with('success', 
+        $this->textMessageAfterAddingGrievance($hr_grievance->id, 'Updated Successfully'));
     }
-
-
-   
-
-
-
-
 
     /**
      * Ajax Call for Office in office type from trait .
@@ -173,4 +170,5 @@ class GrievanceController extends Controller
             return $this->getOfficeListAsPerOfficeTypeId($officeType);
         }
     }
+
 }

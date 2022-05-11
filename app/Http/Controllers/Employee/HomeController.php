@@ -30,10 +30,14 @@ class HomeController extends Controller
         if(!$this->user->fromShashan()){
             $fromShashan = false;
             $user_grievance_count=$this->user->grievances()->count();
+            $user_grievance_received_count=$this->user->grievances()->count();
+            
             $user_acr_count=$this->user->employee->activeAcrs()->count();
             $user_acr_to_report_count=$this->user->pendingAcrsToProcess('report')->count();
             $user_acr_to_review_count=$this->user->pendingAcrsToProcess('review')->count();
             $user_acr_to_accept_count=$this->user->pendingAcrsToProcess('accept')->count();
+            
+            
         }else{
             $fromShashan = true;
              $user_grievance_count=$user_acr_count=$user_acr_to_report_count=$user_acr_to_review_count=$user_acr_to_accept_count=0;

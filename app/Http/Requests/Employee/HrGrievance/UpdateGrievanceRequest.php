@@ -26,9 +26,9 @@ class UpdateGrievanceRequest extends FormRequest
     {  
         $rules['grievance_type_id'] =  'required|numeric|gt:0';
         $rules['description'] = 'required';
-        $rules['office_type'] = 'required|numeric';
         $rules['office_id'] = 'required|numeric';
 
+        $rules['subject'] = 'required';
         $rules['employee_id'] = 'required';
         $rules['grievance_id'] = 'required';
         

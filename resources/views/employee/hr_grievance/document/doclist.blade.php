@@ -5,7 +5,7 @@
 @endsection
 
 @section('pagetitle')
-    Grievance Id -> {{$hr_grievance_id}}  Documents
+    Grievance Id -> {{$hr_grievance->id}}  Documents
 @endsection
 
 @section('breadcrumb')
@@ -14,30 +14,27 @@
     ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
     ['label'=> 'Grievance','active'=>false],
     ['label'=> 'List','active'=>false, 'route' => 'employee.hr_grievance'],
-    ['label'=> 'View Document for Grievance Id -> ' . $hr_grievance_id  ,'active'=>true],
+    ['label'=> 'View Document for Grievance Id -> ' . $hr_grievance->id ,'active'=>true],
     ]])
 @endsection
 
 @section('content')
 <div class="container-fluid">
-    {{-- <x-track.instance-estimate-header :instanceEstimate="$instanceEstimate" pagetitle="Estimate's Document List"
-        toBackroutename="track.estimate.view"
-        :routeParameter="['instance_estimate'=>$instanceEstimate->id]"
-        routelabel="Back to Estimate Tracking Details"/> --}}
-
-    @if($hr_grievance_id)
-        Docs are editable only for {{config('site.backdate.hrGrievance.allowedno')}} days.   
+    @if($hr_grievance->id)
+        {{-- Docs are editable only for {{config('site.backdate.hrGrievance.allowedno')}} days.    --}}
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    
                     <div class="card-body">
+                        @if( $hr_grievance->status_id == 0)
                         <div class="row">
                             <div class="col-sm-12">
-                                <a href="{{ route("employee.hr_grievance.addDoc",['hr_grievance'=>$hr_grievance_id]) }}"
+                                <a href="{{ route("employee.hr_grievance.addDoc",['hr_grievance'=>$hr_grievance->id]) }}"
                                    class="btn btn-primary btn-flat pull-right mt-2 mr-2">Add Document</a>
                             </div>
                         </div>
+                        @endif
+
                         <table class="table datatable table-bordered table-striped table-hover" id="progresstbl">
                             <thead>
                             <tr>

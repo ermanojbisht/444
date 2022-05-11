@@ -34,7 +34,7 @@ Other Employee ACR Initiated
 			<div class="form-group col-md-4">
 				<label class="" for="office_idd">Select Office : </label>
 				<select class="form-select " name="office_idd" id="office_idd">
-					<option value="0" >Select Office</option>
+					<option value="0" disabled >Select Office</option>
 					<option value="2" {{($office_id==2)?'selected':''}} >All Offices</option>
 					@foreach($allowed_Offices as $id=>$name)
 						<option value="{{ $id }}" {{($id==$office_id)?'selected':''}}>{{ $name }}</option>

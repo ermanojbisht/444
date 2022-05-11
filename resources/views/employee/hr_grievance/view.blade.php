@@ -8,6 +8,11 @@
     .row {
         padding-bottom: 20px;
     }
+
+    .bgletter {
+        background: url('{{ asset("../images/img_letter.png") }}') no-repeat;
+        background-size: 100% 180%;
+    }
 </style>
 @endsection
 
@@ -31,70 +36,64 @@
 @section('content')
 <div class="container-fluid">
     <div class="card">
-        <div class="card-body">
-            <div class="row mt-3 mb-3">
-                <div class="col-md-6">
-                    <p class=""> Employee Name : {{ $hr_grievance->creator->name }} </p>
-                </div>
-                <div class="col-md-6" style="text-align:right">
-                    <p class=""> Employee Id : {{ $hr_grievance->creator->id }} </p>
-                </div>
-                <br />
-                <br />
-                <div class="col-md-6">
-                    <p class=""> Grievance Type ( शिकायत का प्रकार ) : {{ $hr_grievance->grievanceType->name }} </p>
-                </div>
-                <div class="col-md-6" style="text-align: right">
-                    <p class=""> Office ( ऑफिस ) : {{ $hr_grievance->office() }} </p>
-                </div>
-                <br />
-                <br />
+        <div class="card-body bgletter">
+
+            <div class="row mt-5 mb-3">
                 <div class="col-md-12">
-                    <p class=""> Grievance Subject ( विषय ) : {{ $hr_grievance->subject }}
+
+                    <div style="padding-left:100px;">
+                         To,<div style="float: right;padding-right:100px;"> Dated : {{$hr_grievance->created_at ?
+                            $hr_grievance->created_at->format('d M Y') : ''}}</div><br /> 
+                        Grievance Resolving Oficer, <br />
+                        {{ $hr_grievance->office() }},Public Works Department, <br />
+                        Uttarakhand. <br />
+                        <br /> 
+                        <b> Subject </b> : {{ $hr_grievance->grievanceType->name }}, &nbsp; {{ $hr_grievance->subject }}
                         @if($hr_grievance->refference_grievance_id)
-                        <a style="float: right"
-                            href="{{route('employee.hr_grievance.show', ['hr_grievance' => $hr_grievance->refference_grievance_id])}}">
-                            View Previous Grievance </a>
+                        <a class="btn btn-warning btn-sm" href="{{route('employee.hr_grievance.show', ['hr_grievance' => $hr_grievance->refference_grievance_id])}}">
+                            View Previous Linked Grievance </a>
                         @endif
-                    </p>
-                </div>
-                <hr />
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <p class=""> Grievance Description( शिकायत का संछिप्त सार ) : <br />
-                    <p style="padding-left:20px;" class=" "> {{ $hr_grievance->description }} </p>
-                    </p>
-                </div>
-            </div>
-
-            @if(count($hr_grievance->documents) > 0)
-            <div class="row">
-                <div class="col-md-4">
-                    <p class=""> Grievance Document </p>
-                </div>
-                <div class="col-md-8">
-                    <p class="">
-                        <a href="{{ route(" employee.hr_grievance.doclist", ['hr_grievance'=>$hr_grievance->id,
-                            'is_question' => 1]) }}" > View Documents </a>
-                    </p>
-                </div>
-            </div>
-            @endif
-
-            <hr />
-            <div class="row">
-                <div class="col-md-4">
-                    <p class=""> Resolve Grievance ( शिकायत का संछिप्त निवारण) : </p>
-                    <br />
-                    <p style="padding-left:20px;" class=" "> @if($hr_grievance->final_answer)
-                        {{ $hr_grievance->final_answer }}
-                        @else
-                        Final Answer Not Yet Received
+                        <br />
+                        <br />
+                            <p style="padding-left: 70px;"> {{ $hr_grievance->description }}  </p>
+                        <br />
+                        <br /> 
+                        From: - <br />
+                        {{ $hr_grievance->creator->name }}, <br />
+                        Employee Id : {{ $hr_grievance->creator->id }} <br />
+                        
+                        @if(count($hr_grievance->documents) > 0)
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p> Attached Document : </p>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <a href="{{ route("employee.hr_grievance.doclist", ['hr_grievance'=>$hr_grievance->id,
+                                        'is_question' => 1]) }}" > View Uploaded Documents </a>
+                                </p>
+                            </div>
+                        </div>
                         @endif
-                    </p>
+                        <br/> 
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p style="padding-left:20px;" class=" "> @if($hr_grievance->final_answer)
+                                    {{ $hr_grievance->final_answer }}
+                                    @else
+                                    Answer Not Yet Received 
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
+            
+            
         </div>
     </div>
 </div>

@@ -41,9 +41,7 @@ class GrievanceDocController extends Controller
             $doclist = $doclist->where('is_question', $is_question);
         }
         $doclist = $doclist->get();
-        $hr_grievance_id = $hr_grievance->id;
-
-        return view('employee.hr_grievance.document.doclist', compact('hr_grievance_id', 'doclist'));
+        return view('employee.hr_grievance.document.doclist', compact('hr_grievance', 'doclist'));
 
     }
 
@@ -52,8 +50,8 @@ class GrievanceDocController extends Controller
      */
     public function addDocument(HrGrievance $hr_grievance)
     {
-        $hr_grievance_id = $hr_grievance->id;
-        return view('employee.hr_grievance.document.create', compact('hr_grievance_id'));
+         
+        return view('employee.hr_grievance.document.create', compact('hr_grievance'));
     }
 
     /**

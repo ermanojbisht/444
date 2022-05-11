@@ -14,14 +14,14 @@ Add Document
 ['datas'=> [
 ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
 ['label'=> 'Grievance','active'=>false],
-['label'=> 'List','active'=>false, 'route' => 'employee.hr_grievance.doclist1', 'routefielddata'=>[ $hr_grievance_id ]],
-['label'=> 'Add Document for Grievance Id -> ' . $hr_grievance_id ,'active'=>true],
+['label'=> 'List','active'=>false, 'route' => 'employee.hr_grievance.doclist1', 'routefielddata'=>[ $hr_grievance ]],
+['label'=> 'Add Document for Grievance Id -> ' . $hr_grievance->id ,'active'=>true],
 ]])
 @endsection
 
 
 @section('side_menu')
-{{-- @include('layouts.type200.partials.side_menu',['hr_grievance_id'=>$hr_grievance_id]) --}}
+{{-- @include('layouts.type200.partials.side_menu',['hr_grievance->id'=>$hr_grievance->id]) --}}
 @endsection
 
 @section('content')
@@ -36,7 +36,7 @@ Add Document
                 <form action="{{ route('employee.hr_grievance.storeDocInHrGrievance') }}" method="post"
                     enctype="multipart/form-data" class="">
                     {{ csrf_field() }}
-                    <input type="hidden" name="hr_grievance_id" value="{{ $hr_grievance_id }}">
+                    <input type="hidden" name="hr_grievance_id" value="{{ $hr_grievance->id }}">
                     <div class="row">
 
                         {{-- doctitle --}}

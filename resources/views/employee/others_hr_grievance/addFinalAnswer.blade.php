@@ -1,10 +1,17 @@
 @extends('layouts.type200.main')
 
-
 @section('styles')
-@include('cssbundle.datatablefor5',['button'=>true])
-@endsection
+<style>
+    .row {
+        padding-bottom: 20px;
+    }
 
+    .bgletter {
+        background: url('{{ asset("../images/img_letter.png") }}') no-repeat;
+        background-size: 100% 180%;
+    }
+</style>
+@endsection
 
 @section('sidebarmenu')
 @include('layouts.type200._commonpartials._sidebarmenu_hr_gr',['active'=>'Grievance'])
@@ -26,129 +33,96 @@ Resolve Grievance
 @section('content')
 <div class="container-fluid">
     <div class="card">
-        <div class="card-body">
-            <div class="row mt-3 mb-3">
-                <div class="col-md-6">
-                    <h5> Employee Name : {{ $hr_grievance->creator->name }} </h5>
-                </div>
-                <div class="col-md-6" style="text-align:right">
-                    <h5> Employee Id : {{ $hr_grievance->creator->id }} </h5>
-                </div>
-
-                <br />
-                <br />
-
-
-                <div class="col-md-6">
-                    <h5> Grievance Type ( शिकायत का प्रकार ) : {{ $hr_grievance->grievanceType->name }} </h5>
-                </div>
-                <div class="col-md-6" style="text-align: right">
-                    <h5> Office ( ऑफिस ) : {{ $hr_grievance->office() }} </h5>
-                </div>
-                <br />
-                <br />
-
-
+        <div class="card-body bgletter">
+            <div class="row mt-5 mb-3">
                 <div class="col-md-12">
-                    <h5> Grievance Subject ( विषय ) : {{ $hr_grievance->subject }} </h5>
-                </div>
-
-                <hr />
-
-            </div>
-
-            <div class="row">
-
-
-                <div class="col-md-12">
-                    <h5> Grievance Description( शिकायत का संछिप्त सार ) : </h5>
-                    <h4> {{ $hr_grievance->description }} </h4>
-                </div>
-            </div>
-
-            @if(count($hr_grievance->documents) > 0)
-            <div class="row">
-                <div class="col-md-4">
-                    <h6> Grievance Document </h6>
-                </div>
-                <div class="col-md-8">
-                    <h6>
-                        <a href="{{ route(" employee.hr_grievance.doclist", ['hr_grievance'=>$hr_grievance->id,
-                            'is_question' => 1]) }}" > View Documents </a>
-                    </h6>
-                </div>
-            </div>
-            @endif
-
-            <hr />
-            <div class="row">
-                <div class="col-md-12">
-                    <h5> View Draft for Resolving Grievance /
-                        शिकायत का संछिप्त निवारण (ड्राफ्ट) : </h5>
-                    <h6> @if($hr_grievance->draft_answer)
-                        {{ $hr_grievance->draft_answer }}
-                        @else
-                        Draft Answer Not Yet Received
+                    <div style="padding-left:100px;">
+                        To,<div style="float: right;padding-right:100px;"> Dated : {{$hr_grievance->created_at ?
+                            $hr_grievance->created_at->format('d M Y') : ''}}</div><br />
+                        Grievance Resolving Oficer, <br />
+                        {{ $hr_grievance->office() }},Public Works Department, <br />
+                        Uttarakhand. <br />
+                        <br />
+                        <b> Subject </b> : {{ $hr_grievance->grievanceType->name }}, &nbsp; {{ $hr_grievance->subject }}
+                        @if($hr_grievance->refference_grievance_id)
+                        <a class="btn btn-warning btn-sm"
+                            href="{{route('employee.hr_grievance.show', ['hr_grievance' => $hr_grievance->refference_grievance_id])}}">
+                            View Previous Linked Grievance </a>
                         @endif
-                    </h6>
-                </div>
+                        <br />
+                        <br />
+                        <p style="padding-left: 70px;"> {{ $hr_grievance->description }} </p>
+                        <br />
+                        <br />
+                        From: - <br />
+                        {{ $hr_grievance->creator->name }}, <br />
+                        Employee Id : {{ $hr_grievance->creator->id }} <br />
 
-            </div>
-
-
-
-            @if(count($hr_grievance->documents) > 0)
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="is_document_upload" class="form-label required"> Document </label>
-                </div>
-                <div class="col-md-8">
-                    <a href="{{ route(" employee.hr_grievance.doclist",['hr_grievance'=>$hr_grievance->id, 'is_question'
-                        => 1]) }}" >
-                        <i class="cib-twitter"></i> View Documents
-                    </a>
-                </div>
-            </div>
-
-            @endif
-
-            <form action="{{ route('hr_grievance.resolveGrievance') }}" method="POST"
-                onsubmit="return confirm('Resolvance Given are correct to my knowledge. ( उपरोक्त समस्या के निवारण से में सहमत हूँ  ) ??? ');">
-                @csrf
-
-                <br />
-                <div class="row">
-                    <div class="col-md-4">
-                       <h5>  Add Final Answer for Resolving Grievance /
-                        शिकायत का संछिप्त निवारण  :  </h5>
-                    </div>
-                    <div class="col-md-8">
-                        <textarea class="form-control" id="final_answer" rows="3" name="final_answer"
-                            required>{{ old('final_answer', '') }}</textarea>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <div class="box-footer justify-content-between">
-                                <input type="submit" confirm("Press a button!"); id="btnAddRegDetails"
-                                    class="btn btn-primary" value="Resolve Grievance ( शिकायत का निवारण  करें )"
-                                    </button>
-                                <input type="hidden" id="hr_grievance_id" name="hr_grievance_id"
-                                    value="{{ $hr_grievance->id }}" />
-                                <input type="hidden" id="status_id" name="status_id" value="3" />
+                        @if(count($hr_grievance->documents) > 0)
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p> Attached Document : </p>
+                            </div>
+                            <div class="col-md-8">
+                                <p>
+                                    <a href="{{ route(" employee.hr_grievance.doclist",
+                                        ['hr_grievance'=>$hr_grievance->id,
+                                        'is_question' => 1]) }}" > View Uploaded Documents </a>
+                                </p>
                             </div>
                         </div>
+                        @endif
+                        <hr />
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p> View Draft for Resolving Grievance / शिकायत का संछिप्त निवारण (ड्राफ्ट) : </p>
+                                <h6> @if($hr_grievance->draft_answer)
+                                    {!! $hr_grievance->draft_answer !!}
+                                    @else
+                                    Draft Answer Not Yet Received
+                                    @endif
+                                </h6>
+                            </div>
+                        </div>
+
+                        <form action="{{ route('hr_grievance.resolveGrievance') }}" method="POST"
+                            onsubmit="return confirm('Resolvance Given are correct to my knowledge. ( उपरोक्त समस्या के निवारण से में सहमत हूँ  ) ??? ');">
+                            @csrf
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p> Add Final Answer for Resolving Grievance /
+                                        शिकायत का संछिप्त निवारण : </p>
+                                </div>
+                                <div class="col-md-7">
+                                    <textarea class="form-control" id="final_answer" rows="3" name="final_answer"
+                                        required>{{ old('final_answer', '') }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="box-footer justify-content-between">
+                                            <input type="submit" confirm("Press a button!"); id="btnAddRegDetails"
+                                                class="btn btn-primary"
+                                                value="Resolve Grievance ( शिकायत का निवारण  करें )" </button>
+                                            <input type="hidden" id="hr_grievance_id" name="hr_grievance_id"
+                                                value="{{ $hr_grievance->id }}" />
+                                            <input type="hidden" id="status_id" name="status_id" value="3" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </form>
-        </div>
-    </div>
-</div>
-<br />
+            </div>
+            <br />
 
-@endsection
+            @endsection
 
-@section('footscripts')
-@endsection
+            @section('footscripts')
+            @endsection

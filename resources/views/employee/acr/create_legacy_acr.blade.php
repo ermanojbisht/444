@@ -35,7 +35,7 @@ Legacy ACR's Data
 				<div class="form-group">
 					<select id='report_office_id' name='report_office_id' required class="form-select select2"
 						onchange="findLegacyAcrInOffice()">
-						<option value="0" {{( $office_id=='0' ? 'selected' : '' )}}> Select Office </option>
+						<option value="0" {{( $office_id=='0' ? 'selected' : '' )}} disabled > Select Office </option>
 						<option value="2" {{( $office_id=='2' ? 'selected' : '' )}}> All</option>
 						@foreach ($Offices as $office)
 						<option value="{{$office->id}}" {{( $office_id==$office->id ?
