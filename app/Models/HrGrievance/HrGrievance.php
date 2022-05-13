@@ -123,8 +123,7 @@ class HrGrievance extends Model
             case 'final':
                 $user=$this->creator; 
                 break;          
-        }
-        Log::info("user = ".print_r($user,true));
+        }        
         if($user){
             $user->notify(new GrSubmittedNotification($this,$milestone));
         }
