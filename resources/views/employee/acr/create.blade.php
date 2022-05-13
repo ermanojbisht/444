@@ -124,13 +124,12 @@ Part 1 ( Basic Information ) <small> Create ACR </small>
 				</div>
 				<div class="col-md-8">
 					@foreach ($employee->education as $education )
-					@if($education->qualifiaction_type_id == 1)
+					@if($education->emp_year <=  $employee->joining_date->format('Y'))
 					<p>
 						<span class="fw-semibold h6"> At the time of Joining in the Department : - </span>
 						<span class="text-info"> {{$education->qualifiaction }} </span>
 					</p>
-					@endif
-					@if($education->qualifiaction_type_id == 2)
+					@else
 					<p>
 						<span class="fw-semibold h6">Acquired during service in the Department : - </span>
 						<span class="text-info">{{$education->qualifiaction }}</span>

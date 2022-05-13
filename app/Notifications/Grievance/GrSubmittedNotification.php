@@ -48,11 +48,16 @@ class GrSubmittedNotification extends Notification
     {
         $creater=$this->hrGrievance->creator;
         $updationDate=$this->hrGrievance->updated_at->format('d M y');
+        $cc=[]; 
         switch ($this->milestone) {
             case 'submit':
-                $cc=[]; //employee and final person
+                //employee and final person
                 if($creater->email){
                     $cc[]=$creater->email;
+                }
+                $finalPerson=$this->hrGrievance->userFor('hr-gr-final');
+                if( $finalPerson ){
+                    $cc[]=$finalPerson->email;
                 }
                 $line='A new Grievance has been recieved from '.
                 $creater->shriName .' on '. $updationDate.
@@ -63,8 +68,15 @@ class GrSubmittedNotification extends Notification
                 $line='Grievance from '.  $creater->shriName .
                 ' has been worked by drafting officer on '. $updationDate.' Please Analyse and decide and do further action .';
                 break;
-            case 'final':
-                $cc=[]; //final and draft person
+            case 'final'://final and draft person
+                $finalPerson=$this->hrGrievance->userFor('hr-gr-final');
+                if( $finalPerson ){
+                    $cc[]=$finalPerson->email;
+                } 
+                $draftPerson=$this->hrGrievance->userFor('hr-gr-draft');
+                if( $draftPerson ){
+                    $cc[]=$draftPerson->email;
+                } 
                 $line='Grievance from '. $creater->shriName .
                 ' has been finalised with due diligence. If You are unsatisfied then may file further grievance  through the web portal.';
                 break;

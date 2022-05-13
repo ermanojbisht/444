@@ -44,11 +44,11 @@ class ResolveGrievanceController extends Controller
     public function index()
     {
 
-        $OfficesAllowedL2 = $this->user->OfficeToAnyJob(['hr-gr-level-2']); // hr-gr-level-2 for Draft Answer
+        $OfficesAllowedL2 = $this->user->OfficeToAnyJob(['hr-gr-draft']); // hr-gr-draft for Draft Answer
         $grievancesL2 = HrGrievance::whereIn("office_id", $OfficesAllowedL2)->whereIn('status_id', [1, 4, 5])
             ->whereNull('final_answer')->get();
 
-        $OfficesAllowedL1  = $this->user->OfficeToAnyJob(['hr-gr-level-1']); // hr-gr-level-1 for Final Answer
+        $OfficesAllowedL1  = $this->user->OfficeToAnyJob(['hr-gr-final']); // hr-gr-final for Final Answer
         $grievancesL1 = HrGrievance::whereIn("office_id", $OfficesAllowedL1)->whereIn('status_id', [1, 2, 4, 5])->get();
 
         $employee_name = $this->user->name;
@@ -59,16 +59,16 @@ class ResolveGrievanceController extends Controller
 
     public function resolveGrievance(HrGrievance $hr_grievance)
     {
-        if ($this->user->canDoJobInOffice('hr-gr-level-1', $hr_grievance->office_id)) {
+        if ($this->user->canDoJobInOffice('hr-gr-final', $hr_grievance->office_id)) {
             return redirect(route("hr_grievance.resolve.final", ['hr_grievance' => $hr_grievance->id]));
         }
 
-        if ($this->user->canDoJobInOffice('hr-gr-level-2', $hr_grievance->office_id)) {
+        if ($this->user->canDoJobInOffice('hr-gr-draft', $hr_grievance->office_id)) {
             return redirect(route('hr_grievance.resolve.addDraft', ['hr_grievance' => $hr_grievance->id]));
         }
 
         abort_if(
-            !$this->user->canDoJobInOffice(['hr-gr-level-1', 'hr-gr-level-2'], $hr_grievance->office_id),
+            !$this->user->canDoJobInOffice(['hr-gr-final', 'hr-gr-draft'], $hr_grievance->office_id),
             403, 'You are Not Allowed to view this Office Employees'
         );
     }
@@ -100,7 +100,7 @@ class ResolveGrievanceController extends Controller
         }
         $grievances =  HrGrievance::where("office_id", $Office_id)->get();
 
-        // $hrGrievance->grievanceAssignedToOfficers('hr-gr-level-1')
+        // $hrGrievance->grievanceAssignedToOfficers('hr-gr-final')
         // todo :: mail to L2 => Final Level Officer only
 
         return view('employee.others_hr_grievance.addDraft', compact('hr_grievance'));
@@ -194,16 +194,16 @@ class ResolveGrievanceController extends Controller
     }
 }
 
-/*$usersOffices = $this->user->OfficeToAnyJob(['hr-gr-level-2','hr-gr-level-1']); // hr-gr-level-2 is for Draft and 1 for Final
+/*$usersOffices = $this->user->OfficeToAnyJob(['hr-gr-draft','hr-gr-final']); // hr-gr-draft is for Draft and 1 for Final
         $grievances = HrGrievance::whereIn("office_id", $usersOffices)->where('status_id', '>', 0)->get();  // 
        
         return $grievances=$grievances->map(function($grItem) { 
-            if($this->user->canDoJobInOffice('hr-gr-level-2',$grItem->office_id)){
+            if($this->user->canDoJobInOffice('hr-gr-draft',$grItem->office_id)){
                 if(in_array($grItem->status_id, [1,4])){
                     $grItem->editable=1;  $grItem->view=1;
                 }
             }
-            if($this->user->canDoJobInOffice('hr-gr-level-1',$grItem->office_id)){
+            if($this->user->canDoJobInOffice('hr-gr-final',$grItem->office_id)){
                 if(in_array($grItem->status_id, [1,2])){
                     $grItem->editable=1;  $grItem->view=1;
                 }

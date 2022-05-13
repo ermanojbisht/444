@@ -90,7 +90,7 @@ class GrievanceController extends Controller
         $hrGrievance->update(['status_id' => 1]);
 
         $hrGrievance->notificationFor('submit');
-        // $hrGrievance->grievanceAssignedToOfficers('hr-gr-level-1')
+        // $hrGrievance->grievanceAssignedToOfficers('hr-gr-final')
         // todo :: mail to creater, L1 & L2
 
         return Redirect::route('employee.hr_grievance')->with('success', 'Application Submitted Successfully');
