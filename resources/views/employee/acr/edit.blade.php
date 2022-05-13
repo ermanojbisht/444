@@ -222,8 +222,7 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 					@if($education->emp_year <=  $employee->joining_date->format('Y'))
 					<p> <span class="fw-semibold h6"> At the time of Joining in the Department : - </span>
 						<span class="text-info"> {{$education->qualifiaction }} </span>
-					</p>
-					@endif
+					</p>					
 					@else
 					<p>
 						<span class="fw-semibold h6"> Acquired during service in the Department : - </span>
