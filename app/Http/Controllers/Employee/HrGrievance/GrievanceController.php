@@ -89,6 +89,7 @@ class GrievanceController extends Controller
         $hrGrievance = HrGrievance::findOrFail($request->grievance_id);
         $hrGrievance->update(['status_id' => 1]);
 
+        $hrGrievance->notificationFor('submit');
         // $hrGrievance->grievanceAssignedToOfficers('hr-gr-level-1')
         // todo :: mail to creater, L1 & L2
 

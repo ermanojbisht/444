@@ -99,7 +99,7 @@ class HrGrievance extends Model
 
         $job =  OfficeJob::where('name', $jobName)->get();
         return OfficeJobDefault::where('job_id', $job->id)
-        ->where('office_id',$applied_office)->get();
+        ->where('office_id',$applied_office)->first();
 
         // $this->user->OfficeToAnyJob(['hr-gr-level-2']);
 
@@ -117,7 +117,17 @@ class HrGrievance extends Model
      * @param $targetDutyType
      * @param $notification_type
      */
-    public function mailNotificationFor($targetDutyType, $notification_type, $msg = false)
+    public function notificationFor($milestone)
     {
+        switch (milestone) {
+            case 'submit':
+                $user=$this->grievanceAssignedToOfficers('hr');         //get user from this , still not sure
+                break;
+
+            default:
+                // code...
+                break;
+        }
+        $user->notify(new GrSubmittedNotification($this,'submit'));
     }
 }
