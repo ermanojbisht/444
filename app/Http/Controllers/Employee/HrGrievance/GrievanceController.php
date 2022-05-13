@@ -79,7 +79,6 @@ class GrievanceController extends Controller
 
     public function textMessageAfterAddingGrievance($hrGrievance_id, $actionCompleted)
     {
-
         return  'Your Grievance has been ' . $actionCompleted . ', Please note down your Grievance Id : ' . $hrGrievance_id .
             '.  Kindly note this Id for future reference. Application will remain editable till you submit the Grievance.';
     }
@@ -88,14 +87,8 @@ class GrievanceController extends Controller
     {
         $hrGrievance = HrGrievance::findOrFail($request->grievance_id);
         $hrGrievance->update(['status_id' => 1]);
-
         $hrGrievance->notificationFor('submit');
-        // $hrGrievance->grievanceAssignedToOfficers('hr-gr-final')
-        // todo :: mail to creater, L1 & L2
-
         return Redirect::route('employee.hr_grievance')->with('success', 'Application Submitted Successfully');
-
-
     }
 
     public function reopen(Request $request)

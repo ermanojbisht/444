@@ -100,9 +100,6 @@ class ResolveGrievanceController extends Controller
         }
         $grievances =  HrGrievance::where("office_id", $Office_id)->get();
 
-        // $hrGrievance->grievanceAssignedToOfficers('hr-gr-final')
-        // todo :: mail to L2 => Final Level Officer only
-
         return view('employee.others_hr_grievance.addDraft', compact('hr_grievance'));
     }
 
@@ -116,6 +113,7 @@ class ResolveGrievanceController extends Controller
             'draft_answer' => $request->draft_answer,
             'status_id' => 2
         ]);
+        $hrGrievance->notificationFor('draft');
 
         return Redirect::route('resolve_hr_grievance')->with('success', 'Application Draft Saved Successfully');
     }
@@ -124,8 +122,6 @@ class ResolveGrievanceController extends Controller
     /* View Adding Final Resolving  Answer  */
     public function addFinalAnswer(HrGrievance $hr_grievance)
     {
-
-
         return view('employee.others_hr_grievance.addFinalAnswer', compact('hr_grievance'));
     }
 
@@ -135,9 +131,7 @@ class ResolveGrievanceController extends Controller
     {
         $hrGrievance = HrGrievance::findorFail($request->hr_grievance_id);
         $hrGrievance->update($request->all());
-
- 
-        // todo :: mail to creater, L1 & L2
+        $hrGrievance->notificationFor('final');
 
         return Redirect::route('resolve_hr_grievance')->with('success', 'Application Draft Saved Successfully');
     }
@@ -148,9 +142,7 @@ class ResolveGrievanceController extends Controller
     {
         $hrGrievance = HrGrievance::findOrFail($request->grievance_id);
         $hrGrievance->update(['status_id' => 4]);
-
-         
-        // todo :: mail to L1 => Draft Level Officer only
+        // $hrGrievance->notificationFor('revert');
 
         return Redirect::route('resolve_hr_grievance')->with('danger', 'Application Reverted Successfully');
     }

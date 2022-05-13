@@ -7,8 +7,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\Telegram\TelegramChannel;
+use NotificationChannels\Telegram\TelegramMessage;
 
-class GrSubmittedNotification extends Notification
+class GrSubmittedNotification extends Notification implements ShouldQueue
 {
     public $hrGrievance;
     public $milestone;
@@ -35,7 +37,7 @@ class GrSubmittedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail',TelegramChannel::class];
     }
 
     /**
@@ -45,6 +47,23 @@ class GrSubmittedNotification extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
+    {
+        list($line,$cc)=$this->makeMsg();      
+
+        return (new MailMessage)
+                    ->subject('Grievance '.$this->hrGrievance->id.' on'.now())
+                    ->line($line)
+                    ->line('Thank you ! We all here to develop a better work culture')
+                    ->cc($cc);
+    }
+
+    public function toTelegram($notifiable)
+    {        
+        list($line,$cc)=$this->makeMsg();
+        return TelegramMessage::create()->content($line);          
+    }
+
+    public function makeMsg()
     {
         $creater=$this->hrGrievance->creator;
         $updationDate=$this->hrGrievance->updated_at->format('d M y');
@@ -81,25 +100,8 @@ class GrSubmittedNotification extends Notification
                 ' has been finalised with due diligence. If You are unsatisfied then may file further grievance  through the web portal.';
                 break;
         }
-
-
-        return (new MailMessage)
-                    ->subject('Grievance '.$this->hrGrievance->id.' on'.now())
-                    ->line($line)
-                    ->line('Thank you ! We all here to develop a better work culture')
-                    ->cc($cc);
+        return [$line,$cc];
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            //
-        ];
-    }
+    
 }

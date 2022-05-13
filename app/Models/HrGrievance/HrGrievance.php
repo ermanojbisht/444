@@ -9,6 +9,7 @@ use App\Notifications\Grievance\GrSubmittedNotification;
 use App\Traits\OfficeTypeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Log;
 
 class HrGrievance extends Model
 {
@@ -123,6 +124,7 @@ class HrGrievance extends Model
                 $user=$this->creator; 
                 break;          
         }
+        Log::info("user = ".print_r($user,true));
         if($user){
             $user->notify(new GrSubmittedNotification($this,$milestone));
         }
