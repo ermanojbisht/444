@@ -210,8 +210,8 @@
 				<tr class="bg-light fw-bold fs-5 text-center">
 					<td class="text-end">Net</td>
 					<td class="text-center">{{80 + $total_marksB}}</td>
-					<td class="text-center">{{$acr->report_no??'not finalized yet'}}</td>
-					<td class="text-center">{{$acr->review_no??'not finalized yet'}}</td>
+					<td class="text-center">{{$acr->report_no??'none'}}</td>
+					<td class="text-center">{{$acr->review_no??'none'}}</td>
 				</tr>
 			</tbody>
 
