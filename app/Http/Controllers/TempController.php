@@ -9,6 +9,7 @@ use App\Models\Acr\AcrBasic;
 use App\Models\Acr\AcrNegativeParameter;
 use App\Models\Acr\AcrParameter;
 use App\Models\CeOffice;
+use App\Models\Education;
 use App\Models\EeOffice;
 use App\Models\Employee;
 use App\Models\Office;
@@ -26,6 +27,7 @@ class TempController extends Controller
      */
     public function temp()
     {
+        return Education::first();
         $employees=Employee::whereOfficeIdd(0)->get()->take(5000);
         foreach ($employees as $key => $employee) {
             $employee->updateOfficeIdd();
@@ -230,8 +232,8 @@ class TempController extends Controller
     public function temp1()
     {
 
-        $acr=Acr::find(256);
-        $milestone='submit';
+        $acr=Acr::find(78);
+        $milestone='accept';
 
         $pages = $this->arrangePagesForPdf($acr, $milestone);
 
