@@ -210,14 +210,14 @@ Part - IV ( Assessment by the Accepting Authority)
 					$("#grades").html('Satisfactory');
 					break;
 				} 
-				case (marks <= 20.0) :
+				case (marks > 0 &&  marks <= 20) :
 				{
 					$("#grades").html('Unsatisfactory');
 					break;
 				} 
 				default : 
 				{
-					$("#grades").html('');
+					$("#grades").html('None');
 					break;
 				}
 
