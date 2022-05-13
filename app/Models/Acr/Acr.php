@@ -465,13 +465,14 @@ class Acr extends Model
                     $grades = 'Satisfactory';
                     break;
                 }
-            case ($marks <= 20.0):
+            case ($marks > 0 &&  $marks <= 20):
                 {
                     $grades = 'Unsatisfactory';
                     break;
                 }
-            default:{
-                    $grades = 'Unknown / Not decided';
+            default:
+                {
+                    $grades = 'None';
                     break;
                 }
         }
