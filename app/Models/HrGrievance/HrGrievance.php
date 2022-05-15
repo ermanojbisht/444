@@ -5,9 +5,11 @@ namespace App\Models\HrGrievance;
 use App\Models\Employee;
 use App\Models\OfficeJob;
 use App\Models\OfficeJobDefault;
+use App\Notifications\Grievance\GrSubmittedNotification;
+use App\Traits\OfficeTypeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use App\Traits\OfficeTypeTrait;
+use Log;
 
 class HrGrievance extends Model
 {
@@ -92,23 +94,15 @@ class HrGrievance extends Model
     /**
      * @param $jobName
      */
-    public function grievanceAssignedToOfficers($jobName)
-    {
-
-        $applied_office = $this->office_id;
-
-        $job =  OfficeJob::where('name', $jobName)->get();
-        return OfficeJobDefault::where('job_id', $job->id)
-        ->where('office_id',$applied_office)->get();
-
-        // $this->user->OfficeToAnyJob(['hr-gr-level-2']);
-
-        // $target_employee_field = config('acr.basic.duty')[$dutyType]['targetemployee'];
-        // $target_employee_id = $target_employee_field;
-        // if ($target_employee_id) {
-        //     return User::where('employee_id', $target_employee_id)->first();
-        // }
-
+    public function userFor($jobName)
+    {       
+        $job =  OfficeJob::where('name', $jobName)->first();
+        if($job){
+            $OfficeJobDefault=OfficeJobDefault::where('job_id', $job->id)->where('office_id',$this->office_id)->first(); 
+            if($OfficeJobDefault){
+                return $OfficeJobDefault->user;
+            }
+        }        
         return false;
     }
 
@@ -117,7 +111,21 @@ class HrGrievance extends Model
      * @param $targetDutyType
      * @param $notification_type
      */
-    public function mailNotificationFor($targetDutyType, $notification_type, $msg = false)
+    public function notificationFor($milestone)
     {
+        switch ($milestone) {
+            case 'submit':
+                $user=$this->userFor('hr-gr-draft');        
+                break;
+            case 'draft':
+                $user=$this->userFor('hr-gr-final');         
+                break;
+            case 'final':
+                $user=$this->creator; 
+                break;          
+        }        
+        if($user){
+            $user->notify(new GrSubmittedNotification($this,$milestone));
+        }
     }
 }

@@ -69,7 +69,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		</td>
 		<td>
 			@foreach ($employee->education as $education )
-			@if($education->qualifiaction_type_id == 1)
+			@if($education->emp_year <=  $employee->joining_date->format('Y'))
 			<p> {{$education->qualifiaction }} </p>
 			@endif
 			@endforeach
@@ -81,7 +81,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		</td>
 		<td>
 			@foreach ($employee->education as $education )
-			@if($education->qualifiaction_type_id == 2)
+			@if($education->emp_year >  $employee->joining_date->format('Y'))
 			<p> {{$education->qualifiaction }} </p>
 			@endif
 			@endforeach
