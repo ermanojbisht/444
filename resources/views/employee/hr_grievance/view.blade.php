@@ -44,7 +44,7 @@
                     <div style="padding-left:100px;">
                          To,<div style="float: right;padding-right:100px;"> Dated : {{$hr_grievance->created_at ?
                             $hr_grievance->created_at->format('d M Y') : ''}}</div><br /> 
-                        Grievance Resolving Oficer, <br />
+                            {{ $finalOfficer->name }}, <br />
                         {{ $hr_grievance->office() }},Public Works Department, <br />
                         Uttarakhand. <br />
                         <br /> 

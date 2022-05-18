@@ -59,19 +59,19 @@ Fill your grievances ( शिकायत निवारण हेतु आव
                             <option value=""> Select Grievance Type </option>
                             @foreach($grievanceTypes as $grievance )
                             <option value="{{$grievance->id}}" {{ old('grievance_type_id')==$grievance->id ? 'selected'
-                                :
-                                '' }}> {{$grievance->name}}
+                                : '' }}> {{$grievance->name}}
                             </option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-3"> 
+                    <div class="col-md-3">
                         <p for="office_id" class=" form-label required"> Grievance Office (शिकायत का ऑफिस ) </p>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <select class="form-select select2" id="office_id" name="office_id" required>
-                                <option disabled value="0">select Office</option>
+                            <select class="form-select select2" id="office_id" name="office_id"
+                                onchange="getDraftandFinalResolver()" required>
+                                <option value="0">select Office</option>
                                 @foreach($eeOffices as $key=>$eeOffice)
                                 <option {{ old('office_id')==$eeOffice->id ? 'selected' : '' }}
                                     value="{{ $eeOffice->id }}" >{{ $eeOffice->name }}</option>
@@ -82,18 +82,29 @@ Fill your grievances ( शिकायत निवारण हेतु आव
                 </div>
                 <br />
                 <div class="row">
+                    <div class="col-md-12">
+                        <label class=" form-label required"> Grievance Resolving Officer (शिकायत निवारण कर्ता आधिकारी )
+                            :
+                        </label>
+                        <label id="lblResolvingOfficer" class=" form-label"> </label>
+                        <label id="lblResolvingOfficerEmployeeId" class="hide form-label"> </label>
+                    </div>
+                </div>
+
+                <br />
+                <div class="row">
                     <div class="col-md-3">
                         <p for="subject" class=" form-label required "> Subject ( विषय ) </p>
-                        <label class="text-danger" > Not more the 50 Characters </label>
+                        <label class="text-danger"> Not more the 50 Characters </label>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="subject" rows="3" minlength="10" maxlength="50" name="subject"
-                            required value="{{ old('subject', '') }}"
-                            onkeypress="countCharacters(this, 'lbl_subject_counter')" 
-                            onkeydown="countCharacters(this, 'lbl_subject_counter')" 
+                        <input type="text" class="form-control" id="subject" rows="3" minlength="10" maxlength="50"
+                            name="subject" required value="{{ old('subject', '') }}"
+                            onkeypress="countCharacters(this, 'lbl_subject_counter')"
+                            onkeydown="countCharacters(this, 'lbl_subject_counter')"
                             onkeyup="countCharacters(this, 'lbl_subject_counter')" />
-                            <label class="text-danger" id="lbl_subject_counter" > 0 </label> 
-                            <label class="text-danger" > Charcaters  </label>
+                        <label class="text-danger" id="lbl_subject_counter"> 0 </label>
+                        <label class="text-danger"> Charcaters </label>
                     </div>
                 </div>
 
@@ -104,12 +115,12 @@ Fill your grievances ( शिकायत निवारण हेतु आव
                         <label class="text-danger"> Not more the 400 Characters </label>
                     </div>
                     <div class="col-md-9">
-                        <textarea class="form-control" id="description" rows="3" minlength="10" maxlength="400" name="description" required
-                            onkeypress="countCharacters(this, 'lbl_description_counter')" 
-                            onkeydown="countCharacters(this, 'lbl_description_counter')" 
+                        <textarea class="form-control" id="description" rows="3" minlength="10" maxlength="400"
+                            name="description" required onkeypress="countCharacters(this, 'lbl_description_counter')"
+                            onkeydown="countCharacters(this, 'lbl_description_counter')"
                             onkeyup="countCharacters(this, 'lbl_description_counter')">{{ old('description', '') }}</textarea>
-                            <label class="text-danger" id="lbl_description_counter" > 0 </label> 
-                            <label class="text-danger" > Charcaters  </label>
+                        <label class="text-danger" id="lbl_description_counter"> 0 </label>
+                        <label class="text-danger"> Charcaters </label>
                     </div>
                 </div>
 
@@ -151,8 +162,8 @@ Fill your grievances ( शिकायत निवारण हेतु आव
                         <div class="form-group">
                             <div class="box-footer justify-content-between">
                                 <input type="submit" confirm("Press a button!"); id="btnAddRegDetails"
-                                    class="btn btn-primary" value="Add Grievance ( शिकायत / मांग / सुझाव दर्ज करे)"
-                                    </button>
+                                    class="btn btn-primary" value="Add Grievance ( शिकायत / मांग / सुझाव दर्ज करे)" />
+
                                 <input type="hidden" id="employee_id" name="employee_id"
                                     value="{{Auth::user()->employee_id}}">
                             </div>
@@ -177,12 +188,44 @@ Fill your grievances ( शिकायत निवारण हेतु आव
 @section('footscripts')
 <!-- Select2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script type="text/javascript"> 
+<script type="text/javascript">
     $(".select2").select2();
     function countCharacters(thiss, lblShowCounterId)
     {
         $("#" +lblShowCounterId).html(thiss.value.length);
     }
+
+    function getDraftandFinalResolver()
+    {
+        let office_id = $("#office_id").val();
+        let _token = $('input[name="_token"]').val();
+        $.ajax({
+            url: "{{ route('employee.ajaxForGrievanceResolver') }}",
+            method: "POST",
+            data: {
+                office_id : office_id,
+                _token : _token
+            },
+            success: function (data) {
+               fillResolvingOfficer(data);
+            }
+        });
+    }
+
+    function fillResolvingOfficer(data)
+    {
+        if(data == "") {
+            $("#lblResolvingOfficer").html('');
+            $("#lblResolvingOfficerEmployeeId").html('');
+            $("#btnAddRegDetails").attr("disabled", "disabled"); 
+        }
+        else{
+            $("#lblResolvingOfficer").html(data["name"]);
+            $("#lblResolvingOfficerEmployeeId").html(data["employee_id"]);
+            $("#btnAddRegDetails").removeAttr("disabled"); 
+        }
+    }
+
 </script>
 @include('partials.js._makeDropDown')
 @endsection

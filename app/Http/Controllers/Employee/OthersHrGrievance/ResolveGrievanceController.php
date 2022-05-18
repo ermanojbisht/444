@@ -142,8 +142,9 @@ class ResolveGrievanceController extends Controller
     {
         $hrGrievance = HrGrievance::findOrFail($request->grievance_id);
         $hrGrievance->update(['status_id' => 4]);
-        // $hrGrievance->notificationFor('revert');
-
+        
+        $hrGrievance->notificationFor('revert');
+        
         return Redirect::route('resolve_hr_grievance')->with('danger', 'Application Reverted Successfully');
     }
 
@@ -167,13 +168,10 @@ class ResolveGrievanceController extends Controller
             $startDate = Carbon::today()->subMonths(12)->toDateString();
         }
 
-
         $officeId = ($request->has('office_id')) ? $request->office_id : 0;
         $grievanceTypes = HrGrievanceType::all();
 
         $grievances = HrGrievance::get();
-
-
 
         return view('employee.others_hr_grievance.office_grievance', compact(
             'grievances',

@@ -11,6 +11,8 @@ use App\Models\Employee;
 use App\Models\HrGrievance\HrGrievance;
 use App\Models\HrGrievance\HrGrievanceType;
 use App\Models\Office;
+use App\Models\OfficeJob;
+use App\Models\OfficeJobDefault;
 use App\Traits\OfficeTypeTrait;
 use Gate;
 use Illuminate\Support\Facades\Auth;
@@ -68,13 +70,18 @@ class GrievanceController extends Controller
      */
     public function store(StoreGrievanceRequest $request)
     {
-        $hrGrievance = HrGrievance::create($request->validated());
+        if($this->checkWeatherOfficerisAssigned($request->office_id))
+        {
+            $hrGrievance = HrGrievance::create($request->validated());
+        } 
 
         if ($request->is_document_upload == 1)
             return Redirect::route("employee.hr_grievance.addDoc", ['hr_grievance' => $hrGrievance->id]);
         else
-            return Redirect::route('employee.hr_grievance')->with('success', 
-            $this->textMessageAfterAddingGrievance($hrGrievance->id, 'Created Successfully'));
+            return Redirect::route('employee.hr_grievance')->with(
+                'success',
+                $this->textMessageAfterAddingGrievance($hrGrievance->id, 'Created Successfully')
+            );
     }
 
     public function textMessageAfterAddingGrievance($hrGrievance_id, $actionCompleted)
@@ -128,9 +135,9 @@ class GrievanceController extends Controller
      */
     public function edit(HrGrievance $hr_grievance)
     {
+ 
         $grievanceTypes = HrGrievanceType::all();
-        //$officeType = $hr_grievance->office_type;
-        //$eeOffices =  $this->getOfficeListAsPerOfficeTypeId($officeType);
+         
         $eeOffices = Office::select('name', 'id')->orderBy('name')->get();
         return view('employee.hr_grievance.edit', compact('hr_grievance', 'grievanceTypes', 'eeOffices'));
     }
@@ -143,12 +150,32 @@ class GrievanceController extends Controller
      */
     public function update(UpdateGrievanceRequest $request)
     {
-        $hr_grievance = HrGrievance::findorFail($request->grievance_id);
-        $hr_grievance->update($request->validated());
+        if($this->checkWeatherOfficerisAssigned($request->office_id))
+        {
+            $hr_grievance = HrGrievance::findorFail($request->grievance_id);
+            $hr_grievance->update($request->validated());
 
-        return Redirect::route('employee.hr_grievance')->with('success', 
-        $this->textMessageAfterAddingGrievance($hr_grievance->id, 'Updated Successfully'));
+            return Redirect::route('employee.hr_grievance')->with('success',
+                $this->textMessageAfterAddingGrievance($hr_grievance->id, 'Updated Successfully')
+            );
+        } 
     }
+
+
+    function checkWeatherOfficerisAssigned($office_id)
+    {
+        $job =  OfficeJob::where('name', 'hr-gr-final')->first();
+        if ($job) {
+            $OfficeJobDefault = OfficeJobDefault::where('job_id', $job->id)->where('office_id', $office_id)->first();
+            if ($OfficeJobDefault) {
+                return true;
+            }
+        }
+        
+        return redirect()->back()->with('fail', 'No Officer is Selected to resolve Grievances in the 
+            selected Office, thus cannot add Grievances in this Office'); 
+    }
+
 
     /**
      * Ajax Call for Office in office type from trait .
@@ -164,5 +191,25 @@ class GrievanceController extends Controller
             return $this->getOfficeListAsPerOfficeTypeId($officeType);
         }
     }
+
+    /**
+     * Ajax Call for Grievance Resolver in office.
+     *
+     * @param  \App\Models\ Offices 
+     * @return Office List   
+     */
+    public function ajaxForGrievanceResolver(Request $request)
+    {
+        if ($request->ajax()) {
+            $job =  OfficeJob::where('name', 'hr-gr-final')->first();
+            if ($job) {
+                $OfficeJobDefault = OfficeJobDefault::where('job_id', $job->id)->where('office_id', $request->office_id)->first();
+                if ($OfficeJobDefault) {
+                    return $OfficeJobDefault->user;
+                }
+            }
+        }
+    }
+
 
 }

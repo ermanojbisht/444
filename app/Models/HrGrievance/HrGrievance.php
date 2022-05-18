@@ -35,11 +35,16 @@ class HrGrievance extends Model
     public function currentStatus()
     {
         $status = [
-            0 => 'Created', 1 => 'Submitted', 2 => 'Draft Answer by L1 Officer',
-            3 => 'Final Answer by L2 Officer', 4 => 'Reverted', 5 => 'Reopened'
+            0 => 'Created',
+            1 => 'Submitted',
+            2 => 'Draft Answer by L1 Officer',
+            3 => 'Final Answer by L2 Officer',
+            4 => 'Reverted',
+            5 => 'Reopened'
         ];
-        return  $status[$this->status_id];
+        return  $status[$this->status_id]  . ' on  ' . $this->updated_at->format('d M Y');
     }
+
 
     public function status_bg_color()
     {
@@ -64,6 +69,7 @@ class HrGrievance extends Model
         return  $this->OfficeName($this->office_type, $this->office_id);
     }
 
+    
     /**
      * @return mixed
      */
@@ -71,6 +77,7 @@ class HrGrievance extends Model
     {
         return $this->hasMany(HrGrievanceDocument::class);
     }
+
 
     /**
      * @param  $doctitle
@@ -95,14 +102,14 @@ class HrGrievance extends Model
      * @param $jobName
      */
     public function userFor($jobName)
-    {       
+    {
         $job =  OfficeJob::where('name', $jobName)->first();
-        if($job){
-            $OfficeJobDefault=OfficeJobDefault::where('job_id', $job->id)->where('office_id',$this->office_id)->first(); 
-            if($OfficeJobDefault){
+        if ($job) {
+            $OfficeJobDefault = OfficeJobDefault::where('job_id', $job->id)->where('office_id', $this->office_id)->first();
+            if ($OfficeJobDefault) {
                 return $OfficeJobDefault->user;
             }
-        }        
+        }
         return false;
     }
 
@@ -115,17 +122,18 @@ class HrGrievance extends Model
     {
         switch ($milestone) {
             case 'submit':
-                $user=$this->userFor('hr-gr-draft');        
+            case 'revert':
+                $user = $this->userFor('hr-gr-draft');
                 break;
             case 'draft':
-                $user=$this->userFor('hr-gr-final');         
+                $user = $this->userFor('hr-gr-final');
                 break;
             case 'final':
-                $user=$this->creator; 
-                break;          
-        }        
-        if($user){
-            $user->notify(new GrSubmittedNotification($this,$milestone));
+                $user = $this->creator;
+                break;
+        }
+        if ($user) {
+            $user->notify(new GrSubmittedNotification($this, $milestone));
         }
     }
 }

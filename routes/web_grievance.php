@@ -19,6 +19,10 @@ Route::group(['as' => 'employee.'], function () {
     Route::post('reopen', 'HrGrievance\GrievanceController@reopen')->name('hr_grievance.reopen');
 
     Route::post('ajaxDataForOffice', 'HrGrievance\GrievanceController@ajaxDataForOffice')->name('ajaxDataForOffice'); //todo detach it for base use
+    
+    Route::post('ajaxForGrievanceResolver', 'HrGrievance\GrievanceController@ajaxForGrievanceResolver')
+    ->name('ajaxForGrievanceResolver');
+
 });
 
 //ResolveGrievanceController

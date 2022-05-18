@@ -46,7 +46,6 @@ return [
       6 => 'Sports'
    ],
 
-
    'addressType' => [
       1 => 'Correspondence',
       2 => 'Permanent',
@@ -76,6 +75,12 @@ return [
       4   => 'UPSSSC',
       5   => 'UPPSC',
       6   => 'Adhoc'
+   ],
+
+   'transfer_mode' =>
+   [
+      1   => 'Transfer',
+      2   => 'Permotion',
    ],
 
 
