@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 // GrievanceController
 
 Route::group(['as' => 'employee.'], function () {
-
     Route::get('hr_grievance', 'HrGrievance\GrievanceController@index')->name('hr_grievance');
 
     Route::get('hr_grievance/create', 'HrGrievance\GrievanceController@create')->name('hr_grievance.create');
@@ -16,14 +15,11 @@ Route::group(['as' => 'employee.'], function () {
     Route::get('hr_grievance/{hr_grievance}', 'HrGrievance\GrievanceController@show')->name('hr_grievance.show');
 
     Route::post('submit', 'HrGrievance\GrievanceController@submit')->name('hr_grievance.submit');
-    Route::post('reopen', 'HrGrievance\GrievanceController@reopen')->name('hr_grievance.reopen');
-
-    Route::post('ajaxDataForOffice', 'HrGrievance\GrievanceController@ajaxDataForOffice')->name('ajaxDataForOffice'); //todo detach it for base use
-    
-    Route::post('ajaxForGrievanceResolver', 'HrGrievance\GrievanceController@ajaxForGrievanceResolver')
-    ->name('ajaxForGrievanceResolver');
-
+    Route::post('reopen', 'HrGrievance\GrievanceController@reopen')->name('hr_grievance.reopen');   
 });
+
+Route::post('getFinalResolverOfOffice', 'HrGrievance\GrievanceController@getFinalResolverOfOffice')
+    ->name('getFinalResolverOfOffice');
 
 //ResolveGrievanceController
 

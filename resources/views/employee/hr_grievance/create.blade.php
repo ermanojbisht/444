@@ -200,30 +200,25 @@ Fill your grievances ( शिकायत निवारण हेतु आव
         let office_id = $("#office_id").val();
         let _token = $('input[name="_token"]').val();
         $.ajax({
-            url: "{{ route('employee.ajaxForGrievanceResolver') }}",
+            url: "{{ route('getFinalResolverOfOffice') }}",
             method: "POST",
             data: {
                 office_id : office_id,
                 _token : _token
             },
             success: function (data) {
-               fillResolvingOfficer(data);
+               if(data == "") {
+                    $("#lblResolvingOfficer").html('<div class="alert alert-danger"><strong>Warning!</strong>Grievance Redressal Officer not appointed in selected office, hence application can not be submitted</div>');
+                    $("#lblResolvingOfficerEmployeeId").html('');
+                    $("#btnAddRegDetails").attr("disabled", "disabled"); 
+                }
+                else{
+                    $("#lblResolvingOfficer").html(data["name"]);
+                    $("#lblResolvingOfficerEmployeeId").html(data["employee_id"]);
+                    $("#btnAddRegDetails").removeAttr("disabled"); 
+                }
             }
         });
-    }
-
-    function fillResolvingOfficer(data)
-    {
-        if(data == "") {
-            $("#lblResolvingOfficer").html('');
-            $("#lblResolvingOfficerEmployeeId").html('');
-            $("#btnAddRegDetails").attr("disabled", "disabled"); 
-        }
-        else{
-            $("#lblResolvingOfficer").html(data["name"]);
-            $("#lblResolvingOfficerEmployeeId").html(data["employee_id"]);
-            $("#btnAddRegDetails").removeAttr("disabled"); 
-        }
     }
 
 </script>

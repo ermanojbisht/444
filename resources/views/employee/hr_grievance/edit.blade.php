@@ -182,24 +182,7 @@ Edit your grievances ( शिकायत निवारण हेतु आव
             }
         });
 
-        // function getSetectedOffices() {
-        //     let officeType = $("#office_type").val();
-        //     let _token = $('input[name="_token"]').val();
-        //     //if (officeType > 0) {
-        //         $.ajax({
-        //             url: "{{ route('employee.ajaxDataForOffice') }}",
-        //             method: "POST",
-        //             data: {
-        //                 officeType : officeType,
-        //                 _token : _token
-        //             },
-        //             success: function (data) {
-        //                 bindDdlWithDataAndSetValue("office_id", data, "id", "name", true, "0", "Select Office", "");
-        //             }
-        //         });
-        //     //}
-        // }
-
+       
 
 </script>
 

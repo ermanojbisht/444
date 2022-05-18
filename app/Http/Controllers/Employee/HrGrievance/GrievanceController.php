@@ -70,10 +70,12 @@ class GrievanceController extends Controller
      */
     public function store(StoreGrievanceRequest $request)
     {
-        if($this->checkWeatherOfficerisAssigned($request->office_id))
+        if(!Office::find($request->office_id)->getFinalGriveanceResolver())
         {
-            $hrGrievance = HrGrievance::create($request->validated());
+            return redirect()->back()->with('fail', 'No Officer is Selected to resolve Grievances in the 
+            selected Office, thus cannot add Grievances in this Office'); 
         } 
+        $hrGrievance = HrGrievance::create($request->validated());
 
         if ($request->is_document_upload == 1)
             return Redirect::route("employee.hr_grievance.addDoc", ['hr_grievance' => $hrGrievance->id]);
@@ -150,65 +152,30 @@ class GrievanceController extends Controller
      */
     public function update(UpdateGrievanceRequest $request)
     {
-        if($this->checkWeatherOfficerisAssigned($request->office_id))
+        if(!Office::find($request->office_id)->getFinalGriveanceResolver())
         {
-            $hr_grievance = HrGrievance::findorFail($request->grievance_id);
-            $hr_grievance->update($request->validated());
-
-            return Redirect::route('employee.hr_grievance')->with('success',
-                $this->textMessageAfterAddingGrievance($hr_grievance->id, 'Updated Successfully')
-            );
-        } 
-    }
-
-
-    function checkWeatherOfficerisAssigned($office_id)
-    {
-        $job =  OfficeJob::where('name', 'hr-gr-final')->first();
-        if ($job) {
-            $OfficeJobDefault = OfficeJobDefault::where('job_id', $job->id)->where('office_id', $office_id)->first();
-            if ($OfficeJobDefault) {
-                return true;
-            }
-        }
-        
-        return redirect()->back()->with('fail', 'No Officer is Selected to resolve Grievances in the 
+            return redirect()->back()->with('fail', 'No Officer is Selected to resolve Grievances in the 
             selected Office, thus cannot add Grievances in this Office'); 
+        } 
+
+        $hr_grievance = HrGrievance::findorFail($request->grievance_id);
+        $hr_grievance->update($request->validated());
+
+        return Redirect::route('employee.hr_grievance')->with('success',
+            $this->textMessageAfterAddingGrievance($hr_grievance->id, 'Updated Successfully')
+        );
+       
     }
-
-
-    /**
-     * Ajax Call for Office in office type from trait .
-     *
-     * @param  \App\Models\  CE \  SE \  EE Offices 
-     * @return Office List   
-     */
-    public function ajaxDataForOffice(Request $request)
-    {
-        if ($request->ajax()) {
-            $officeType = $request->officeType;
-            // return $this->officeListAsPerOfficeTypeObject($officeType);
-            return $this->getOfficeListAsPerOfficeTypeId($officeType);
-        }
-    }
-
+ 
     /**
      * Ajax Call for Grievance Resolver in office.
      *
      * @param  \App\Models\ Offices 
      * @return Office List   
      */
-    public function ajaxForGrievanceResolver(Request $request)
+    public function getFinalResolverOfOffice(Request $request)
     {
-        if ($request->ajax()) {
-            $job =  OfficeJob::where('name', 'hr-gr-final')->first();
-            if ($job) {
-                $OfficeJobDefault = OfficeJobDefault::where('job_id', $job->id)->where('office_id', $request->office_id)->first();
-                if ($OfficeJobDefault) {
-                    return $OfficeJobDefault->user;
-                }
-            }
-        }
+        return Office::find($request->office_id)->getFinalGriveanceResolver();  
     }
 
 
