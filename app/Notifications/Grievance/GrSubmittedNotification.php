@@ -2,6 +2,8 @@
 
 namespace App\Notifications\Grievance;
 
+use App\Channels\SmsChannel;
+use App\Channels\SmsMessage;
 use App\Models\HrGrievance\HrGrievance;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,7 +39,10 @@ class GrSubmittedNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail',TelegramChannel::class];
+        if($notifiable->chat_id>10000){
+            return ['mail',TelegramChannel::class];
+        }
+        return ['mail', SmsChannel::class];
     }
 
     /**
@@ -61,6 +66,15 @@ class GrSubmittedNotification extends Notification implements ShouldQueue
     {        
         list($line,$cc)=$this->makeMsg();
         return TelegramMessage::create()->content($line);          
+    }
+
+    public function toSms($notifiable)
+    {
+        list($line,$cc)=$this->makeMsg();
+        return (new SmsMessage )
+                ->templateId('1507162892814168027')
+                ->to($notifiable->contact_no)
+                ->line($line);
     }
 
     public function makeMsg()

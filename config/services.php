@@ -35,4 +35,10 @@ return [
         'name' => env('TELEGRAM_BOT_NAME', 'YOUR BOT_NAME')
     ],
 
+    'sms' => [
+        'url' => env('SMS_URL', 'none'),
+        'apiKey' => env('SMS_APIkey', 'hm6x6PDG7U2Ha4EYAOehYA'),
+        'senderId' => env('SMS_SenderId', 'RRSMSG')
+    ],
+
 ];
