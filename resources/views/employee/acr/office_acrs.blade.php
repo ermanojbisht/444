@@ -74,6 +74,7 @@
 						<th>Submitted on</th>
 						<th>Accepted On</th>
 						<th>Download</th>
+						@can('acr-special')<th>No</th>@endcan
 					</tr>
 				</thead>
 				<tbody style="border:1px solid #C8CBD2;">
@@ -117,6 +118,9 @@
 								--
 							@endif
 						</td>
+						@can('acr-special')
+						<td>{{$acr->accept_no}}</td>
+						@endcan
 					</tr>
 					@endforeach
 					@endif

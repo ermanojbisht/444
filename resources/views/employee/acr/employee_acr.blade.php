@@ -31,6 +31,14 @@
 				<th>Accepted By</th>
 				<th>Analysis</th>
 				<th>Action</th>
+				@if($isMyAcr)
+					<th>No</th>
+				@else
+				@can('acr-special')
+					<th>No</th>				
+				@endcan
+				@endif
+				
 			</tr>
 		</thead>
 		<tbody>
@@ -107,6 +115,14 @@
 					@endif
 				</td>
 				@endif
+				@if($isMyAcr)
+					<td>{{$acr->accept_no}}</td>
+				@else
+				@can('acr-special')
+					<td>{{$acr->accept_no}}</td>				
+				@endcan
+				@endif
+				
 			</tr>
 			@endforeach
 		</tbody>
