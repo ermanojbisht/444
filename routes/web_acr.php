@@ -112,3 +112,8 @@ Route::group(['prefix' => 'others', 'as' => 'acr.others.', 'middleware' => ['aut
     Route::post('/reject/acr', 'OthersAcr\AcrInboxController@storeReject')->name('storeReject');
 
 });
+
+Route::group(['prefix' => 'analysis', 'as' => 'acr.analysis.', 'middleware' => ['auth', 'verified']], function () {
+    Route::get('/trainningRequirementChart', 'Acr\AcrAnalysisController@trainningRequirementChart')->name('trainningRequirementChart');
+});
+
