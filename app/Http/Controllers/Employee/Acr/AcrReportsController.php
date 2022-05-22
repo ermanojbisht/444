@@ -43,8 +43,12 @@ class AcrReportsController extends Controller {
     public function show( Employee $employee )
     {
         $acrs = Acr::where( 'employee_id', $employee->id )->orderBy('from_date','DESC')->get();
+        $isMyAcr=false;
+        if($this->user){
+            $isMyAcr= $this->user->employee_id==$employee->id;
+        }
 
-        return view( 'employee.acr.employee_acr', compact( 'acrs', 'employee' ) );
+        return view( 'employee.acr.employee_acr', compact( 'acrs', 'employee','isMyAcr' ) );
     }
 
     public function officeAcrs( Request $request )
