@@ -1113,4 +1113,20 @@ class Acr extends Model
         });
     }
 
+    public function acknowladgeable()
+    {
+        if(!$this->submitted_at && !$this->is_acknowledged){
+            if($this->isTwoStep){
+                if($this->report_employee_id && $this->review_employee_id){
+                    return true;
+                }
+            }else{
+                if($this->report_employee_id && $this->review_employee_id && $this->accept_employee_id){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
