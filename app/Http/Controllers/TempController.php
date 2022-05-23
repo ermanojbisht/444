@@ -27,6 +27,48 @@ class TempController extends Controller
      */
     public function temp()
     {
+        // Configuration settings for the key
+        $config = array(
+            "digest_alg" => "sha512",
+            "private_key_bits" => 4096,
+            "private_key_type" => OPENSSL_KEYTYPE_RSA,
+        );
+
+        // Create the private and public key
+        $res = openssl_pkey_new($config);
+
+        // Extract the private key into $private_key
+        openssl_pkey_export($res, $private_key);
+
+        // Extract the public key into $public_key
+        $public_key = openssl_pkey_get_details($res);
+        $public_key = $public_key["key"];
+
+        Log::info("public_key = ".print_r($public_key,true));
+
+        // Something to encrypt
+        $text = 'Manoj Bisht';
+
+        echo "This is the original text: $text\n\n";
+
+        // Encrypt using the public key
+        openssl_public_encrypt($text, $encrypted, $public_key);
+
+        $encrypted_hex = bin2hex($encrypted);
+        echo "This is the encrypted text: $encrypted_hex\n\n";
+
+        // Decrypt the data using the private key
+        openssl_private_decrypt($encrypted, $decrypted, $private_key);
+
+        echo "This is the decrypted text: $decrypted\n\n";
+       
+
+
+        
+        Log::info("public_key = ".print_r($key,true));
+        return ;
+
+
         return Education::first();
         $employees=Employee::whereOfficeIdd(0)->get()->take(5000);
         foreach ($employees as $key => $employee) {
@@ -234,6 +276,8 @@ class TempController extends Controller
 
         $acr=Acr::find(78);
         $milestone='accept';
+
+        return $acr->grade;
 
         $pages = $this->arrangePagesForPdf($acr, $milestone);
 
