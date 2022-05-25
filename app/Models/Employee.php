@@ -230,9 +230,9 @@ class Employee extends Authenticatable
             } else {
                 $dateFrom=$empAcr->from_date;
                 $dateTo=$empAcr->to_date;
+                $dateToLast=$empAcr->to_date;
                 $difference=$dateToLast->diffInDays($dateFrom,false);
                 $dateFromLast=$empAcr->from_date;
-                $dateToLast=$empAcr->to_date;
             }
             $i++;
             $empAcr->missing=$difference;

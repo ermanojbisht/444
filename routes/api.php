@@ -7,7 +7,6 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     Route::post('createUserFromEmployee', 'UsersApiController@createUserFromEmployee')->name('createUserFromEmployee');
     Route::get('userWithEmployeeCode/{employee_id}', 'UsersApiController@userWithEmployeeCode')->name('userWithEmployeeCode');
 
-
     // Permissions
     Route::apiResource('permissions', 'PermissionsApiController');
 
@@ -28,13 +27,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 });
 
 
-
-
-
-
 Route::post('login', '\App\Http\Controllers\Api\V1\Admin\UsersApiLoginController@login');
-
-
 
 Route::post('/tokens/create', function (Request $request) {
     $token = $request->user()->createToken($request->token_name);
