@@ -64,22 +64,7 @@ Add Draft for Resolving Grievance
                         From: - <br />
                         {{ $hr_grievance->creator->name }}, <br />
                         Employee Id : {{ $hr_grievance->creator->id }} <br />
-                        <hr />
-                        @if(count($hr_grievance->documents) > 0)
-                        <div class="row">
-                            <div class="col-md-4">
-                                <p> Grievance Document </p>
-                            </div>
-                            <div class="col-md-8">
-                                <p>
-                                    <a href="{{ route(" employee.hr_grievance.doclist",
-                                        ['hr_grievance'=>$hr_grievance->id,
-                                        'is_question' => 1]) }}" > View Documents </a>
-                                </p>
-                            </div>
-                        </div>
-                        @endif
-
+                       
                         @if(count($hr_grievance->documents) > 0)
                         <hr />
                         <div class="row">
