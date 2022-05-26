@@ -63,13 +63,11 @@
                         </button>
                         <div class="dropdown-menu">
                             @if( $grievance->status_id == 0)
-                            <form
-                                action="{{ route('employee.hr_grievance.submit', [ 'grievance_id'=> $grievance->id]) }}"
-                                method="POST" onsubmit="return confirm('Above Written Details are correct to my knowledge. 
-                                        ( उपरोक्त दिए गए डाटा एवं प्रपत्र सही हैं तथा इनसे में सहमत हूँ) ');"
-                                class="d-grid">
+                            <form action="{{ route('employee.hr_grievance.submit', [ 'grievance_id'=> $grievance->id]) }}"
+                                class="d-grid" method="POST" 
+                                onsubmit="return confirm('Above Written Details are correct to my knowledge.  ( उपरोक्त दिए गए डाटा एवं प्रपत्र सही हैं तथा इनसे में सहमत हूँ) ');" >
                                 {{ csrf_field() }}
-                                <input class="dropdown-item" type="submit" value="Submit Grievance" />
+                                {!! Form::submit('Submit Grievance', ['class'=> 'dropdown-item']) !!}
                             </form>
                             <a class="dropdown-item"
                                 href="{{ route('employee.hr_grievance.addDoc',['hr_grievance'=>$grievance->id]) }}">
@@ -84,14 +82,13 @@
                                 href="{{route('employee.hr_grievance.show', ['hr_grievance' => $grievance->id])}}">
                                 View Grievance
                             </a>
-                            @if( $grievance->status_id == 3)
-                            <form  action="{{ route('employee.hr_grievance.reopen', [ 'grievance_id'=> $grievance->id]) }}"
-                                method="POST" onsubmit="return confirm('Above Written Details are correct to my knowledge. 
-                                        ( उपरोक्त दिए गए डाटा एवं प्रपत्र सही हैं तथा इनसे में सहमत हूँ) ');"
-                                class="d-grid">
-                                {{ csrf_field() }}
-                                <input class="dropdown-item" type="submit" value="Re Open Grievance" />
-                            </form>
+                            @if( $grievance->status_id == 3) 
+                                <form action="{{ route('employee.hr_grievance.reopen', [ 'grievance_id'=> $grievance->id]) }}" 
+                                    method="POST" 
+                                    onsubmit="return confirm('I want to reopen my grievance. ( मैं शिकायत दुबारा ओपन करना चाहता हूँ )');" class="d-grid">
+                                    {{ csrf_field() }}
+                                    <input class="dropdown-item" type="submit" value="Re Open Grievance">
+                                </form>
                             @endif
 
                         </div>
