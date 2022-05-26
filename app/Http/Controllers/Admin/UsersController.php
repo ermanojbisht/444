@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyUserRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Employee;
+use App\Models\ForestProposal;
 use App\Models\Office;
 use App\Models\OfficeJob;
 use App\Models\OfficeJobDefault;
@@ -23,6 +24,7 @@ use Log;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 use GuzzleHttp\Client;
+use Helper;
 use Illuminate\Support\Facades\Http;
 
 class UsersController extends Controller

@@ -316,7 +316,7 @@ class Helper
         return($string);  
 	}
 
-	public function daysBetweenDate(array $dates,$includeLastDay=true)
+	public static function daysBetweenDate(array $dates,$includeLastDay=true)
 	{
 		$start = ($dates[0] instanceof Carbon) ? $dates[0] : Carbon::parse($dates[0]);
         $end   = ($dates[1] instanceof Carbon) ? $dates[1] : Carbon::parse($dates[1]);

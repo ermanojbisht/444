@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\UsersController; 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -127,5 +127,32 @@ Route::prefix('consume')->group(function () {
 });
 
 
+// Start : Hrms new laravel system routes  // todo:: also tried web_hrms need to remove or refactor later 
+Route::group(['as' => 'employee.'], function () {
+
+    Route::get('employee/index', 'Hrms\HrmsEmployeeController@index')->name('index');
+
+    Route::get('employee/create', 'Hrms\HrmsEmployeeController@create')->name('create');
+    Route::post('store', 'Hrms\HrmsEmployeeController@store')->name('store');
+    
+    Route::get('employee/edit/{employee}', 'Hrms\HrmsEmployeeController@edit')->name('edit');
+    Route::post('employee/update', 'Hrms\HrmsEmployeeController@update')->name('update');
+    
+    Route::post('employee/lockEmployee/{employee}/{lock_level}', 'Hrms\HrmsEmployeeController@lockEmployee')
+    ->name('lockEmployee');
+
+
+    Route::post('ajaxDataForOffice', 'Hrms\Hrms@ajaxDataForOffice')->name('ajaxDataForOffice'); //todo detach it for base use
+
+    Route::get('office/employees/index', 'Hrms\UpdateEmployeeController@index')->name('office.index');
+    Route::get('office/employees/view/{employee}', 'Hrms\UpdateEmployeeController@view')->name('office.view');
+    
+
+
+
+});
+
+
+// End : Hrms new laravel system routes 
 
 

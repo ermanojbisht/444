@@ -31,6 +31,14 @@
 				<th>Accepted By</th>
 				<th>Analysis</th>
 				<th>Action</th>
+				@if($isMyAcr)
+					<th>No</th>
+				@else
+				@can('acr-special')
+					<th>No</th>				
+				@endcan
+				@endif
+				
 			</tr>
 		</thead>
 		<tbody>
@@ -78,12 +86,16 @@
 				<td class="d-flex d-flex justify-content-around">
 					@if(!$acr->submitted_at && !$acr->is_acknowledged)
 						@can('acknowledge-acr')
+                            @if($acr->acknowladgeable())
 							<form action="{{ route('acr.others.acknowledged') }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" >
                                 <input type="hidden" name="_method" value="POST">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="acr_id" value="{{ $acr->id }}">
                                 <button type="submit" class="btn btn-outline-danger btn-sm">Acknowledge</button>
                             </form>
+                            @else
+                            User Has not yet not filled his appraisal officers
+                            @endif
                             <a href="{{ route('acr.others.reject',['acr'=>$acr->id,'dutyType'=>'rejectByNodal'])}}" class="btn btn-outline-danger btn-sm">Reject</a>
 						@endcan						
 					@endif
@@ -107,6 +119,14 @@
 					@endif
 				</td>
 				@endif
+				@if($isMyAcr)
+					<td>{{$acr->accept_no}}</td>
+				@else
+				@can('acr-special')
+					<td>{{$acr->accept_no}}</td>				
+				@endcan
+				@endif
+				
 			</tr>
 			@endforeach
 		</tbody>

@@ -114,7 +114,6 @@ Other Employee ACR Initiated
                                 </a>
                                 @endif
 
-
 								@endif
 								@if ($acr->isFileExist())
 								<a class="dropdown-item" href="{{route('acr.view', ['acr' => $acr->id])}}">
@@ -197,7 +196,7 @@ Other Employee ACR Initiated
 								<label for='office_id' class="required "> Select Office : </label>
 								<br/>
 								<div class="form-group">
-								<select name="office_id" id="office_id" required class="form-select ">
+								<select name="office_id" id="office_id" required class="form-select select2">
 									<option value=""> Select Office </option>
 									@foreach ($Offices as $key => $values)
 										<option value="{{$key}}" > {{$values}} </option>
@@ -295,6 +294,9 @@ Other Employee ACR Initiated
 	});
  
     $(document).ready(function() {
+		
+		$(".select2").select2();
+
 		$("#office_id").select2({
 		   	dropdownParent: $("#hrms-model"),
 		    dropdownAutoWidth : true,

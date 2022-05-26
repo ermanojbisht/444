@@ -133,11 +133,12 @@
 
 
 @section('footscripts')
+
+@include('layouts._commonpartials.js._select2')
 <script type="text/javascript">
 	$(document).ready(function () {
 
-		$('.select2').select2({
-		});
+		$('.select2').select2();
 
             $('#officeTypeId').change(function (e) {
                 e.preventDefault();
