@@ -1,7 +1,7 @@
 @extends('layouts.type200.main')
 
 @section('styles')
-@include('cssbundle.datatablefor5',['button'=>true])
+@include('layouts._commonpartials.css._datatable')
 @endsection
 
 @section('sidebarmenu')

@@ -1,5 +1,8 @@
 <?php
 
+
+
+
 return [
 
    'gender' => [
@@ -68,6 +71,11 @@ return [
       8 => 'Other'
    ],
 
+   'regular_incharge' => [
+      1 => 'regular',
+      2 => 'incharge'
+   ],
+
    'appointmentType' => [
       1   => 'UKPSC',
       2   => 'UPNL',
@@ -77,12 +85,36 @@ return [
       6   => 'Adhoc'
    ],
 
-   'transfer_mode' =>
-   [
-      1   => 'Transfer',
-      2   => 'Permotion',
+
+
+   'leaveType' => [
+      4   => 'Commuted leave',
+      21  => 'Earned Leave',
+      31  => 'Leave on Medical Certificate',
+      32  => 'Extraordinary Leave',
+      33  => 'Leave on Private Affairs',
+      36  => 'Paternity Leave',
+      37  => 'Hospital Leave',
+      38  => 'Special casual Leave',
+      39  => 'Special disability Leave',
+      40  => 'Study Leave'
    ],
 
 
-   'recordStartyear' => 2021,
+
+   'historyType' =>
+   [
+      1   => 'Transfer',
+      2   => 'Promotion',
+      3   => 'Attachment',
+      4   => 'Deputation',
+      5   => 'Rejoin after Deputation',
+      5   => 'Suspension',
+      6   => 'Rejoin after Suspension',
+      7   => 'Demotion',
+      8   => 'Retired'
+   ],
+
+
+   'DurgamSugamyear' => 2021,
 ];
