@@ -20,7 +20,7 @@ class Office extends Model
 
     public function getFinalGriveanceResolver()
     {                  
-        $OfficeJobDefault = OfficeJobDefault::where('job_id', 2)->where('office_id', $this->office_id)->first();
+        $OfficeJobDefault = OfficeJobDefault::where('job_id', 2)->where('office_id', $this->id)->first();
         if ($OfficeJobDefault) {
             return $OfficeJobDefault->user;
         }           
