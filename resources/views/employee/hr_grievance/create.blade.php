@@ -150,10 +150,9 @@ Fill your grievances ( शिकायत निवारण हेतु आव
                             <label class=" form-check-label" for="invalidCheck"> Above Written Details are
                                 correct to my
                                 knowledge. ( उपरोक्त शिकायत एवं डॉक्यूमेंट के प्रपत्र से में सहमत हूँ | )
-                                </span>
-                                <div class="invalid-feedback">You must agree before submitting.</div>
+                            </label>
+                            <div class="invalid-feedback">You must agree before submitting.</div>
                         </div>
-
                     </div>
                 </div>
 

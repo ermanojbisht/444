@@ -107,7 +107,7 @@ class ResolveGrievanceController extends Controller
     {
         $hrGrievance = HrGrievance::findorFail($request->hr_grievance_id);
 
-        $request->draft_answer = $this->user->shriName . '(' . $this->user->employee->designation->name . ') : \n '   . $request->draft_answer;
+        $request->draft_answer = $this->user->shriName . '(' . $this->user->employee->designation->name . ') : '   . $request->draft_answer;
 
         $hrGrievance->update([
             'draft_answer' => $request->draft_answer,

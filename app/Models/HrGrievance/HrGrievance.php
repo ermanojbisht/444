@@ -19,7 +19,7 @@ class HrGrievance extends Model
     protected $connection = 'mysqlhrms';
     protected $fillable = [
         'id', 'grievance_type_id', 'description', 'office_type',
-        'office_id', 'draft_answer', 'final_answer', 'employee_id', 'refference_grievance_id', 
+        'office_id', 'draft_answer', 'final_answer', 'employee_id', 'refference_grievance_id',
         'status_id', 'subject'
     ];
 
@@ -46,6 +46,18 @@ class HrGrievance extends Model
         return  $status[$this->status_id]  . ' on  ' . $this->updated_at->format('d M Y');
     }
 
+    public function resolver($resolverType)
+    {
+        if ($resolverType == 'final') {
+            $OfficeJobDefault = OfficeJobDefault::where('job_id', 2)->where('office_id', $this->office_id)->first();
+        } else {
+            $OfficeJobDefault = OfficeJobDefault::where('job_id', 1)->where('office_id', $this->office_id)->first();
+        }  // ($resolverType == 'draft') 
+
+        if ($OfficeJobDefault) {
+            return $OfficeJobDefault->user;
+        }
+    }
 
     public function status_bg_color()
     {
@@ -70,7 +82,7 @@ class HrGrievance extends Model
         return  $this->OfficeName($this->office_type, $this->office_id);
     }
 
-    
+
     /**
      * @return mixed
      */
