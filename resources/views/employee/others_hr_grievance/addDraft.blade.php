@@ -88,9 +88,8 @@ Add Draft for Resolving Grievance
                             </div>
                             <div class="col-md-8">
                                 <p>
-                                    <a href="{{ route(" employee.hr_grievance.doclist",
-                                        ['hr_grievance'=>$hr_grievance->id,
-                                        'is_question' => 1]) }}" > View Uploaded Documents </a>
+                                    <a href="{{ route('employee.hr_grievance.doclist', ['hr_grievance'=>$hr_grievance->id,
+                                        'is_question' => 1]) }}"> View Uploaded Documents </a>
                                 </p>
                             </div>
                         </div>
