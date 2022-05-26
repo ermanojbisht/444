@@ -96,7 +96,7 @@
 											</td>
 											<td class="text-end">
 												<input class="form-control text-end" type="number"  step="0.01"
-												min="0.1" name="achivement[{{$data->id}}]" 
+												min="0.0" name="achivement[{{$data->id}}]" 
 													@if(!empty($data->user_achivement))
 														style="background-color:#F0FFF0;"
 														value="{{$data->user_achivement}}"
