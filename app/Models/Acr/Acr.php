@@ -268,6 +268,14 @@ class Acr extends Model
                     $record->from_date->format('d M y').' - '.$record->to_date->format('d M y').
                     ' ) in our record Employee ID = '.$record->employee_id];
             }
+
+            //CHECK DATE IS IN SEQUENTIOAL ORDER, MEANS NEW START DATE CAN NOT BE LESS THEN OLD DATE WHICH IS ALREADY FILLED
+            if($record->from_date->gt($start)){
+                return ['status' => false, 'msg' => 'Given period ('.$start->format('d M y').' - '.
+                    $end->format('d M y').') is previous period then the record already filled ( '.
+                    $record->from_date->format('d M y').' - '.$record->to_date->format('d M y').
+                    ' ) in our record for Employee ID = '.$record->employee_id.' .So it is not admissible put the data in proper order . You may restart entry after deleteing old data of particular appraisal officer type.'];
+            }
             //if old record has already period for 90 days then revert
             if ($recordPeriod->count() >= 90) {
                 return ['status' => false, 'msg' => 'Period ( '.$record->from_date->format('d M y').' - '.
