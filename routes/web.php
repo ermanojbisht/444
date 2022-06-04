@@ -16,6 +16,7 @@ Route::get('acrs/{employee}', 'Employee\Acr\AcrReportsController@show')->name('e
     ->missing(fn ($request) => response()->view('errors.employee_not_found'));
 
 Route::get('officeacrs', 'Employee\Acr\AcrReportsController@officeAcrs')->name('office.acrs.view');
+Route::get('difficulties', 'Employee\Acr\AcrReportsController@difficulties')->name('office.acrs.difficulties');
 Route::get('employeesWithoutAcr/{office_id}/{year}', 'Employee\Acr\AcrReportsController@officeEmployeeListWithoutAcr')->name('office.employeesWithoutAcr.list');
 Route::post('/filter',FilterController::class)->name('filter');
 

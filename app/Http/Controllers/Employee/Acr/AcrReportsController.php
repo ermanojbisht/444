@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Employee\Acr;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Acr\Acr;
+use App\Models\Acr\AcrType;
 use App\Models\Designation;
 use App\Models\Employee;
 use App\Models\Office;
@@ -50,6 +51,8 @@ class AcrReportsController extends Controller {
 
         return view( 'employee.acr.employee_acr', compact( 'acrs', 'employee','isMyAcr' ) );
     }
+
+
 
     public function officeAcrs( Request $request )
     {
@@ -153,4 +156,11 @@ class AcrReportsController extends Controller {
 
     }
 
+    public function difficulties()
+    {
+       $acrs = Acr::select('employee_id','acr_type_id','office_id','from_date','to_date','difficultie')->whereRaw('LENGTH(difficultie) > ?', [10])->get()->groupBy(['acr_type_id','employee_id']);
+       $acr_Types = AcrType::all();
+
+        return view( 'employee.acr.difficulties', compact( 'acrs','acr_Types') );
+    }
 }
