@@ -38,15 +38,17 @@ return [
 
    'acrLeaveType'=>[
       4 => 'Commuted leave',
-      21 => ' Earned Leave',
-      31 => ' Leave on Medical Certificate',
-      32 => ' Extraordinary Leave',
-      33 => ' Leave on Private Affairs',
-      36 => ' Paternity Leave',
-      37 => ' Hospital Leave',
-      38 => ' Special casual Leave',
-      39  => 'Special disability Leave',
-      40 => ' Study Leave',
+      21 => 'Earned Leave',
+      31 => 'Leave on Medical Certificate',
+      32 => 'Extraordinary Leave',
+      33 => 'Leave on Private Affairs',
+      36 => 'Paternity Leave',
+      37 => 'Hospital Leave',
+      38 => 'Special casual Leave',
+      39 => 'Special disability Leave',
+      40 => 'Study Leave',
+      41 => 'Maternity Leave',
+      42 => 'Child Care Leave (CCL)'
    ],
 
    'acrRejectionReason'=>[
