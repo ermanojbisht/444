@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Hrms;
 
+use App\Models\Hrms\District;
+use App\Models\Tehsil;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use NunoMaduro\Collision\Adapters\Phpunit\State;
+use Illuminate\Database\Eloquent\Model; 
 
 class Address extends Model
 {
@@ -19,6 +20,7 @@ class Address extends Model
         'address_type_id', 
         'state_id', 
         'district_id', 
+        'tehsil_id',
         'vidhansabha_id', 
         'updated_by', 
         'created_at', 
@@ -28,8 +30,15 @@ class Address extends Model
     public function address_type(){
         return config('hrms.masters.addressType')[$this->address_type_id]; 
     }
+
+
     // todo: state table need to be corrected 
-    public function stae_Name(){
+    
+
+    
+
+
+    public function state_Name(){
         return $this->belongsTo(State::class, "state_id", "id");
     }
     
@@ -39,6 +48,10 @@ class Address extends Model
 
     public function tehsil_Name(){
         return $this->belongsTo(Tehsil::class, "tehsil_id", "id");
+    }
+
+    public function constituency_Name(){
+        return $this->belongsTo(Constituency::class, "vidhansabha_id", "id");
     }
 
 

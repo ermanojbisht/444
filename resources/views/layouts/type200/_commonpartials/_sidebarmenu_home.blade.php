@@ -15,6 +15,11 @@
     </div>
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
         <x-nav-item icon="applications" href="{{ route('employee.home') }}">{{ trans('global.dashboard') }}</x-nav-item>
+        
+        <x-nav-item icon="chat-bubble" href="{{route('employee.index')}}">H R M S</x-nav-item>
+
+        <x-nav-item icon="chat-bubble" href="{{route('employee.office.index')}}">View Office Employees</x-nav-item>
+
         <x-nav-item icon="chat-bubble" href="{{route('employee.hr_grievance')}}">Track Grievance</x-nav-item>
         <x-nav-item icon="badge" href="{{route('acr.myacrs')}}">Track ACR</x-nav-item>
         @if(Auth::check())

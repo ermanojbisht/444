@@ -79,14 +79,21 @@ class Employee extends Model
     //     return $this->belongsTo(TransferDetail::class, "id", "emp_id");
     // }
 
-    public function office_Name()
+    public function officeName()
     {
         return $this->belongsTo(Office::class, "current_office_id", "id");
     }
 
-    public function designation_Name()
+    public function designationName()
     {
         return $this->belongsTo(Designation::class, "current_designation_id", "id");
+    }
+
+
+    public function getAddress($addressType)
+    {
+       return  $this->belongsTo(Address::class, "id", "employee_id")
+       ->where("address_type_id", "=", $addressType)->first();
     }
 
     //todo : All functions below are imported from mis employee Model ^.^

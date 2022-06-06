@@ -1,15 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Hrms;
 
+use App\Models\Designation;
+use App\Models\Office;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TransferDetail extends Model
+class Posting extends Model
 {
     use HasFactory;
 
     public $table ='postings'; 
+    protected $dates = ['from_date','to_date','created_at','updated_at'];
+   
+    
+
+
     protected $fillable = [
         'id', 
         'employee_id', 
@@ -30,17 +37,13 @@ class TransferDetail extends Model
     //     return $this->belongsTo(state::class);
     // }
 
-    public function office_Name(){
-        if($this->office_type_id == "1" )
-            return $this->belongsTo(Zone::class, "office_id", "hr_office_id");
-        else if($this->office_type_id == "2" )
-            return $this->belongsTo(Circle::class, "office_id", "hr_office_id");
-        else
-            return $this->belongsTo(Division::class, "office_id", "hr_office_id");
+    public function officeName(){
+         
+            return $this->belongsTo(Office::class, "office_id", "id");
     }
 
 
-    public function designation_Name(){
+    public function designationName(){
         return $this->belongsTo(Designation::class, "designation_id", "id");
     }
 

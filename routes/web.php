@@ -16,6 +16,7 @@ Route::get('acrs/{employee}', 'Employee\Acr\AcrReportsController@show')->name('e
     ->missing(fn ($request) => response()->view('errors.employee_not_found'));
 
 Route::get('officeacrs', 'Employee\Acr\AcrReportsController@officeAcrs')->name('office.acrs.view');
+Route::get('difficulties', 'Employee\Acr\AcrReportsController@difficulties')->name('office.acrs.difficulties');
 Route::get('employeesWithoutAcr/{office_id}/{year}', 'Employee\Acr\AcrReportsController@officeEmployeeListWithoutAcr')->name('office.employeesWithoutAcr.list');
 Route::post('/filter',FilterController::class)->name('filter');
 
@@ -141,12 +142,31 @@ Route::group(['as' => 'employee.'], function () {
     Route::post('employee/lockEmployee/{employee}/{lock_level}', 'Hrms\HrmsEmployeeController@lockEmployee')
     ->name('lockEmployee');
 
-
-    Route::post('ajaxDataForOffice', 'Hrms\Hrms@ajaxDataForOffice')->name('ajaxDataForOffice'); //todo detach it for base use
-
+  
     Route::get('office/employees/index', 'Hrms\UpdateEmployeeController@index')->name('office.index');
     Route::get('office/employees/view/{employee}', 'Hrms\UpdateEmployeeController@view')->name('office.view');
     
+    Route::get('office/employees/editBasicDetails/{employee}', 'Hrms\UpdateEmployeeController@editBasicDetails')->name('editBasicDetails');
+    Route::post('employee/info/update', 'Hrms\UpdateEmployeeController@updateBasicDetails')->name('updateBasicDetails');
+
+    Route::get('office/employees/createAddressDetails/{employee}', 'Hrms\AddressController@createAddressDetails')->name('createAddress');
+    Route::post('address/store', 'Hrms\AddressController@storeAddressDetails')->name('storeAddressDetails');
+
+    Route::get('employee/family/{employee}', 'Hrms\FamilyController@createFamilyDetails')->name('createFamilyDetails');
+    Route::post('family/store', 'Hrms\FamilyController@storeFamilyDetails')->name('family.store');
+
+    Route::get('employee/education/{employee}', 'Hrms\EducationController@createEducations')->name('AddEducationDetails');
+    Route::post('education/store', 'Hrms\EducationController@storeEducationDetails')->name('education.store');
+
+    
+    Route::get('employee/posting/{employee}', 'Hrms\PostingController@createPostings')->name('createPostings');
+    Route::post('posting/store', 'Hrms\PostingController@storePostings')->name('postings.store');
+
+     
+
+
+    Route::post('ajaxDataForOffice', 'Hrms\Hrms@ajaxDataForOffice')->name('ajaxDataForOffice'); 
+    //todo detach it for base use
 
 
 

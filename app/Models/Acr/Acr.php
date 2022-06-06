@@ -315,7 +315,6 @@ class Acr extends Model
                     $record->is_due = 0;
                 }
             }
-
             $record->save();
         }
         $this->update([config('acr.basic.acrProcessFields')[$appraisal_officer_type] => $responsible_employee_id]);

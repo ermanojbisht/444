@@ -35,10 +35,12 @@ class UpdateEmployeeController extends Controller
     // view all employees in Office
     public function index()
     {
+        $title = "Office Enrolled Employees";
         $OfficesAllocated = $this->user->OfficeToAnyJob(['employee_edit_job']); // hr-gr-draft for Draft Answer
-        $newAddedEmployees = Employee::whereIn("current_office_id", $OfficesAllocated)->whereIn('lock_level', [1, 2])->get();
+        $newAddedEmployees = Employee::whereIn("current_office_id", $OfficesAllocated)->whereIn('lock_level', [1, 2])
+        ->with('designationName')->get();
 
-        return view('hrms.employee.index', compact('newAddedEmployees'));
+        return view('hrms.employee.index', compact('newAddedEmployees', 'title'));
     }
 
 
@@ -48,9 +50,7 @@ class UpdateEmployeeController extends Controller
      */
     public function view(Employee $employee)
     {
-
         $title = "Create new Employee";
-
         $designations = array('' => 'Select Designation') + Designation::where('group_id', '!=', 'null')
             ->orderBy('name')->pluck('name', 'id')->toArray();
 
@@ -60,28 +60,38 @@ class UpdateEmployeeController extends Controller
         return view('hrms.employee.view', compact('title', 'employee', 'designations', 'offices'));
     }
 
-
+ 
     /**
-     * [create new Employee ]
-     * @return view for Employee creation
+     ** Add Basic Details
+     * [view edit Employee Data] by Office 
+     * @return view for Employee editing
      */
-    public function create()
+    public function editBasicDetails(Employee $employee)
     {
-        //$offices = Office::select('name', 'id')->orderBy('name')->get();
-        $title = "Create new Employee";
 
-        return view('hrms.employee.create', compact('title'));
+        $designations = array('' => 'Select Designation') + Designation::where('group_id', '!=', 'null')
+            ->orderBy('name')->pluck('name', 'id')->toArray();
+
+        $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
+
+
+        return view('hrms.employee.edit_all', compact('employee', 'designations', 'offices'));
     }
 
+
     /**
-     * [store Employee Data]
-     * @param  StoreEmployeeRequest $request [Employee Data]
+     * [update Employee Data] by Office
+     * @param  UpdateEmployeeRequest $request [Employee Data]
      * @return [type]               redirect [New Added Employee Index]
      */
-    public function store(StoreEmployeeRequest $request)
+    public function updateBasicDetails(UpdateEmployeeRequest $request)
     {
-        $employee = Employee::create($request->validated());
+        $employee = Employee::findorFail($request->id);
+        $employee->update($request->validated());
 
-        return redirect('employee/index')->with('status', 'Employee Added Successfully!');
+        return redirect()->route('employee.office.view',['employee'=>$employee->id])
+        ->with('status', 'Employee Updated Successfully!');
     }
+
+
 }

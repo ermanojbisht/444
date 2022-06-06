@@ -104,15 +104,19 @@ return [
 
    'historyType' =>
    [
-      1   => 'Transfer',
-      2   => 'Promotion',
-      3   => 'Attachment',
-      4   => 'Deputation',
-      5   => 'Rejoin after Deputation',
-      5   => 'Suspension',
-      6   => 'Rejoin after Suspension',
-      7   => 'Demotion',
-      8   => 'Retired'
+      1  => 'Transfer',
+      2  => 'Promotion',
+      3  => 'Attachment',
+      4  => 'Deputation',
+      5  => 'Rejoin after Deputation',
+      6  => 'Suspension',
+      7  => 'Rejoin after Suspension',
+      8  => 'Demotion',
+      9  => 'Retired',
+      10 => 'Transfer with Promotion ?',
+      11 => 'Transfer with Demotion ?',
+      12 => 'Lean',
+      13 => 'New Appointment'
    ],
 
 

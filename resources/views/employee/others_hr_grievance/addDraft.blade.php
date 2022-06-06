@@ -1,6 +1,5 @@
 @extends('layouts.type200.main')
 
-
 @section('styles')
 <style>
     .row {
@@ -15,9 +14,7 @@
 @endsection
 
 @section('headscripts')
-
 @endsection
-
 
 @section('sidebarmenu')
 @include('layouts.type200._commonpartials._sidebarmenu_hr_gr',['active'=>'Grienvance'])

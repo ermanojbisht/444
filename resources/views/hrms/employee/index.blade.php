@@ -9,14 +9,14 @@
 @endsection
 
 @section('pagetitle')
-{{Auth::User()->shriName}}'s
+{{ $title }}
 @endsection
 
 @section('breadcrumb')
 @include('layouts._commonpartials._breadcrumb',
 ['datas'=> [
 ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
-['label'=> 'New Created Employees','active'=>true],
+['label'=> 'Employees List','active'=>true],
 ]])
 @endsection
 
@@ -37,7 +37,7 @@
                 <th>#</th>
                 <th>Id</th>
                 <th>Name </th>
-                <th>Father's Name</th>
+                <th>Designation</th>
                 <th>Date Of Birth</th>
                 <th>Status -> Created on</th>
                 <th style="width:10%">Action </th>
@@ -49,10 +49,9 @@
                 <td>{{1+$loop->index}}</td>
                 <td>{{$employee->id}}</td>
                 <td>{{$employee->name}}</td>
-                <td>{{$employee->father_name}}</td>
+                <td>{{($employee->designation_name ? $employee->designation_name->name : ' Not declared ') }}</td>
                 <td>{{$employee->birth_date ? $employee->birth_date->format('d M Y') : ''}} </td>
-                <td>{{-- {{$employee->currentStatus()}} on --}}
-                    {{$employee->created_at ? $employee->created_at->format('d M Y') : ''}} </td>
+                <td>{{$employee->created_at ? $employee->created_at->format('d M Y') : ''}} </td>
                 <td>
                     <div class="dropdown" id="{{1+$loop->index}}">
                         <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -76,7 +75,8 @@
                             </a>
                             @elseif( $employee->lock_level == 1)
 
-                            <a class="dropdown-item" href="{{ route('employee.office.view',['employee'=>$employee->id]) }}">
+                            <a class="dropdown-item"
+                                href="{{ route('employee.office.view',['employee'=>$employee->id]) }}">
                                 View Employee
                             </a>
 

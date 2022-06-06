@@ -114,4 +114,18 @@ class RouteServiceProvider extends ServiceProvider
          */
             ->group(base_path('routes/web_acr.php'));
     }
+
+    // todo:: refactor to read routes easily 
+    
+    // protected function mapHumanResourceRoutes()
+    // {
+    //     Route::prefix('hrm') // if you need to specify a route prefix
+    //         ->middleware('web') // specify here your middlewares
+    //         ->namespace($this->namespace.'\Employee') // leave it as it is
+    //     /**
+    //      * the name of your route goes here:
+    //      */
+    //         ->group(base_path('routes/web_hrms.php'));
+    // }
+
 }
