@@ -47,16 +47,24 @@ return [
       38 => ' Special casual Leave',
       39  => 'Special disability Leave',
       40 => ' Study Leave',
+      41 => 'Maternity Leave',
+      42 => 'Child Care Leave (CCL)',
    ],
 
    'acrRejectionReason'=>[
       1=>'Wrong Period',
       2=>'Wrong Officer Selection',
-      3=>'Wrong Targets'
+      3=>'Wrong Targets',
+      4=>'Wrong Format Selected'
    ] ,
 
    'acrWithoutProcess'=>[
       30,31
    ] ,
+
+   'acrIfmsFormat'=>[
+      32,33
+   ] ,
+
    'recordStartyear'=>2021,
 ];
