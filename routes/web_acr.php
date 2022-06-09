@@ -54,12 +54,14 @@ Route::group(['prefix' => '', 'as' => 'acr.', 'middleware' => ['auth', 'verified
     Route::post('form/store3', 'Acr\AcrFormController@store3')->name('form.store3');
     Route::post('form/storeTrainning', 'Acr\AcrFormController@storeTrainning')->name('form.storeTrainning');
     Route::post('form/storeSinglePageAcr', 'Acr\AcrFormController@storeSinglePageAcr')->name('form.storeSinglePageAcr');
+    Route::post('form/storeIfmsAcr', 'Acr\AcrFormController@storeIfmsAcr')->name('form.storeIfmsAcr');
 
 
     // Acr Reporting 
     Route::get('form/{acr}/appraisal1', 'OthersAcr\AcrReportController@appraisal1')->name('form.appraisal1');
     Route::post('form/appraisal1', 'OthersAcr\AcrReportController@storeAppraisal1')->name('form.storeAppraisal1');
     Route::post('form/storeAcrWithoutProcess', 'OthersAcr\AcrReportController@storeAcrWithoutProcess')->name('form.storeAcrWithoutProcess');
+    Route::post('form/storeIfmsReporting', 'Acr\AcrFormController@storeIfmsReporting')->name('form.storeIfmsReporting');
 
     Route::get('form/{acr}/appraisal/show', 'OthersAcr\AcrReportController@show')->name('form.appraisalShow');
 
@@ -67,6 +69,7 @@ Route::group(['prefix' => '', 'as' => 'acr.', 'middleware' => ['auth', 'verified
     Route::get('form/{acr}/appraisal2', 'OthersAcr\AcrReviewController@appraisal2')->name('form.appraisal2');
     Route::post('form/appraisal2', 'OthersAcr\AcrReviewController@storeAppraisal2')->name('form.storeAppraisal2');
     Route::post('form/storeAcrWithoutProcessReview', 'OthersAcr\AcrReviewController@storeAcrWithoutProcessReview')->name('form.storeAcrWithoutProcessReview');
+    Route::post('form/storeIfmsReview', 'Acr\AcrFormController@storeIfmsReview')->name('form.storeIfmsReview');
   
     Route::get('getUserParameterData/{acrId}/{paramId}', 'OthersAcr\AcrReportController@getUserParameterData')->name('ajax.getUserParameterData');
     Route::get('getUserNegativeParameterData/{acrId}/{paramId}', 'OthersAcr\AcrReportController@getUserNegativeParameterData')->name('ajax.getUserNegativeParameterData');

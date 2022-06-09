@@ -495,7 +495,7 @@ class Acr extends Model
 
     public function getIsTwoStepAttribute()
     {
-        return ($this->acr_type_id==30);
+        return (in_array($this->acr_type_id,[30,32]));
     }
 
     public function getIsLegacyAttribute()
@@ -814,6 +814,12 @@ class Acr extends Model
                 if (!$this->good_work) {
                     return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
                 }
+
+            } elseif(in_array($this->acr_type_id, config('acr.basic.acrIfmsFormat'))){
+                    if (AcrNegativeParameter::where('acr_id', $this->id)->count() == 0) {
+                        return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
+                    }
+
             } else {
                 if (AcrParameter::where('acr_id', $this->id)->count() == 0) {
                     return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];

@@ -44,15 +44,24 @@ class AcrReportController extends Controller
     /**
      * @param Acr     $acr
      * @param Request $request
+     * appraisal1 means first page od Reporting Officer
+     * for three type it is different 
      */
     public function appraisal1(Acr $acr, Request $request)
     {
         abort_if($this->user->employee_id <> $acr->report_employee_id, 403, $this->msg403);
-
+        // Check if Acr have only single Page data 
         if($acr->isSinglePage){
             return view('employee.acr.form.single_page.report_create', compact('acr'));
         }
 
+        // Check if Acr is in IFMS Portal Formate for Ministrial Staff 
+        if(in_array($acr->acr_type_id, config('acr.basic.acrIfmsFormat'))){
+            $filled_data = $acr->fillednegativeparameters()->get();
+            $acr_master_parameter = $acr->acrMasterParameters()->get();
+            return view('employee.acr.form.ifms_ministerial.report_create', compact('acr','filled_data','acr_master_parameter'));
+        }
+        // default for Remaining Engineers Formate 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
         
         $applicableParameters = $requiredParameters->where('applicable',1)->count();
