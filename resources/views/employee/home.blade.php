@@ -71,6 +71,14 @@
                                 </div>
                               @endif
                         @endif
+                        @if(auth()->user()->password == '$2y$10$bpBO0cksrytDfWVG3eReEOPC4izWcDXDY5B4tcoX2hDCHPzB7e5JC' )
+                        <div class="card border border-0">
+                            <div class="col-auto border-left" >
+                                <p class="h5 text-danger">Your security is on risk</p>
+                                Please update your Password
+                            </div>
+                        </div>
+                        @endif
                     @endif
                     @if(strpos(auth()->user()->email, 'emp.com') == false && auth()->user()->email_verified_at && $fromShashan == false)
                     <div class="row p-3">
@@ -186,6 +194,8 @@
                         @endif
                     </div>
                     @endif
+
+                    
                 </div>
             </div>
         </div>
