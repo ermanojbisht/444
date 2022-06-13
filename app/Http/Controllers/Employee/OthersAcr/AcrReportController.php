@@ -58,8 +58,10 @@ class AcrReportController extends Controller
         // Check if Acr is in IFMS Portal Formate for Ministrial Staff 
         if(in_array($acr->acr_type_id, config('acr.basic.acrIfmsFormat'))){
             $filled_data = $acr->fillednegativeparameters()->get();
-            $acr_master_parameter = $acr->acrMasterParameters()->get();
-            return view('employee.acr.form.ifms_ministerial.report_create', compact('acr','filled_data','acr_master_parameter'));
+           // $acr_master_parameter = $acr->acrMasterParameters()->get();
+           $requiredParameters = $acr->type1RequiremntsWithFilledData()->all();
+           //   return $acr->reporting_remark;
+            return view('employee.acr.form.ifms_ministerial.report_create', compact('acr','filled_data','requiredParameters'));
         }
         // default for Remaining Engineers Formate 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
@@ -215,8 +217,14 @@ class AcrReportController extends Controller
      * To View ACR and Accept 
      */
     public function submitReported(Acr $acr)
-    {
-
+    { 
+        if ( $acr->report_no > 0 || !$acr->isAcrDuetoLoggedUserfor('report') ){
+            $acrnotProcessable=  false;
+        }else{
+            $acrnotProcessable=  true;
+        }
+        //CHECK whether ACR is processed or is not due 
+        abort_if($acrnotProcessable,403,'Dear user ACR is due to process but you have not processed yet.');
         return view('employee.other_acr.report_acr', compact('acr'));
     }
 

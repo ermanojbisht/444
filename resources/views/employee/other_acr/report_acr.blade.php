@@ -50,7 +50,7 @@ My ACR
 			@csrf
 			<div class="row">
 				<div class="col-md-12  ">
-					<p class="fw-bold h3"> 6. Integrity Certificate : </p>
+					<p class="fw-bold h3"> Integrity Certificate : </p>
 				</div>
 			</div>
 			<br />

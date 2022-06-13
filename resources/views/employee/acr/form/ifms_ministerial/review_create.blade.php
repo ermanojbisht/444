@@ -43,7 +43,7 @@
 			<p class="text-center fw-semibold h5">Part -III Appraisal</p>
 			<p class="text-center fw-semibold ">प्रतिवेदक अधिकारी की अभ्युक्ति</p>
 			<p class="fw-semibold ">1- व्यक्तिगत गुणों का मूल्यांकन</p>
-			<table class="table table-sm">
+				<table class="table table-sm">
 					<thead>
 						<tr>
 							<th class="text-info">#</th>
@@ -122,13 +122,13 @@
 				<form class="form-horizontal" method="POST" action="{{route('acr.form.storeIfmsReview')}}">
 					@csrf
 					<input type="hidden" name="acr_id" value='{{$acr->id}}'>
-					<textarea class="form-control" name="review_remark" required></textarea>
+					<textarea class="form-control" name="review_remark" required>{{$acr->review_remark}}</textarea>
 					<div class="row g-3 align-items-center mt-3">
 					  <div class="col-auto">
 					    <label for="review_no" class="col-form-label">समग्र ग्रेड</label>
 					  </div>
 					  <div class="col-auto">
-					    <input class="form-control text-end col-md-3" type="number"  step="0.01" min="0.0" max="100" name="review_no" required />
+					    <input class="form-control text-end col-md-3" type="number"  step="0.01" min="0.0" max="100" name="review_no" {{($acr->isAcrDuetoLoggedUserfor('review'))?'required':''}} value="{{$acr->review_no}}"/>
 					  </div>
 					  <div class="col-auto">
 					      Out of 100

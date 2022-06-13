@@ -3,7 +3,7 @@
 @section('content')
 <div class="card">
 	<div class="card-body">
-		<p class="fw-semibold h5 mb-4"> 6. Integrity Certificate : </p>
+		<p class="fw-semibold h5 mb-4"> Integrity Certificate : </p>
 
 		@if (!$acr->report_remark)
 		<i>

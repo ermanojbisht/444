@@ -57,16 +57,16 @@
 						</tr>	
 					</thead>
 					<tbody>
-						@foreach($acr_master_parameter->where('config_group',4001) as $parameter)
+						@foreach($requiredParameters[4001] as $parameter)
 						<tr>
 							<td>{{$loop->index + 1}}</td>
 							<td>{{$parameter->description}}</td>
 							<td>{{$parameter->max_marks}}</td>
 							<td>
-								<input class="form-control text-end" type="number"  step="0.01" min="0.0" max="{{$parameter->max_marks}}" name="data[{{$parameter->id}}][no]" required />
+								<input class="form-control text-end reportingMarks" type="number"  step="0.01" min="0.0" max="{{$parameter->max_marks}}" name="data[{{$parameter->id}}][no]" required value="{{$parameter->reporting_marks}}" onchange="calculateTotal()" />
 							</td>
 							<td>
-								<input class="form-control"  type="text" name="data[{{$parameter->id}}][remark]" required/>
+								<input class="form-control"  type="text" name="data[{{$parameter->id}}][remark]" required value="{{$parameter->status}}"/>
 							</td>
 						</tr>
 						@endforeach
@@ -85,16 +85,16 @@
 						</tr>	
 					</thead>
 					<tbody>
-						@foreach($acr_master_parameter->where('config_group',4002) as $parameter)
+						@foreach($requiredParameters[4002] as $parameter)
 						<tr>
 							<td>{{$loop->index + 1}}</td>
 							<td>{{$parameter->description}}</td>
 							<td>{{$parameter->max_marks}}</td>
 							<td>
-								<input class="form-control text-end" type="number"  step="0.01" min="0.0" max="{{$parameter->max_marks}}" name="data[{{$parameter->id}}][no]" required />
+								<input class="form-control text-end" type="number"  step="0.01" min="0.0" max="{{$parameter->max_marks}}" name="data[{{$parameter->id}}][no]" required value="{{$parameter->reporting_marks}}"/>
 							</td>
 							<td>
-								<input class="form-control"  type="text" name="data[{{$parameter->id}}][remark]" required/>
+								<input class="form-control"  type="text" name="data[{{$parameter->id}}][remark]" required value="{{$parameter->status}}"/>
 							</td>
 						</tr>
 						@endforeach
@@ -102,7 +102,10 @@
 				</table>
 				<br>
 				<p class="fw-semibold ">3- प्रतिवेदक अधिकारी की टिप्पणी <small>(अधिकतम 100 शब्द)</small></p>
-				<textarea class="form-control" name="reporting_remark" required></textarea>
+				<textarea class="form-control" name="reporting_remark" required >{{old('reporting_remark')?old('reporting_remark'):$acr->appraisal_note_1}}</textarea>
+				<br>
+				{{-- <p id="reportingMarksSum">tes</p>
+				<p class="fw-semibold "> Sum of marks <span> out of 100</span></p> --}}
 				<br>
 				<div class="text-end">
 					<button type="submit" id="{{$acr->id}}" class="btn btn-outline-primary">Save</button>
@@ -129,4 +132,15 @@
 				</table>
 		</div>
 	</div>
+@endsection
+@section('footscripts')
+<script type="text/javascript">
+function calculateTotal(){
+	let sum=0;
+	$('.reportingMarks').each(function(i, obj) {
+		sum=sum+(obj.value*1);	    
+	});
+	$('#reportingMarksSum').value = sum;
+}
+</script>
 @endsection

@@ -83,7 +83,7 @@ Other's ACR to be Worked Upon
 														</use>
 													</svg>
 												</button>
-												<div class="dropdown-menu dropdown-menu-end">
+												<div class="dropdown-menu dropdown-menu-end">													
 													@if ($acr->isFileExist())
 													<a class="dropdown-item"
 														href="{{route('acr.view', ['acr' => $acr->id])}}">
@@ -94,10 +94,12 @@ Other's ACR to be Worked Upon
 														href="{{route('acr.form.appraisal1', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Process ACR
 													</a>
+													@if ($acr->report_no > 0 || !$acr->is_due)
 													<a class="dropdown-item text-white bg-success" style="width: 100%;"
 														href="{{route('acr.others.report.submit', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Submit ACR
-													</a>
+													</a>													
+													@endif
 													<a class="dropdown-item text-white bg-danger" style="width: 100%;"
 														href="{{route('acr.others.reject', ['acr' => $acr->id, 'dutyType' => 'report'])}}">
 														<i class="cib-twitter"></i>Reject ACR
@@ -173,8 +175,8 @@ Other's ACR to be Worked Upon
 																class="btn btn-success "> Submit ACR
 															</button>
 														</form>
-													</a>
-													@endif
+													</a>												
+													@endif												
 													<a class="dropdown-item text-white bg-danger" style="width: 100%;"
 														href="{{route('acr.others.reject', ['acr' => $acr->id, 'dutyType' => 'review'])}}">
 														<i class="cib-twitter"></i>Reject ACR

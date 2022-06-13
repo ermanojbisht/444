@@ -492,6 +492,10 @@ class Acr extends Model
     {
         return in_array($this->acr_type_id, config('acr.basic.acrWithoutProcess'));
     }
+    public function getIsIfmsClerkAttribute()
+    {
+        return in_array($this->acr_type_id, config('acr.basic.acrIfmsFormat'));
+    }
 
     public function getIsTwoStepAttribute()
     {

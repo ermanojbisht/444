@@ -22,6 +22,8 @@ trait AcrPdfArrangeTrait
 
             if ($acr->isSinglePage) {
                 $pages[] = view('employee.acr.form.single_page.user_show', compact('acr'));
+            }elseif ($acr->isIfmsClerk){               
+                $pages[] = view('employee.acr.form.ifms_ministerial.user_show', compact('acr')); //todo page for this acr
             } else {
                 $data_groups = $acr->type1RequiremntsWithFilledData();
                 $negative_groups = $acr->negative_groups();
@@ -34,7 +36,9 @@ trait AcrPdfArrangeTrait
         if (in_array($milestone, ['report', 'review', 'accept', 'correctnotice'])) {
             if ($acr->isSinglePage) {
                 $pages[] = view('employee.acr.form.single_page.report_review_show', compact('acr'));
-            } else {
+            }elseif ($acr->isIfmsClerk){    
+                $pages[] = view('employee.acr.form.ifms_ministerial.report_review_show', compact('acr'));
+            }  else {
                 $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
                 $applicableParameters = $requiredParameters->where('applicable', 1)->count();
                 if ($applicableParameters == 0) {

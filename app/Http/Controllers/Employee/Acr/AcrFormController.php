@@ -340,17 +340,14 @@ class AcrFormController extends Controller
     public function storeIfmsReview(Request $request)
     {
         $acr = Acr::findOrFail($request->acr_id);
+        if($acr->isAcrDuetoLoggedUserfor('review')){
+            $this->validate($request, ['review_no' => 'required' ]);
+        }
         $acr->update([
             'review_remark' => $request->review_remark,
             'review_no' => $request->review_no
-        ]);
-        // if ACR Two Level only Accepted 
-        /*if($acr->IsTwoStep){
-            $acr->update([
-                'accept_remark' => 'Acr have Two Step only',
-                'accept_no' => $request->review_no
-            ]);
-        }*/
+        ]); 
+          
         return redirect()->route('acr.others.index')->with('success', 'Details Updated successfully');
     }
 }

@@ -47,7 +47,7 @@ class AcrReviewController extends Controller {
         if(in_array($acr->acr_type_id, config('acr.basic.acrIfmsFormat'))){
             $filled_data = $acr->fillednegativeparameters()->get();
             $acr_master_parameter = $acr->acrMasterParameters()->get();
-            $acr_filled_parameter = $acr->filledparameters()->get();
+            $acr_filled_parameter = $acr->filledparameters()->get();            
             return view('employee.acr.form.ifms_ministerial.review_create', compact('acr','filled_data','acr_master_parameter','acr_filled_parameter'));
         }
         // default for Remaining Engineers Formate 
