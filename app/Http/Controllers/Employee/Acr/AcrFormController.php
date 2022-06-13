@@ -334,7 +334,7 @@ class AcrFormController extends Controller
             'report_no' => $report_no
         ]);
 
-        return Redirect()->back();
+        return redirect()->route('acr.others.index')->with('success', 'Details Updated successfully');
     }
 
     public function storeIfmsReview(Request $request)
@@ -351,6 +351,6 @@ class AcrFormController extends Controller
                 'accept_no' => $request->review_no
             ]);
         }*/
-        return Redirect()->back();
+        return redirect()->route('acr.others.index')->with('success', 'Details Updated successfully');
     }
 }

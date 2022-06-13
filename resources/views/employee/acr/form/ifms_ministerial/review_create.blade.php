@@ -59,12 +59,17 @@
 							<td class="text-info">{{$loop->index + 1}}</td>
 							<td class="text-info">{{$parameter->description}}</td>
 							<td class="text-info">{{$parameter->max_marks}}</td>
-							<td class="text-info">
-								{{$acr_filled_parameter->where('acr_master_parameter_id',$parameter->id)->first()->reporting_marks}}
-							</td>
-							<td class="text-info">
-								{{$acr_filled_parameter->where('acr_master_parameter_id',$parameter->id)->first()->status}}
-							</td>
+							@if($acr_filled_parameter->where('acr_master_parameter_id',$parameter->id)->count() > 0)
+								<td class="text-info">
+									{{$acr_filled_parameter->where('acr_master_parameter_id',$parameter->id)->first()->reporting_marks}}
+								</td>
+								<td class="text-info">
+									{{$acr_filled_parameter->where('acr_master_parameter_id',$parameter->id)->first()->status}}
+								</td>
+							@else
+								<td>--</td>
+								<td>--</td>
+							@endif
 						</tr>
 						@endforeach
 					</tbody>
@@ -87,19 +92,24 @@
 							<td class="text-info">{{$loop->index + 1}}</td>
 							<td class="text-info">{{$parameter->description}}</td>
 							<td class="text-info">{{$parameter->max_marks}}</td>
-							<td class="text-info">
-								{{$acr_filled_parameter->where('acr_master_parameter_id',$parameter->id)->first()->reporting_marks}}
-							</td>
-							<td class="text-info">
-								{{$acr_filled_parameter->where('acr_master_parameter_id',$parameter->id)->first()->status}}
-							</td>
+							@if($acr_filled_parameter->where('acr_master_parameter_id',$parameter->id)->count() > 0)
+								<td class="text-info">
+									{{$acr_filled_parameter->where('acr_master_parameter_id',$parameter->id)->first()->reporting_marks}}
+								</td>
+								<td class="text-info">
+									{{$acr_filled_parameter->where('acr_master_parameter_id',$parameter->id)->first()->status}}
+								</td>
+							@else
+								<td>--</td>
+								<td>--</td>
+							@endif
 						</tr>
 						@endforeach
 					</tbody>
 				</table>
 				<br>
 				<p class="fw-semibold ">3- प्रतिवेदक अधिकारी की टिप्पणी <small>(अधिकतम 100 शब्द)</small></p>
-				<p class="border border-info p-2 m-2">{{$acr->appraisal_note_1}}</p>
+				<p class="border border-info p-2 m-2">{{$acr->appraisal_note_1??'----'}}</p>
 
 				<p class="fw-semibold ">4- समग्र ग्रेड <span class="fw-semibold text-info h4">{{$acr->report_no}}</span></p>
 
@@ -118,7 +128,7 @@
 					    <label for="review_no" class="col-form-label">समग्र ग्रेड</label>
 					  </div>
 					  <div class="col-auto">
-					    <input class="form-control text-end col-md-3" type="number"  step="0.01" min="0.0" name="review_no" required />
+					    <input class="form-control text-end col-md-3" type="number"  step="0.01" min="0.0" max="100" name="review_no" required />
 					  </div>
 					  <div class="col-auto">
 					      Out of 100
