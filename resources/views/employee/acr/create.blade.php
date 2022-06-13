@@ -109,13 +109,13 @@ Part 1 ( Basic Information ) <small> Create ACR </small>
 					</div>
 				</div>
 				<hr class="m-1" style="opacity: 0.1;">
-
 				<div class="col-md-6">
 					<p class="fw-semibold "> Membership of any Professional Organization : - </p>
 				</div>
 				<div class="col-md-6">
 					<textarea type="text" class="form-control"
-						name="professional_org_membership">{{old('professional_org_membership')}}</textarea>
+						name="professional_org_membership" 
+						placeholder="only for Technical employees. if none leave blank">{{old('professional_org_membership')}}</textarea>
 				</div>
 
 				<hr class="m-1" style="opacity: 0.1;">
