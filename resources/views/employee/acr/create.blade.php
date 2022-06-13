@@ -46,6 +46,14 @@ Part 1 ( Basic Information ) <small> Create ACR </small>
 				<p class="fw-semibold text-info"> {{$employee->birth_date->format('d M Y')}} </p>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<p class="fw-bold"> Date of Joining in the service:-</p>
+			</div>
+			<div class="col-md-6">
+				<p class="fw-semibold text-info"> {{$employee->joining_date->format('d M Y')}} </p>
+			</div>
+		</div>
 		<hr>
 		<form class="form-horizontal" method="POST" action="{{route('acr.store')}}">
 			@csrf

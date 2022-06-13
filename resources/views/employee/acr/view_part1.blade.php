@@ -59,6 +59,10 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		<td> {{$employee->birth_date->format('d M Y')}} </td>
 	</tr>
 	<tr>
+		<td>2. Date of Joining in the service : </td>
+		<td> {{$employee->joining_date->format('d M Y')}} </td>
+	</tr>
+	<tr>
 		<td>3. Education Qualification : </td>
 		<td>
 		</td>
