@@ -39,7 +39,7 @@ class Acr extends Model
         'review_duration_lapsed', 'accept_duration_lapsed','report_integrity',
         'report_no', 'report_on', 'report_remark',
         'review_no', 'review_on', 'review_remark',
-        'accept_no', 'accept_on', 'accept_remark','is_defaulter',  'old_accept_no','final_accept_remark','missing'
+        'accept_no', 'accept_on', 'accept_remark','is_defaulter',  'old_accept_no','final_accept_remark','missing','service_cadre','scale','doj_current_post'
     ];
 
     /**

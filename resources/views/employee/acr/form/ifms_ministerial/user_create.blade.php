@@ -21,6 +21,30 @@
 				@csrf
 				<input type="hidden" name="acr_id" value='{{$acr->id}}'>
 				<input type="hidden" name="acr_master_parameter_id" value=0>
+				<div class="row">
+					<div class="col-md-4">
+						<p class="fw-bold"> Service Cader (सेवा संवर्ग) :-</p>
+					</div>
+					<div class="col-md-6">
+						<input class="form-control" type="text" name="service_cadre" required value="{{$acr->service_cadre}}" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<p class="fw-bold"> Present Pay Scale :-</p>
+					</div>
+					<div class="col-md-6">
+						<input class="form-control" type="text" name="scale" required value="{{$acr->scale}}"/>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<p class="fw-bold"> Date of Appointment to the present post :-</p>
+					</div>
+					<div class="col-md-6">
+						<input class="form-control" type="date" name="doj_current_post" required value="{{$acr->doj_current_post}}"/>
+					</div>
+				</div>
 				<p class="fw-semibold">आलोच्य अवधि मे आवंटित उत्तरदायित्व व प्राप्त उपलब्धि/ कार्यों का संक्षिप्त विवरण</p>
 				<table class="table table-bordered border-primary">
 						<thead class="table-info fw-bold border-primary">

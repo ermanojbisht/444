@@ -59,44 +59,63 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		<td> {{$employee->birth_date->format('d M Y')}} </td>
 	</tr>
 	<tr>
-		<td>2. Date of Joining in the service : </td>
+		<td>3. Date of Joining in the service : </td>
 		<td> {{$employee->joining_date->format('d M Y')}} </td>
 	</tr>
+	@if($acr->isIfmsClerk)
+		<tr>
+			<td>4. Service Cader (सेवा संवर्ग) :-  : </td>
+			<td> {{$acr->service_cadre}} </td>
+		</tr>
+	@else
+		<tr>
+			<td>4. Education Qualification : </td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p class="ps-3 m-0">3.1 At the time of Joining in the Department : </p>
+			</td>
+			<td>
+				@foreach ($employee->education as $education )
+				@if($education->emp_year <=  $employee->joining_date->format('Y'))
+				<p> {{$education->qualifiaction }} </p>
+				@endif
+				@endforeach
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p class="ps-3 m-0">3.2 Qualification acquired during service in the Department : </p>
+			</td>
+			<td>
+				@foreach ($employee->education as $education )
+				@if($education->emp_year >  $employee->joining_date->format('Y'))
+				<p> {{$education->qualifiaction }} </p>
+				@endif
+				@endforeach
+			</td>
+		</tr>
+
+	@endif
+	@if($acr->isIfmsClerk)
+		<tr>
+			<td>5.1 Present Pay Scale :-</td>
+			<td> {{$acr->scale}} </td>
+		</tr>
+		<tr>
+			<td>5.2 Date of Appointment to the present post :-</td>
+			<td> @mkbdate($acr->doj_current_post,'d M Y')</td>
+		</tr>
+	@else
 	<tr>
-		<td>3. Education Qualification : </td>
-		<td>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<p class="ps-3 m-0">3.1 At the time of Joining in the Department : </p>
-		</td>
-		<td>
-			@foreach ($employee->education as $education )
-			@if($education->emp_year <=  $employee->joining_date->format('Y'))
-			<p> {{$education->qualifiaction }} </p>
-			@endif
-			@endforeach
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<p class="ps-3 m-0">3.2 Qualification acquired during service in the Department : </p>
-		</td>
-		<td>
-			@foreach ($employee->education as $education )
-			@if($education->emp_year >  $employee->joining_date->format('Y'))
-			<p> {{$education->qualifiaction }} </p>
-			@endif
-			@endforeach
-		</td>
-	</tr>
-	<tr>
-		<td>4. Membership of any Professional Organization :</td>
+		<td>5. Membership of any Professional Organization :</td>
 		<td>
 			{{ $acr->professional_org_membership }}
 		</td>
 	</tr>
+	@endif
 </table>
 <p> 5. Reporting, Reviewing and Accepting Authorities </p>
 <table class="table table-sm table-bordered">

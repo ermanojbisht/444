@@ -73,7 +73,7 @@ Part - IV ( Assessment by the Accepting Authority)
 			<br />
 			<div class="row">
 				<div class="col-md-6">
-					<p class="fw-semibold mb-2">3. Overall Grade & Marks (On a score of 1 - 100)
+					<p class="fw-semibold mb-2">3. Overall Grade & Marks (On a score of 1 - {{$acr->type->total_marks}})
 					</p>
 					<p class="p-4"> Marks given by Reviewing Officer are :
 						<span class=" fw-semibold text-info"> {{$acr->review_no}} </span>

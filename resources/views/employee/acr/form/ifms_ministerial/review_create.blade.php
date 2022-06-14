@@ -128,10 +128,10 @@
 					    <label for="review_no" class="col-form-label">समग्र ग्रेड</label>
 					  </div>
 					  <div class="col-auto">
-					    <input class="form-control text-end col-md-3" type="number"  step="0.01" min="0.0" max="100" name="review_no" {{($acr->isAcrDuetoLoggedUserfor('review'))?'required':''}} value="{{$acr->review_no}}"/>
+					    <input class="form-control text-end col-md-3" type="number"  step="0.01" min="0.0" max="{{$acr->type->total_marks}}" name="review_no" {{($acr->isAcrDuetoLoggedUserfor('review'))?'required':''}} value="{{$acr->review_no}}"/>
 					  </div>
 					  <div class="col-auto">
-					      Out of 100
+					      Out of {{$acr->type->total_marks}}
 					  </div>
 					</div>
 					<div class="text-end">

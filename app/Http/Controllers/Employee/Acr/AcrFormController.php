@@ -304,16 +304,26 @@ class AcrFormController extends Controller
                     );
             }
         }
-       /* $acr->update([
-            'good_work' => $request->good_work,
-        ]);*/
+        $this->validate(
+            $request,
+            [
+                'service_cadre' => 'required|min:3|max:200',
+                'scale' => 'required|min:2|max:200',
+                'doj_current_post' => 'required|date'
+            ]
+        );
+        $acr->update([
+            'service_cadre' => $request->service_cadre,
+            'scale' => $request->scale,
+            'doj_current_post' => $request->doj_current_post,
+        ]);
         return redirect()->route('acr.myacrs')->with('success', 'Self-Appraisal Details Updated successfully');
     }
 
     public function storeIfmsReporting(Request $request)
     {
         $acr = Acr::findOrFail($request->acr_id);
-        $report_no = 0; 
+        
        // return $request->all();
         foreach ($request->data as $parameter_id=>$values) {
             AcrParameter::UpdateOrCreate(
@@ -327,11 +337,11 @@ class AcrFormController extends Controller
                     'reporting_marks' => $values['no'] ?? ''
                 ]
             );
-            $report_no = $report_no + $values['no'];
+            
         }
         $acr->update([
             'appraisal_note_1' => $request->reporting_remark,
-            'report_no' => $report_no
+            'report_no' => $request->reporting_final_marks
         ]);
 
         return redirect()->route('acr.others.index')->with('success', 'Details Updated successfully');

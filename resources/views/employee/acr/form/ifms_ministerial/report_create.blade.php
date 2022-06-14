@@ -63,7 +63,7 @@
 							<td>{{$parameter->description}}</td>
 							<td>{{$parameter->max_marks}}</td>
 							<td>
-								<input class="form-control text-end reportingMarks" type="number"  step="0.01" min="0.0" max="{{$parameter->max_marks}}" name="data[{{$parameter->id}}][no]" required value="{{$parameter->reporting_marks}}" onchange="calculateTotal()" />
+								<input class="form-control text-end " type="number"  step="0.01" min="0.0" max="{{$parameter->max_marks}}" name="data[{{$parameter->id}}][no]" required value="{{$parameter->reporting_marks}}" onchange="calculateTotal()" />
 							</td>
 							<td>
 								<input class="form-control"  type="text" name="data[{{$parameter->id}}][remark]" required value="{{$parameter->status}}"/>
@@ -104,14 +104,23 @@
 				<p class="fw-semibold ">3- प्रतिवेदक अधिकारी की टिप्पणी <small>(अधिकतम 100 शब्द)</small></p>
 				<textarea class="form-control" name="reporting_remark" required >{{old('reporting_remark')?old('reporting_remark'):$acr->appraisal_note_1}}</textarea>
 				<br>
-				{{-- <p id="reportingMarksSum">tes</p>
-				<p class="fw-semibold "> Sum of marks <span> out of 100</span></p> --}}
+				<div class="row">
+					<div class="col-auto">
+						<p class="fw-bold"> Overall Grade (समग्र ग्रेड) :-</p>
+					</div>
+					<div class="col-auto">
+						<input class="form-control" type="number" name="reporting_final_marks" main="0" max="{{$acr->type->total_marks}}" required value="{{$acr->report_no}}" />
+					</div>
+					<div class="col-auto">
+						<p class="fw-bold"> Out of {{$acr->type->total_marks}}</p>
+					</div>
+				</div>
 				<br>
 				<div class="text-end">
 					<button type="submit" id="{{$acr->id}}" class="btn btn-outline-primary">Save</button>
 				</div>
 			</form>
-			<p>Reference Table for Grading :</p>
+			{{-- <p>Reference Table for Grading :</p>
 				<table class="table table-bordered table-sm">
 					<tr class="text-center">
 						<td>Grading</td>
@@ -129,18 +138,12 @@
 						<td>>20 upto 40</td>
 						<td>upto 20 </td>
 					</tr>
-				</table>
+				</table> --}}
 		</div>
 	</div>
 @endsection
 @section('footscripts')
 <script type="text/javascript">
-function calculateTotal(){
-	let sum=0;
-	$('.reportingMarks').each(function(i, obj) {
-		sum=sum+(obj.value*1);	    
-	});
-	$('#reportingMarksSum').value = sum;
-}
+
 </script>
 @endsection

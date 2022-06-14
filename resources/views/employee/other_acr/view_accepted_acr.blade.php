@@ -40,7 +40,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="d-flex justify-content-start">
-					<p class="fw-semibold "> 3. Overall Grade & Marks (On a score of 1 - 100)
+					<p class="fw-semibold "> 3. Overall Grade & Marks (On a score of 1 - {{$acr->type->total_marks}})
 					</p>
 				</div>
 			</div>

@@ -100,6 +100,11 @@
 					  	<span>{{$acr->review_no}}</span>
 					  </div>
 					</div>
+					<div>
+					<p> समीक्षक : {{$acr->reviewUser()->shriName}} </p>
+					<p> on : {{$acr->review_on->format('d M Y')}}</p>
+
+				</div>
 				<hr>
 		</div>
 	@endif
@@ -118,7 +123,7 @@
 				</p>
 				<div>
 					<p> स्वीकर्ता : {{$acr->acceptUser()->shriName}} </p>
-					<p> on : {{$acr->report_on->format('d M Y')}}</p>
+					<p> on : {{$acr->accept_on->format('d M Y')}}</p>
 
 				</div>
 			</div>
