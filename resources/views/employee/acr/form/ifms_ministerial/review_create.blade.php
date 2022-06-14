@@ -116,8 +116,8 @@
 				<p class="fw-semibold text-end m-0">by  <span>{{$acr->userOnBasisOfDuty('report')->name}}</span></p>
 				<p class="fw-semibold text-end m-0">on <span>{{$acr->report_on->format('d m Y')}}</span></p>
 				<hr>
-				<p class="text-center fw-semibold h5">Part -IV Review</p>
-				<p class="text-center fw-semibold ">समीक्षक अधिकारी की अभ्युक्ति</p>
+				<p class="text-center fw-semibold h5">Part -IV Review @if(!$acr->isTwoStep) and Part -V Accept @endif </p>
+				<p class="text-center fw-semibold ">समीक्षक @if(!$acr->isTwoStep) / स्वीकर्ता @endif अधिकारी की अभ्युक्ति</p>
 				<P>क्या आप प्रतिवेदक अधिकारी द्वारा किए गए मूल्यांकन से सहमत है? मत भिन्नता की स्थिति मे कारण तथा टिप्पणी भी अंकित करें</P>
 				<form class="form-horizontal" method="POST" action="{{route('acr.form.storeIfmsReview')}}">
 					@csrf
@@ -138,7 +138,7 @@
 						<button type="submit" id="{{$acr->id}}" class="btn btn-outline-primary">Save</button>
 					</div>
 				</form>
-				<p>Reference Table for Grading :</p>
+				{{-- <p>Reference Table for Grading :</p>
 					<table class="table table-bordered table-sm">
 						<tr class="text-center">
 							<td>Grading</td>
@@ -156,7 +156,7 @@
 							<td>>20 upto 40</td>
 							<td>upto 20 </td>
 						</tr>
-					</table>
+					</table> --}}
 
 		</div>
 	</div>

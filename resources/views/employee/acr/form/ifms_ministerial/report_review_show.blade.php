@@ -88,8 +88,8 @@
 	@if($acr->review_on)
 		<div class="card-body">
 				
-				<p class="text-center fw-semibold h5">Part -IV Review</p>
-				<p class="text-center fw-semibold ">समीक्षक अधिकारी की अभ्युक्ति</p>
+				<p class="text-center fw-semibold h5">Part -IV Review @if(!$acr->isTwoStep) and Part -V Accept @endif</p>
+				<p class="text-center fw-semibold ">समीक्षक @if(!$acr->isTwoStep) / स्वीकर्ता @endif अधिकारी की अभ्युक्ति</p>
 				<P>क्या आप प्रतिवेदक अधिकारी द्वारा किए गए मूल्यांकन से सहमत है? मत भिन्नता की स्थिति मे कारण तथा टिप्पणी भी अंकित करें</P>
 					<p>{{$acr->review_remark}}</p>
 					<div class="row g-3 align-items-center mt-3">
@@ -101,14 +101,14 @@
 					  </div>
 					</div>
 					<div>
-					<p> समीक्षक : {{$acr->reviewUser()->shriName}} </p>
+					<p>  {{$acr->reviewUser()->shriName}} </p>
 					<p> on : {{$acr->review_on->format('d M Y')}}</p>
 
 				</div>
 				<hr>
 		</div>
 	@endif
-	@if(!$acr->isTwoStep)
+{{-- 	@if(!$acr->isTwoStep)
 		@if($acr->accept_no)
 			<div class="card-body">
 				<p class="text-center fw-semibold h5">
@@ -128,7 +128,7 @@
 				</div>
 			</div>
 		@endif
-	@endif
+	@endif --}}
 
 </div>
 @endsection

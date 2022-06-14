@@ -17,13 +17,13 @@
 	{{-- @include('employee.acr.form._formHeader',['acr'=>$acr]) --}}
 	<div class="card">
 		<div class="card-body">
-			<form class="form-horizontal" method="POST" action="{{route('acr.form.storeIfmsAcr')}}">
+			<form class="form-horizontal" method="POST" action="{{route('acr.form.storeIfmsAcr')}}" enctype="multipart/form-data">
 				@csrf
 				<input type="hidden" name="acr_id" value='{{$acr->id}}'>
 				<input type="hidden" name="acr_master_parameter_id" value=0>
 				<div class="row">
 					<div class="col-md-4">
-						<p class="fw-bold"> Service Cader (सेवा संवर्ग) :-</p>
+						<p class="fw-bold required"> Service Cader (सेवा संवर्ग) :-</p>
 					</div>
 					<div class="col-md-6">
 						<input class="form-control" type="text" name="service_cadre" required value="{{$acr->service_cadre}}" />
@@ -31,7 +31,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4">
-						<p class="fw-bold"> Present Pay Scale :-</p>
+						<p class="fw-bold required"> Present Pay Scale :-</p>
 					</div>
 					<div class="col-md-6">
 						<input class="form-control" type="text" name="scale" required value="{{$acr->scale}}"/>
@@ -39,12 +39,34 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4">
-						<p class="fw-bold"> Date of Appointment to the present post :-</p>
+						<p class="fw-bold required"> Date of Appointment to the present post :-</p>
 					</div>
 					<div class="col-md-6">
 						<input class="form-control" type="date" name="doj_current_post" required value="{{$acr->doj_current_post}}"/>
 					</div>
 				</div>
+
+				<div class="row">
+					<div  class="col-md-4">
+						<p class="fw-bold checkbox required"> Have you undergone the prescribed medical checkup ?  <br/>
+							<input type="checkbox" id="has_medical_checkUp" name="has_medical_checkUp" onclick="hasMedicalCheckup()" {{$acr->medical_certificate_date?'checked':''}}>
+							<label for="has_medical_checkUp" >  Prescribed Medical Checkup Done  </label>
+						</p>
+					</div>
+
+					<div class=" hasMedical col-md-4" style="display:none">
+						<div class="required">
+							<input class="form-control " style="display: inline-block;width: 90%!important;"  type="date" id="medical_certificate_date" name="medical_certificate_date" 
+							value="{{old('medical_certificate_date')?old('medical_certificate_date'):$acr->medical_certificate_date}}"/> 					  
+						</div>
+					</div>
+					<div  class="hasMedical col-md-4" style="display:none">
+						<p class="fw-bold required">
+				 		  <input type="file" name="certificate_file" />				 		  
+						</p>
+					</div>
+				</div>
+
 				<p class="fw-semibold">आलोच्य अवधि मे आवंटित उत्तरदायित्व व प्राप्त उपलब्धि/ कार्यों का संक्षिप्त विवरण</p>
 				<table class="table table-bordered border-primary">
 						<thead class="table-info fw-bold border-primary">
@@ -102,7 +124,37 @@
 							
 						</tbody>
 					</table>
+			
+
 			</form>
 		</div>
 	</div>
+
+
+<script type="text/javascript">
+
+
+	$(document).ready(function () {
+	    hasMedicalCheckup();
+	});
+
+
+
+	function hasMedicalCheckup()
+	{
+		var hasMedical = $("#has_medical_checkUp").is(":checked");
+		if(hasMedical) 
+		{
+			$(".hasMedical").css("display", "inline-block");
+			$(".hasMedical").find('input').prop('required', true);			
+		}else
+		{
+			$(".hasMedical").css("display", "none");
+			$(".hasMedical").find('input').prop('required', false);
+			$("#medical_certificate_date").val('');
+		}
+	}
+
+</script>
+
 @endsection

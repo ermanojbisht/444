@@ -274,8 +274,8 @@ class TempController extends Controller
     public function temp1()
     {
 
-        $acr=Acr::find(2500);
-        $milestone='report';   
+        $acr=Acr::find(2512);
+        $milestone='accept';   
 
         $pages = $this->arrangePagesForPdf($acr, $milestone);
 

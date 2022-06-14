@@ -58,18 +58,28 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		<td>2. Date of Birth : </td>
 		<td> {{$employee->birth_date->format('d M Y')}} </td>
 	</tr>
-	<tr>
-		<td>3. Date of Joining in the service : </td>
-		<td> {{$employee->joining_date->format('d M Y')}} </td>
-	</tr>
+	
 	@if($acr->isIfmsClerk)
 		<tr>
-			<td>4. Service Cader (सेवा संवर्ग) :-  : </td>
+			<td>3.1 Date of Joining in the service : </td>
+			<td> {{$employee->joining_date->format('d M Y')}} </td>
+		</tr>
+		<tr>
+			<td>3.2 Service Cader (सेवा संवर्ग) :-  : </td>
 			<td> {{$acr->service_cadre}} </td>
 		</tr>
+		<tr>
+			<td>3.3 Present Pay Scale :-</td>
+			<td> {{$acr->scale}} </td>
+		</tr>
+		<tr>
+			<td>3.4 Date of Appointment to the present post :-</td>
+			<td> @mkbdate($acr->doj_current_post,'d M Y')</td>
+		</tr>
+		
 	@else
 		<tr>
-			<td>4. Education Qualification : </td>
+			<td>3. Education Qualification : </td>
 			<td>
 			</td>
 		</tr>
@@ -98,23 +108,28 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 			</td>
 		</tr>
 
+
 	@endif
 	@if($acr->isIfmsClerk)
+
 		<tr>
-			<td>5.1 Present Pay Scale :-</td>
-			<td> {{$acr->scale}} </td>
-		</tr>
-		<tr>
-			<td>5.2 Date of Appointment to the present post :-</td>
-			<td> @mkbdate($acr->doj_current_post,'d M Y')</td>
+			<td>4. Have you Undergone the prescribed medical checkup? if yes Date :-</td>
+			<td> 
+				@if($acr->medical_certificate_date)
+					Yes on @mkbdate($acr->medical_certificate_date,'d M Y')
+				@else
+					No
+				@endif
+			</td>
 		</tr>
 	@else
-	<tr>
-		<td>5. Membership of any Professional Organization :</td>
-		<td>
-			{{ $acr->professional_org_membership }}
-		</td>
-	</tr>
+		<tr>
+			<td>4. Membership of any Professional Organization :</td>
+			<td>
+				{{ $acr->professional_org_membership }}
+			</td>
+		</tr>
+	
 	@endif
 </table>
 <p> 5. Reporting, Reviewing and Accepting Authorities </p>

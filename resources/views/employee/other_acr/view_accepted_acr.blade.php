@@ -56,9 +56,11 @@
 						</p>
 					</div>
 					@if(!$acr->old_accept_no)
-						<div class="col-md-6">
-							<p class="fw-semibold"> Grade : {{$acr->grade}} </p>
-						</div>
+						@if(!$acr->isIfmsClerk)
+							<div class="col-md-6">
+								<p class="fw-semibold"> Grade : {{$acr->grade}} </p>
+							</div>
+						@endif
 					@endif
 				</div>
 			</div>

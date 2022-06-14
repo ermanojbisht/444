@@ -95,6 +95,7 @@ Part - IV ( Assessment by the Accepting Authority)
 						</div>
 					</div>
 					<br />
+					@if(!$acr->isIfmsClerk)
 					<div class="row">
 						<div class="col-md-6">
 							<p class="fw-semibold"> Grade </p>
@@ -103,10 +104,12 @@ Part - IV ( Assessment by the Accepting Authority)
 							<label class="fw-semibold" id="grades"> </label>
 						</div>
 					</div>
+					@endif
 				</div>
 			</div>
 			<br />
 			<br />
+			@if(!$acr->isIfmsClerk)
 			<div class="row">
 				<div class="col-md-12">
 					<p class="fw-semibold"> Reference table for Grading </p>
@@ -134,6 +137,7 @@ Part - IV ( Assessment by the Accepting Authority)
 				</div>
 			</div>
 			<br />
+			@endif
 
 			<br />
 			<div class="row">

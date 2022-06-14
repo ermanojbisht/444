@@ -52,7 +52,7 @@ Part -III Appraisal <small>(By Reporting Officer)</small>
 		<div class="card-body">
 			<div class="form-group">
 				<p class="fw-semibold h5">
-				समीक्षक अधिकारी की अभियुक्ति 
+				समीक्षक @if(!$acr->isTwoStep) / स्वीकर्ता @endif अधिकारी की अभियुक्ति 
 				</p>
 				<textarea class="form-control rounded-3" id="review_remark" rows="5" name="review_remark">{{$acr->review_remark??''}}</textarea>
 
