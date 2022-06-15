@@ -37,7 +37,7 @@ Route::group(['prefix' => '', 'as' => 'acr.', 'middleware' => ['auth', 'verified
     Route::post('destroy', 'Acr\AcrController@destroy')->name('destroy');
 
     // for draft pdf
-    Route::post('draftPdfofAcr', 'Acr\AcrController@draftPdfofAcr')->name('draftPdfofAcr');
+    Route::get('draftPdfofAcr/{acr}', 'Acr\AcrController@draftPdfofAcr')->name('draftPdfofAcr');
 
 
     Route::post('/getAcrTypefromAcrGroupId', 'Acr\AcrController@getAcrTypefromAcrGroupId')->name('getAcrType'); // Gives Acr Type object for drop down

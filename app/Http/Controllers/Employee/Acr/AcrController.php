@@ -13,6 +13,7 @@ use App\Models\Acr\Leave;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Traits\Acr\AcrFormTrait;
+use App\Traits\Acr\AcrPdfArrangeTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -24,7 +25,8 @@ use Log;
 class AcrController extends Controller
 {
 
-    use OfficeTypeTrait, AcrFormTrait;
+    use OfficeTypeTrait, AcrFormTrait,AcrPdfArrangeTrait;
+
 
     /**
      * @var mixed
@@ -283,7 +285,6 @@ class AcrController extends Controller
 
     public function draftPdfofAcr(Acr $acr)
     {
-
         $permission = false;
         if ($acr->is_defaulter && $this->user->hasPermissionTo(['create-others-acr'])) {
             $permission = true;
