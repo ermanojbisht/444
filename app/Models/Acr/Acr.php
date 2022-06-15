@@ -201,7 +201,7 @@ class Acr extends Model
 
 
         return $this->belongsToMany(Employee::class, env('DB_DATABASE_HRMS', 'hrms').'.appraisal_officers', 'acr_id', 'employee_id')
-            ->withPivot('appraisal_officer_type', 'from_date', 'to_date', 'is_due');
+            ->withPivot('appraisal_officer_type', 'from_date', 'to_date', 'is_due')->orderBy('appraisal_officer_type')->orderBy('from_date');
     }
 
     /**
