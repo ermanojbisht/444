@@ -21,52 +21,69 @@
 				@csrf
 				<input type="hidden" name="acr_id" value='{{$acr->id}}'>
 				<input type="hidden" name="acr_master_parameter_id" value=0>
-				<div class="row">
+				<div class="row mt-2">
 					<div class="col-md-4">
 						<p class="fw-bold required"> Service Cader (सेवा संवर्ग) :-</p>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<input class="form-control" type="text" name="service_cadre" required value="{{$acr->service_cadre}}" />
 					</div>
 				</div>
-				<div class="row">
+				<div class="row mt-2">
 					<div class="col-md-4">
 						<p class="fw-bold required"> Present Pay Scale :-</p>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<input class="form-control" type="text" name="scale" required value="{{$acr->scale}}"/>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row mt-2">
 					<div class="col-md-4">
 						<p class="fw-bold required"> Date of Appointment to the present post :-</p>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<input class="form-control" type="date" name="doj_current_post" required value="{{$acr->doj_current_post}}"/>
 					</div>
 				</div>
+				<hr>
+				
+					<div class="row mt-2">
+						<div class="col-md-4">
+							<p class="fw-bold checkbox required"> Have you undergone the prescribed medical checkup ?</p>
 
-				<div class="row">
-					<div  class="col-md-4">
-						<p class="fw-bold checkbox required"> Have you undergone the prescribed medical checkup ?  <br/>
-							<input type="checkbox" id="has_medical_checkUp" name="has_medical_checkUp" onclick="hasMedicalCheckup()" {{$acr->medical_certificate_date?'checked':''}}>
-							<label for="has_medical_checkUp" >  Prescribed Medical Checkup Done  </label>
-						</p>
-					</div>
-
-					<div class=" hasMedical col-md-4" style="display:none">
-						<div class="required">
-							<input class="form-control " style="display: inline-block;width: 90%!important;"  type="date" id="medical_certificate_date" name="medical_certificate_date" 
-							value="{{old('medical_certificate_date')?old('medical_certificate_date'):$acr->medical_certificate_date}}"/> 					  
+						</div>
+						<div class="col-md-4">
+								@if(Carbon\Carbon::parse($acr->employee->birth_date)->age > 50)
+									<input type="checkbox" id="has_medical_checkUp" name="has_medical_checkUp" onclick="hasMedicalCheckup()" {{$acr->medical_certificate_date?'checked':''}}>
+									<label for="has_medical_checkUp" >  Check if Yes  <span class="text-danger">Only for Employees ablove 50 Year of Age</span></label>
+								@else
+									<span class="text-muted">Not Applicable</span>
+								@endif
 						</div>
 					</div>
-					<div  class="hasMedical col-md-4" style="display:none">
-						<p class="fw-bold required">
-				 		  <input type="file" name="certificate_file" />				 		  
-						</p>
+					<div class="row mt-2">
+						<div  class="col-md-4 hasMedical">
+							<p class="fw-bold required">Date of Medical checkup</p>
+						</div>
+						<div class=" hasMedical col-md-4" style="display:none">
+							<div class="">
+								<input class="form-control " style="display: inline-block;width: 90%!important;"  type="date" id="medical_certificate_date" name="medical_certificate_date" 
+								value="{{old('medical_certificate_date')?old('medical_certificate_date'):$acr->medical_certificate_date}}"/> 					  
+							</div>
+						</div>
 					</div>
-				</div>
-
+					<div class="row mt-2">
+						<div  class="col-md-4 hasMedical">
+							<p class="fw-bold required">Upload a copy (pdf only) of Medical Report</p>
+						</div>
+						<div  class="hasMedical col-md-4" style="display:none">
+							<p class="fw-bold">
+					 		  <input type="file" name="certificate_file" />				 		  
+							</p>
+						</div>
+					</div>
+				
+				<hr>
 				<p class="fw-semibold">आलोच्य अवधि मे आवंटित उत्तरदायित्व व प्राप्त उपलब्धि/ कार्यों का संक्षिप्त विवरण</p>
 				<table class="table table-bordered border-primary">
 						<thead class="table-info fw-bold border-primary">
@@ -75,7 +92,7 @@
 								<th>समयावधि</th>
 								<th>आवंटित उत्तरदायित्व</th>
 								<th>अवधि के दोरान प्राप्त उपलब्धि/ कार्य का विवरण <br><small>(अधिकतम 100 शब्द)</small></th>
-								<th></th>
+								{{-- <th></th> --}}
 							</tr>
 						</thead>
 						<tbody>
@@ -96,9 +113,9 @@
 										<td>
 											<textarea class="form-control"  type="text" name="data[{{$data->row_no}}][col_3]">{{$data->col_3}}</textarea>
 										</td>
-									<td>
+									{{-- <td>
 										<button type="submit" id="{{$acr->id}}" class="btn btn-outline-primary">Update</button>
-									</td>
+									</td> --}}
 									</tr>
 								@endforeach
 								@php $n = $n+1; @endphp
@@ -117,14 +134,17 @@
 									<td>
 										<textarea class="form-control"  type="text" name="data[{{$n}}][col_3]"></textarea>
 									</td>
-									<td>
+									{{-- <td>
 										<button type="submit" id="{{$acr->id}}" class="btn btn-outline-primary">Save</button>
-									</td>
+									</td> --}}
 								</tr>
 							
 						</tbody>
 					</table>
-			
+					<div class="text-center">
+						<button type="submit" id="{{$acr->id}}" class="btn btn-outline-primary">Save All</button>
+						
+					</div>
 
 			</form>
 		</div>
