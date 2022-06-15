@@ -86,6 +86,9 @@
 														<input class="btn btn-success btn-sm text-light" type="submit" value="Submit ACR">
 													</form>
 												</a>
+												<a class="dropdown-item border-bottom border-1 border-info" href="{{route('acr.draftPdfofAcr', ['acr' => $acr->id])}}">
+													Prepare and View
+												</a>
 											@endif
 										@endif
 									@endif 
