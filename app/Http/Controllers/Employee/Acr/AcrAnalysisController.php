@@ -10,8 +10,14 @@ class AcrAnalysisController extends Controller
 {
     public function trainningRequirementChart()
     {
-        return EmpProposedTraining::with('trainning')->get()->groupBy('trainning.description')->map(function($row){
+        $chartData = EmpProposedTraining::with('trainning')->get()->groupBy('trainning.description')->map(function($row){
             return $row->count();
-        })->sort();
+        })->sortDesc();
+        $data = [];
+        foreach ($chartData as $key => $value) {
+             $data[] = ['name'=> $key, 'value'=> $value];
+        }
+        //return $data;
+        return view('employee.acr.trainningRequirementChart', compact('data'));
     }
 }
