@@ -13,7 +13,7 @@ trait AcrFormTrait
 
 	public function getAcrTypefromAcrGroupId(Request $request)
 	{
-		return AcrType::where('group_id', $request->acr_group_id)->select('description as name', 'id')->get();
+		return AcrType::where('group_id', $request->acr_group_id)->where('is_active',1)->select('description as name', 'id')->get();
 	}
 
 	public function defineAcrGroup()
