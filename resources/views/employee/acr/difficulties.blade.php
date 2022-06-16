@@ -64,19 +64,21 @@
 
 </style>
 
-@foreach($acrs as $key=>$value)
+@foreach($acrs as $acr_id=>$records)
 	<div class="card">	
 		<div class="card-header d-flex justify-content-start bg-dark text-light">
-			<span class="fw-semibold">{{$value->count()}}</span>&nbsp;&nbsp;<span>{{$acr_Types->find($key)->description}}</span>
+			<span class="fw-semibold">{{$records->count()}}</span>&nbsp;&nbsp;<span>{{$acr_Types->find($acr_id)->description}}</span>
 		</div>
 		<div class="card-body row ">
 			<div class="grid">
-				@foreach($value as $employee=>$description)
+				@foreach($records as $emp_id=>$emp_acr_details)
 					<div class="item blog">
 					    <div class="content box">
 					      <div class="desc">
-							@foreach($description as $difficultie)
-								<p> &#9673;&nbsp;{{$difficultie->difficultie}}</p>
+							@foreach($emp_acr_details as $acr)
+								@if($acr->difficultie)
+									<p> &#9673;&nbsp;{{$acr->difficultie}}</p>
+								@endif
 							@endforeach
 					      </div>
 					    </div>

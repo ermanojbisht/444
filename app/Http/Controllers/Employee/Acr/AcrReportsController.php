@@ -158,9 +158,27 @@ class AcrReportsController extends Controller {
 
     public function difficulties()
     {
-       $acrs = Acr::select('employee_id','acr_type_id','office_id','from_date','to_date','difficultie')->whereRaw('LENGTH(difficultie) > ?', [10])->get()->groupBy(['acr_type_id','employee_id']);
        $acr_Types = AcrType::all();
-
+       $acrs = Acr::select('employee_id','acr_type_id','office_id','from_date','to_date','difficultie')->whereRaw('LENGTH(difficultie) > ?', [10])->get()->groupBy(['acr_type_id','employee_id']);
+       foreach($acrs as $acr_id=>$records){
+            foreach($records as $emp_id=>$emp_acr_details){
+                $difficulty_text = '';
+                foreach($emp_acr_details as $acr){
+                    $sim = similar_text($acr->difficultie, $difficulty_text, $perc);
+                    if($perc < 85 ){
+                        $difficulty_text = $acr->difficultie;
+                    }else{
+                        $acr->difficultie = '';
+                    }
+                    if(stripos($acr->difficultie,'--------') !== false){
+                        $acr->difficultie = '';
+                    }
+                    if(stripos($acr->difficultie,'.......') !== false){
+                        $acr->difficultie = '';
+                    }
+                }
+            }
+       }
         return view( 'employee.acr.difficulties', compact( 'acrs','acr_Types') );
     }
 }
