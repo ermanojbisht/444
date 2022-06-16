@@ -18,6 +18,6 @@ trait AcrFormTrait
 
 	public function defineAcrGroup()
 	{
-		return ['ENC', 'CE', 'SE', 'EE', 'AE', 'AAE / JE', 'Others', 'Ministerial'];
+		return ['ENC', 'CE', 'SE', 'EE', 'AE', 'AAE / JE', 'Others', 'Ministerial/ PA/ Draftsman/ Ameen/ Work Agent/ Mate'];
 	}
 }

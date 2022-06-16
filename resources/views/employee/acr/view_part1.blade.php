@@ -6,6 +6,9 @@
 <p class="fw-semibold fs-5 text-center text-info my-0">PERFORMANCE APPRAISAL REPORT FOR
 	<span class="text-danger">
         {{$acr->typeName}}
+		@if(in_array($acr->acr_type_id,[32,33]))
+		PA/ Draftsman/ Ameen/ Work Agent/ Mate
+		@endif
 	</span>
 </p>
 <p>
