@@ -2,6 +2,7 @@
 
 namespace App\Models\Acr;
 
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Model;
 
 class EmpProposedTraining extends Model
@@ -13,6 +14,11 @@ class EmpProposedTraining extends Model
     public function trainning()
     {
         return $this->belongsTo(AcrMasterTraining::class, 'training_id', 'id');
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 
 }

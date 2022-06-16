@@ -14,4 +14,10 @@ class AcrAnalysisController extends Controller
             return $row->count();
         })->sort();
     }
+
+    public function trainningRequirementDetail($trainingId)
+    {
+        return EmpProposedTraining::with('employee')->where('training_id',$trainingId)->get();
+      
+    }
 }

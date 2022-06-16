@@ -122,5 +122,6 @@ Route::group(['prefix' => 'others', 'as' => 'acr.others.', 'middleware' => ['aut
 
 Route::group(['prefix' => 'analysis', 'as' => 'acr.analysis.', 'middleware' => ['auth', 'verified']], function () {
     Route::get('/trainningRequirementChart', 'Acr\AcrAnalysisController@trainningRequirementChart')->name('trainningRequirementChart');
+    Route::get('/trainningRequirementDetail/{trainingId}', 'Acr\AcrAnalysisController@trainningRequirementDetail')->name('trainningRequirementDetail');
 });
 
