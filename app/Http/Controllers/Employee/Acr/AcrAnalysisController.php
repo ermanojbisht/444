@@ -23,7 +23,7 @@ class AcrAnalysisController extends Controller
 
     public function trainningRequirementDetail($trainingId)
     {
-        return EmpProposedTraining::with('employee')->where('training_id',$trainingId)->get();
+        return EmpProposedTraining::with(['employee','employee.designation'])->where('training_id',$trainingId)->get();
       
     }
 }
