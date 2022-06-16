@@ -3,7 +3,7 @@
 @section('content')
 
 <p class="fw-semibold fs-5 text-center text-info my-0">PUBLIC WORKS DEPARTMENT, UTTARAKHAND</p>
-<p class="fw-semibold fs-5 text-center text-info my-0">APERFORMANCE APPRAISAL REPORT FOR
+<p class="fw-semibold fs-5 text-center text-info my-0">PERFORMANCE APPRAISAL REPORT FOR
 	<span class="text-danger">
         {{$acr->typeName}}
 	</span>
