@@ -41,14 +41,19 @@
 	<div class="card-body">
 		@include('employee.acr.form._goBackIcon')
 		@if(!$acr->isSubmitted())
-			<div class="d-flex justify-content-between" >
 				<p class="fw-semibold fs-5 ">
-					Assign Reporting, Reviewing and Accepting Officer <br>
+					Assign Reporting, Reviewing and Accepting Officer 
+				</p>
+				<p class="fw-semibold fs-5 ">
 					<small>
 						For ACR Period {{$acr->from_date->format('d M Y')}} to {{$acr->to_date->format('d M Y')}} ({{$total_period}} Days) 
 						<a href="{{route('acr.edit',['acr'=>$acr->id ])}}" class="btn badge rounded-pill bg-danger">Edit Period</a>
 					</small> 
 				</p>
+				<p class="text-danger">
+					{{$acr->isTwoStep?'दो स्तर की ACR होने के कारण इस ACR मे Reviewing Officer ही Accepting Officer है।':''}}
+				</p>
+			<div class="d-flex justify-content-between" >
 			</div>
 		@endif	
 	

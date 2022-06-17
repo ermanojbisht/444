@@ -41,7 +41,7 @@
 				</tbody>
 			</table>
 			<hr>
-			<p class="text-info text-center fw-semibold h5">Part -III Appraisal By Reviewing Officer</p>
+			<p class="text-info text-center fw-semibold h5">Part -III Appraisal By Reporting Officer</p>
 			<p class="fw-semibold ">1- व्यक्तिगत गुणों का मूल्यांकन</p>
 			<form class="form-horizontal" method="POST" action="{{route('acr.form.storeIfmsReporting')}}">
 				@csrf

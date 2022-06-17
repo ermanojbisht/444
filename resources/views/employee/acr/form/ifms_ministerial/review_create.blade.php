@@ -111,13 +111,17 @@
 				<p class="fw-semibold ">3- प्रतिवेदक अधिकारी की टिप्पणी <small>(अधिकतम 100 शब्द)</small></p>
 				<p class="border border-info p-2 m-2">{{$acr->appraisal_note_1??'----'}}</p>
 
-				<p class="fw-semibold ">4- समग्र ग्रेड <span class="fw-semibold text-info h4">{{$acr->report_no}}</span></p>
+				<p class="fw-semibold">4- समग्र ग्रेड <span class="fw-semibold text-info h4">{{$acr->report_no}}</span></p>
 
 				<p class="fw-semibold text-end m-0">by  <span>{{$acr->userOnBasisOfDuty('report')->name}}</span></p>
 				<p class="fw-semibold text-end m-0">on <span>{{$acr->report_on->format('d m Y')}}</span></p>
 				<hr>
-				<p class="text-center fw-semibold h5">Part -IV Review @if(!$acr->isTwoStep) and Part -V Accept @endif </p>
-				<p class="text-center fw-semibold ">समीक्षक @if(!$acr->isTwoStep) / स्वीकर्ता @endif अधिकारी की अभ्युक्ति</p>
+				<p class="text-center fw-semibold h5">
+					 Part -IV {{$acr->isTwoStep?'Accept':'Review'}} 
+				</p>
+				<p class="text-center fw-semibold ">
+					{{$acr->isTwoStep?'स्वीकर्ता':'समीक्षक'}} अधिकारी की अभ्युक्ति
+				</p>
 				<P>क्या आप प्रतिवेदक अधिकारी द्वारा किए गए मूल्यांकन से सहमत है? मत भिन्नता की स्थिति मे कारण तथा टिप्पणी भी अंकित करें</P>
 				<form class="form-horizontal" method="POST" action="{{route('acr.form.storeIfmsReview')}}">
 					@csrf
