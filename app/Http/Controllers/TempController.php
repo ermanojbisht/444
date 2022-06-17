@@ -271,22 +271,23 @@ class TempController extends Controller
     }
 
 
-    public function temp1()
+    public function temp1($acrid=0,$milestone='')
     {
+        if($acrid){
+            $acr=Acr::find($acrid);            
 
-        $acr=Acr::find(2512);
-        $milestone='accept';   
+            $pages = $this->arrangePagesForPdf($acr, $milestone);
 
-        $pages = $this->arrangePagesForPdf($acr, $milestone);
+            $pdf = \App::make('snappy.pdf.wrapper');
+            $pdf->setOption('margin-top', 10);
+            $pdf->setOption('cover', view('employee.acr.pdfcoverpage', compact('acr')));
+            $pdf->setOption('header-html', view('employee.acr.pdfheader'));
+            $pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
+            $pdf->loadHTML($pages);
 
-        $pdf = \App::make('snappy.pdf.wrapper');
-        $pdf->setOption('margin-top', 10);
-        $pdf->setOption('cover', view('employee.acr.pdfcoverpage', compact('acr')));
-        $pdf->setOption('header-html', view('employee.acr.pdfheader'));
-        $pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
-        $pdf->loadHTML($pages);
-
-        $acr->createPdfFile($pdf, true);
+            $acr->createPdfFile($pdf, true);
+        }
+        
 
 
 
