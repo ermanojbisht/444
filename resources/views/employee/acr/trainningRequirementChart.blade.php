@@ -9,88 +9,73 @@
 	[ 'datas'=> [
 	['label'=> 'Home','route'=> 'employee.home', 'icon'=>'home', 'active'=>false]
 	]])
-	@endsection
-
-@section('content')
-<!-- Styles -->
-<style>
-#chartdiv {
-  width: 100%;
-  height: 500px;
-}
+@endsection
+@section('styles')
+<style type="text/css">
+  .callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+    h4 {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+    code {
+      border-radius: 3px;
+    }
+    & + .bs-callout {
+      margin-top: -5px;
+    }
+  }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
 </style>
-
-<!-- Resources -->
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/hierarchy.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-
-<!-- Chart code -->
-<script>
-am5.ready(function() {
-
-// Create root element
-// https://www.amcharts.com/docs/v5/getting-started/#Root_element
-var root = am5.Root.new("chartdiv");
-
-// Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
-root.setThemes([
-  am5themes_Animated.new(root)
-]);
-
-// Create wrapper container
-var container = root.container.children.push(
-  am5.Container.new(root, {
-    width: am5.percent(100),
-    height: am5.percent(100),
-    layout: root.verticalLayout
-  })
-);
-
-// Create series
-// https://www.amcharts.com/docs/v5/charts/hierarchy/#Adding
-var series = container.children.push(
-  am5hierarchy.Treemap.new(root, {
-    singleBranchOnly: false,
-    downDepth: 1,
-    upDepth: -1,
-    initialDepth: 2,
-    valueField: "value",
-    categoryField: "name",
-    childDataField: "children",
-    nodePaddingOuter: 0,
-    nodePaddingInner: 0
-  })
-);
-
-series.rectangles.template.setAll({
-  strokeWidth: 2
-});
-
-// Generate and set data
-// https://www.amcharts.com/docs/v5/charts/hierarchy/#Setting_data
-var maxLevels = 2;
-var maxNodes = 10;
-var maxValue = 100;
-
-//var data = 
-var data = {
-  name: "Root",
-  children: <?php echo json_encode($data); ?>
-};
-
-series.data.setAll([data]);
-series.set("selectedDataItem", series.dataItems[0]);
-
-// Make stuff animate on load
-series.appear(1000, 100);
-
-}); // end am5.ready()
-</script>
-
-<!-- HTML -->
-<div id="chartdiv"></div>
+@endsection
+@section('content')
+<div class="container-fluid ">
+  <div class="row justify-content-center row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 mb-5">
+    
+    @foreach($training_nos as $key => $value)
+      @php
+        $percent = round($value*100 / $training_nos->sum());
+        
+        if(in_array($key, $top_training)){
+          $color = "danger";
+          $text_class = "fw-bold h3 text-danger";
+        }else{
+          $color = "success";
+          $text_class = "fw-bold h5 text-success";
+        }
+        if($value < 10){
+          $color = "warning";
+          $text_class = "fw-bold text-warning";
+        }
+      @endphp
+      <a href="{{route('acr.analysis.trainningRequirementDetail',$key)}}" class="text-decoration-none"> 
+         <div class="col">
+            <div class="card callout callout-{{$color}} bg-white my-1 py-1">
+              <div class="row">
+                <p class="col-8 fw-bold" style="font-family: 'Roboto Condensed', sans-serif; color: #5499C7">
+                    {{$tranings[$key]->description}}
+                </p>
+                <span class="col-4 text-end">
+                  <p class="m-0 p-0 {{$text_class}}">{{$value}}</p>
+                  <p class="m-0 p-0 fw-bold text-{{$color}} small">{{$percent}}%</p>
+                </span>
+              </div>
+            </div>
+        </div>
+      </a>
+    @endforeach
+    
+  </div>
+</div>
 @endsection
 @section('footscripts')
 
