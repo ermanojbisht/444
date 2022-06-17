@@ -151,6 +151,9 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		<tr class="small">
 			<td>
 				{{config('acr.basic.appraisalOfficerType')[$appraisalOfficer->pivot->appraisal_officer_type]??'----'}}
+				@if($acr->isTwoStep && $appraisalOfficer->pivot->appraisal_officer_type==2)
+				 /Accepting 
+				@endif
 				Authority
 			</td>
 			<td>{{$appraisalOfficer->shriName}}</td>

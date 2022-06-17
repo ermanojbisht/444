@@ -58,7 +58,9 @@ trait AcrPdfArrangeTrait
         }
 
         if (in_array($milestone, ['accept', 'correctnotice'])) {
-            $pages[] = view('employee.other_acr.view_accepted_acr', compact('acr'));
+            if(!$acr->isTwoStep){
+                $pages[] = view('employee.other_acr.view_accepted_acr', compact('acr'));
+            }
         }
 
         return $pages;
