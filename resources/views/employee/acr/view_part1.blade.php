@@ -291,7 +291,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 			<td> -- </td>
 			<td> -- </td>
 			<td> -- </td>
-			<td><span class="text-danger">Status to be added</span></td>
+			<td> -- </td>
 		</tr>
 		@endif
 	</tbody>
