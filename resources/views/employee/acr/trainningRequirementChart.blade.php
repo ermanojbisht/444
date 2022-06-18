@@ -1,7 +1,7 @@
 @extends('layouts.type200.main')
 
 @section('pagetitle')
-	Training Selected by Employees
+	Training Selected by {{$employees}} Employees
 @endsection
 
 @section('breadcrumb')
@@ -43,16 +43,16 @@
     
     @foreach($training_nos as $key => $value)
       @php
-        $percent = round($value*100 / $training_nos->sum());
+        $percent = round($value*100 / $employees);
         
-        if(in_array($key, $top_training)){
+        if($percent >= 10){
           $color = "danger";
           $text_class = "fw-bold h3 text-danger";
         }else{
           $color = "success";
           $text_class = "fw-bold h5 text-success";
         }
-        if($value < 10){
+        if($percent < 5){
           $color = "warning";
           $text_class = "fw-bold text-warning";
         }

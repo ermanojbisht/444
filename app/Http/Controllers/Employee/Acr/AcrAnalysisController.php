@@ -14,13 +14,17 @@ class AcrAnalysisController extends Controller
         
         $tranings = AcrMasterTraining::all()->keyBy('id');
         
-        $training_nos = EmpProposedTraining::all()->groupBy('training_id')->map(function($row){
+        $training_data = EmpProposedTraining::all();
+        
+        $employees = $training_data->pluck('employee_id')->unique()->count();
+        
+        $training_nos = $training_data->groupBy('training_id')->map(function($row){
             return $row->count();
         })->sortDesc();
 
-        $top_training = array_keys($training_nos->take(12)->toArray());
+        //$top_training = array_keys($training_nos->take(5)->toArray());
 
-        return view('employee.acr.trainningRequirementChart', compact('training_nos','tranings', 'top_training'));
+        return view('employee.acr.trainningRequirementChart', compact('training_nos','tranings', 'employees'));
     }
 
     public function trainningRequirementDetail($trainingId)
