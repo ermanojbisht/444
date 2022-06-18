@@ -232,7 +232,7 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i> View ACR
 													</a>
 													@endif
-													@if ($acr->review_no > 0 || !$acr->is_due)
+													{{-- @if ($acr->review_no > 0 || !$acr->is_due) Condition should not be checked because only one button to act--}}
 													{{-- @if ($acr->review_no > 0) --}}
 													<a class="dropdown-item text-white bg-success " style="width: 100%;"
 														href="{{route('acr.others.accept.submit', ['acr' => $acr->id])}}">
@@ -245,7 +245,7 @@ Other's ACR to be Worked Upon
 														<i class="cib-twitter"></i>Reject ACR
 													</a>
 
-													@endif
+													{{-- @endif --}}
 												</div>
 											</div>
 										</td>
