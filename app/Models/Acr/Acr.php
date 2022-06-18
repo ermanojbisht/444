@@ -361,7 +361,7 @@ class Acr extends Model
                 $row->reporting_marks = $filledparameters[$row->id]->reporting_marks;
                 $row->reviewing_marks = $filledparameters[$row->id]->reviewing_marks;
             } else {
-                $row->user_target = $row->user_achivement = 0;
+                $row->user_target = $row->user_achivement = '';
                 $row->status = '';
             }
 
