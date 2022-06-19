@@ -180,7 +180,7 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 								<input class="form-control form-control-sm text-end reportingPersonalNo" type="number"
 									step="0.01" min="0" max="{{$personal_attribute->max_marks}}"
 									name="personal_attributes[{{$personal_attribute->id}}]"
-									value="{{$personal_attribute->reviewing_marks??0}}">
+									value="{{$personal_attribute->reviewing_marks??''}}">
 							</td>
 							<td></td>
 						</tr>

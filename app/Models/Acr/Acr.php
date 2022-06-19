@@ -435,7 +435,7 @@ class Acr extends Model
                 $row->reporting_marks = $personalAttributes[$row->id]->reporting_marks;
                 $row->reviewing_marks = $personalAttributes[$row->id]->reviewing_marks;
             } else {
-                $row->reporting_marks = $row->reviewing_marks = 0;
+                $row->reporting_marks = $row->reviewing_marks = null;
             }
 
             return $row;
