@@ -124,8 +124,8 @@
 						<td> {{$loop->iteration}}</td>
 						<td class="text-start">{{$personal_attribute->description}}</td>
 						<td> {{$personal_attribute->max_marks}}</td>
-						<td> {{$personal_attribute->reporting_marks??'0'}} </td>
-						<td> {{$personal_attribute->reviewing_marks??'0'}} </td>
+						<td> {{$personal_attribute->reporting_marks??''}} </td>
+						<td> {{$personal_attribute->reviewing_marks??''}} </td>
 					</tr>
 					@endforeach
 					<tr class="text-center bg-light fw-semibold">
