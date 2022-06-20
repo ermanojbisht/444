@@ -43,7 +43,11 @@ Part - IV ( Assessment by the Accepting Authority)
 				</div>
 			</div>
 		</div>
-
+		@if(!$acr->isAcrDuetoLoggedUserfor('accept'))
+			    <p class="fw-semibold text-danger">
+			    	As this ACR is not due , You may skip Overall Marks in this form
+			    </p>
+		@endif
 		<form class="form-horizontal" method="POST" action="{{route('acr.others.accept.save')}}"
 			onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 			@csrf

@@ -122,6 +122,11 @@
 				<p class="text-center fw-semibold ">
 					{{$acr->isTwoStep?'स्वीकर्ता':'समीक्षक'}} अधिकारी की अभ्युक्ति
 				</p>
+				@if(!$acr->isAcrDuetoLoggedUserfor('review'))
+			    	<p class="fw-semibold text-danger">
+			    		As this ACR is not due , You may skip this form
+			    	</p>
+			 	@endif
 				<P>क्या आप प्रतिवेदक अधिकारी द्वारा किए गए मूल्यांकन से सहमत है? मत भिन्नता की स्थिति मे कारण तथा टिप्पणी भी अंकित करें</P>
 				<form class="form-horizontal" method="POST" action="{{route('acr.form.storeIfmsReview')}}">
 					@csrf

@@ -19,6 +19,11 @@ Part -III Appraisal <small>(By Reporting Officer)</small>
 @section('content')
 
 <div class="card">
+	@if(!$acr->isAcrDuetoLoggedUserfor('report'))
+    	<p class="fw-semibold text-danger">
+    		As this ACR is not due , You may skip this form
+    	</p>
+ 	@endif
 	<form class="form-horizontal" method="POST" action="{{route('acr.form.storeAppraisal1')}}">
 		@csrf
 		<input type="hidden" name="acr_id" value='{{$acr->id}}'>
