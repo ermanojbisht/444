@@ -63,6 +63,8 @@ class AlterAcrController extends Controller {
         $acr->update(
             $request->all()
         );
+        //final no ki entry karo
+         $acr->updateFinalNo();
         //    make pdf  and mail notification
         dispatch(new MakeAcrPdfOnSubmit($acr, 'correctnotice'));
 

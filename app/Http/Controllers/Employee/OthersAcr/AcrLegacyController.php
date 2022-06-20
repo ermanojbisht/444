@@ -135,6 +135,8 @@ class AcrLegacyController extends Controller
         ]);
 
         $acr = Acr::create($request->all());
+        //final no ki entry karo
+        $acr->updateFinalNo();
         return redirect(route('acr.others.legacy', ['office_id' => $acr->office_id]));
     }
 
@@ -184,6 +186,8 @@ class AcrLegacyController extends Controller
         );
 
         $acr->update($request->all());
+        //final no ki entry karo
+        $acr->updateFinalNo();
         
         $acr->employee->updateMissing();
         return redirect(route('acr.others.legacy', ['office_id' => $acr->office_id]));

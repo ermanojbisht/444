@@ -172,6 +172,8 @@ class AcrReviewController extends Controller {
             $acr->accept_on = now();
             $acr->accept_no = $acr->review_no;
             $acr->save();
+            //final no ki entry karo
+            $acr->updateFinalNo();
         }
 
         //    make pdf  and mail notification
