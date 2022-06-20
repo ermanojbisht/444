@@ -31,7 +31,7 @@
 				</div>
 				<div class="row mt-2">
 					<div class="col-md-4">
-						<p class="fw-bold required"> Present Pay Scale :-</p>
+						<p class="fw-bold required"> Present Pay Scale (वर्तमान वेतनमान) :-</p>
 					</div>
 					<div class="col-md-4">
 						<input class="form-control" type="text" name="scale" required value="{{$acr->scale}}"/>
@@ -39,7 +39,7 @@
 				</div>
 				<div class="row mt-2">
 					<div class="col-md-4">
-						<p class="fw-bold required"> Date of Appointment to the present post :-</p>
+						<p class="fw-bold required"> Date of Appointment to the present post (वर्तमान पद पर नियुक्ति की तिथि):-</p>
 					</div>
 					<div class="col-md-4">
 						<input class="form-control" type="date" name="doj_current_post" required value="{{$acr->doj_current_post}}"/>
@@ -49,21 +49,22 @@
 				
 					<div class="row mt-2">
 						<div class="col-md-4">
-							<p class="fw-bold checkbox required"> Have you undergone the prescribed medical checkup ?</p>
+							<p class="fw-bold checkbox required"> Have you undergone the prescribed medical checkup ? (क्या आपने निर्धारित स्वास्थ्य परीक्षण करा लिया है ?)</p>
 
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-8">
 								@if(Carbon\Carbon::parse($acr->employee->birth_date)->age > 50)
 									<input type="checkbox" id="has_medical_checkUp" name="has_medical_checkUp" onclick="hasMedicalCheckup()" {{$acr->medical_certificate_date?'checked':''}}>
-									<label for="has_medical_checkUp" >  Check if Yes  <span class="text-danger">Only for Employees ablove 50 Year of Age</span></label>
+									<label for="has_medical_checkUp" >  Check if Yes  </label>
+									<p class="text-danger">Only for Employees ablove 50 Year of Age (केवल 50 वर्ष से अधिक आयु के कार्मिकों हेतु)</p>
 								@else
-									<span class="text-muted">Not Applicable</span>
+									<span class="text-muted">Not Applicable (लागू नहीं)</span>
 								@endif
 						</div>
 					</div>
 					<div class="row mt-2">
 						<div  class="col-md-4 hasMedical">
-							<p class="fw-bold required">Date of Medical checkup</p>
+							<p class="fw-bold required">Date of Medical checkup (स्वास्थ्य परीक्षण का दिनांक)</p>
 						</div>
 						<div class=" hasMedical col-md-4" style="display:none">
 							<div class="">
@@ -74,7 +75,7 @@
 					</div>
 					<div class="row mt-2">
 						<div  class="col-md-4 hasMedical">
-							<p class="fw-bold required">Upload a copy (pdf only) of Medical Report</p>
+							<p class="fw-bold required">Upload a copy (pdf only) of Medical Report (रिपोर्ट की प्रति अपलोड करें)</p>
 						</div>
 						<div  class="hasMedical col-md-4" style="display:none">
 							<p class="fw-bold">
