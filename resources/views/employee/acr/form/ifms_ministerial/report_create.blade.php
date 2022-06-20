@@ -41,6 +41,11 @@
 				</tbody>
 			</table>
 			<hr>
+			@if(!$acr->isAcrDuetoLoggedUserfor('report'))
+			    <p class="fw-semibold text-danger">
+			    	As this ACR is not due , You may skip this form
+			    </p>
+			 @endif
 			<p class="text-info text-center fw-semibold h5">Part -III Appraisal By Reporting Officer</p>
 			<p class="fw-semibold ">1- व्यक्तिगत गुणों का मूल्यांकन</p>
 			<form class="form-horizontal" method="POST" action="{{route('acr.form.storeIfmsReporting')}}">

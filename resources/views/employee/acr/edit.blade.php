@@ -22,6 +22,7 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 @section('content')
 <div class="card shadow-lg p-0 mb-5 bg-body rounded" style="position: relative; ">
 	<div class="card-body" >
+		@include('layouts._commonpartials.language_switcher')
 		<a  href="{{route('acr.myacrs')}}" class="text-end" 
 			style=" position: absolute; top: 10px; right: 10px;"
 			onmouseover="this.style.color='#ff0000'"
@@ -30,9 +31,10 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 				<use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-x-circle')}}"></use>
 			</svg>
 		</a>
+		<hr>
 		<div class="row">
 			<div class="col-md-4">
-				<p class="fw-bold"> Name of the officer Reported Upon :- </p>
+				<p class="fw-bold">{{ __('acr.employee_name')}} :- </p>
 			</div>
 			<div class="col-md-6">
 				<p class="fw-semibold  text-info"> {{$employee->shriName }} </p>
@@ -40,10 +42,18 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 		</div>
 		<div class="row">
 			<div class="col-md-4">
-				<p class="fw-bold"> Date of Birth :-</p>
+				<p class="fw-bold">{{ __('acr.dob')}} :- </p>
 			</div>
 			<div class="col-md-6">
 				<p class="fw-semibold  text-info"> {{$employee->birth_date->format('d M Y')}} </p>
+			</div>
+			<div class="row">
+				<div class="col-md-4">
+					<p class="fw-bold">{{ __('acr.doj')}} :- </p>
+				</div>
+				<div class="col-md-6">
+					<p class="fw-semibold text-info"> {{$employee->joining_date->format('d M Y')}} </p>
+				</div>
 			</div>
 		</div>
 		<hr class="m-1" style="opacity: 0.1;">
@@ -63,10 +73,10 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 						</div>
 					@else
 						<div class="col-md-4">
-							<p class="fw-semibold"> Select Type of ACR to be Filled : </p>
+							<p class="fw-bold">{{ __('acr.acr_type')}} :- </p>
 						</div>
 						<div class="col-md-4">
-							<label for='acr_group_id' class="required "> Select Designation Group </label>
+							<label for='acr_group_id' class="required "> {{ __('acr.designation')}} </label>
 							<select id="acr_group_id" name="acr_group_id" required class="form-select">
 								<option value=""> Select ACR Type </option>
 								@foreach ($acrGroups as $key=>$name)
@@ -76,7 +86,7 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 							</select>
 						</div>
 						<div class="col-md-4">
-							<label for='acr_type_id' class="required "> Select Acr Type </label>
+							<label for='acr_type_id' class="required "> {{ __('acr.acr_formate')}} </label>
 							<select id="acr_type_id" name="acr_type_id" required class="form-select">
 								@foreach ($acr_Types as $acr_type)
 								<option value="{{$acr_type->id}}" {{( $acr_selected_group_type->id == $acr_type->id ?
@@ -88,17 +98,17 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 					<hr class="m-1" style="opacity: 0.1;">
 
 					<div class="col-md-4">
-						<p class="fw-semibold"> Period Of Appraisal : </p>
+						<p class="fw-semibold"> {{ __('acr.acr_period')}} : </p>
 					</div>
 					<div class="col-md-4">
-						<label for='from_date' class="required "> Enter From Date </label>
+						<label for='from_date' class="required "> {{ __('acr.acr_from')}} </label>
 						{{-- <input type="date" name="from_date" value="{{$acr->from_date->format('Y-m-d') }}" required
 							class="form-control" /> --}}
 						<input type="date" name="from_date" value="{{old('from_date') ? old('from_date'):(($acr->from_date) ? $acr->from_date->format('Y-m-d') : '') }}" required
 							class="form-control" />
 					</div>
 					<div class="col-md-4">
-						<label for='to_date' class="required "> Enter To Date </label>
+						<label for='to_date' class="required "> {{ __('acr.acr_to')}} </label>
 						{{-- <input type="date" name="to_date" value="{{$acr->to_date->format('Y-m-d') }}" required
 							class="form-control" /> --}}
 						<input type="date" name="to_date" value="{{old('to_date') ? old('to_date'):(($acr->to_date) ? $acr->to_date->format('Y-m-d') : '') }}" required
@@ -108,11 +118,11 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 
 					<hr class="m-1" style="opacity: 0.1;">
 					<div class="col-md-4">
-						<p class="fw-semibold"> Place of Posting During the Appraisal Period : </p>
+						<p class="fw-semibold"> {{ __('acr.place')}} : </p>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							{{ Form::label('officeType','Place of Posting ',[ 'class'=>' required']) }}
+							{{ Form::label('officeType',__('acr.place_type'),[ 'class'=>' required']) }}
 							<select id='officeTypeId' class='form-select' required>
 								@foreach ($Officetypes as $key=>$name)
 								<option value="{{$key}}" {{( (old('officeTypeId')==$key || $key==$acr_office->
@@ -123,7 +133,7 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							{{ Form::label('office_id','Select Office Name',[ 'class'=>' required']) }}
+							{{ Form::label('office_id',__('acr.place_name'),[ 'class'=>' required']) }}
 							<select id="office_id" name="office_id" required class="form-select select2">
 								@foreach ($Offices as $office)
 								<option value="{{$office->id}}" {{( $acr_office->id == $office->id ?
@@ -195,7 +205,7 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 				@endif
 				<hr class="m-1" style="opacity: 0.1;">
 				<div class="col-md-6">
-					<p class="fw-semibold required"> Date of filing Property Return for the Calander Year: - </p>
+					<p class="fw-semibold required"> {{__('acr.date_of_property_return')}} : - </p>
 				</div>
 				<div class="col-md-3">
 					<div class="form-group">
@@ -206,7 +216,7 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 				</div>
 				<hr class="m-1" style="opacity: 0.1;">
 				<div class="col-md-6">
-					<p class="fw-semibold"> Membership of any Professional Organization : - </p>
+					<p class="fw-semibold"> {{__('acr.membership')}} : - </p>
 				</div>
 				<div class="col-md-6">
 					<textarea type="text" class="form-control"
@@ -215,7 +225,7 @@ Part 1 ( Basic Information ) <small> Edit ACR</small>
 
 				<hr class="m-1" style="opacity: 0.1;">
 				<div class="col-md-4">
-					<p class="fw-semibold  "> Education Qualification : -</p>
+					<p class="fw-semibold  "> {{__('acr.qualification')}} : -</p>
 				</div>
 				<div class="col-md-8">
 					@foreach ($employee->education as $education )
