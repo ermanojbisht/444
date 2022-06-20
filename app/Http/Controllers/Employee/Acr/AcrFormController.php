@@ -318,12 +318,6 @@ class AcrFormController extends Controller
         }
 
 
-      
-
-   
-        Log::info("doc_address = ".print_r($request->all(),true));
-
-
         $acr->update([
             'service_cadre' => $request->service_cadre,
             'scale' => $request->scale,
