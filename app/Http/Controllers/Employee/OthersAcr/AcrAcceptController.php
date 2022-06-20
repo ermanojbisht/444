@@ -49,11 +49,10 @@ class AcrAcceptController extends Controller
         $acr_is_due = $acr->isAcrDuetoLoggedUserfor('accept');
 
 
-        if ($acr->review_no > 0 ) {
+        if ($acr_is_due ) {
             $this->validate(
                 $request,
-                [
-                    'acr_id'   => 'required',
+                [                    
                     'acr_agree' => 'required|numeric',
                     'reason' => 'required_without_all:acr_agree',
                     'marks' => 'required|numeric|min:1|max:100',
@@ -72,14 +71,24 @@ class AcrAcceptController extends Controller
                     'accept_on' => now()
                 ]);
             }
-        }elseif(!$acr_is_due){
-                $acr->update([
-                    'accept_on' => now()
-                ]);
         }else{
-            return redirect()->back()->with('fail', 'Please process the ACR');
+            $this->validate(
+                $request,
+                [                   
+                    'acr_agree' => 'required|numeric',
+                    'reason' => 'required_without_all:acr_agree',
+                    'marks' => 'numeric|min:1|max:100',
+                ]
+            );
+            $acr->update([
+                'accept_no' => $request->marks,
+                'accept_on' => now(),
+                'accept_remark' => $request->reason
+            ]);
         }
 
+        //final no ki entry karo
+        //$acr->updateFinalNo();
         
 
         //    make pdf  and mail notification

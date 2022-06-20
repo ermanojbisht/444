@@ -100,7 +100,7 @@
 						@endforeach
 					</tbody>
 				</table>
-				<br>
+				<br>				
 				<p class="fw-semibold ">3- प्रतिवेदक अधिकारी की टिप्पणी <small>(अधिकतम 100 शब्द)</small></p>
 				<textarea class="form-control" name="reporting_remark" required >{{old('reporting_remark')?old('reporting_remark'):$acr->appraisal_note_1}}</textarea>
 				<br>
