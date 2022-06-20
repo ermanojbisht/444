@@ -88,7 +88,7 @@ class AcrAcceptController extends Controller
         }
 
         //final no ki entry karo
-        //$acr->updateFinalNo();
+        $acr->updateFinalNo();
         
 
         //    make pdf  and mail notification
