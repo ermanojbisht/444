@@ -218,11 +218,26 @@ class AcrReportController extends Controller
      */
     public function submitReported(Acr $acr)
     { 
-        if ( $acr->report_no > 0 || !$acr->isAcrDuetoLoggedUserfor('report') ){
-            $acrnotProcessable=  false;
-        }else{
-            $acrnotProcessable=  true;
-        }
+        switch ($this->user->employee_id) {
+           case $acr->report_employee_id:
+               if ( $acr->report_no > 0 || !$acr->isAcrDuetoLoggedUserfor('report') ){
+                    $acrnotProcessable=  false;
+                }else{
+                    $acrnotProcessable=  true;
+                } 
+               break;
+            case $acr->review_employee_id:
+                if ( $acr->review_no > 0 || !$acr->isAcrDuetoLoggedUserfor('review') ){
+                    $acrnotProcessable=  false;
+                }else{
+                    $acrnotProcessable=  true;
+                } 
+               break;               
+           case $acr->accept_employee_id:               
+                $acrnotProcessable=  false;              
+                break;
+        } 
+        
         //CHECK whether ACR is processed or is not due 
         abort_if($acrnotProcessable,403,'Dear user ACR is due to process but you have not processed yet.');
         return view('employee.other_acr.report_acr', compact('acr'));
