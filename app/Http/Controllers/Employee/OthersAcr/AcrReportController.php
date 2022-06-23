@@ -284,7 +284,7 @@ class AcrReportController extends Controller
 
         //check Reviewing is retired
         if($acr->isReviewingRetired()){
-            if($acr->isTwoStep()){
+            if($acr->isTwoStep){
                 //marks of review and accept as per report
                 $acr->update(['review_no' => $acr->report_no,'accept_no' => $acr->report_no,'review_on' => now(),'accept_on' => now() ]); 
                 $milestone ='accept';
@@ -301,7 +301,7 @@ class AcrReportController extends Controller
         }
 
         //check Accepting is applicable and retired
-        if(!$acr->isTwoStep()){
+        if(!$acr->isTwoStep){
             if($acr->isAcceptingRetired()){
                 $acr->update(['accept_no' => $acr->report_no,'accept_on' => now()]); 
                 $milestone ='accept';

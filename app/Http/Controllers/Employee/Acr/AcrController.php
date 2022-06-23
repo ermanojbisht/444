@@ -291,7 +291,7 @@ class AcrController extends Controller
         }
         //check Reviewing is retired
         if($acr->isReviewingRetired()){
-            if($acr->isTwoStep()){
+            if($acr->isTwoStep){
                 $milestone ='reject';
             }else{
                 $milestone ='review';
@@ -302,7 +302,7 @@ class AcrController extends Controller
             return redirect()->back();
         }
         //check Accepting is applicable and retired
-        if(!$acr->isTwoStep()){
+        if(!$acr->isTwoStep){
             if($acr->isAcceptingRetired()){
                 $milestone ='reject';
             }
