@@ -39,7 +39,7 @@ class Acr extends Model
         'review_duration_lapsed', 'accept_duration_lapsed','report_integrity',
         'report_no', 'report_on', 'report_remark',
         'review_no', 'review_on', 'review_remark',
-        'accept_no', 'accept_on', 'accept_remark','is_defaulter',  'old_accept_no','final_accept_remark','missing','service_cadre','scale','doj_current_post','medical_certificate_date','final_no'
+        'accept_no', 'accept_on', 'accept_remark','is_defaulter',  'old_accept_no','final_accept_remark','missing','service_cadre','scale','doj_current_post','medical_certificate_date','final_no','integrity_by'
     ];
 
     /**
@@ -1185,5 +1185,25 @@ class Acr extends Model
 
         return Null;
     }
+
+    public function isReportingRetired()
+    {
+        return Employee::find($this->report_employee_id)->isRetired;
+    }
+
+    public function isReviewingRetired()
+    {
+        return Employee::find($this->review_employee_id)->isRetired;
+    }
+
+    public function isAcceptingRetired()
+    {
+        $accepting=Employee::find($this->accept_employee_id);
+        if($accepting){
+            return $accepting->isRetired;
+        }
+        return false;
+    }
+    
 
 }

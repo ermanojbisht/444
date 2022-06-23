@@ -74,6 +74,11 @@ class Employee extends Model
         return config('hrms.masters.gender')[$this->gender_id];
     }
 
+    public function getIsRetiredAttribute()
+    {        
+        return $this->retirement_date->lt(Carbon::now());      
+    }
+
     // public function getEmpPostings()
     // {
     //     return $this->belongsTo(TransferDetail::class, "id", "emp_id");
