@@ -48,8 +48,7 @@ class AcrAcceptController extends Controller
         $acr = Acr::findOrFail($request->acr_id);
         $acr_is_due = $acr->isAcrDuetoLoggedUserfor('accept');
 
-
-        if ($acr_is_due ) {
+        if ($acr_is_due) {
             $this->validate(
                 $request,
                 [                    
@@ -77,7 +76,7 @@ class AcrAcceptController extends Controller
                 [                   
                     'acr_agree' => 'required|numeric',
                     'reason' => 'required_without_all:acr_agree',
-                    'marks' => 'numeric|min:1|max:100',
+                    'marks' => 'nullable|numeric|min:1|max:100',
                 ]
             );
             $acr->update([
