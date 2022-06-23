@@ -568,7 +568,7 @@ class Acr extends Model
      */
     public function integrityUser()
     {
-        $user=User::where('employee_id',$this->integrity_by);
+        $user=User::where('employee_id',$this->integrity_by)->first();
         if($user){
             return $user;
         }
