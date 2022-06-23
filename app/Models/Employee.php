@@ -240,6 +240,11 @@ class Employee extends Authenticatable
 
         }
     }
+
+    public function getIsRetiredAttribute()
+    {        
+        return $this->retirement_date->lt(Carbon::now());      
+    }
     
 }
 
