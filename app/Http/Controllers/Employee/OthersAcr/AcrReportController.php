@@ -248,30 +248,16 @@ class AcrReportController extends Controller
         $acr = Acr::findOrFail($request->acr_id);    
         //IDENTIFY Process
         switch ($this->user->employee_id) {
-               case $acr->report_employee_id:
-                   $process='report';
-                   break;
-                case $acr->review_employee_id:
-                    $process='review';
-                   break;               
-               case $acr->accept_employee_id:
-                   $process='accept';
-                   break;
-           } 
-
-        switch ($process) {
-            case 'report':
-                $this->reportProcess($acr,$request);                
-                break;
-            
-            case 'review':
-                $this->reviewProcess($request);                
-                break;
-
-            case 'accept':
-                $this->acceptProcess($request);                
-                break;
-        }
+           case $acr->report_employee_id:
+               return $this->reportProcess($acr,$request);   
+               break;
+            case $acr->review_employee_id:
+                return $this->reviewProcess($request);   
+               break;               
+           case $acr->accept_employee_id:
+               return $this->acceptProcess($request);  
+               break;
+        } 
         
     }
 
