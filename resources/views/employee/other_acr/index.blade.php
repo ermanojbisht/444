@@ -163,8 +163,13 @@ Other's ACR to be Worked Upon
 														href="{{route('acr.form.appraisal2', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i>Process ACR
 													</a>
-
-													@if ($acr->review_no > 0 || !$acr->is_due)
+													@if(!$acr->report_integrity)
+														<a class="dropdown-item text-white bg-warning" style="width: 100%;"
+															href="{{route('acr.others.report.submit', ['acr' => $acr->id])}}">
+															<i class="cib-twitter"></i>Integrity Due
+														</a>
+													@endif
+													@if ($acr->report_integrity && ($acr->review_no > 0 || !$acr->is_due))
 													<a class="dropdown-item text-white bg-success" href="#">
 														<form method="POST"
 															action="{{ route('acr.others.review.save') }}"
@@ -234,10 +239,18 @@ Other's ACR to be Worked Upon
 													@endif
 													{{-- @if ($acr->review_no > 0 || !$acr->is_due) Condition should not be checked because only one button to act--}}
 													{{-- @if ($acr->review_no > 0) --}}
+													@if(!$acr->report_integrity)
+														<a class="dropdown-item text-white bg-warning" style="width: 100%;"
+															href="{{route('acr.others.report.submit', ['acr' => $acr->id])}}">
+															<i class="cib-twitter"></i>Integrity Due
+														</a>
+													@endif
+													@if($acr->report_integrity)
 													<a class="dropdown-item text-white bg-success " style="width: 100%;"
 														href="{{route('acr.others.accept.submit', ['acr' => $acr->id])}}">
 														<i class="cib-twitter"></i> Process and Submit ACR
 													</a>
+													@endif
 
 
 													<a class="dropdown-item text-white bg-danger" style="width: 100%;"
