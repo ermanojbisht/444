@@ -563,6 +563,16 @@ class Acr extends Model
     public function acceptUser()
     {
         return $this->userOnBasisOfDuty('accept');
+    }/**
+     * @return mixed
+     */
+    public function integrityUser()
+    {
+        $user=User::where('employee_id',$this->integrity_by);
+        if($user){
+            return $user;
+        }
+        return false;       
     }
 
     /**

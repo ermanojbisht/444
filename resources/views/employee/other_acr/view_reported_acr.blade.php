@@ -31,12 +31,18 @@
 		<div class="row">
 			<div class="col-md-3">
 				<p class="fw-semibold"> By
-					<span class="text-info"> {!! $acr->reportUser()->shriName !!} </span>
+					<span class="text-info">
+					@if($acr->integrityUser())
+					 {!! $acr->integrityUser()->shriName !!} 
+					@else 
+					::
+					@endif
+					</span>
 				</p>
 
-				<p class="fw-semibold"> Date
+				{{-- <p class="fw-semibold"> Date
 					<span class="text-info"> {!! $acr->report_on->format('d&#160;M&#160;Y') !!} </span>
-				</p>
+				</p> --}}
 			</div>
 		</div>
 
