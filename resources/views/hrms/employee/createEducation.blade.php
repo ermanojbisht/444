@@ -26,9 +26,6 @@ Employee Education Detail
 
 @section('content')
 
-
-
-
 <form action="{{ route('employee.education.store') }}" method="POST"
     onsubmit="return confirm('Above Written Details are correct to my knowledge. ( मेरे द्वार भरा गया उपरोक्त डाटा सही हैं ) ??? ');">
     @csrf
@@ -59,15 +56,15 @@ Employee Education Detail
                             <span class="help-block"> </span>
                         </div>
 
-
-                        {{-- Qualification --}}
+                        {{-- qualification_id --}}
                         <div class="form-group col-md-3">
-                            <label class="required" for="qualification"> Qualification </label>
-                            <input type="text" class="form-control" id="qualification" name="qualification" />
-
-                            @if($errors->has('qualification'))
+                            <label class="required" for="qualification_id"> Qualification </label>
+                            {!! Form::select('qualification_id', config('hrms.masters.qualification'), '1',
+                            ['id'=>'qualification_id', 'required'=>'required',
+                            'class'=>'form-select ' ]) !!}
+                            @if($errors->has('qualification_id'))
                             <div class="invalid-feedback">
-                                {{ $errors->first('qualification') }}
+                                {{ $errors->first('qualification_id') }}
                             </div>
                             @endif
                             <span class="help-block"> </span>
@@ -76,8 +73,9 @@ Employee Education Detail
                         {{-- Year --}}
                         <div class="form-group col-md-3">
                             <label class="required" for="year"> Year </label>
-                            <input type="number" min="1965" maxlength="4" max="2999" class="form-control" name="year"
-                                id="year" />
+                            <input type="month" id="year" name="year" class="form-control" min="1975-04"
+                                value="{{date('Y-m')}}" max="{{date('Y-m')}}" required>
+
                             @if($errors->has('year'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('year') }}
@@ -132,7 +130,8 @@ Employee Education Detail
                                 {{ config('hrms.masters.qualificationType')[$education->qualification_type_id] }}
                             </td>
                             <td>
-                                {{ $education->qualification }}
+                                {{ ($education->qualification_id ? config('hrms.masters.qualification')[$education->qualification_id]
+                                : $education->qualification ) }}
                             </td>
                             <td>
                                 {{ $education->year }}
@@ -153,22 +152,7 @@ Employee Education Detail
 
 </form>
 
-</div>
-
-</div>
-
 @endsection
 
 @section('footscripts')
-<!-- Select2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script type="text/javascript">
-    $(".select2").select2();
-
-    // function countCharacters(thiss, lblShowCounterId)
-    // {
-    //     $("#" +lblShowCounterId).html(thiss.value.length);
-    // }
-</script>
-@include('partials.js._makeDropDown')
 @endsection

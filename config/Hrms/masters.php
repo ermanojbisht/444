@@ -7,7 +7,8 @@ return [
 
    'gender' => [
       1 => 'Male',
-      2 => 'Female'
+      2 => 'Female',
+      3 => 'Transgender'
    ],
 
    'religion' => [
@@ -15,11 +16,16 @@ return [
       2 => 'Muslim',
       3 => 'Sikh',
       4 => 'Christian',
+      5 => 'Buddhists',
+      6 => 'Jains'
    ],
 
    'married' => [
       1 => 'Married',
-      2 => 'Un-Married'
+      2 => 'Single',
+      3 => 'Widow',
+      4 => 'Seperated',
+      5 => 'Divorced'
    ],
 
    'bloodGroup' => [
@@ -60,15 +66,25 @@ return [
       2 => 'Additional'
    ],
 
+   'qualification' => [
+      1 => 'Highschool',
+      2 => 'Intermediate',
+      3 => 'Diploma',
+      4 => 'Graduation',
+      5 => 'Post-Graduation'
+   ],
+
+
    'relation' => [
       1 => 'Wife',
       2 => 'Son',
       3 => 'Daughter',
       4 => 'Father',
       5 => 'Mother',
-      6 => 'Sister',
-      7 => 'Husband',
-      8 => 'Other'
+      6 => 'Brother',
+      7 => 'Sister',
+      8 => 'Husband',
+      9 => 'Other'
    ],
 
    'regular_incharge' => [

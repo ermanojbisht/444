@@ -3,9 +3,12 @@
 @section('content')
 
 <p class="fw-semibold fs-5 text-center text-info my-0">PUBLIC WORKS DEPARTMENT, UTTARAKHAND</p>
-<p class="fw-semibold fs-5 text-center text-info my-0">APERFORMANCE APPRAISAL REPORT FOR
-	<span class="text-danger">
-        {{$acr->typeName}}
+<p class="fw-semibold fs-5 text-center text-info my-0">PERFORMANCE APPRAISAL REPORT FOR
+	<span class="text-danger">        
+		@if(in_array($acr->acr_type_id,[32,33]))
+		PA/ Draftsman/ Ameen/ Work Agent/ Mate
+		@endif
+		{{$acr->typeName}}
 	</span>
 </p>
 <p>
@@ -58,41 +61,79 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		<td>2. Date of Birth : </td>
 		<td> {{$employee->birth_date->format('d M Y')}} </td>
 	</tr>
-	<tr>
-		<td>3. Education Qualification : </td>
-		<td>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<p class="ps-3 m-0">3.1 At the time of Joining in the Department : </p>
-		</td>
-		<td>
-			@foreach ($employee->education as $education )
-			@if($education->emp_year <=  $employee->joining_date->format('Y'))
-			<p> {{$education->qualifiaction }} </p>
-			@endif
-			@endforeach
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<p class="ps-3 m-0">3.2 Qualification acquired during service in the Department : </p>
-		</td>
-		<td>
-			@foreach ($employee->education as $education )
-			@if($education->emp_year >  $employee->joining_date->format('Y'))
-			<p> {{$education->qualifiaction }} </p>
-			@endif
-			@endforeach
-		</td>
-	</tr>
-	<tr>
-		<td>4. Membership of any Professional Organization :</td>
-		<td>
-			{{ $acr->professional_org_membership }}
-		</td>
-	</tr>
+	
+	@if($acr->isIfmsClerk)
+		<tr>
+			<td>3.1 Date of Joining in the service : </td>
+			<td> {{$employee->joining_date->format('d M Y')}} </td>
+		</tr>
+		<tr>
+			<td>3.2 Service Cader (सेवा संवर्ग) :-  : </td>
+			<td> {{$acr->service_cadre}} </td>
+		</tr>
+		<tr>
+			<td>3.3 Present Pay Scale :-</td>
+			<td> {{$acr->scale}} </td>
+		</tr>
+		<tr>
+			<td>3.4 Date of Appointment to the present post :-</td>
+			<td> @mkbdate($acr->doj_current_post,'d M Y')</td>
+		</tr>
+		
+	@else
+		<tr>
+			<td>3. Education Qualification : </td>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p class="ps-3 m-0">3.1 At the time of Joining in the Department : </p>
+			</td>
+			<td>
+				@foreach ($employee->education as $education )
+				@if($education->emp_year <=  $employee->joining_date->format('Y'))
+				<p> {{$education->qualifiaction }} </p>
+				@endif
+				@endforeach
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<p class="ps-3 m-0">3.2 Qualification acquired during service in the Department : </p>
+			</td>
+			<td>
+				@foreach ($employee->education as $education )
+				@if($education->emp_year >  $employee->joining_date->format('Y'))
+				<p> {{$education->qualifiaction }} </p>
+				@endif
+				@endforeach
+			</td>
+		</tr>
+
+
+	@endif
+	@if($acr->isIfmsClerk)
+
+		<tr>
+			<td>4. Have you Undergone the prescribed medical checkup? if yes Date :-</td>
+			<td> 
+				@if($acr->medical_certificate_date)
+					Yes on @mkbdate($acr->medical_certificate_date,'d M Y')
+				@else
+					No
+				@endif
+			</td>
+		</tr>
+	@else
+		<tr>
+			<td>4. Membership of any Professional Organization :</td>
+			<td>
+				{{ $acr->professional_org_membership }}
+			</td>
+		</tr>
+	
+	@endif
 </table>
 <p> 5. Reporting, Reviewing and Accepting Authorities </p>
 <table class="table table-sm table-bordered">
@@ -110,6 +151,9 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		<tr class="small">
 			<td>
 				{{config('acr.basic.appraisalOfficerType')[$appraisalOfficer->pivot->appraisal_officer_type]??'----'}}
+				@if($acr->isTwoStep && $appraisalOfficer->pivot->appraisal_officer_type==2)
+				 /Accepting 
+				@endif
 				Authority
 			</td>
 			<td>{{$appraisalOfficer->shriName}}</td>
@@ -247,7 +291,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 			<td> -- </td>
 			<td> -- </td>
 			<td> -- </td>
-			<td><span class="text-danger">Status to be added</span></td>
+			<td> -- </td>
 		</tr>
 		@endif
 	</tbody>

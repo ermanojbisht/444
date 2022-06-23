@@ -13,6 +13,7 @@ use App\Models\Acr\Leave;
 use App\Models\Employee;
 use App\Models\Office;
 use App\Traits\Acr\AcrFormTrait;
+use App\Traits\Acr\AcrPdfArrangeTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -24,7 +25,8 @@ use Log;
 class AcrController extends Controller
 {
 
-    use OfficeTypeTrait, AcrFormTrait;
+    use OfficeTypeTrait, AcrFormTrait,AcrPdfArrangeTrait;
+
 
     /**
      * @var mixed
@@ -279,6 +281,40 @@ class AcrController extends Controller
         dispatch(new MakeAcrPdfOnSubmit($acr, 'submit'));
 
         return redirect()->back();
+    }
+
+    public function draftPdfofAcr(Acr $acr)
+    {
+        $permission = false;
+        if ($acr->is_defaulter && $this->user->hasPermissionTo(['create-others-acr'])) {
+            $permission = true;
+        }
+        if (!$permission) {
+            abort_if($this->user->employee_id <> $acr->employee_id, 403, $this->msg403);           
+        }
+
+        $result = $acr->checkSelfAppraisalFilled();
+        if (!$result['status']) {
+            return Redirect()->back()->with('fail', $result['msg']);
+        }
+        if (!$acr->isDurationMatches) {
+            return Redirect()->back()->with('fail', 'Appraisal officer date not matches, please revisit your data');
+        }
+        
+        $milestone='submit';   
+
+        $pages = $this->arrangePagesForPdf($acr, $milestone);
+
+        $pdf = \App::make('snappy.pdf.wrapper');
+        $pdf->setOption('margin-top', 10);
+        $pdf->setOption('cover', view('employee.acr.pdfcoverpage', compact('acr')));
+        $pdf->setOption('header-html', view('employee.acr.pdfheader'));
+        $pdf->setOption('footer-html',  view('employee.acr.pdffooter'));
+        $pdf->loadHTML($pages);
+
+        $acr->createPdfFile($pdf, true);
+
+        return $this->show($acr);
     }
 
     public function destroy(Request $request)

@@ -15,6 +15,7 @@ class Education extends Model
         'id',
         'employee_id',
         'qualification_type_id',
+        'qualification_id',
         'qualification',
         'year',
         'updated_by',

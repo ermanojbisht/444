@@ -32,14 +32,12 @@ Employee Registration
             onsubmit="return confirm('Above Written Details are correct to my knowledge. ( मेरे द्वार भरा गया उपरोक्त डाटा सही हैं ) ??? ');">
             @csrf
 
-
-
             <div class="row">
 
                 {{-- Employee Code --}}
                 <div class="form-group col-md-3">
                     <label class="required" for="id"> Employee Code </label>
-                    <input class="form-control {{ $errors->has('id') ? 'is-invalid' : '' }}" type="text" minlength="3"
+                    <input class="form-control {{ $errors->has('id') ? 'is-invalid' : '' }}" type="text" minlength="5"
                         maxlength="50" name="id" id="id" value="{{ old('id', '') }}" placeholder="Employee Code"
                         required>
                     @if($errors->has('id'))
@@ -53,8 +51,8 @@ Employee Registration
                 {{-- Employee Name --}}
                 <div class="form-group col-md-3">
                     <label class="required" for="name"> Employee Name </label>
-                    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" minlength="3"
-                        maxlength="150" name="name" id="name" value="{{ old('name', '') }}" placeholder="Employee Name"
+                    <input class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" type="text" minlength=3
+                        maxlength=150 name="name" id="name" value="{{ old('name', '') }}" placeholder="Employee Name"
                         required>
                     @if($errors->has('name'))
                     <div class="invalid-feedback">
@@ -84,7 +82,8 @@ Employee Registration
                 <div class="form-group col-md-3">
                     <label class="required" for="birth_date"> Date of Birth </label>
                     <input class="form-control {{ $errors->has('birth_date') ? 'is-invalid' : '' }}" type="date"
-                        name="birth_date" id="birth_date" value="{{ old('birth_date', '') }}" required format>
+                        max="{{ date(" Y") - 18}}-01-01" name="birth_date" id="birth_date"
+                        value="{{ old('birth_date', '') }}" required format>
                     @if($errors->has('birth_date'))
                     <div class="invalid-feedback">
                         {{ $errors->first('birth_date') }}
@@ -95,16 +94,41 @@ Employee Registration
             </div>
             <br />
             <div class="row">
-
-                {{-- Order Date --}}
+                {{-- Appointment Through --}}
                 <div class="form-group col-md-3">
-                    <label class="required" for="transfer_order_date"> Order Date </label>
-                    <input class="form-control {{ $errors->has('transfer_order_date') ? 'is-invalid' : '' }}"
-                        type="date" name="transfer_order_date" id="transfer_order_date"
-                        value="{{  old('transfer_order_date', '') }}" required format>
-                    @if($errors->has('transfer_order_date'))
+                    <label class="required" for="appointed_through"> Appointment Through </label>
+                    {!! Form::select('appointed_through', config('hrms.masters.appointmentType'), 1,
+                    ['id'=>'appointed_through','class'=>'form-select','required'], ) !!}
+                    @if($errors->has('appointed_through'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('transfer_order_date') }}
+                        {{ $errors->first('appointed_through') }}
+                    </div>
+                    @endif
+                    <span class="help-block"> </span>
+                </div>
+
+                {{-- appointment_order_no --}}
+                <div class="form-group col-md-3">
+                    <label class="" for="appointment_order_no"> Order No </label>
+                    <input type="text" class="form-control" id="appointment_order_no" name="appointment_order_no"
+                        placeholder="Order No" />
+                    @if($errors->has('appointment_order_no'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('appointment_order_no') }}
+                    </div>
+                    @endif
+                    <span class="help-block"> </span>
+                </div>
+
+                {{-- appointment_order_at --}}
+                <div class="form-group col-md-3">
+                    <label class="required" for="appointment_order_at"> Order Date </label>
+                    <input class="form-control {{ $errors->has('appointment_order_at') ? 'is-invalid' : '' }}"
+                        type="date" name="appointment_order_at" id="appointment_order_at" max="{{ date(" Y-m-d")}}"
+                        value="{{  old('appointment_order_at', '') }}" required format>
+                    @if($errors->has('appointment_order_at'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('appointment_order_at') }}
                     </div>
                     @endif
                     <span class="help-block"> </span>
@@ -123,6 +147,11 @@ Employee Registration
                     <span class="help-block"> </span>
                 </div>
 
+
+            </div>
+            <br />
+            <div class="row">
+
                 {{-- current_office_id --}}
                 <div class="form-group col-md-3">
                     <label class="required" for="current_office_id"> Office </label>
@@ -136,21 +165,28 @@ Employee Registration
                     <span class="help-block"> </span>
                 </div>
 
-                <br />
-                <br />
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <br />
-                            <div class="box-footer justify-content-between">
-                                <input type="hidden" id="lock_level" name="lock_level" value="0" />
-                                <button id="btnAddRegDetails" type="submit" class="btn btn-success">
-                                    Save Employee Detail </button>
-                            </div>
-                        </div>
+                {{-- Date of Joining --}}
+                <div class="form-group col-md-3">
+                    <label class="required" for="joining_date"> Date of Joining </label>
+                    <input class="form-control {{ $errors->has('joining_date') ? 'is-invalid' : '' }}" type="date"
+                        name="joining_date" id="joining_date" value="{{old('joining_date', '') }}" max="{{ date("
+                        Y-m-d")}}" required format>
+                    @if($errors->has('joining_date'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('joining_date') }}
                     </div>
+                    @endif
+                    <span class="help-block"> </span>
                 </div>
-                <br />
+
+                <div class="form-group col-md-3 justify-content-center ">
+                    <br />
+                    <input type="hidden" id="lock_level" name="lock_level" value="0" />
+                    <button id="btnAddRegDetails" type="submit" class="btn btn-success">
+                        Save Employee Detail </button>
+                </div>
+            </div>
+            <br />
         </form>
 
     </div>

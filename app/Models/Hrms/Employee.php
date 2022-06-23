@@ -16,7 +16,8 @@ class Employee extends Model
     use HasFactory;
     protected $keyType = 'string';
     public $table = 'employees';
-    protected $dates = ['birth_date','joining_date','retirement_date','transfer_order_date','created_at','updated_at'];
+    protected $dates = ['birth_date','joining_date','retirement_date','transfer_order_date',
+    'appointment_order_at','created_at','updated_at'];
     // protected $connection='mysqlhrms'; 
     protected $fillable = [
         'id',
@@ -47,6 +48,9 @@ class Employee extends Model
         'is_office_head',
         'lock_level',
         'lock_status',
+        'appointed_through',
+        'appointment_order_no',
+        'appointment_order_at',
         'avatar',
         'created_at',
         'updated_at'
@@ -87,6 +91,12 @@ class Employee extends Model
     public function designationName()
     {
         return $this->belongsTo(Designation::class, "current_designation_id", "id");
+    }
+
+
+    public function addresses()
+    {
+        return $this->belongsTo(Address::class, "id", "employee_id");
     }
 
 

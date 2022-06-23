@@ -40,7 +40,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="d-flex justify-content-start">
-					<p class="fw-semibold "> 3. Overall Grade & Marks (On a score of 1 - 100)
+					<p class="fw-semibold "> 3. Overall Grade & Marks (On a score of 1 - {{$acr->type->total_marks}})
 					</p>
 				</div>
 			</div>
@@ -56,9 +56,11 @@
 						</p>
 					</div>
 					@if(!$acr->old_accept_no)
-						<div class="col-md-6">
-							<p class="fw-semibold"> Grade : {{$acr->grade}} </p>
-						</div>
+						@if(!$acr->isIfmsClerk)
+							<div class="col-md-6">
+								<p class="fw-semibold"> Grade : {{$acr->grade}} </p>
+							</div>
+						@endif
 					@endif
 				</div>
 			</div>

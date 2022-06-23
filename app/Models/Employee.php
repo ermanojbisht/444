@@ -55,10 +55,11 @@ class Employee extends Authenticatable
     {
         return $this->chat_id;
     }
+
 	/*protected static function boot()
     {
-        
     }*/
+
     public function designation()
     {
     	return $this->belongsTo(Designation::class)->withDefault(function ($designation) {

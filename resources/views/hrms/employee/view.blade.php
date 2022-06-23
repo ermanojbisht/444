@@ -33,12 +33,6 @@ Employee Registration
 
                 <div class="row">
 
-                    <a href="{{ route('employee.a',['employee'=>$employee->id]) }}"
-                        class="btn btn-outline-success col-5 m-1"> Add Appointment Details </a>
-
-                    <a href="{{ route('employee.a',['employee'=>$employee->id]) }}"
-                        class="btn btn-outline-success col-5 m-1"> Add Basic Details </a>
-
                     <a href="{{ route('employee.editBasicDetails',['employee'=>$employee->id]) }}"
                         class="btn btn-outline-success col-5 m-1"> Add Basic Details </a>
 

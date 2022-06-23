@@ -43,6 +43,8 @@ class AcrFormController extends Controller
     /**
      * @param Acr     $acr
      * @param Request $request
+     * Create1 means first page od Self Appraisal filled by user
+     * for three type it is different 
      */
     public function create1(Acr $acr)
     {
@@ -50,7 +52,13 @@ class AcrFormController extends Controller
         if(in_array($acr->acr_type_id, config('acr.basic.acrWithoutProcess'))){
             return view('employee.acr.form.single_page.user_create', compact('acr'));
         }
-        
+
+        // Check if Acr is in IFMS Portal Formate for Ministrial Staff 
+        if(in_array($acr->acr_type_id, config('acr.basic.acrIfmsFormat'))){
+            $filled_data = $acr->fillednegativeparameters()->get();
+            return view('employee.acr.form.ifms_ministerial.user_create', compact('acr','filled_data'));
+        }
+        // default for Remaining Engineers Formate 
         $data_groups = $acr->type1RequiremntsWithFilledData();
         $page = 1;
 
@@ -267,5 +275,105 @@ class AcrFormController extends Controller
             'good_work' => $request->good_work,
         ]);
         return redirect()->route('acr.myacrs')->with('success', 'Self-Appraisal Details Updated successfully');
+    }
+
+    public function storeIfmsAcr(Request $request)
+    {
+
+        $acr = Acr::findOrFail($request->acr_id);
+          $this->validate(
+            $request,
+            [
+                'service_cadre' => 'required|min:3|max:200',
+                'scale' => 'required|min:2|max:200',
+                'doj_current_post' => 'required|date',
+                //'has_medical_checkUp' => 'required',                
+                'medical_certificate_date' => 'required_if:has_medical_checkUp,==,"on"|nullable|date',
+                'certificate_file' => 'required_if:has_medical_checkUp,==,"on"',
+            ]
+        );
+       // return $request->all();
+        foreach ($request->data as $rowData) {
+            //return $rowData;
+            if ($rowData['col_1']) {
+                AcrNegativeParameter::UpdateOrCreate(
+                    [
+                        'acr_id' => $request->acr_id,
+                        'acr_master_parameter_id' => $request->acr_master_parameter_id,
+                        'row_no' => $rowData['row_no']
+                    ],
+                    [
+                        'col_1' => $rowData['col_1'] ?? '',
+                        'col_2' => $rowData['col_2'] ?? '',
+                        'col_3' => $rowData['col_3'] ?? '',
+                        'col_4' => $rowData['col_4'] ?? '',
+                        'col_5' => $rowData['col_5'] ?? '',
+                        'col_6' => $rowData['col_6'] ?? '',
+                        'col_7' => $rowData['col_7'] ?? '',
+                        'col_8' => $rowData['col_8'] ?? '',
+                        'col_9' => $rowData['col_9'] ?? ''
+                    ]
+                );
+            }
+        }
+
+
+        $acr->update([
+            'service_cadre' => $request->service_cadre,
+            'scale' => $request->scale,
+            'doj_current_post' => $request->doj_current_post,
+            'medical_certificate_date' => $request->medical_certificate_date,
+        ]);
+
+        if ($request->hasFile('certificate_file')){
+            Log::info("certificate_file got ");
+            $extension = $request->certificate_file->extension();
+            $fileName = $acr->employee_id . '_medical_certificate' . '.' . $extension;
+            $path = $request->certificate_file->storeAs('acr/mc' , $fileName, 'public');
+            $doc_address=config('site.app_url_mis') . '/' . $path;
+            Log::info("doc_address = ".print_r($doc_address,true));
+        }
+        return redirect()->route('acr.myacrs')->with('success', 'Self-Appraisal Details Updated successfully');
+    }
+
+    public function storeIfmsReporting(Request $request)
+    {
+        $acr = Acr::findOrFail($request->acr_id);
+        
+       // return $request->all();
+        foreach ($request->data as $parameter_id=>$values) {
+            AcrParameter::UpdateOrCreate(
+                [
+                    'acr_id' => $request->acr_id,
+                    'acr_master_parameter_id' => $parameter_id ?? '',
+                    'is_applicable' => 1
+                ],
+                [
+                    'status' => $values['remark'] ?? '',
+                    'reporting_marks' => $values['no'] ?? ''
+                ]
+            );
+            
+        }
+        $acr->update([
+            'appraisal_note_1' => $request->reporting_remark,
+            'report_no' => $request->reporting_final_marks
+        ]);
+
+        return redirect()->route('acr.others.index')->with('success', 'Details Updated successfully');
+    }
+
+    public function storeIfmsReview(Request $request)
+    {
+        $acr = Acr::findOrFail($request->acr_id);
+        if($acr->isAcrDuetoLoggedUserfor('review')){
+            $this->validate($request, ['review_no' => 'required' ]);
+        }
+        $acr->update([
+            'review_remark' => $request->review_remark,
+            'review_no' => $request->review_no
+        ]); 
+          
+        return redirect()->route('acr.others.index')->with('success', 'Details Updated successfully');
     }
 }

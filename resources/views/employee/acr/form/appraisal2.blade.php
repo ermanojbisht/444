@@ -36,6 +36,11 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 		</p>
 		<p class="text-info">{{$acr->appraisal_note_3??'--'}}</p>
 	</div>
+	@if(!$acr->isAcrDuetoLoggedUserfor('review'))
+    	<p class="fw-semibold text-danger">
+    		As this ACR is not due , You may skip this form
+    	</p>
+ 	@endif
 	<form class="form-horizontal" method="POST" action="{{route('acr.form.storeAppraisal2')}}">
 		@csrf
 		<input type="hidden" name="acr_id" value='{{$acr->id}}'>
@@ -180,7 +185,7 @@ Part -III Appraisal <small>(By Reviewing Officer)</small>
 								<input class="form-control form-control-sm text-end reportingPersonalNo" type="number"
 									step="0.01" min="0" max="{{$personal_attribute->max_marks}}"
 									name="personal_attributes[{{$personal_attribute->id}}]"
-									value="{{$personal_attribute->reviewing_marks??0}}">
+									value="{{$personal_attribute->reviewing_marks??''}}">
 							</td>
 							<td></td>
 						</tr>

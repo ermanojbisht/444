@@ -64,4 +64,3 @@ Trainning content for ACR process
 Thanks,<br>
 {{ config('app.name') }}
 @endcomponent
-/category/288

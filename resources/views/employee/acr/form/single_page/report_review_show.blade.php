@@ -36,23 +36,23 @@
 	@if($acr->review_on)
 		<div class="card-body">
 			<p class="fw-semibold">
-				समीक्षक अधिकारी की अभियुक्ति 
+				समीक्षक @if(!$acr->isTwoStep) / स्वीकर्ता @endif अधिकारी की अभियुक्ति 
 			</p>
 			<p class="text-info border border-primary p-3" style="min-height: 150px;">
 				{{$acr->review_remark??'--'}}
 			</p>
 
 			<p class="fw-bold h5">
-		  		समीक्षक अधिकारी द्वारा दिए गए अंक - {{$acr->review_no??' --??-- '}}
+		  		समीक्षक @if(!$acr->isTwoStep) / स्वीकर्ता @endif अधिकारी द्वारा दिए गए अंक - {{$acr->review_no??' --??-- '}}
 			</p>
 			<div>
-				<p> समीक्षक : {{$acr->reviewUser()->shriName}} </p>
+				<p>  {{$acr->reviewUser()->shriName}} </p>
 				<p> on : {{$acr->report_on->format('d M Y')}}</p>
 
 			</div>
 		</div>
 	@endif
-	@if(!$acr->isTwoStep)
+	{{-- @if(!$acr->isTwoStep)
 		@if($acr->accept_no)
 			<div class="card-body">
 				<p class="fw-semibold">
@@ -72,7 +72,7 @@
 				</div>
 			</div>
 		@endif
-	@endif
+	@endif --}}
 
 </div>
 @endsection

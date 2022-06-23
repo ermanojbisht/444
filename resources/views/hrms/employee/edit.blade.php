@@ -32,9 +32,11 @@ Employee Registration
         {{-- Employee Code --}}
         <div class="form-group col-md-3">
             <label class="required" for="id"> Employee Code </label>
-            <input class="form-control {{ $errors->has('id') ? 'is-invalid' : '' }}" type="text" minlength="3"
+            <input class="form-control {{ $errors->has('id') ? 'is-invalid' : '' }}" type="text" minlength="5"
                 maxlength="50" name="id" id="id" value="{{ old('id') == '' ? $employee->id : old('id') }}"
                 placeholder="Employee Code" required>
+
+            <input type="hidden" id="employee_id" name="employee_id"  value="{{$employee->id}}" />
             @if($errors->has('id'))
             <div class="invalid-feedback">
                 {{ $errors->first('id') }}
@@ -57,20 +59,6 @@ Employee Registration
             <span class="help-block"> </span>
         </div>
 
-        {{-- Date of Birth --}}
-        <div class="form-group col-md-3">
-            <label class="required" for="birth_date"> Date of Birth </label>
-            <input class="form-control {{ $errors->has('birth_date') ? 'is-invalid' : '' }}" type="date"
-                name="birth_date" id="birth_date"
-                value="{{$employee->birth_date ? $employee->birth_date->format('Y-m-d') : old('birth_date', '') }}"
-                required format>
-            @if($errors->has('birth_date'))
-            <div class="invalid-feedback">
-                {{ $errors->first('birth_date') }}
-            </div>
-            @endif
-            <span class="help-block"> </span>
-        </div>
 
         {{-- Gender --}}
         <div class="form-group col-md-3">
@@ -85,22 +73,65 @@ Employee Registration
             @endif
             <span class="help-block"> </span>
         </div>
+
+        {{-- Date of Birth --}}
+        <div class="form-group col-md-3">
+            <label class="required" for="birth_date"> Date of Birth </label>
+            <input class="form-control {{ $errors->has('birth_date') ? 'is-invalid' : '' }}" type="date"
+                name="birth_date" id="birth_date" max="{{ date("Y") - 18}}-01-01"
+                value="{{$employee->birth_date ? $employee->birth_date->format('Y-m-d') : old('birth_date', '') }}"
+                required format>
+            @if($errors->has('birth_date'))
+            <div class="invalid-feedback">
+                {{ $errors->first('birth_date') }}
+            </div>
+            @endif
+            <span class="help-block"> </span>
+        </div>
     </div>
     <br />
 
 
     <div class="row">
 
+        {{-- Appointment Through --}}
+        <div class="form-group col-md-3">
+            <label class="required" for="appointed_through"> Appointment Through </label>
+            {!! Form::select('appointed_through', config('hrms.masters.appointmentType'),
+            $employee->appointed_through,
+            ['id'=>'appointed_through','class'=>'form-select','required'], ) !!}
+            @if($errors->has('appointed_through'))
+            <div class="invalid-feedback">
+                {{ $errors->first('appointed_through') }}
+            </div>
+            @endif
+            <span class="help-block"> </span>
+        </div>
+
+        {{-- appointment_order_no --}}
+        <div class="form-group col-md-3">
+            <label class="" for="appointment_order_no"> Order No </label>
+            <input type="text" class="form-control" id="appointment_order_no" name="appointment_order_no"
+                placeholder="Order No" value="{{$employee->appointment_order_no}}" />
+            @if($errors->has('appointment_order_no'))
+            <div class="invalid-feedback">
+                {{ $errors->first('appointment_order_no') }}
+            </div>
+            @endif
+            <span class="help-block"> </span>
+        </div>
+
+
         {{-- Order Date --}}
         <div class="form-group col-md-3">
-            <label class="required" for="transfer_order_date"> Order Date </label>
-            <input class="form-control {{ $errors->has('transfer_order_date') ? 'is-invalid' : '' }}" type="date"
-                name="transfer_order_date" id="transfer_order_date"
-                value="{{$employee->transfer_order_date ? $employee->transfer_order_date->format('Y-m-d') : old('transfer_order_date', '') }}"
+            <label class="required" for="appointment_order_at"> Order Date </label>
+            <input class="form-control {{ $errors->has('appointment_order_at') ? 'is-invalid' : '' }}" type="date"
+                name="appointment_order_at" id="appointment_order_at" max="{{ date("Y-m-d")}}"
+                value="{{$employee->appointment_order_at ? $employee->appointment_order_at->format('Y-m-d') : old('appointment_order_at', '') }}"
                 required format>
-            @if($errors->has('transfer_order_date'))
+            @if($errors->has('appointment_order_at'))
             <div class="invalid-feedback">
-                {{ $errors->first('transfer_order_date') }}
+                {{ $errors->first('appointment_order_at') }}
             </div>
             @endif
             <span class="help-block"> </span>
@@ -119,6 +150,12 @@ Employee Registration
             <span class="help-block"> </span>
         </div>
 
+        
+    </div>
+
+    <br />
+    <div class="row">
+
         {{-- current_office_id --}}
         <div class="form-group col-md-3">
             <label class="required" for="current_office_id"> Office </label>
@@ -131,11 +168,24 @@ Employee Registration
             @endif
             <span class="help-block"> </span>
         </div>
-    </div>
 
-    <br />
-    <div class="row">
-        <div class="col-md-12">
+        {{-- Date of Joining --}}
+        <div class="form-group col-md-3">
+            <label class="required" for="joining_date"> Date of Joining </label>
+            <input class="form-control {{ $errors->has('joining_date') ? 'is-invalid' : '' }}" type="date"
+                name="joining_date" id="joining_date" max="{{ date("Y-m-d")}}"
+                value="{{$employee->joining_date ? $employee->joining_date->format('Y-m-d') : old('retirement_date', '') }}"
+                required format>
+            @if($errors->has('joining_date'))
+            <div class="invalid-feedback">
+                {{ $errors->first('joining_date') }}
+            </div>
+            @endif
+            <span class="help-block"> </span>
+        </div>
+
+
+        <div class="col-md-3">
             <div class="form-group">
                 <br />
                 <div class="box-footer justify-content-between">

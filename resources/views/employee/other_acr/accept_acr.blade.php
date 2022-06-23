@@ -43,7 +43,11 @@ Part - IV ( Assessment by the Accepting Authority)
 				</div>
 			</div>
 		</div>
-
+		@if(!$acr->isAcrDuetoLoggedUserfor('accept'))
+			    <p class="fw-semibold text-danger">
+			    	As this ACR is not due , You may skip Overall Marks in this form
+			    </p>
+		@endif
 		<form class="form-horizontal" method="POST" action="{{route('acr.others.accept.save')}}"
 			onsubmit="return confirm('Above Written Details are correct to my knowledge. ( उपरोक्त दिए गए प्रपत्र एवं डाटा से में सहमत हूँ  ) ??? ');">
 			@csrf
@@ -73,7 +77,7 @@ Part - IV ( Assessment by the Accepting Authority)
 			<br />
 			<div class="row">
 				<div class="col-md-6">
-					<p class="fw-semibold mb-2">3. Overall Grade & Marks (On a score of 1 - 100)
+					<p class="fw-semibold mb-2">3. Overall Grade & Marks (On a score of 1 - {{$acr->type->total_marks}})
 					</p>
 					<p class="p-4"> Marks given by Reviewing Officer are :
 						<span class=" fw-semibold text-info"> {{$acr->review_no}} </span>
@@ -95,6 +99,7 @@ Part - IV ( Assessment by the Accepting Authority)
 						</div>
 					</div>
 					<br />
+					@if(!$acr->isIfmsClerk)
 					<div class="row">
 						<div class="col-md-6">
 							<p class="fw-semibold"> Grade </p>
@@ -103,10 +108,12 @@ Part - IV ( Assessment by the Accepting Authority)
 							<label class="fw-semibold" id="grades"> </label>
 						</div>
 					</div>
+					@endif
 				</div>
 			</div>
 			<br />
 			<br />
+			@if(!$acr->isIfmsClerk)
 			<div class="row">
 				<div class="col-md-12">
 					<p class="fw-semibold"> Reference table for Grading </p>
@@ -134,6 +141,7 @@ Part - IV ( Assessment by the Accepting Authority)
 				</div>
 			</div>
 			<br />
+			@endif
 
 			<br />
 			<div class="row">

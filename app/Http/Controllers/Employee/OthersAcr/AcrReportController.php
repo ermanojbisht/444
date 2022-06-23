@@ -44,15 +44,26 @@ class AcrReportController extends Controller
     /**
      * @param Acr     $acr
      * @param Request $request
+     * appraisal1 means first page od Reporting Officer
+     * for three type it is different 
      */
     public function appraisal1(Acr $acr, Request $request)
     {
         abort_if($this->user->employee_id <> $acr->report_employee_id, 403, $this->msg403);
-
+        // Check if Acr have only single Page data 
         if($acr->isSinglePage){
             return view('employee.acr.form.single_page.report_create', compact('acr'));
         }
 
+        // Check if Acr is in IFMS Portal Formate for Ministrial Staff 
+        if(in_array($acr->acr_type_id, config('acr.basic.acrIfmsFormat'))){
+            $filled_data = $acr->fillednegativeparameters()->get();
+           // $acr_master_parameter = $acr->acrMasterParameters()->get();
+           $requiredParameters = $acr->type1RequiremntsWithFilledData()->all();
+           //   return $acr->reporting_remark;
+            return view('employee.acr.form.ifms_ministerial.report_create', compact('acr','filled_data','requiredParameters'));
+        }
+        // default for Remaining Engineers Formate 
         $requiredParameters = $acr->type1RequiremntsWithFilledData()->first();
         
         $applicableParameters = $requiredParameters->where('applicable',1)->count();
@@ -206,8 +217,14 @@ class AcrReportController extends Controller
      * To View ACR and Accept 
      */
     public function submitReported(Acr $acr)
-    {
-
+    { 
+        if ( $acr->report_no > 0 || !$acr->isAcrDuetoLoggedUserfor('report') ){
+            $acrnotProcessable=  false;
+        }else{
+            $acrnotProcessable=  true;
+        }
+        //CHECK whether ACR is processed or is not due 
+        abort_if($acrnotProcessable,403,'Dear user ACR is due to process but you have not processed yet.');
         return view('employee.other_acr.report_acr', compact('acr'));
     }
 

@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Hrms;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Employee\Hrms\SectionStoreEmployeeRequest;
+use App\Http\Requests\Employee\Hrms\SectionUpdateEmployeePostingRequest;
 use App\Http\Requests\Employee\Hrms\SectionUpdateEmployeeRequest;
 use App\Http\Requests\Employee\Hrms\UpdateEmployeeRequest;
 use App\Models\Designation;
 use App\Models\Hrms\Employee;
+use App\Models\Hrms\Posting;
 use App\Models\Office;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use Redirect;
-use Request;
 
 class HrmsEmployeeController extends Controller
 {
@@ -65,6 +67,22 @@ class HrmsEmployeeController extends Controller
     {
         $employee = Employee::create($request->validated());
 
+
+        $posting = Posting::create([
+            'employee_id' => $request->id,
+            'order_no' =>  $request->appointment_order_no,
+            'order_at' => $request->appointment_order_at,
+            'office_id' => $request->current_office_id,
+            'from_date' => $request->joining_date,
+            'mode_id' => "13",
+            'designation_id' => $request->current_designation_id,
+            'is_prabhari' => '0',
+            'islocked' => "1",
+            'row_confirm' => "1"
+        ]);
+
+
+
         return redirect('employee/index')->with('status', 'Employee Added Successfully!');
     }
 
@@ -76,7 +94,6 @@ class HrmsEmployeeController extends Controller
     {
         $designations = array('' => 'Select Designation') + Designation::where('group_id', '!=', 'null')
             ->orderBy('name')->pluck('name', 'id')->toArray();
-
         $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
 
         return view('hrms.employee.edit', compact('employee', 'designations', 'offices'));
@@ -90,27 +107,22 @@ class HrmsEmployeeController extends Controller
      */
     public function update(SectionUpdateEmployeeRequest $request)
     {
-
-        $employee = Employee::findorFail($request->id);
+        $employee = Employee::findorFail($request->employee_id);
         $employee->update($request->validated());
+
+        $posting = Posting::where('employee_id', $request->employee_id);
+        $posting->update([
+            'employee_id' => $request->id,
+            'order_no' =>  $request->appointment_order_no,
+            'order_at' => $request->appointment_order_at,
+            'office_id' => $request->current_office_id,
+            'from_date' => $request->joining_date,
+            'designation_id' => $request->current_designation_id
+        ]);
+
 
         return redirect('employee/index')->with('status', 'Employee Updated Successfully!');
     }
-
-
-    /**
-     * [create Employee Address Details]
-     * @return view for Employee Address Details
-     */
-    public function createAddressDetails(Employee $employee)
-    {
-        $designations = array('' => 'Select Designation') + Designation::where('group_id', '!=', 'null')
-            ->orderBy('name')->pluck('name', 'id')->toArray();
-        $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
-
-        return view('hrms.employee.edit_all', compact('employee', 'designations', 'offices'));
-    }
-
 
     /**
      * [lock Employee Data Level Wise]
@@ -128,5 +140,68 @@ class HrmsEmployeeController extends Controller
         $employee->update(['lock_level' => $lock_level]);
 
         return redirect('employee/index')->with('status', 'Employee Added Successfully!');
+    }
+
+
+    /**
+     * [update Employee Status => Office => Designation => Head Quarter]
+     * @return view for Employee Updatetion
+     */
+    public function update_employee_status()
+    {
+        $designations = array('' => 'Select Designation') + Designation::where('group_id', '!=', 'null')
+            ->orderBy('name')->pluck('name', 'id')->toArray();
+        $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
+
+        $title = " जिन अधिकारियों/कर्मचारियों का ट्रान्सफर / परमोसन हो गया है उनका ऑफिस यहाँ से अपडेट कर सकते हैं। ";
+
+        return view('hrms.employee.update_employee_status', compact('title', 'designations', 'offices'));
+    }
+
+
+    /**
+     * [update Employee Data]
+     * @param  UpdateEmployeeRequest $request [Employee Data]
+     * @return [type]               redirect [New Added Employee Index]
+     */
+    public function updateEmployePostings(Request $request)
+    {
+ 
+             
+        return ($request->validated());
+
+
+        $employee = Employee::findorFail($request->employee_id);
+        $employee->update($request->validated());
+
+        $posting = Posting::where('employee_id', $request->employee_id);
+        $posting->update([
+            'employee_id' => $request->id,
+            'order_no' =>  $request->appointment_order_no,
+            'order_at' => $request->appointment_order_at,
+            'office_id' => $request->current_office_id,
+            'from_date' => $request->joining_date,
+            'designation_id' => $request->current_designation_id
+        ]);
+
+
+        return redirect('employee/index')->with('status', 'Employee Updated Successfully!');
+    }
+
+
+
+
+    /**
+     * [Get Employee Designationwise => Index]
+     * @return view for Employee Update
+     */
+    public function  getEmployeesDesignationWise(Request $request)
+    {
+        $employees = Employee::where("current_designation_id", $request->designation_id)
+            ->orderBy('name')->select('name', 'id')->get();
+
+
+
+        return $employees;
     }
 }

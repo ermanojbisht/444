@@ -25,7 +25,7 @@ class UpdateEmployeeRequest extends FormRequest
     public function rules()
     {  
         // |unique:employees
-        $rules['id'] =  'required|min:5|max:25';
+        $rules['id'] =  'required|min:5|max:50';
         $rules['name'] = 'required|regex:/^[a-zA-Z\s]*$/|min:3|max:150';
         $rules['father_name'] = 'required|regex:/^[a-zA-Z\s]*$/|min:3|max:150';
         $rules['gender_id'] = 'required|numeric|gt:0';
@@ -34,9 +34,8 @@ class UpdateEmployeeRequest extends FormRequest
         $rules['phone_no'] = 'required|numeric|min:10';
         $rules['phone_no1'] = 'nullable|numeric|min:10';
         $rules['email'] = 'required|email';
-        $rules['pan'] = 'required|regex:/^([A-Z]{3}[ABCFGHLJPTF]{1}[A-Z]{1}[0-9]{4}[A-Z]{1})$/';
-        //regex:/^([A-Z]{5}[0-9]{4}[A-Z]{1})$/
-        $rules['aadhar'] = 'required|numeric|min:4';
+        $rules['pan'] = 'nullable|regex:/^([A-Z]{3}[ABCFGHLJPTF]{1}[A-Z]{1}[0-9]{4}[A-Z]{1})$/';
+        // $rules['aadhar'] = 'required|numeric|min:4';
         $rules['blood_group_id'] = 'required|numeric|gt:0';
         $rules['is_married'] = 'required|numeric|gt:0';
         $rules['cast_id'] = 'required|numeric|gt:0';
@@ -51,8 +50,6 @@ class UpdateEmployeeRequest extends FormRequest
     public function messages()
     {
         return [
-            'aadhar.min:12' => 'Aadhar should be of 12 numbers.',
-            'aadhar.max:12' => 'Aadhar should be of 12 numbers.'
         ];
     }
 }

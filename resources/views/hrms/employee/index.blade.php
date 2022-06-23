@@ -49,7 +49,7 @@
                 <td>{{1+$loop->index}}</td>
                 <td>{{$employee->id}}</td>
                 <td>{{$employee->name}}</td>
-                <td>{{($employee->designation_name ? $employee->designation_name->name : ' Not declared ') }}</td>
+                <td>{{($employee->designationName ? $employee->designationName->name : ' Not declared ') }}</td>
                 <td>{{$employee->birth_date ? $employee->birth_date->format('d M Y') : ''}} </td>
                 <td>{{$employee->created_at ? $employee->created_at->format('d M Y') : ''}} </td>
                 <td>

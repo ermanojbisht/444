@@ -131,6 +131,9 @@ Route::prefix('consume')->group(function () {
 // Start : Hrms new laravel system routes  // todo:: also tried web_hrms need to remove or refactor later 
 Route::group(['as' => 'employee.'], function () {
 
+    
+    /* HrmsEmployeeController -> for section users */
+
     Route::get('employee/index', 'Hrms\HrmsEmployeeController@index')->name('index');
 
     Route::get('employee/create', 'Hrms\HrmsEmployeeController@create')->name('create');
@@ -142,15 +145,32 @@ Route::group(['as' => 'employee.'], function () {
     Route::post('employee/lockEmployee/{employee}/{lock_level}', 'Hrms\HrmsEmployeeController@lockEmployee')
     ->name('lockEmployee');
 
+    Route::get('employee/update', 'Hrms\HrmsEmployeeController@update_employee_status')->name('updateEmployee');
+    Route::post('employee/updateEmployePostings', 'Hrms\HrmsEmployeeController@updateEmployePostings')
+    ->name('updateEmployePostings');
+    
+    Route::post('getEmployeesDesignationWise', 'Hrms\HrmsEmployeeController@getEmployeesDesignationWise')
+    ->name('getEmployeesDesignationWise');
+
+
+
   
+    /* AddressController */
     Route::get('office/employees/index', 'Hrms\UpdateEmployeeController@index')->name('office.index');
     Route::get('office/employees/view/{employee}', 'Hrms\UpdateEmployeeController@view')->name('office.view');
     
     Route::get('office/employees/editBasicDetails/{employee}', 'Hrms\UpdateEmployeeController@editBasicDetails')->name('editBasicDetails');
     Route::post('employee/info/update', 'Hrms\UpdateEmployeeController@updateBasicDetails')->name('updateBasicDetails');
 
+
+    /* AddressController */
     Route::get('office/employees/createAddressDetails/{employee}', 'Hrms\AddressController@createAddressDetails')->name('createAddress');
     Route::post('address/store', 'Hrms\AddressController@storeAddressDetails')->name('storeAddressDetails');
+
+    Route::get('employee/Address/{addressType}/{employee}', 'Hrms\AddressController@updateAddress')->name('updateAddress');
+    Route::post('address/store', 'Hrms\AddressController@storeAddressDetails')->name('storeAddressDetails');
+    
+
 
     Route::get('employee/family/{employee}', 'Hrms\FamilyController@createFamilyDetails')->name('createFamilyDetails');
     Route::post('family/store', 'Hrms\FamilyController@storeFamilyDetails')->name('family.store');
@@ -158,6 +178,9 @@ Route::group(['as' => 'employee.'], function () {
     Route::get('employee/education/{employee}', 'Hrms\EducationController@createEducations')->name('AddEducationDetails');
     Route::post('education/store', 'Hrms\EducationController@storeEducationDetails')->name('education.store');
 
+
+ 
+     
     
     Route::get('employee/posting/{employee}', 'Hrms\PostingController@createPostings')->name('createPostings');
     Route::post('posting/store', 'Hrms\PostingController@storePostings')->name('postings.store');
@@ -173,6 +196,6 @@ Route::group(['as' => 'employee.'], function () {
 });
 
 
-// End : Hrms new laravel system routes 
+// End : Hrms new system routes 
 
 

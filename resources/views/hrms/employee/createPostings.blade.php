@@ -40,6 +40,36 @@ Employee Postings Detail
 
                     <div class="row">
 
+
+                        {{-- Relieving Date --}}
+                        <div class="form-group col-md-3">
+                            <label class="" for="to_date"> Relieving Date </label>
+                            <input class="form-control {{ $errors->has('to_date') ? 'is-invalid' : '' }}" type="date"
+                                name="to_date" id="to_date" format required
+                                value="{{$employee->to_date ? $employee->to_date->format('Y-m-d') : old('to_date', '') }}">
+                            @if($errors->has('to_date'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('to_date') }}
+                            </div>
+                            @endif
+                            <span class="help-block"> </span>
+                        </div>
+
+                        
+                        {{-- Mode --}}
+                        <div class="form-group col-md-3">
+                            <label class="required" for="mode_id"> Mode </label>
+                            {!! Form::select('mode_id', config('hrms.masters.historyType'), '1',
+                            ['id'=>'mode_id', 'required'=>'required', 'class'=>'form-select ' ]) !!}
+                            @if($errors->has('mode_id'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('mode_id') }}
+                            </div>
+                            @endif
+                            <span class="help-block"> </span>
+                        </div>
+
+
                         {{-- order_no --}}
                         <div class="form-group col-md-3">
                             <label class="" for="order_no"> Order No </label>
@@ -67,26 +97,18 @@ Employee Postings Detail
                             <span class="help-block"> </span>
                         </div>
 
-                        {{-- office_id --}}
-                        <div class="form-group col-md-3">
-                            <label class="required" for="office_id"> Office </label>
-                            {!! Form::select('office_id', $offices, $employee->office_id,
-                            ['id' => 'office_id', 'class'=>'form-select select2', 'required']) !!}
-                            @if($errors->has('office_id'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('office_id') }}
-                            </div>
-                            @endif
-                            <span class="help-block"> </span>
-                        </div>
-
-
                         {{-- From Date --}}
                         <div class="form-group col-md-3">
                             <label class="required" for="from_date"> From Date </label>
                             <input class="form-control {{ $errors->has('from_date') ? 'is-invalid' : '' }}" type="date"
                                 name="from_date" id="from_date" format required
-                                value="{{$employee->from_date ? $employee->from_date->format('Y-m-d') : old('from_date', '') }}">
+
+                                @if($employeePostings->count() > 0)
+                                value="{{$employee->from_date ? $employee->from_date->format('Y-m-d') : old('from_date', '')}}"  
+                                @else
+                                value="{{ $employee->joining_date->format('Y-m-d') }}"
+                                @endif
+                             >
                             @if($errors->has('from_date'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('from_date') }}
@@ -97,34 +119,22 @@ Employee Postings Detail
 
                         @if($employeePostings->count() > 0)
 
-                        {{-- Relieving Date --}}
-                        <div class="form-group col-md-3">
-                            <label class="" for="to_date"> Relieving Date </label>
-                            <input class="form-control {{ $errors->has('to_date') ? 'is-invalid' : '' }}" type="date"
-                                name="to_date" id="to_date" format required
-                                value="{{$employee->to_date ? $employee->to_date->format('Y-m-d') : old('to_date', '') }}">
-                            @if($errors->has('to_date'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('to_date') }}
-                            </div>
-                            @endif
-                            <span class="help-block"> </span>
-                        </div>
+                        
 
                         {{-- is_prabhari --}}
                         <div class="form-group col-md-3">
                             <label class="is_prabhari" for="to_date"> Is Prabhari </label>
                             <br />
-                           {!! Form::radio('is_prabhari', '1', '',
+                            {!! Form::radio('is_prabhari', '1', '',
                             ['id' => 'is_prabhari_Yes', 'class'=>'radio ', 'required']) !!}
-                            
+
                             {!! Form::label('is_prabhari_Yes', 'Is Not Prabhari', ['class'=>'label']) !!}
-                            
+
                             <br />
                             {!! Form::radio('is_prabhari', '0', '',
                             ['id' => 'is_prabhari_No', 'class'=>'radio ', 'required']) !!}
                             {!! Form::label('is_prabhari_No', 'Is Prabhari', ['class'=>'label']) !!}
-                            
+
                             @if($errors->has('is_prabhari'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('is_prabhari') }}
@@ -135,25 +145,35 @@ Employee Postings Detail
 
 
                         {!! Form::hidden('firstJoining', '0', ['id' => 'to_date', 'required']) !!}
-                         
+
                         @else
                         {{-- {!! Form::text($name, $value, [$options]) !!} --}}
                         {!! Form::hidden('is_prabhari', '0', ['id' => 'is_prabhari', 'required']) !!}
                         {!! Form::hidden('to_date', '', ['id' => 'to_date', 'required']) !!}
                         {!! Form::hidden('firstJoining', '1', ['id' => 'to_date', 'required']) !!}
 
-                        @endif  
+                        @endif
 
-                        {{-- Mode --}}
+                        
+
+                        {{-- is_designation_changed --}}
                         <div class="form-group col-md-3">
-                            <label class="required" for="mode_id"> Mode </label>
-                            {!! Form::select('mode_id', config('hrms.masters.historyType'),
-                            ($employeePostings->count() == 0) ? '9' : '1',
-                            ['id'=>'mode_id', 'required'=>'required',
-                            'class'=>'form-select ' ]) !!}
-                            @if($errors->has('mode_id'))
+                            <label class="is_prabhari" for="to_date"> Is Designation Changed </label>
+                            <br />
+                            {!! Form::radio('is_designation_changed', '1', '',
+                            ['id' => 'is_designation_changed_Yes', 'class'=>'radio ', 'required']) !!}
+
+                            {!! Form::label('is_designation_changed_Yes', 'No Designation Changed', ['class'=>'label'])
+                            !!}
+
+                            <br />
+                            {!! Form::radio('is_designation_changed', '0', '',
+                            ['id' => 'is_designation_changed_No', 'class'=>'radio ', 'required']) !!}
+                            {!! Form::label('is_designation_changed_No', 'Designation Changed', ['class'=>'label']) !!}
+
+                            @if($errors->has('is_designation_changed'))
                             <div class="invalid-feedback">
-                                {{ $errors->first('mode_id') }}
+                                {{ $errors->first('is_designation_changed') }}
                             </div>
                             @endif
                             <span class="help-block"> </span>
@@ -164,7 +184,7 @@ Employee Postings Detail
                         <div class="form-group col-md-3">
                             <label class="required" for="designation_id"> Designation </label>
                             {!! Form::select('designation_id', $designations, $employee->current_designation_id,
-                            ['id' => 'designation_id', 'class'=>'form-select select2', 'required']) !!}
+                            ['id' => 'designation_id', 'class'=>'form-select select2','disable'=>'disable', 'required']) !!}
                             @if($errors->has('designation_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('designation_id') }}
@@ -172,6 +192,21 @@ Employee Postings Detail
                             @endif
                             <span class="help-block"> </span>
                         </div>
+
+
+                        {{-- office_id --}}
+                        <div class="form-group col-md-3">
+                            <label class="required" for="office_id"> Office </label> <br />
+                            {!! Form::select('office_id', $offices, $employee->officeName->id,
+                            ['id' => 'office_id', 'class'=>'form-select select2', 'required']) !!}
+                            @if($errors->has('office_id'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('office_id') }}
+                            </div>
+                            @endif
+                            <span class="help-block"> </span>
+                        </div>
+
 
 
                         <div class="form-group col-md-3">
@@ -225,14 +260,14 @@ Employee Postings Detail
                                 {{ $posting->designationName->name }}
                             </td>
                             <td>
-                                {{$posting->from_date->format('d M Y')}} 
+                                {{$posting->from_date->format('d M Y')}}
                             </td>
                             <td>
                                 @if($posting->to_date)
-                                   {{ $posting->from_date->format('d M Y') }}
+                                {{ $posting->from_date->format('d M Y') }}
                                 @else
-                                    Till Present                                    
-                                @endif                                 
+                                Till Present
+                                @endif
                             </td>
                             <td>
                                 {{ config('hrms.masters.historyType')[$posting->mode_id] }}

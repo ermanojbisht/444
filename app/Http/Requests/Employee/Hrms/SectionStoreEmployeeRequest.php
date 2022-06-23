@@ -25,14 +25,19 @@ class SectionStoreEmployeeRequest extends FormRequest
      */
     public function rules()
     {  
-        $rules['id'] =  'required|min:5|max:25|unique:employees';
+        $rules['id'] =  'required|min:5|max:50|unique:employees';
         $rules['name'] = 'required|regex:/^[a-zA-Z\s]*$/|min:3|max:150';
         $rules['gender_id'] = 'required|numeric|gt:0';
         $rules['birth_date'] = 'required|date';
-        $rules['transfer_order_date'] = 'required|date';
+
+        $rules['appointment_order_at'] = 'required|date';
+        $rules['appointment_order_no'] = 'required';
+        
         $rules['current_designation_id'] = 'required|numeric';
         $rules['current_office_id'] = 'required|numeric';
         $rules['lock_level'] = 'required|numeric';
+        $rules['joining_date'] = 'required|date';
+        $rules['appointed_through'] = 'required|numeric';
 
         return $rules;
     }

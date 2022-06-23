@@ -9,6 +9,7 @@ use App\Models\Acr\Acr;
 use App\Models\Acr\AcrRejection;
 use App\Models\Employee;
 use App\Models\Office;
+use App\Models\User;
 use App\Traits\Acr\AcrFormTrait;
 use App\Traits\OfficeTypeTrait;
 use Carbon\Carbon;
@@ -16,6 +17,7 @@ use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Log;
+use Symfony\Component\HttpFoundation\Response;
 
 class AcrInboxController extends Controller
 {
@@ -34,7 +36,8 @@ class AcrInboxController extends Controller
     {
         $this->middleware(function ($request, $next) {
             // abort_if(Gate::denies('track_estimate'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-            $this->user = Auth::User();
+            $this->user = Auth::User();            
+            abort_if($this->user->employee->retirement_date->lt(Carbon::now()), Response::HTTP_FORBIDDEN, 'You Are Not Eligible To Fill The ACR');
             return $next($request);
         });
     }

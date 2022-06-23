@@ -43,11 +43,11 @@ class AddressController extends Controller
      */
     public function createAddressDetails(Employee $employee)
     {
-
         $states = array('' => 'Select State') + State::orderBy('id')->pluck('name', 'id')->toArray();
         $districts = array('' => 'Select District') + District::orderBy('id')->pluck('name', 'id')->toArray();
         $tehsils = array('' => 'Select Tehsil') + Tehsil::orderBy('name')->pluck('name', 'id')->toArray();
         $constituencies = array('' => 'Select VidhanSabha') + Constituency::orderBy('name')->pluck('name', 'id')->toArray();
+
 
         return view('hrms.employee.createAddress', compact('employee', 'states', 'districts', 'tehsils', 'constituencies'));
     }
@@ -69,6 +69,29 @@ class AddressController extends Controller
 
     }
     
+    public function updateAddress($addressType, Employee $employee)
+    {
+
+        
+        return $employee->with('addresses')->get();
+        
+        // ->addresses()->get(); //  with(['addresses']);
+
+
+        $address = $employee->getAddress($addressType);
+
+        $states = array('' => 'Select State') + State::orderBy('id')->pluck('name', 'id')->toArray();
+        $districts = array('' => 'Select District') + District::orderBy('id')->pluck('name', 'id')->toArray();
+        $tehsils = array('' => 'Select Tehsil') + Tehsil::orderBy('name')->pluck('name', 'id')->toArray();
+        $constituencies = array('' => 'Select VidhanSabha') + Constituency::orderBy('name')->pluck('name', 'id')->toArray();
+
+        return view('hrms.employee.editAddress', compact('address', 'employee', 
+        'states', 'districts', 'tehsils', 'constituencies'));
+    }
+
+
+    
+
 
 
 }

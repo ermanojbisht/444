@@ -45,12 +45,12 @@
         <br />
         <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between">
-                <span class="fw-bold"> Order Date :</span>
-                <span> {{ $employee->transfer_order_date->format('Y-m-d') }} </span>
+                <span class="fw-bold"> Appointment Order Date :</span>
+                <span> {{ $employee->appointment_order_at->format('d M Y') }} </span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between">
-                <span class="fw-bold"> Designation :</span>
+                <span class="fw-bold"> Designation:</span>
                 <span> {{ $employee->designationName->name }} </span>
             </li>
             <li class="list-group-item d-flex justify-content-between">

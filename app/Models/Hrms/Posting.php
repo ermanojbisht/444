@@ -12,10 +12,8 @@ class Posting extends Model
     use HasFactory;
 
     public $table ='postings'; 
-    protected $dates = ['from_date','to_date','created_at','updated_at'];
-   
-    
-
+    protected $dates = ['from_date','to_date','order_at','created_at','updated_at'];
+    protected $keyType = 'string';
 
     protected $fillable = [
         'id', 

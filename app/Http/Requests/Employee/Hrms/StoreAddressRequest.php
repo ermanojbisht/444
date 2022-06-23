@@ -25,9 +25,8 @@ class StoreAddressRequest extends FormRequest
      */
     public function rules()
     {  
-        $rules['employee_id'] =  'required|min:5|max:25';
+        $rules['employee_id'] =  'required|min:5|max:50';
         $rules['address1'] = 'required|min:3|max:150';
-        $rules['address2'] = 'required|min:3|max:150';
         $rules['address_type_id'] = 'required|numeric|gt:0';
        
         $rules['state_id'] = 'required|numeric|gt:0';
@@ -42,9 +41,8 @@ class StoreAddressRequest extends FormRequest
     public function messages()
     {
         return [
-            'aadhar.min:12' => 'Aadhar should be of 12 numbers.',
-            'aadhar.max:12' => 'Aadhar should be of 12 numbers.'
-        ];
+            
+        ]; 
     }
 }
   

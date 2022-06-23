@@ -124,16 +124,16 @@
 						<td> {{$loop->iteration}}</td>
 						<td class="text-start">{{$personal_attribute->description}}</td>
 						<td> {{$personal_attribute->max_marks}}</td>
-						<td> {{$personal_attribute->reporting_marks??'0'}} </td>
-						<td> {{$personal_attribute->reviewing_marks??'0'}} </td>
+						<td> {{$personal_attribute->reporting_marks??''}} </td>
+						<td> {{$personal_attribute->reviewing_marks??''}} </td>
 					</tr>
 					@endforeach
 					<tr class="text-center bg-light fw-semibold">
 						<td></td>
 						<td class="text-end">Sum for 4- B</td>
 						<td >{{$total_marksB}}</td>
-						<td >{{$reporting_marksB??0}}</td>
-						<td >{{$reviewing_marksB??0}}</td>
+						<td >{{$reporting_marksB??''}}</td>
+						<td >{{$reviewing_marksB??''}}</td>
 					</tr>
 					<tr class="fw-semibold fs-5">
 						<td colspan="5">4-C - Deductions</td>

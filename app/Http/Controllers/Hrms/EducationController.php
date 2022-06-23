@@ -52,9 +52,8 @@ class EducationController extends Controller
     {
         $employeeAddresss = Education::create($request->validated());
 
-        return redirect()->route('employee.createEducationDetails', ['employee' => $request->employee_id])
+        return redirect()->route('employee.AddEducationDetails', ['employee' => $request->employee_id])
             ->with('status', 'Address Updated Successfully!');
-
-        // return redirect()->back()->with('status', 'Employee Added Successfully!');
+ 
     }
 }

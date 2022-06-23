@@ -237,8 +237,11 @@
 			<div class="float-end p-3 text-center fw-semibold">
 				<span class="pb-0">({{$acr->employee->shriName}})</span>
 				<br>
-				<span class="pt-0">Submitted on :{{$acr->submitted_at->format('d M Y')}}</span>
-				
+				@if($acr->submitted_at)
+					<span class="pt-0">Submitted on :{{$acr->submitted_at->format('d M Y')}}</span>
+				@else
+					<span class="pt-0">not Submitted yet</span>
+				@endif
 			</div>
 			
 		</div>

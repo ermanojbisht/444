@@ -39,14 +39,14 @@ class Acr extends Model
         'review_duration_lapsed', 'accept_duration_lapsed','report_integrity',
         'report_no', 'report_on', 'report_remark',
         'review_no', 'review_on', 'review_remark',
-        'accept_no', 'accept_on', 'accept_remark','is_defaulter',  'old_accept_no','final_accept_remark','missing'
+        'accept_no', 'accept_on', 'accept_remark','is_defaulter',  'old_accept_no','final_accept_remark','missing','service_cadre','scale','doj_current_post','medical_certificate_date','final_no'
     ];
 
     /**
      * @var array
      */
     protected $dates = [
-        'from_date', 'to_date', 'property_filing_return_at', 'submitted_at', 'report_on', 'review_on', 'accept_on'
+        'from_date', 'to_date', 'property_filing_return_at', 'submitted_at', 'report_on', 'review_on', 'accept_on','doj_current_post','medical_certificate_date'
     ];
 
     public static function boot() {
@@ -201,7 +201,7 @@ class Acr extends Model
 
 
         return $this->belongsToMany(Employee::class, env('DB_DATABASE_HRMS', 'hrms').'.appraisal_officers', 'acr_id', 'employee_id')
-            ->withPivot('appraisal_officer_type', 'from_date', 'to_date', 'is_due');
+            ->withPivot('appraisal_officer_type', 'from_date', 'to_date', 'is_due')->orderBy('appraisal_officer_type')->orderBy('from_date');
     }
 
     /**
@@ -360,7 +360,8 @@ class Acr extends Model
                 $row->reporting_marks = $filledparameters[$row->id]->reporting_marks;
                 $row->reviewing_marks = $filledparameters[$row->id]->reviewing_marks;
             } else {
-                $row->user_target = $row->user_achivement = $row->status = 0;
+                $row->user_target = $row->user_achivement = '';
+                $row->status = '';
             }
 
             return $row;
@@ -433,7 +434,7 @@ class Acr extends Model
                 $row->reporting_marks = $personalAttributes[$row->id]->reporting_marks;
                 $row->reviewing_marks = $personalAttributes[$row->id]->reviewing_marks;
             } else {
-                $row->reporting_marks = $row->reviewing_marks = 0;
+                $row->reporting_marks = $row->reviewing_marks = null;
             }
 
             return $row;
@@ -491,10 +492,14 @@ class Acr extends Model
     {
         return in_array($this->acr_type_id, config('acr.basic.acrWithoutProcess'));
     }
+    public function getIsIfmsClerkAttribute()
+    {
+        return in_array($this->acr_type_id, config('acr.basic.acrIfmsFormat'));
+    }
 
     public function getIsTwoStepAttribute()
     {
-        return ($this->acr_type_id==30);
+        return (in_array($this->acr_type_id,[30,32]));
     }
 
     public function getIsLegacyAttribute()
@@ -813,6 +818,12 @@ class Acr extends Model
                 if (!$this->good_work) {
                     return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
                 }
+
+            } elseif(in_array($this->acr_type_id, config('acr.basic.acrIfmsFormat'))){
+                    if (AcrNegativeParameter::where('acr_id', $this->id)->count() == 0) {
+                        return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
+                    }
+
             } else {
                 if (AcrParameter::where('acr_id', $this->id)->count() == 0) {
                     return ['status' => false, 'msg' => 'Self-Appraisal Not Filled for this ACR '];
@@ -1134,6 +1145,44 @@ class Acr extends Model
             }
         }
         return false;
+    }
+
+    public function updateFinalNo()
+    {
+        $finalNo='none';
+        if($this->isTwoStep && $this->review_on){
+            $finalNo=$this->finalNo();
+        }
+
+        if(!$this->isTwoStep && $this->accept_on){
+            $finalNo=$this->finalNo();
+        }
+
+        if($finalNo!=='none'){
+            $this->timestamps = false;
+            $this->final_no=$finalNo;
+            $this->save();
+        }
+
+    }
+
+    public function finalNo()
+    {
+        if(!$this->isTwoStep){
+            if($this->accept_no){
+                return $this->accept_no;
+            }
+        }
+
+        if($this->review_no){
+            return $this->review_no;
+        }
+
+        if($this->report_no){
+            return $this->report_no;
+        }
+
+        return Null;
     }
 
 }

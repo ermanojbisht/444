@@ -82,22 +82,6 @@ Add Employee Families
                             <span class="help-block"> </span>
                         </div>
 
-                        {{-- Aadhar --}}
-                        <div class="form-group col-md-3">
-                            <label class="required" for="aadhar"> Aadhar </label>
-                            <input class="form-control {{ $errors->has('aadhar') ? 'is-invalid' : '' }}" type="text"
-                                minlength="4" maxlength="4" name="aadhar" id="aadhar" value="{{ old('aadhar', '') }}"
-                                placeholder="Aadhar Card Number" required>
-                            @if($errors->has('aadhar'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('aadhar') }}
-                            </div>
-                            @endif
-                            <span class="help-block"> </span>
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
                         {{-- Nominee Percentage --}}
                         <div class="form-group col-md-3">
                             <label class="required" for="nominee_percentage"> Nominee Percentage </label>
@@ -112,6 +96,9 @@ Add Employee Families
                             @endif
                             <span class="help-block"></span>
                         </div>
+                    </div>
+                    <br />
+                    <div class="row">
 
                         <div class="form-group col-md-3">
                             {!! Form::hidden('updated_by', Auth::user()->employee_id, ['id'=>'updated_by',
@@ -148,13 +135,10 @@ Add Employee Families
                                 Date of Birth
                             </th>
                             <th>
-                                Aadhar
-                            </th>
-                            <th>
                                 Nominee Percentage
                             </th>
                             <th>
-                                
+
                             </th>
                         </tr>
                         @foreach($employeeFamily as $family)
@@ -169,9 +153,6 @@ Add Employee Families
                                 @if($family->birth_date)
                                 {{ $family->birth_date->format('d M Y') }}
                                 @endif
-                            </td>
-                            <td>
-                                {{ $family->aadhar }}
                             </td>
                             <td>
                                 {{ $family->nominee_percentage }} %

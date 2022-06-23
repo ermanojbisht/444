@@ -15,7 +15,7 @@ Employee Registration
 ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
 ['label'=> 'Office Employees','active'=>true, 'route' => 'employee.office.index'],
 ['label'=> 'View Employee','active'=>true, 'route' => 'employee.office.view','routefielddata' => $employee->id],
-['label'=> 'Create','active'=>true],
+['label'=> 'Update Basic Details','active'=>true],
 ]])
 @endsection
 
@@ -42,15 +42,15 @@ Employee Registration
             <div class="card">
                 <div class="card-body">
 
-
                     <div class="row">
-                        {{-- Father's / Husband Name --}}
+ 
+                        {{-- Father's --}}
                         <div class="form-group col-md-3">
-                            <label class="required" for="father_name"> Father's / Husband Name </label>
+                            <label class="required" for="father_name"> Father's Name </label>
                             <input class="form-control {{ $errors->has('father_name') ? 'is-invalid' : '' }}"
                                 type="text" minlength="3" maxlength="150" name="father_name" id="father_name"
                                 value="{{ old('father_name') == '' ? $employee->father_name : old('father_name') }}"
-                                placeholder="Father's / Husband Name" required>
+                                placeholder="Father's Name" required>
                             @if($errors->has('father_name'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('father_name') }}
@@ -64,7 +64,8 @@ Employee Registration
                             <label class="required" for="retirement_date"> Date of Retirement </label>
                             <input class="form-control {{ $errors->has('retirement_date') ? 'is-invalid' : '' }}"
                                 type="date" name="retirement_date" id="retirement_date"
-                                value="{{$employee->retirement_date ? $employee->retirement_date->format('Y-m-d') : old('retirement_date', '') }}"
+                                value="{{$employee->retirement_date ? $employee->retirement_date->format('Y-m-d') : 
+                                old('retirement_date', '') }}"
                                 required format>
                             @if($errors->has('retirement_date'))
                             <div class="invalid-feedback">
@@ -125,32 +126,17 @@ Employee Registration
 
                         {{-- Pan --}}
                         <div class="form-group col-md-3">
-                            <label class="required" for="pan"> Pan </label>
+                            <label for="pan"> Pan </label>
                             <input class="form-control {{ $errors->has('pan') ? 'is-invalid' : '' }}" type="text"
                                 minlength="5" maxlength="10" name="pan" id="pan"
                                 value="{{ old('pan') == '' ? $employee->pan : old('pan') }}"
-                                placeholder="Pan Card Number" required>
+                                placeholder="Pan Card Number" >
                             @if($errors->has('pan'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('pan') }}
                             </div>
                             @endif
                             <span class="help-block"> </span>
-                        </div>
-
-                        {{-- Aadhar --}}
-                        <div class="form-group col-md-3">
-                            <label class="required" for="aadhar"> Aadhar </label>
-                            <input class="form-control {{ $errors->has('aadhar') ? 'is-invalid' : '' }}" type="text"
-                                minlength="4" maxlength="4" name="aadhar" id="aadhar"
-                                value="{{ old('aadhar') == '' ? $employee->aadhar : old('aadhar') }}"
-                                placeholder="Aadhar Card Number" required>
-                            @if($errors->has('aadhar'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('aadhar') }}
-                            </div>
-                            @endif
-                            <span class="help-block"> Enter Last 4 digit of Aadhar </span>
                         </div>
 
                         {{-- Blood Group --}}
@@ -167,6 +153,20 @@ Employee Registration
                             <span class="help-block"> </span>
                         </div>
 
+                        {{-- Height --}}
+                        <div class="form-group col-md-3">
+                            <label class="required" for="aadhar"> Height (in Centimeters) </label>
+                            <input class="form-control {{ $errors->has('height') ? 'is-invalid' : '' }}" type="number"
+                                minlength="2" maxlength="3" name="height" id="height"
+                                value="{{ old('height') == '' ? $employee->height : old('height') }}"
+                                placeholder="Enter Height in centi meters" required>
+                            @if($errors->has('height'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('height') }}
+                            </div>
+                            @endif
+                            <span class="help-block"> </span>
+                        </div>
 
                     </div>
                     <br />
@@ -229,20 +229,7 @@ Employee Registration
                     <br />
                     <div class="row">
 
-                        {{-- Height --}}
-                        <div class="form-group col-md-3">
-                            <label class="required" for="aadhar"> Height (in Centimeters) </label>
-                            <input class="form-control {{ $errors->has('height') ? 'is-invalid' : '' }}" type="number"
-                                minlength="2" maxlength="3" name="height" id="height"
-                                value="{{ old('height') == '' ? $employee->height : old('height') }}"
-                                placeholder="Enter Height in centi meters" required>
-                            @if($errors->has('height'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('height') }}
-                            </div>
-                            @endif
-                            <span class="help-block"> </span>
-                        </div>
+                        
 
                         {{-- Identity Mark --}}
                         <div class="form-group col-md-6">
@@ -265,7 +252,7 @@ Employee Registration
                             <div class="box-footer justify-content-between">
                                 <input type="hidden" id="lock_level" name="lock_level" value="0" />
                                 <button id="btnAddRegDetails" type="submit" class="btn btn-success">
-                                    Save Employee Detail </button>
+                                    Update Employee Detail </button>
                             </div>
 
                         </div>
