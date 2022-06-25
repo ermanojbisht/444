@@ -11,17 +11,19 @@ class MonitorAcrController extends Controller
 {
     public function countEsclation()
     {
-        $dutyTypes = ['report', 'review', 'accept']; //what duty is to perform. report means acr is at submit level report is to be done. iska triggerOn submit hoga
+        return Acr::level('acknowledge')->select('*')->get();
+        $dutyTypes = ['submit','report', 'review', 'accept']; //what duty is to perform. report means acr is at submit level report is to be done. iska triggerOn submit hoga
         foreach ($dutyTypes as $key => $dutyType) {
             $duty = config('acr.basic.duty')[$dutyType];
-
+            Log::info("duty.........$dutyType....... = ".print_r($duty,true));
             $acrs = Acr::level($duty['triggerOn'])->select('*')->get();
 
             $acrs->map(function ($acr) use ($dutyType) {
+                Log::info("acr id = ".print_r($acr->id,true));
                 $acr->updateEsclationFor($dutyType);
             });
         }
-
+        return ;
         $this->identify();
 
         /* $acr=Acr::find(15);   return $acr->isScope('level','submit'); */

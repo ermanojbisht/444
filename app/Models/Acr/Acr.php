@@ -159,25 +159,30 @@ class Acr extends Model
      */
     public function scopeLevel($query, $value = 'submit')
     {
-        $query = $query->whereNotNull('report_employee_id')->whereNotNull('review_employee_id')->whereNotNull('accept_employee_id')->whereNotNull('submitted_at')->whereIsActive(1);
+        $query = $query->whereNotNull('report_employee_id')->whereNotNull('review_employee_id')->whereIsActive(1);
+        //->whereNotNull('accept_employee_id')
         switch ($value) {
             case 'submit':
-                return $query->whereNull('report_on')
+                return $query->whereNull('report_on')->whereNotNull('submitted_at')
                     ->orderBy('submitted_at');
                 break;
             case 'report':
-                return $query->whereNull('review_on')
+                return $query->whereNull('review_on')->whereNotNull('submitted_at')
                     ->whereNotNull('report_on')
                     ->orderBy('report_on');
                 break;
             case 'review':
-                return $query->whereNull('accept_on')
+                return $query->whereNull('accept_on')->whereNotNull('submitted_at')  //twostage acr ??
                     ->whereNotNull('review_on')
                     ->orderBy('review_on');
                 break;
             case 'accept':
-                return $query->whereNotNull('accept_on')
+                return $query->whereNotNull('accept_on')->whereNotNull('submitted_at')
                     ->orderBy('accept_on');
+                break;
+            case 'acknowledge':
+                return $query->where('is_defaulter',2)->whereNull('submitted_at')
+                    ->orderBy('created_at');
                 break;
         }
     }
@@ -811,13 +816,59 @@ class Acr extends Model
             $duty = config('acr.basic.duty')[$dutyType];
             $duty_duration_lapsed_field = $dutyType.'_duration_lapsed';
             $duty_triggerDate = $duty['triggerDate'];
-            $this->$duty_duration_lapsed_field = round($this->$duty_triggerDate->diffInDays(now(), false) / $duty['period'] * 100, 0);
+            $duty['period']=$this->countAssignedPeriod($dutyType);
+
+
+            $countedPeriodInPercentage=round($this->$duty_triggerDate->diffInDays(now(), false) / $duty['period'] * 100, 0);
+            Log::info(['$duty_triggerDate'=>$duty_triggerDate,'$duty_duration_lapsed_field'=>$duty_duration_lapsed_field,'countedPeriodInPercentage'=>$countedPeriodInPercentage,'duty_period'=>$duty['period']]);
+            $this->$duty_duration_lapsed_field = $countedPeriodInPercentage;
+            Log::info("duty_triggerDate difference from today = ".print_r($this->$duty_triggerDate->diffInDays(now(), false),true));
             if ($this->$duty_triggerDate->diffInDays(now(), false) > $duty['period']) {
+                Log::info("duty_triggerDate period excedded then duty period = ".$duty['period']);
                 $finalDateField = $dutyType.'_on';
+                Log::info(['$finalDateField'=>$finalDateField]);
                 $this->$finalDateField = now();
             }
             $this->save();
         }
+    }
+
+    public function countAssignedPeriod($dutyType)
+    {
+        $allowedDuration=false;
+        switch ($dutyType) {
+            case 'report':
+                if($this->submitted_at){
+                    $month=7;
+                    if( $this->submitted_at->month>6){
+                        return $allowedDuration=30;
+                    }
+                    $endDate=Carbon::create($this->submitted_at->format('Y'), $month )->lastOfMonth();
+                    $allowedDuration=$this->submitted_at->diffInDays($endDate, false);                    
+                }               
+                break;            
+            case 'review': 
+                if($this->report_on){               
+                    $month=8;
+                    if( $this->report_on->month>7){
+                        return $allowedDuration=30;
+                    }
+                    $endDate=Carbon::create($this->report_on->format('Y'), $month )->lastOfMonth();
+                    $allowedDuration=$this->report_on->diffInDays($endDate, false);
+                }
+                break;
+            case 'accept': 
+                if($this->review_on){                  
+                    $month=9;
+                    if( $this->review_on->month>8){
+                        return $allowedDuration=30;
+                    }
+                    $endDate=Carbon::create($this->review_on->format('Y'), $month )->lastOfMonth();
+                    $allowedDuration=$this->review_on->diffInDays($endDate, false);
+                }
+                break;
+        }
+        return $allowedDuration;
     }
 
     public function checkSelfAppraisalFilled()
