@@ -1,7 +1,7 @@
 @extends('layouts.type200.main')
 
 @section('pagetitle')
-	Time take in Process
+	Time Taken in Process
 @endsection
 
 @section('breadcrumb')
@@ -35,6 +35,7 @@
                   <span>No of ACR</span>
                 </p>
               <?php ksort($days) ?>
+              
               @foreach($days as $day=>$acrs)
                 <p class="d-flex justify-content-between">
                   @if($day == 0)

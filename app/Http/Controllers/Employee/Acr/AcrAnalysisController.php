@@ -47,20 +47,20 @@ class AcrAnalysisController extends Controller
          foreach ($acr_data as $acr) {
             if($acr->submitted_at){
                 $days = Carbon::parse( $acr->created_at )->diffInDays( $acr->submitted_at); 
-                $data['submitt_days'][$days][] = $acr->id;
+                $data['submitt days'][$days][] = $acr->id;
                 
             }
             if($acr->report_on){
                 $days = Carbon::parse( $acr->report_on )->diffInDays( $acr->submitted_at); 
-                $data['report_days'][$days][] = $acr->id;
+                $data['report days'][$days][] = $acr->id;
             }
             if($acr->review_on){
                 $days = Carbon::parse( $acr->report_on )->diffInDays( $acr->review_on); 
-                $data['review_days'][$days][] = $acr->id;
+                $data['review days'][$days][] = $acr->id;
             }
             if($acr->accept_on){
                 $days = Carbon::parse( $acr->accept_on )->diffInDays( $acr->review_on); 
-                $data['accept_days'][$days][] = $acr->id;
+                $data['accept days'][$days][] = $acr->id;
             }
          }
        // return array_keys($data['submitt_days']);

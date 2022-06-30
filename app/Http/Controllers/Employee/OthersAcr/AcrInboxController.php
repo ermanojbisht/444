@@ -36,8 +36,9 @@ class AcrInboxController extends Controller
     {
         $this->middleware(function ($request, $next) {
             // abort_if(Gate::denies('track_estimate'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-            $this->user = Auth::User();            
-            abort_if($this->user->employee->retirement_date->lt(Carbon::now()), Response::HTTP_FORBIDDEN, 'You Are Not Eligible To Fill The ACR');
+            $this->user = Auth::User();  
+
+            abort_if($this->user->employee->retirement_date->addDay()->lt(Carbon::now()), Response::HTTP_FORBIDDEN, 'You Are Not Eligible To Fill The ACR');
             return $next($request);
         });
     }
