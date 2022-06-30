@@ -48,6 +48,7 @@
         <x-nav-item icon="spreadsheet" href="{{route('office.employeesWithoutAcr.list',['office_id' => Auth::user()->employee->office_idd,'year'=>0])}}">Critical Report</x-nav-item>
         <x-nav-item icon="spreadsheet" href="{{route('office.acrs.difficulties')}}">Difficulties Report</x-nav-item>
         <x-nav-item icon="spreadsheet" href="{{route('acr.analysis.trainningRequirementChart')}}">Training Required</x-nav-item>
+        <x-nav-item icon="spreadsheet" href="{{route('acr.analysis.daysChart')}}">Process Time</x-nav-item>
         {{-- At Bottom --}}
         <li class="nav-title mt-auto">Tools For Hindi Typing</li>
         <li class="nav-item ">
