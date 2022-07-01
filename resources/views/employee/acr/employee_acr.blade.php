@@ -44,7 +44,7 @@
 		<tbody>
 			@foreach($acrs as $acr)
 			<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
-				<td>{{1+$loop->index }}</td>
+				<td data-sort="{{ $acr->id }}">{{1+$loop->index }}</td>
 				<td  class="align-middle">{{$acr->getFinancialYearAttribute()}}</td>
 				<td>{!! $acr->from_date->format('d&#160;M&#160;Y') !!}</td>
 				<td>{!! $acr->to_date->format('d&#160;M&#160;Y') !!}</td>
