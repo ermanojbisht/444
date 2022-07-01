@@ -840,7 +840,7 @@ class Acr extends Model
             }
             $this->$duty_duration_lapsed_field = $countedPeriodInPercentage;
 
-            if ($this->$duty_triggerDate->diffInDays(now(), false) > $duty['period']) {
+            if ($this->$duty_triggerDate->diffInDays(now(), false) >= $duty['period']) {
                 $finalDateField = $dutyType.'_on';
                 Log::info("duty_triggerDate period excedded then duty period = ".$duty['period']." hence esclated field $finalDateField updated as now");
                 //EXCEPTION FOR SUBMIT TARGETTYPE AS WE HAVE FIELD SUBMITTED_AT NOT SUBMIT_ON
@@ -896,6 +896,7 @@ class Acr extends Model
 
     public function countAssignedPeriod($dutyType)
     {
+        //Log::info(['dutyType'=>$dutyType]);
         $allowedDuration=false;
         switch ($dutyType) {
             case 'report':
@@ -909,7 +910,8 @@ class Acr extends Model
                         return $allowedDuration=30;
                     }
                     $endDate=Carbon::create($this->submitted_at->format('Y'), $month )->lastOfMonth();
-                    $allowedDuration=$this->submitted_at->diffInDays($endDate, false);                    
+                    $allowedDuration=$this->submitted_at->diffInDays($endDate, false);  
+                    if($allowedDuration==0){   $allowedDuration=1; }                  
                 }               
                 break;            
             case 'review': 
@@ -924,6 +926,7 @@ class Acr extends Model
                     }
                     $endDate=Carbon::create($this->report_on->format('Y'), $month )->lastOfMonth();
                     $allowedDuration=$this->report_on->diffInDays($endDate, false);
+                    if($allowedDuration==0){   $allowedDuration=1; }
                 }
                 break;
             case 'accept': 
@@ -938,6 +941,7 @@ class Acr extends Model
                     }
                     $endDate=Carbon::create($this->review_on->format('Y'), $month )->lastOfMonth();
                     $allowedDuration=$this->review_on->diffInDays($endDate, false);
+                    if($allowedDuration==0){   $allowedDuration=1; }
                 }
                 break;
             case 'submit':
@@ -947,7 +951,11 @@ class Acr extends Model
                         return $allowedDuration=30;
                     }
                     $endDate=Carbon::create($this->updated_at->format('Y'), $month )->lastOfMonth();
+                    //Log::info("endDate = ".print_r($endDate,true));
+                    //Log::info("updated_at = ".print_r($this->updated_at,true));
                     $allowedDuration=$this->updated_at->diffInDays($endDate, false);
+                    if($allowedDuration==0){   $allowedDuration=1; }
+                    //Log::info("allowedDuration = ".print_r($allowedDuration,true));
                 }
                 break;
         }

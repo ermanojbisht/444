@@ -12,7 +12,13 @@ use Log;
 class MonitorAcrController extends Controller
 {
     public function countEsclation()
-    {
+    {        
+        //reset old data;
+        Acr::query()->update([
+            'submit_duration_lapsed'=>0,'report_duration_lapsed'=>0,'review_duration_lapsed'=>0,'accept_duration_lapsed'=>0,       
+            'timestamps' => false
+        ]);
+        
         $dutyTypes = ['submit','report', 'review', 'accept']; //what duty is to perform. report means acr is at submit level report is to be done. iska triggerOn submit hoga
         //$dutyTypes =[]; //for debug stop this process and allow identify only
         foreach ($dutyTypes as $key => $dutyType) {
