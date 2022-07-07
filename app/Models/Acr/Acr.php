@@ -3,6 +3,7 @@
 namespace App\Models\Acr;
 
 use App\Helpers\Helper;
+use App\Jobs\Acr\AcrEsclatedAlertJob;
 use App\Mail\Acr\AcrSumittedMail;
 use App\Models\Acr\AcrNotification;
 use App\Models\Acr\AcrType;
@@ -39,7 +40,7 @@ class Acr extends Model
         'review_duration_lapsed', 'accept_duration_lapsed','report_integrity',
         'report_no', 'report_on', 'report_remark',
         'review_no', 'review_on', 'review_remark',
-        'accept_no', 'accept_on', 'accept_remark','is_defaulter',  'old_accept_no','final_accept_remark','missing','service_cadre','scale','doj_current_post','medical_certificate_date','final_no'
+        'accept_no', 'accept_on', 'accept_remark','is_defaulter',  'old_accept_no','final_accept_remark','missing','service_cadre','scale','doj_current_post','medical_certificate_date','final_no','integrity_by'
     ];
 
     /**
@@ -159,25 +160,30 @@ class Acr extends Model
      */
     public function scopeLevel($query, $value = 'submit')
     {
-        $query = $query->whereNotNull('report_employee_id')->whereNotNull('review_employee_id')->whereNotNull('accept_employee_id')->whereNotNull('submitted_at')->whereIsActive(1);
+        $query = $query->whereNotNull('report_employee_id')->whereNotNull('review_employee_id')->whereIsActive(1)->where('acr_type_id','<>',0);
+        //->whereNotNull('accept_employee_id')
         switch ($value) {
             case 'submit':
-                return $query->whereNull('report_on')
+                return $query->whereNull('report_on')->whereNotNull('submitted_at')
                     ->orderBy('submitted_at');
                 break;
             case 'report':
-                return $query->whereNull('review_on')
+                return $query->whereNull('review_on')->whereNotNull('submitted_at')
                     ->whereNotNull('report_on')
                     ->orderBy('report_on');
                 break;
             case 'review':
-                return $query->whereNull('accept_on')
+                return $query->whereNull('accept_on')->whereNotNull('submitted_at')  //twostage acr ??
                     ->whereNotNull('review_on')
                     ->orderBy('review_on');
                 break;
             case 'accept':
-                return $query->whereNotNull('accept_on')
+                return $query->whereNotNull('accept_on')->whereNotNull('submitted_at')
                     ->orderBy('accept_on');
+                break;
+            case 'acknowledge':
+                return $query->where('is_defaulter',2)->whereNull('submitted_at')
+                    ->orderBy('created_at');
                 break;
         }
     }
@@ -562,6 +568,16 @@ class Acr extends Model
     public function acceptUser()
     {
         return $this->userOnBasisOfDuty('accept');
+    }/**
+     * @return mixed
+     */
+    public function integrityUser()
+    {
+        $user=User::where('employee_id',$this->integrity_by)->first();
+        if($user){
+            return $user;
+        }
+        return false;       
     }
 
     /**
@@ -793,6 +809,7 @@ class Acr extends Model
      */
     public function updateEsclationFor($dutyType)
     {
+        $esclationRequired=false;//initiated as no esclation is required
         if($dutyType=='accept' && $this->isTwoStep){
             //no need to run third step
         }else{
@@ -800,13 +817,183 @@ class Acr extends Model
             $duty = config('acr.basic.duty')[$dutyType];
             $duty_duration_lapsed_field = $dutyType.'_duration_lapsed';
             $duty_triggerDate = $duty['triggerDate'];
-            $this->$duty_duration_lapsed_field = round($this->$duty_triggerDate->diffInDays(now(), false) / $duty['period'] * 100, 0);
-            if ($this->$duty_triggerDate->diffInDays(now(), false) > $duty['period']) {
-                $finalDateField = $dutyType.'_on';
-                $this->$finalDateField = now();
+            $duty['period']=$this->countAssignedPeriod($dutyType);
+
+
+            $periodLapsedInDays= $this->$duty_triggerDate->diffInDays(now(), false);
+            $countedPeriodInPercentage=round( $periodLapsedInDays/ $duty['period'] * 100, 0);
+            /*Log::info([
+                '$duty_triggerDate'=>$duty_triggerDate,
+                '$duty_duration_lapsed_field'=>$duty_duration_lapsed_field,
+                'allowed duty_period'=>$duty['period'],
+                'periodLapsedInDays'=>$periodLapsedInDays,
+                'countedPeriodInPercentage'=>$countedPeriodInPercentage,
+            ]);*/
+
+
+            //todo?? Other 3 fields of duration need to be reset or not ???????????????
+            $durationLapsedFields=['submit_duration_lapsed','report_duration_lapsed','review_duration_lapsed','accept_duration_lapsed'];
+            $durationLapsedFields=array_diff($durationLapsedFields, [$duty_duration_lapsed_field]);
+            foreach ($durationLapsedFields as  $field) {
+                $this->$field = 0;
             }
+            $this->$duty_duration_lapsed_field = $countedPeriodInPercentage;
+
+            if ($this->$duty_triggerDate->diffInDays(now(), false) >= $duty['period']) {
+                $finalDateField = $dutyType.'_on';
+                Log::info("duty_triggerDate period excedded then duty period = ".$duty['period']." hence esclated field $finalDateField updated as now");
+                //EXCEPTION FOR SUBMIT TARGETTYPE AS WE HAVE FIELD SUBMITTED_AT NOT SUBMIT_ON
+                if($dutyType=='submit'){
+                    $finalDateField = 'submitted_at';
+                }
+
+                $this->$finalDateField = now();
+                //CAN We Save Triiger to notify this update,still not done
+                $esclationRequired=true;
+            }
+            $this->timestamps = false;
             $this->save();
+
+            if($esclationRequired){
+                dispatch(new AcrEsclatedAlertJob($this,$dutyType));
+            }else{//if esclation is not required then check is it alert required
+                /*
+                //is appraisal officer is on verse of retirement
+                $appraiseRetirementIssue=$this->appraiseRetirementIssue($dutyType);
+                $data = [
+                    'employee_id' => $this->$duty['targetemployee'],
+                    'acr_id' => $this->id,
+                    'notification_on' => now(),
+                    'through' => 1,
+                    'notification_type' => 11,
+                    'notification_no' => 1,
+                    'retirement_issue' => $appraiseRetirementIssue
+                ];
+
+                switch ($countedPeriodInPercentage) {
+                    case $countedPeriodInPercentage<50:
+                        if($appraiseRetirementIssue!==''){
+                            $data['notification_type']=11;
+                            AcrNotification::create($data);
+                        }
+                        break;
+                    case $countedPeriodInPercentage>=50 and $countedPeriodInPercentage<75:
+                        $data['notification_type']=12;
+                        AcrNotification::create($data);
+                        break;
+
+                    case $countedPeriodInPercentage>=75:
+                        $data['notification_type']=13;
+                        AcrNotification::create($data);
+                        break;
+                }*/
+
+
+            }
         }
+    }
+
+    public function countAssignedPeriod($dutyType)
+    {
+        //Log::info(['dutyType'=>$dutyType]);
+        $allowedDuration=false;
+        switch ($dutyType) {
+            case 'report':
+                if($this->submitted_at){
+                    $month=7;
+                    $responsibleEmployee=Employee::find($this->report_employee_id);
+                    if($responsibleEmployee->isRetiringInCurrentMonth){
+                       return $allowedDuration=$this->submitted_at->diffInDays($responsibleEmployee->retirement_date, false);
+                    }
+                    if( $this->submitted_at->month>6){
+                        return $allowedDuration=30;
+                    }
+                    $endDate=Carbon::create($this->submitted_at->format('Y'), $month )->lastOfMonth();
+                    $allowedDuration=$this->submitted_at->diffInDays($endDate, false);  
+                    if($allowedDuration==0){   $allowedDuration=1; }                  
+                }               
+                break;            
+            case 'review': 
+                if($this->report_on){               
+                    $month=8;
+                    $responsibleEmployee=Employee::find($this->review_employee_id);
+                    if($responsibleEmployee->isRetiringInCurrentMonth){
+                       return $allowedDuration=$this->report_on->diffInDays($responsibleEmployee->retirement_date, false);
+                    }
+                    if( $this->report_on->month>7){
+                        return $allowedDuration=30;
+                    }
+                    $endDate=Carbon::create($this->report_on->format('Y'), $month )->lastOfMonth();
+                    $allowedDuration=$this->report_on->diffInDays($endDate, false);
+                    if($allowedDuration==0){   $allowedDuration=1; }
+                }
+                break;
+            case 'accept': 
+                if($this->review_on && !$this->isTwoStep){
+                    $month=9;
+                    $responsibleEmployee=Employee::find($this->accept_employee_id);
+                    if($responsibleEmployee->isRetiringInCurrentMonth){
+                       return $allowedDuration=$this->review_on->diffInDays($responsibleEmployee->retirement_date, false);
+                    }
+                    if( $this->review_on->month>8){
+                        return $allowedDuration=30;
+                    }
+                    $endDate=Carbon::create($this->review_on->format('Y'), $month )->lastOfMonth();
+                    $allowedDuration=$this->review_on->diffInDays($endDate, false);
+                    if($allowedDuration==0){   $allowedDuration=1; }
+                }
+                break;
+            case 'submit':
+                if($this->is_defaulter==2 && is_null($this->submitted_at)){
+                    $month=6;
+                    if( $this->updated_at->month>6){
+                        return $allowedDuration=30;
+                    }
+                    $endDate=Carbon::create($this->updated_at->format('Y'), $month )->lastOfMonth();
+                    //Log::info("endDate = ".print_r($endDate,true));
+                    //Log::info("updated_at = ".print_r($this->updated_at,true));
+                    $allowedDuration=$this->updated_at->diffInDays($endDate, false);
+                    if($allowedDuration==0){   $allowedDuration=1; }
+                    //Log::info("allowedDuration = ".print_r($allowedDuration,true));
+                }
+                break;
+        }
+        return $allowedDuration;
+    }
+
+    public function appraiseRetirementIssue($dutyType)
+    {
+        //Log::info("appraiseRetirementIssue for dutyType= $dutyType in acr_id= ".$this->id);
+        switch ($dutyType) {
+            case 'report':
+                // check review and accept is going to retire in this month
+                $heigherEmployee=Employee::find($this->review_employee_id);
+                if($heigherEmployee->isRetiringInCurrentMonth){
+                    return $heigherEmployee->shriName .' is retiring on '.$heigherEmployee->retirement_date->format('d M Y').' . He/She has to perform process of review.';
+                }
+
+                if(!$this->isTwoStep){
+                    $heigherEmployee=Employee::find($this->accept_employee_id);
+                    if($heigherEmployee->isRetiringInCurrentMonth){
+                        return $heigherEmployee->shriName .' is retiring on '.$heigherEmployee->retirement_date->format('d M Y').' . He/She has to perform process of accept.';
+                    }
+                }
+                break;
+
+            case 'review':
+                // check accept is going to retire in this month
+                if(!$this->isTwoStep){
+                    $heigherEmployee=Employee::find($this->accept_employee_id);
+                    if($heigherEmployee->isRetiringInCurrentMonth){
+                        return $heigherEmployee->shriName .' is retiring on '.$heigherEmployee->retirement_date->format('d M Y').' . He/She has to perform process of accept.';
+                    }
+                }
+                break;
+            default:
+
+                break;
+        }
+        return '';
     }
 
     public function checkSelfAppraisalFilled()
@@ -975,10 +1162,13 @@ class Acr extends Model
      */
     public function analysisForAlert()
     {
-        $result = ['name' => $this->employee->shriName, 'employee_id' => $this->employee_id, 'target_employee_id' => '', 'pending_process' => '', 'percentage_period' => ''];
+        //Log::info("analysisForAlert start for acr_id=".$this->id);
+        $result = ['name' => $this->employee->shriName, 'employee_id' => $this->employee_id, 'target_employee_id' => '', 'pending_process' => '', 'percentage_period' => '','retirement_issue' => ''];
 
         $duties = ['report', 'review', 'accept'];
+
         foreach ($duties as $key => $duty) {
+            $appraiseRetirementIssue='';
             $duration_lapsed_field = $duty.'_duration_lapsed';
             $targetEmployee_field = $duty.'_employee_id';
             if ($this->$duration_lapsed_field > 0) {
@@ -986,11 +1176,28 @@ class Acr extends Model
                 $targetProcess = $duty;
                 $lapsedPeriod = $this->$duration_lapsed_field;
             }
+
+            $appraiseRetirementIssueFound=$this->appraiseRetirementIssue($duty);
+            if($appraiseRetirementIssueFound!=''){
+                $appraiseRetirementIssue=$appraiseRetirementIssueFound;
+            }
+            /*Log::info([
+                'process for duty/targetProcess'=> $duty,
+                'duration_lapsed_field'=>$duration_lapsed_field,
+                'duration_lapsed_field value/lapsedPeriod'=>$this->$duration_lapsed_field ,
+                'targetEmployee_field'=>$targetEmployee_field,
+                'targetEmployee'=>$this->$targetEmployee_field,
+                'appraiseRetirementIssueFound'=>$appraiseRetirementIssueFound,
+                'appraiseRetirementIssue'=>$appraiseRetirementIssue,
+            ]);*/
         }
 
         $result['target_employee_id'] = $targetEmployee;
         $result['pending_process'] = $targetProcess;
         $result['percentage_period'] = $lapsedPeriod;
+        $result['retirement_issue'] = $appraiseRetirementIssue;
+
+        //Log::info("analysisForAlert end--------------------- for acr_id=".$this->id);
 
         return $result;
     }
@@ -1184,5 +1391,25 @@ class Acr extends Model
 
         return Null;
     }
+
+    public function isReportingRetired()
+    {
+        return Employee::find($this->report_employee_id)->isRetired;
+    }
+
+    public function isReviewingRetired()
+    {
+        return Employee::find($this->review_employee_id)->isRetired;
+    }
+
+    public function isAcceptingRetired()
+    {
+        $accepting=Employee::find($this->accept_employee_id);
+        if($accepting){
+            return $accepting->isRetired;
+        }
+        return false;
+    }
+    
 
 }

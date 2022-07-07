@@ -218,11 +218,26 @@ class AcrReportController extends Controller
      */
     public function submitReported(Acr $acr)
     { 
-        if ( $acr->report_no > 0 || !$acr->isAcrDuetoLoggedUserfor('report') ){
-            $acrnotProcessable=  false;
-        }else{
-            $acrnotProcessable=  true;
-        }
+        switch ($this->user->employee_id) {
+           case $acr->report_employee_id:
+               if ( $acr->report_no > 0 || !$acr->isAcrDuetoLoggedUserfor('report') ){
+                    $acrnotProcessable=  false;
+                }else{
+                    $acrnotProcessable=  true;
+                } 
+               break;
+            case $acr->review_employee_id:
+                if ( $acr->review_no > 0 || !$acr->isAcrDuetoLoggedUserfor('review') ){
+                    $acrnotProcessable=  false;
+                }else{
+                    $acrnotProcessable=  true;
+                } 
+               break;               
+           case $acr->accept_employee_id:               
+                $acrnotProcessable=  false;              
+                break;
+        } 
+        
         //CHECK whether ACR is processed or is not due 
         abort_if($acrnotProcessable,403,'Dear user ACR is due to process but you have not processed yet.');
         return view('employee.other_acr.report_acr', compact('acr'));
@@ -230,7 +245,7 @@ class AcrReportController extends Controller
 
     public function storeReportedAcr(Request $request)
     {
-        // validate appraisal_officer_type 
+        // validate report_integrity form
         $this->validate(
             $request,
             [
@@ -244,26 +259,105 @@ class AcrReportController extends Controller
             return Redirect()->back()->with('fail', 'Remark is Mandatory, for integrity reasons...');
         }
 
-        $acr = Acr::findOrFail($request->acr_id);
 
-        if ($request->report_integrity == '0' || $request->report_integrity  == '-1') {
-            $acr->update([
-                'report_on' => now(),
-                'report_remark' => $request->reason,
-                'report_integrity' => $request->report_integrity
-            ]);
-        } else {
-            $acr->update([
-                'report_on' => now(),
-                'report_integrity' => $request->report_integrity
-            ]);
+        $acr = Acr::findOrFail($request->acr_id);    
+        //IDENTIFY Process
+        switch ($this->user->employee_id) {
+           case $acr->report_employee_id:
+               return $this->reportProcess($acr,$request);   
+               break;
+            case $acr->review_employee_id:
+                return $this->reviewProcess($request);   
+               break;               
+           case $acr->accept_employee_id:
+               return $this->acceptProcess($request);  
+               break;
+        } 
+        
+    }
+
+    public function reportProcess($acr,$request)
+    {
+        $milestone ='report';
+        $this->storeInegerity($acr,$process='report_on',$request);
+       
+
+        //check Reviewing is retired
+        if($acr->isReviewingRetired()){
+            if($acr->isTwoStep){
+                //marks of review and accept as per report
+                $acr->update(['review_no' => $acr->report_no,'accept_no' => $acr->report_no,'review_on' => now(),'accept_on' => now() ]); 
+                $milestone ='accept';
+                $acr->updateFinalNo();
+            }else{
+                //marks of review  as per report
+                $acr->update(['review_no' => $acr->report_no,'review_on' => now()]); 
+                $milestone ='review';               
+            }            
+        }else{ 
+            //  make pdf  and mail notification            
+            dispatch(new MakeAcrPdfOnSubmit($acr, $milestone));
+            return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');//only reported
         }
 
-        //    make pdf  and mail notification 
+        //check Accepting is applicable and retired
+        if(!$acr->isTwoStep){
+            if($acr->isAcceptingRetired()){
+                $acr->update(['accept_no' => $acr->report_no,'accept_on' => now()]); 
+                $milestone ='accept';
+                $acr->updateFinalNo();
+            }
+        }        
+        //  make pdf  and mail notification  
+        dispatch(new MakeAcrPdfOnSubmit($acr, $milestone));
 
-        dispatch(new MakeAcrPdfOnSubmit($acr, 'report'));
+        return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');//reported reviewd accepted
+    }
 
+    public function reviewProcess(Request $request)
+    {
+        $acr=Acr::find($request->acr_id);
+        $milestone ='review';
+        $acr_is_due = $acr->isAcrDuetoLoggedUserfor('review');
+        if ($acr->review_no > 0 || !$acr_is_due) {
+        
+        }else{
+            return redirect(route('acr.others.index'))->with('fail', 'Please process the ACR...');
+        }
+        if($request->report_integrity){
+            $this->storeInegerity($acr,$process='review_on',$request);
+        }
+        $acr->update(['review_on' => now()]); 
+
+        if ($acr->isTwoStep || $acr->isAcceptingRetired()) {
+            $acr->accept_on = now();
+            $acr->accept_no = $acr->review_no;
+            $acr->save();
+            //final no ki entry karo
+            $acr->updateFinalNo();
+            $milestone ='accept';
+        }
+        //    make pdf  and mail notification
+        dispatch(new MakeAcrPdfOnSubmit($acr, $milestone));
 
         return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');
+    }
+
+    public function acceptProcess($request)
+    {
+        $this->storeInegerity($acr,$process='accept_onnnn',$request);
+        return redirect(route('acr.others.accept.submit', ['acr' => $acr->id]))->with('success', 'Integrity Saved Successfully...');
+    }
+
+    public function storeInegerity($acr,$process,$request)
+    {
+        $acr->update([
+            $process => now(),            
+            'report_integrity' => $request->report_integrity,
+            'integrity_by' => $this->user->employee_id
+        ]);
+        if ($request->report_integrity == '0' || $request->report_integrity  == '-1') {
+            $acr->update(['report_remark' => $request->reason  ]);
+        }
     }
 }

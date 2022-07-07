@@ -7,6 +7,7 @@ use App\Http\Requests\Acr\StoreAcrLeaveRequest;
 use App\Http\Requests\Acr\StoreAcrRequest;
 use App\Jobs\Acr\MakeAcrPdfOnSubmit;
 use App\Models\Acr\Acr;
+use App\Models\Acr\AcrRejection;
 use App\Models\Acr\AcrType;
 use App\Models\Acr\Appreciation;
 use App\Models\Acr\Leave;
@@ -278,7 +279,47 @@ class AcrController extends Controller
             return Redirect()->back()->with('fail', 'Appraisal officer date not matches, please revisit your data');
         }
         $acr->update(['submitted_at' => now()]);
-        dispatch(new MakeAcrPdfOnSubmit($acr, 'submit'));
+        $milestone ='submit';
+
+        //check reporting is retired
+        if($acr->isReportingRetired()){
+           $acr->update(['report_on' => now()]); 
+           $milestone ='report';
+        }else{
+            dispatch(new MakeAcrPdfOnSubmit($acr, $milestone));
+            return redirect()->back();
+        }
+        //check Reviewing is retired
+        if($acr->isReviewingRetired()){
+            if($acr->isTwoStep){
+                $milestone ='reject';
+            }else{
+                $milestone ='review';
+                $acr->update(['review_on' => now()]); 
+            }            
+        }else{            
+            dispatch(new MakeAcrPdfOnSubmit($acr, $milestone));
+            return redirect()->back();
+        }
+        //check Accepting is applicable and retired
+        if(!$acr->isTwoStep){
+            if($acr->isAcceptingRetired()){
+                $milestone ='reject';
+            }
+        }
+
+        if($milestone=='reject'){
+            AcrRejection::create([
+                'acr_id'=>$acr->id,
+                'employee_id'=>$acr->employee_id, 
+                'remark'=>'No one is avialable for entry',
+                'rejection_type_id'=>2
+            ]);
+            $acr->update(['is_active' => 0]);
+        }
+
+
+        dispatch(new MakeAcrPdfOnSubmit($acr, $milestone));
 
         return redirect()->back();
     }

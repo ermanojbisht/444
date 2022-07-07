@@ -61,7 +61,6 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		<td>2. Date of Birth : </td>
 		<td> {{$employee->birth_date->format('d M Y')}} </td>
 	</tr>
-	
 	@if($acr->isIfmsClerk)
 		<tr>
 			<td>3.1 Date of Joining in the service : </td>
@@ -113,6 +112,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 
 
 	@endif
+
 	@if($acr->isIfmsClerk)
 
 		<tr>
@@ -181,6 +181,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 	</tbody>
 </table>
 <p> 6. Leave (other then Casual Leave) or period of absence </p>
+
 <table class="table table-sm table-bordered">
 	<thead>
 		<tr class="small text-center">
@@ -207,6 +208,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		@endforelse
 	</tbody>
 </table>
+
 <p>7. Appreciation/Honors during the period of appraisal from the department</p>
 <table class="table table-sm table-bordered">
 	<thead>
@@ -230,6 +232,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		@endforelse
 	</tbody>
 </table>
+
 <p>8. Details of Performance Appraisals of Subordinates not written</p>
 <table class="table table-sm table-bordered">
 	<thead class="small text-center">
@@ -245,42 +248,42 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 	</thead>
 	<tbody>
 		@php $n = 0 @endphp
-		@foreach($inbox as $acr)
+		@foreach($inbox as $othersacr)
         @php $n = $n + 1; @endphp
 		<tr>
 			<td>8.{{$n }}</td>
-			<td>{{$acr->employee->shriName}}</td>
-			<td>{{$acr->employee_id}} </td>
-			<td>{{$acr->from_date}}</td>
-			<td>{{$acr->to_date }}</td>
-			<td>{{$acr->created_at->format('d M Y')}} </td>
-			<td>{{$acr->status()}}</td>
+			<td>{{$othersacr->employee->shriName}}</td>
+			<td>{{$othersacr->employee_id}} </td>
+			<td>@mkbdate($othersacr->from_date,'d M Y')</td>
+			<td>@mkbdate($othersacr->to_date,'d M Y')</td>
+			<td>{{$othersacr->created_at->format('d M Y')}} </td>
+			<td>{{$othersacr->status()}}</td>
 		</tr>
 		@endforeach
 
-		@foreach($reviewed as $acr)
+		@foreach($reviewed as $othersacr)
 		@php $n = $n + 1; @endphp
 		<tr>
 			<td>8.{{$n }}</td>
-			<td>{{$acr->employee->shriName}}</td>
-			<td>{{$acr->employee_id}} </td>
-			<td>{{$acr->from_date}}</td>
-			<td>{{$acr->to_date }}</td>
-			<td>{{$acr->created_at->format('d M Y')}} </td>
-			<td>{{$acr->status()}}</td>
+			<td>{{$othersacr->employee->shriName}}</td>
+			<td>{{$othersacr->employee_id}} </td>
+			<td>@mkbdate($othersacr->from_date,'d M Y')</td>
+			<td>@mkbdate($othersacr->to_date,'d M Y')</td>
+			<td>{{$othersacr->created_at->format('d M Y')}} </td>
+			<td>{{$othersacr->status()}}</td>
 		</tr>
 		@endforeach
 
-		@foreach($accepted as $acr)
+		@foreach($accepted as $othersacr)
 		@php $n = $n + 1; @endphp
 		<tr>
 			<td>8.{{$n }}</td>
-			<td>{{$acr->employee->shriName}}</td>
-			<td>{{$acr->employee_id}} </td>
-			<td>{{$acr->from_date}}</td>
-			<td>{{$acr->to_date }}</td>
-			<td>{{$acr->created_at->format('d M Y')}} </td>
-			<td>{{$acr->status()}}</td>
+			<td>{{$othersacr->employee->shriName}}</td>
+			<td>{{$othersacr->employee_id}} </td>
+			<td>@mkbdate($othersacr->from_date,'d M Y')</td>
+			<td>@mkbdate($othersacr->to_date,'d M Y')</td>
+			<td>{{$othersacr->created_at->format('d M Y')}} </td>
+			<td>{{$othersacr->status()}}</td>
 		</tr>
 		@endforeach
 		@if($n == 0 )
@@ -296,9 +299,7 @@ Comment By rejection authority : {{$acr->rejectionDetail->remark}}
 		@endif
 	</tbody>
 </table>
-<p>
-	9. Date of Filing Property Return for the Calender Year : @mkbdate($acr->property_filing_return_at,'d M Y')
-</p>
+<p> 9. Date of Filing Property Return for the Calender Year : @mkbdate($acr->property_filing_return_at,'d M Y') </p>
 </div>
 </div>
 @endsection

@@ -4,6 +4,118 @@
 		"selected_items":
 		[
 			[
+				"d",
+				"d-flex"
+			],
+			[
+				"car",
+				"card-header"
+			],
+			[
+				"foreac",
+				"foreach"
+			],
+			[
+				"text",
+				"text-center"
+			],
+			[
+				"employee",
+				"employee_name"
+			],
+			[
+				"cou",
+				"count()"
+			],
+			[
+				"un",
+				"unique"
+			],
+			[
+				"pul",
+				"pluck"
+			],
+			[
+				"bg",
+				"bg-danger"
+			],
+			[
+				"f",
+				"fw-bold"
+			],
+			[
+				"to",
+				"toArray"
+			],
+			[
+				"p",
+				"pluck"
+			],
+			[
+				"fw",
+				"fw-bold"
+			],
+			[
+				"fu",
+				"fun"
+			],
+			[
+				"fil",
+				"filter"
+			],
+			[
+				"appr",
+				"appraisal_note_1"
+			],
+			[
+				"ta",
+				"textarea"
+			],
+			[
+				"th",
+				"thead"
+			],
+			[
+				"te",
+				"text-center"
+			],
+			[
+				"in",
+				"in_array"
+			],
+			[
+				"for",
+				"foreach"
+			],
+			[
+				"ca",
+				"card-header"
+			],
+			[
+				"co",
+				"color"
+			],
+			[
+				"st",
+				"style"
+			],
+			[
+				"empl",
+				"employee_id"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"c",
+				"card"
+			],
+			[
+				"acr",
+				"acr_Types"
+			],
+			[
 				"em",
 				"employee"
 			],
@@ -18,10 +130,6 @@
 			[
 				"est",
 				"estimate_group_id"
-			],
-			[
-				"for",
-				"foreach〔keyword〕"
 			],
 			[
 				"nam",
@@ -44,10 +152,6 @@
 				"append"
 			],
 			[
-				"d",
-				"div"
-			],
-			[
 				"instance",
 				"instance_estimate_id"
 			],
@@ -62,559 +166,18 @@
 			[
 				"end",
 				"endif"
-			],
-			[
-				"st",
-				"strong"
-			],
-			[
-				"c",
-				"container"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "composer.json",
+			"file": "app/Http/Controllers/Employee/OthersAcr/AcrAcceptController.php",
 			"settings":
 			{
-				"buffer_size": 2462,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/Http/Controllers/Api/V1/Employee/LeaveApiController.php",
-			"redo_stack":
-			[
-				[
-					180,
-					1,
-					"insert",
-					{
-						"characters": "8"
-					},
-					"AQAAAKMGAAAAAAAAowYAAAAAAAABAAAAOA",
-					"AQAAAAAAAAABAAAApAwAAAAAAACkDAAAAAAAAAAAAAAAAAAA"
-				]
-			],
-			"settings":
-			{
-				"buffer_size": 3235,
+				"buffer_size": 2854,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-				[
-					3,
-					1,
-					"insert",
-					{
-						"characters": "\n"
-					},
-					"AwAAABYDAAAAAAAAFwMAAAAAAAAAAAAAFwMAAAAAAAAjAwAAAAAAAAAAAAAjAwAAAAAAACcDAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAFgMAAAAAAAAWAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					4,
-					1,
-					"insert",
-					{
-						"characters": "Leac"
-					},
-					"BAAAACcDAAAAAAAAKAMAAAAAAAAAAAAAKAMAAAAAAAApAwAAAAAAAAAAAAApAwAAAAAAACoDAAAAAAAAAAAAACoDAAAAAAAAKwMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAJwMAAAAAAAAnAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					5,
-					1,
-					"left_delete",
-					null,
-					"AQAAACoDAAAAAAAAKgMAAAAAAAABAAAAYw",
-					"AQAAAAAAAAABAAAAKwMAAAAAAAArAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					6,
-					1,
-					"insert",
-					{
-						"characters": "ve"
-					},
-					"AgAAACoDAAAAAAAAKwMAAAAAAAAAAAAAKwMAAAAAAAAsAwAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAKgMAAAAAAAAqAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					7,
-					1,
-					"insert",
-					{
-						"characters": "::upd"
-					},
-					"BQAAACwDAAAAAAAALQMAAAAAAAAAAAAALQMAAAAAAAAuAwAAAAAAAAAAAAAuAwAAAAAAAC8DAAAAAAAAAAAAAC8DAAAAAAAAMAMAAAAAAAAAAAAAMAMAAAAAAAAxAwAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAALAMAAAAAAAAsAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					8,
-					1,
-					"insert",
-					{
-						"characters": "a"
-					},
-					"AQAAADEDAAAAAAAAMgMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAMQMAAAAAAAAxAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					9,
-					1,
-					"insert_completion",
-					{
-						"completion": "update",
-						"format": "snippet",
-						"keep_prefix": false,
-						"must_insert": false,
-						"trigger": "update"
-					},
-					"AgAAAC4DAAAAAAAALgMAAAAAAAAEAAAAdXBkYS4DAAAAAAAANAMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAMgMAAAAAAAAyAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					10,
-					1,
-					"insert",
-					{
-						"characters": "Or"
-					},
-					"AgAAADQDAAAAAAAANQMAAAAAAAAAAAAANQMAAAAAAAA2AwAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAANAMAAAAAAAA0AwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					11,
-					1,
-					"insert",
-					{
-						"characters": "Create"
-					},
-					"BgAAADYDAAAAAAAANwMAAAAAAAAAAAAANwMAAAAAAAA4AwAAAAAAAAAAAAA4AwAAAAAAADkDAAAAAAAAAAAAADkDAAAAAAAAOgMAAAAAAAAAAAAAOgMAAAAAAAA7AwAAAAAAAAAAAAA7AwAAAAAAADwDAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAANgMAAAAAAAA2AwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					12,
-					1,
-					"insert_snippet",
-					{
-						"contents": "($0)"
-					},
-					"AQAAADwDAAAAAAAAPgMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAPAMAAAAAAAA8AwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					13,
-					1,
-					"insert_snippet",
-					{
-						"contents": "[$0]"
-					},
-					"AQAAAD0DAAAAAAAAPwMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAPQMAAAAAAAA9AwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					15,
-					1,
-					"insert",
-					{
-						"characters": ","
-					},
-					"AQAAAD8DAAAAAAAAQAMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAPwMAAAAAAAA/AwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					16,
-					1,
-					"insert_snippet",
-					{
-						"contents": "[$0]"
-					},
-					"AQAAAEADAAAAAAAAQgMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAQAMAAAAAAABAAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					19,
-					1,
-					"insert",
-					{
-						"characters": "\n$"
-					},
-					"BAAAABYDAAAAAAAAFwMAAAAAAAAAAAAAFwMAAAAAAAAjAwAAAAAAAAAAAAAjAwAAAAAAACcDAAAAAAAAAAAAACcDAAAAAAAAKAMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAFgMAAAAAAAAWAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					20,
-					1,
-					"insert",
-					{
-						"characters": "data="
-					},
-					"BQAAACgDAAAAAAAAKQMAAAAAAAAAAAAAKQMAAAAAAAAqAwAAAAAAAAAAAAAqAwAAAAAAACsDAAAAAAAAAAAAACsDAAAAAAAALAMAAAAAAAAAAAAALAMAAAAAAAAtAwAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAKAMAAAAAAAAoAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					21,
-					1,
-					"insert_snippet",
-					{
-						"contents": "[$0]"
-					},
-					"AQAAAC0DAAAAAAAALwMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAALQMAAAAAAAAtAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					22,
-					1,
-					"insert",
-					{
-						"characters": "\n"
-					},
-					"AgAAAC4DAAAAAAAALwMAAAAAAAAAAAAALwMAAAAAAAA/AwAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAALgMAAAAAAAAuAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					25,
-					1,
-					"insert",
-					{
-						"characters": ";"
-					},
-					"AQAAAEADAAAAAAAAQQMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAQAMAAAAAAABAAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					28,
-					1,
-					"insert",
-					{
-						"characters": "\n"
-					},
-					"AwAAAC4DAAAAAAAALwMAAAAAAAAAAAAALwMAAAAAAAA/AwAAAAAAAAAAAAA/AwAAAAAAAEMDAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAALgMAAAAAAAAuAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					36,
-					1,
-					"paste",
-					null,
-					"AQAAAEMDAAAAAAAATgMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAQwMAAAAAAABDAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					41,
-					1,
-					"insert_snippet",
-					{
-						"contents": "'${0:$SELECTION}'"
-					},
-					"AgAAAEMDAAAAAAAAQwMAAAAAAAALAAAAZW1wbG95ZWVfaWRDAwAAAAAAAFADAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAQwMAAAAAAABOAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					47,
-					1,
-					"insert",
-					{
-						"characters": "=>"
-					},
-					"AgAAAFADAAAAAAAAUQMAAAAAAAAAAAAAUQMAAAAAAABSAwAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAUAMAAAAAAABQAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					48,
-					1,
-					"paste",
-					null,
-					"AQAAAFIDAAAAAAAAcAMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAUgMAAAAAAABSAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					49,
-					1,
-					"insert",
-					{
-						"characters": ";"
-					},
-					"AQAAAHADAAAAAAAAcQMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAcAMAAAAAAABwAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					54,
-					1,
-					"left_delete",
-					null,
-					"AQAAAHADAAAAAAAAcAMAAAAAAAABAAAAOw",
-					"AQAAAAAAAAABAAAAcQMAAAAAAABxAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					55,
-					1,
-					"insert",
-					{
-						"characters": ","
-					},
-					"AQAAAHADAAAAAAAAcQMAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAcAMAAAAAAABwAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					58,
-					3,
-					"duplicate_line",
-					null,
-					"AwAAAHIDAAAAAAAAtQMAAAAAAAAAAAAAtQMAAAAAAAD4AwAAAAAAAAAAAAD4AwAAAAAAADsEAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAYwMAAAAAAABjAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					72,
-					1,
-					"paste",
-					null,
-					"BAAAAKYDAAAAAAAArQMAAAAAAAAAAAAArQMAAAAAAACtAwAAAAAAAAsAAABlbXBsb3llZV9pZIcDAAAAAAAAjgMAAAAAAAAAAAAAjgMAAAAAAACOAwAAAAAAAAsAAABlbXBsb3llZV9pZA",
-					"AQAAAAAAAAACAAAAhwMAAAAAAACSAwAAAAAAAAAAAAAAAPC/pgMAAAAAAACxAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					86,
-					1,
-					"paste",
-					null,
-					"BAAAAOEDAAAAAAAA6gMAAAAAAAAAAAAA6gMAAAAAAADqAwAAAAAAAAsAAABlbXBsb3llZV9pZMIDAAAAAAAAywMAAAAAAAAAAAAAywMAAAAAAADLAwAAAAAAAAsAAABlbXBsb3llZV9pZA",
-					"AQAAAAAAAAACAAAAwgMAAAAAAADNAwAAAAAAAAAAAAAAAPC/4QMAAAAAAADsAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					102,
-					1,
-					"paste",
-					null,
-					"BAAAACAEAAAAAAAAJwQAAAAAAAAAAAAAJwQAAAAAAAAnBAAAAAAAAAsAAABlbXBsb3llZV9pZAEEAAAAAAAACAQAAAAAAAAAAAAACAQAAAAAAAAIBAAAAAAAAAsAAABlbXBsb3llZV9pZA",
-					"AQAAAAAAAAACAAAAAQQAAAAAAAAMBAAAAAAAAAAAAAAAAPC/IAQAAAAAAAArBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					107,
-					1,
-					"insert",
-					{
-						"characters": ";"
-					},
-					"AQAAAGYEAAAAAAAAZwQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAZgQAAAAAAABmBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					121,
-					1,
-					"duplicate_line",
-					null,
-					"AQAAACcEAAAAAAAAYgQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAABgQAAAAAAAAGBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					122,
-					1,
-					"duplicate_line",
-					null,
-					"AQAAAGIEAAAAAAAAnQQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAQQQAAAAAAABBBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					127,
-					1,
-					"insert",
-					{
-						"characters": "id"
-					},
-					"AwAAAHcEAAAAAAAAeAQAAAAAAAAAAAAAeAQAAAAAAAB4BAAAAAAAAAcAAAB0b19kYXRleAQAAAAAAAB5BAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAdwQAAAAAAAB+BAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					132,
-					1,
-					"insert",
-					{
-						"characters": "id"
-					},
-					"AwAAAI0EAAAAAAAAjgQAAAAAAAAAAAAAjgQAAAAAAACOBAAAAAAAAAcAAAB0b19kYXRljgQAAAAAAACPBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAjQQAAAAAAACUBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					137,
-					1,
-					"right_delete",
-					null,
-					"AQAAADoEAAAAAAAAOgQAAAAAAAAnAAAAICd0b19kYXRlJz0+JHJlcXVlc3QtPmlucHV0KCd0b19kYXRlJyks",
-					"AQAAAAAAAAABAAAAOgQAAAAAAABhBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					140,
-					1,
-					"right_delete",
-					null,
-					"AQAAACYEAAAAAAAAJgQAAAAAAAABAAAACg",
-					"AQAAAAAAAAABAAAAJgQAAAAAAAAmBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					146,
-					1,
-					"paste",
-					null,
-					"AgAAAKQEAAAAAAAAqQQAAAAAAAAAAAAAqQQAAAAAAACpBAAAAAAAAAIAAABbXQ",
-					"AQAAAAAAAAABAAAApAQAAAAAAACmBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					152,
-					1,
-					"paste",
-					{
-						"event":
-						{
-							"modifier_keys":
-							{
-							},
-							"x": 648.845153809,
-							"y": 526.051147461
-						}
-					},
-					"AgAAAKoEAAAAAAAArwQAAAAAAAAAAAAArwQAAAAAAACvBAAAAAAAAAIAAABbXQ",
-					"AQAAAAAAAAABAAAAqgQAAAAAAACsBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					160,
-					1,
-					"right_delete",
-					null,
-					"AQAAAKQEAAAAAAAApAQAAAAAAAAFAAAAJGRhdGE",
-					"AQAAAAAAAAABAAAApAQAAAAAAACpBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					161,
-					1,
-					"insert",
-					{
-						"characters": "[]"
-					},
-					"AgAAAKQEAAAAAAAApQQAAAAAAAAAAAAApQQAAAAAAACmBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAApAQAAAAAAACkBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					163,
-					1,
-					"paste",
-					null,
-					"AQAAAKUEAAAAAAAAwAQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAApQQAAAAAAAClBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					170,
-					1,
-					"toggle_comment",
-					{
-						"block": true
-					},
-					"AgAAABMGAAAAAAAAFQYAAAAAAAAAAAAA2QQAAAAAAADbBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA2QQAAAAAAAATBgAAAAAAAAAAAAAAAPC/"
-				]
-			]
-		},
-		{
-			"file": "app/Http/Controllers/Api/V1/Employee/EducationApiController.php",
-			"settings":
-			{
-				"buffer_size": 3535,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			},
-			"undo_stack":
-			[
-				[
-					3,
-					1,
-					"insert",
-					{
-						"characters": "\n"
-					},
-					"AwAAAAQDAAAAAAAABQMAAAAAAAAAAAAABQMAAAAAAAARAwAAAAAAAAAAAAARAwAAAAAAABUDAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAABAMAAAAAAAAEAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					4,
-					1,
-					"paste",
-					null,
-					"AQAAABUDAAAAAAAAawQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAFQMAAAAAAAAVAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					22,
-					1,
-					"paste",
-					null,
-					"BAAAAJADAAAAAAAAnQMAAAAAAAAAAAAAnQMAAAAAAACdAwAAAAAAAAcAAAB0eXBlX2lkdQMAAAAAAACCAwAAAAAAAAAAAACCAwAAAAAAAIIDAAAAAAAABwAAAHR5cGVfaWQ",
-					"AQAAAAAAAAACAAAAdQMAAAAAAAB8AwAAAAAAAAAAAAAAAPC/kAMAAAAAAACXAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					38,
-					1,
-					"paste",
-					null,
-					"BAAAANkDAAAAAAAA3QMAAAAAAAAAAAAA3QMAAAAAAADdAwAAAAAAAAkAAABmcm9tX2RhdGW8AwAAAAAAAMADAAAAAAAAAAAAAMADAAAAAAAAwAMAAAAAAAAJAAAAZnJvbV9kYXRl",
-					"AQAAAAAAAAACAAAAvAMAAAAAAADFAwAAAAAAAAAAAAAAAPC/2QMAAAAAAADiAwAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					56,
-					1,
-					"paste",
-					null,
-					"BAAAAAwEAAAAAAAAIQQAAAAAAAAAAAAAIQQAAAAAAAAhBAAAAAAAAAcAAAB0b19kYXRl8QMAAAAAAAAGBAAAAAAAAAAAAAAGBAAAAAAAAAYEAAAAAAAABwAAAHRvX2RhdGU",
-					"AQAAAAAAAAACAAAA8QMAAAAAAAD4AwAAAAAAAAAAAAAAAPC/DAQAAAAAAAATBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					59,
-					1,
-					"insert",
-					{
-						"characters": "\n"
-					},
-					"AgAAAIkEAAAAAAAAigQAAAAAAAAAAAAAigQAAAAAAACaBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAiQQAAAAAAACJBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					60,
-					1,
-					"paste",
-					null,
-					"AQAAAJoEAAAAAAAA1QQAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAmgQAAAAAAACaBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					72,
-					1,
-					"paste",
-					null,
-					"AgAAAJoEAAAAAAAApwQAAAAAAAAAAAAApwQAAAAAAACnBAAAAAAAAAUAAABMZWF2ZQ",
-					"AQAAAAAAAAABAAAAmgQAAAAAAACfBAAAAAAAAAAAAAAAAPC/"
-				],
-				[
-					75,
-					1,
-					"toggle_comment",
-					{
-						"block": true
-					},
-					"AgAAAJ0GAAAAAAAAnwYAAAAAAAAAAAAA7QQAAAAAAADvBAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAA7QQAAAAAAACdBgAAAAAAAAAAAAAAAPC/"
-				]
-			]
-		},
-		{
-			"file": "app/Models/EeOffice.php",
-			"settings":
-			{
-				"buffer_size": 5978,
-				"line_ending": "Unix"
+				"line_ending": "Windows"
 			},
 			"undo_stack":
 			[
@@ -705,16 +268,109 @@
 	},
 	"expanded_folders":
 	[
-		"/var/www/444",
-		"/var/www/444/app",
-		"/var/www/444/app/Http",
-		"/var/www/444/app/Http/Controllers",
-		"/var/www/444/app/Http/Controllers/Api",
-		"/var/www/444/app/Http/Controllers/Api/V1",
-		"/var/www/444/app/Http/Controllers/Api/V1/Employee"
+		"/C/wamp64/www/444",
+		"/C/wamp64/www/444/app",
+		"/C/wamp64/www/444/app/Http",
+		"/C/wamp64/www/444/app/Http/Controllers",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee/Acr",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee/OthersAcr",
+		"/C/wamp64/www/444/resources",
+		"/C/wamp64/www/444/resources/views",
+		"/C/wamp64/www/444/resources/views/employee",
+		"/C/wamp64/www/444/resources/views/employee/acr",
+		"/C/wamp64/www/444/resources/views/employee/acr/form",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/ifms_ministerial",
+		"/C/wamp64/www/444/resources/views/employee/other_acr",
+		"/C/wamp64/www/444/resources/views/errors",
+		"/C/wamp64/www/444/routes"
 	],
 	"file_history":
 	[
+		"/C/wamp64/www/444/routes/web_acr.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/view_part1.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/create.blade.php",
+		"/C/wamp64/www/444/app/Models/Acr/Acr.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Admin/UsersController.php",
+		"/C/wamp64/www/444/routes/web.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee/Acr/AcrController.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee/Acr/AcrAnalysisController.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/daysChart.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/appraisal2.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/appraisal.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/ifms_ministerial/review_create.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/other_acr/accept_acr.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/ifms_ministerial/report_create.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/other_acr/index.blade.php",
+		"/C/wamp64/www/444/app/Http/Controllers/TempController.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee/OthersAcr/AcrReportController.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee/OthersAcr/AcrReviewController.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee/OthersAcr/AcrAcceptController.php",
+		"/C/wamp64/www/444/app/Models/Hrms/Employee.php",
+		"/C/wamp64/www/444/resources/views/employee/other_acr/report_acr.blade.php",
+		"/C/wamp64/www/444/config/acr/basic.php",
+		"/C/wamp64/www/444/_ide_helper.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/ifms_ministerial/report_review_show.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/edit.blade.php",
+		"/C/wamp64/www/444/resources/lang/hi/acr.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/ifms_ministerial/user_create.blade.php",
+		"/C/wamp64/www/444/resources/lang/en/acr.php",
+		"/C/wamp64/www/444/resources/views/layouts/_commonpartials/language_switcher.blade.php",
+		"/C/wamp64/www/444/bootstrap/app.php",
+		"/C/wamp64/www/444/database/seeds/RoleUserTableSeeder.php",
+		"/C/wamp64/www/444/app/Models/Role.php",
+		"/C/wamp64/www/444/app/Traits/Acr/AcrPdfArrangeTrait.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/appraisalShow.blade.php",
+		"/C/wamp64/www/444/app/Models/User.php",
+		"/C/Users/M S PANWAR/Desktop/111111.kml",
+		"/C/Users/M S PANWAR/Desktop/saini/final.kml",
+		"/C/Users/M S PANWAR/Desktop/CA.kml",
+		"/C/wamp64/www/444/resources/views/employee/acr/trainningRequirementChart.blade.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee/OthersAcr/AcrInboxController.php",
+		"/C/Users/M S PANWAR/Desktop/hrms.sql",
+		"/C/wamp64/www/444/resources/views/layouts/type200/main.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/add_officers.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/trainningRequirementDetail.blade.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee/Acr/AcrFormController.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/my_acr.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/difficulties.blade.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee/Acr/AcrReportsController.php",
+		"/C/wamp64/www/444/storage/logs/laravel.log",
+		"/C/wamp64/www/444/resources/views/layouts/type200/_commonpartials/_sidebarmenu_acr.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/pdfcoverpage.blade.php",
+		"/C/wamp64/www/444/app/Jobs/Acr/MakeAcrPdfOnSubmit.php",
+		"/C/wamp64/www/444/resources/views/employee/other_acr/view_accepted_acr.blade.php",
+		"/C/wamp64/www/444/resources/views/layouts/type200/pdf.blade.php",
+		"/C/wamp64/www/444/vendor/barryvdh/laravel-dompdf/src/Facade/Pdf.php",
+		"/C/wamp64/www/444/config/site.php",
+		"/C/wamp64/www/444/resources/views/layouts/type200/_commonpartials/_body.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/add_Appreciation.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/create1.blade.php",
+		"/C/wamp64/www/444/.env",
+		"/C/wamp64/www/udesPwd/.env",
+		"/C/wamp64/www/444/resources/views/managedocuments/create.blade.php",
+		"/C/Users/M S PANWAR/Desktop/result.sql",
+		"/C/Users/M S PANWAR/Desktop/home-m2i1ed8wychp-public_html.json",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/single_page/user_create.blade.php",
+		"/C/Users/M S PANWAR/Desktop/index.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/single_page/report_create.blade.php",
+		"/C/Users/M S PANWAR/Desktop/1234.sql",
+		"/C/wamp64/www/444/resources/views/employee/acr/form/create3.blade.php",
+		"/C/wamp64/www/444/app/Traits/Acr/AcrFormTrait.php",
+		"/C/wamp64/www/444/app/Models/Employee.php",
+		"/C/wamp64/www/444/app/Models/Acr/EmpProposedTraining.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/trainnings.blade.php",
+		"/C/wamp64/www/444/app/Models/Acr/AcrMasterTraining.php",
+		"/C/wamp64/www/444/resources/views/employee/others_hr_grievance/addDraft.blade.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/employee_acr.blade.php",
+		"/C/wamp64/www/444/app/Models/EeOffice.php",
+		"/C/wamp64/www/444/resources/views/employee/acr/edit_defaulters_acr.blade.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Employee/OthersAcr/AcrDefaulterController.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Api/V1/Employee/EducationApiController.php",
+		"/C/wamp64/www/444/app/Http/Controllers/Api/V1/Employee/LeaveApiController.php",
+		"/C/wamp64/www/444/composer.json",
+		"/C/wamp64/www/444/resources/views/errors/layout.blade.php",
+		"/C/wamp64/www/html/udem/index.php",
 		"/var/www/444/app/Http/Kernel.php",
 		"/var/www/444/app/Models/User.php",
 		"/var/www/444/composer.json",
@@ -758,101 +414,34 @@
 		"/var/www/222/composer.json",
 		"/var/www/html/hrms/index.php",
 		"/var/www/222/app/Http/Controllers/Api/V1/Admin/UsersApiController.php",
-		"/var/www/222/routes/api.php",
-		"/var/www/222/app/Http/Resources/Admin/UserResource.php",
-		"/var/www/222/app/Http/Resources/Admin/WorkResource.php",
-		"/var/www/222/app/Http/Controllers/Api/V1/Admin/WorkApiController.php",
-		"/var/www/222/app/Providers/RouteServiceProvider.php",
-		"/media/dell/datadrive/l/[ FreeCourseWeb.com ] Udemy - Vue 3 and Laravel - Admin App, Vuex, Typescript, Docker/How to Support [ FreeCourseWeb.com ] for Free.txt",
-		"/media/dell/datadrive/l/[ FreeCourseWeb.com ] Udemy - Vue 3 and Laravel - Admin App, Vuex, Typescript, Docker/Passwords - only if needed when extracting.txt",
-		"/media/dell/datadrive/l/copy_syno_learning/Learn Laravel 8 API Development Tutorial Step by Step/4. Phase #2 - API Development Using Sanctum Authentication/14.1 apiphase2/apiphase2/routes/api.php",
-		"/var/www/222/resources/views/track/estimate/view.blade.php",
-		"/var/www/222/resources/views/track/estimate/updateEstimate.blade.php",
-		"/var/www/222/resources/views/track/estimate/partial/_EstimateInfo.blade.php",
-		"/var/www/222/resources/views/track/estimate/efc/show.blade.php",
-		"/var/www/222/resources/views/track/estimate/efc/index.blade.php",
-		"/var/www/222/app/Http/Controllers/Track/EfcReportController.php",
-		"/var/www/222/storage/logs/laravel.log",
-		"/home/dell/Desktop/Jagannatha Hora.desktop",
-		"/var/www/222/app/Models/Track/Instance.php",
-		"/var/www/222/app/Models/Track/InstanceEstimate.php",
-		"/var/www/222/app/Http/Controllers/TempController.php",
-		"/var/www/222/resources/views/components/track/instance-estimate-header.blade.php",
-		"/var/www/222/app/Http/Controllers/Track/InstanceController.php",
-		"/var/www/222/routes/web_instance.php",
-		"/var/www/222/app/Models/Im/Village.php",
-		"/var/www/222/app/Models/Im/Ulb.php",
-		"/tmp/fz3temp-2/laravel.log",
-		"/var/www/222/app/Http/Controllers/Ajax/AjaxFetchDropDownController.php",
-		"/var/www/222/resources/views/partials/js/_getFeatureListAsPerSelectedGroupJs.blade.php",
-		"/var/www/222/resources/views/track/estimate/feature/create.blade.php",
-		"/var/www/222/resources/views/track/estimate/feature/edit.blade.php",
-		"/var/www/222/app/Http/Requests/Track/StoreEstimateFeatureRequest.php",
-		"/var/www/222/resources/views/track/estimate/feature/index.blade.php",
-		"/var/www/222/app/Http/Controllers/Track/EstimateUlbController.php",
-		"/var/www/222/app/Http/Controllers/Track/EstimateVillageController.php",
-		"/var/www/222/resources/views/track/estimate/ulb.blade.php",
-		"/var/www/222/resources/views/layouts/_commonpartials/_breadcrumb.blade.php",
-		"/var/www/222/resources/views/track/estimate/village.blade.php",
-		"/var/www/222/resources/views/layouts/_commonpartials/_ifIcon.blade.php",
-		"/var/www/222/app/Providers/AppServiceProvider.php",
-		"/var/www/222/resources/views/layouts/_commonpartials/js/_select2.blade.php",
-		"/var/www/222/resources/views/layouts/type200/main.blade.php",
-		"/var/www/222/app/Models/Block.php",
-		"/var/www/222/resources/views/partials/js/_makeDropDown.blade.php",
-		"/var/www/222/app/Models/Patch/RoadPatchAchivement.php",
-		"/var/www/222/app/Models/Patch/RoadPatchTarget.php",
-		"/var/www/222/app/Http/Controllers/Patch/RoadPatchTargetController.php",
-		"/var/www/222/app/Models/Im/EeOfficeSegment.php",
-		"/var/www/222/app/Models/im/EeOfficeSegment.php",
-		"/var/www/222/app/Http/Controllers/Track/EstimateGroupController.php",
-		"/var/www/222/app/Http/Controllers/Track/EstimateFeatureController.php",
-		"/var/www/222/app/Models/Track/EstimateFeature.php",
-		"/var/www/222/resources/views/track/estimate/group/edit.blade.php",
-		"/var/www/222/resources/views/track/estimate/group/index.blade.php",
-		"/var/www/222/app/Models/Track/EstimateDocument.php",
-		"/var/www/222/app/Models/Track/EstimateGroup.php",
-		"/var/www/222/resources/views/track/estimate/group/create.blade.php",
-		"/var/www/222/app/Http/Requests/Track/StoreUpdateEstimateGroupRequest.php",
-		"/var/www/222/app/Http/Requests/Track/StoreEstimateGroupRequest.php",
-		"/var/www/222/app/Models/Track/EstimateFeatureGroup.php",
-		"/var/www/222/app/Http/Middleware/ApprovalMiddleware.php",
-		"/var/www/222/app/Http/Middleware/AuthGates.php",
-		"/var/www/222/app/Http/Controllers/Auth/LoginController.php",
-		"/var/www/222/vendor/laravel/ui/auth-backend/AuthenticatesUsers.php",
-		"/var/www/222/resources/views/employee/auth/login.blade.php",
-		"/var/www/222/vendor/laravel/ui/auth-backend/ThrottlesLogins.php",
-		"/var/www/222/app/Http/Controllers/Employee/HomeController.php",
-		"/var/www/222/app/Http/Controllers/Employee/Auth/LoginController.php",
-		"/var/www/222/resources/views/employee/dashboard.blade.php",
-		"/var/www/222/app/Models/Employee.php",
-		"/var/www/222/config/auth.php",
-		"/var/www/222/resources/views/layouts/_commonpartials/_logoutform_foremployee.blade.php",
-		"/var/www/222/vendor/laravel/framework/src/Illuminate/Auth/SessionGuard.php",
-		"/var/www/222/app/Http/Kernel.php",
-		"/var/www/222/app/Models/Admin.php",
-		"/var/www/222/app/Http/Controllers/Auth/RegisterController.php",
-		"/var/www/222/vendor/laravel/ui/auth-backend/RedirectsUsers.php",
-		"/var/www/222/resources/views/auth/login.blade.php",
-		"/var/www/222/vendor/laravel/ui/tests/AuthBackend/AuthenticatesUsersTest.php",
-		"/var/www/222/app/Http/Requests/MassDestroyAlertProjectRequest.php",
-		"/home/dell/Desktop/mainly i hv interest in",
-		"/var/www/222/resources/lang/en/global.php",
-		"/var/www/222/app/Http/Middleware/VerificationMiddleware.php",
-		"/var/www/222/resources/views/auth/adminLogin.blade.php",
-		"/var/www/222/database/migrations/2022_01_19_082846_create_admins_table.php",
-		"/var/www/222/app/Exceptions/Handler.php",
-		"/var/www/222/app/Providers/AuthServiceProvider.php"
+		"/var/www/222/routes/api.php"
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 72.0
 	},
 	"find_in_files":
 	{
-		"height": 128.0,
+		"height": 170.0,
 		"where_history":
 		[
+			"C:\\wamp64\\www\\444,<project filters>",
+			"C:\\wamp64\\www\\444\\routes,<project filters>",
+			"C:\\wamp64\\www\\444,<project filters>",
+			"C:\\wamp64\\www\\444\\resources\\views,<project filters>",
+			"C:\\wamp64\\www\\444\\app\\Http\\Controllers\\Employee,<project filters>",
+			"C:\\wamp64\\www\\444\\app\\Http\\Controllers\\Employee\\Acr,<project filters>",
+			"C:\\wamp64\\www\\444\\app\\Http\\Controllers\\Employee,<project filters>",
+			"C:\\wamp64\\www\\444,<project filters>",
+			"C:\\wamp64\\www\\444\\resources\\views,<project filters>",
+			"C:\\wamp64\\www\\444,<project filters>",
+			"C:\\wamp64\\www\\444\\app\\Http\\Controllers,<project filters>",
+			"C:\\wamp64\\www\\444,<project filters>",
+			"C:\\wamp64\\www\\444\\app\\Http,<project filters>",
+			"C:\\wamp64\\www\\444,<project filters>",
+			"C:\\wamp64\\www\\444\\app\\Models,<project filters>",
+			"C:\\wamp64\\www\\444\\resources\\views,<project filters>",
+			"C:\\wamp64\\www\\444,<project filters>",
 			"/var/www/444/, -*.log, -*.sqlite3, -*.gitignore, -bootstrap/, -database/, -node_modules/, -public/, -storage/, -test/"
 		]
 	},
@@ -861,6 +450,109 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			".view_part1",
+			"AcrType",
+			"OfficeList",
+			"OfficeListAsPerOfficeTypeId",
+			"getOfficeListAsPerOfficeTypeId",
+			"getOfficesfromOfficeType",
+			"ajax",
+			"ajex",
+			"prepend",
+			"Part - IV ( Assessment by the Accepting Authority)",
+			"log",
+			"dispatch(new",
+			"sub",
+			"use car",
+			"appraisalShow",
+			".apraisalShow",
+			"exceptional_reporting_marks",
+			"form.appraisal",
+			".appraisal",
+			"appraisal",
+			".appraisal",
+			"CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
+			"CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;",
+			";\n",
+			"CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci",
+			"training",
+			"trai",
+			"top_training",
+			"('');",
+			"trainningRequirementChart",
+			"}\n",
+			"trainningRequirementChart",
+			"log::info",
+			"diff",
+			"train",
+			".difficulties",
+			"form",
+			"submi",
+			"pdf",
+			"jpg",
+			".jpg",
+			"Route::resource",
+			"\n\t\t<tr>\n\t\t\t<td>5.1 Present Pay Scale :-</td>\n\t\t\t<td> {{$acr->scale}} </td>\n\t\t</tr>",
+			"$acr->isIfmsClerk",
+			"acr.basic.acrIfmsFormat",
+			"Appreciation",
+			"Appreciation / Honors during the period of appraisal from the department",
+			"ifms",
+			"Part - IV ( Assessment by the Accepting Authority)",
+			"reportingMarks",
+			"other",
+			"this->val",
+			"create1",
+			"acr.create1",
+			"acr",
+			"ste",
+			"two",
+			"good",
+			"outst",
+			"putstan",
+			"report",
+			"report_on",
+			"ifms",
+			"data",
+			"two",
+			"appraisal1",
+			"isTwo",
+			"Officer has been Added to ACR Successfully...",
+			"isTwoStep",
+			"sub",
+			"config",
+			"conf",
+			"create",
+			"Self-Appraisal Not Filled for this ACR",
+			"is_defaulter",
+			"minist",
+			"Self-Appraisal Not Filled for this ACR",
+			"{{$acr->id}}",
+			"acr.form.storeSinglePageAcr",
+			"create1",
+			"defineAcrGroup",
+			"trai",
+			"empl",
+			"EmpProposedTraining",
+			"trainnings",
+			"photothumb",
+			"title",
+			"AcrType",
+			"difficulties",
+			"difficultie",
+			"officeacrs",
+			">education as $education",
+			"part1",
+			"acr.employee_acr",
+			"Acknowledge",
+			"Achnowledge",
+			"achnowledge",
+			"acrs",
+			"emp",
+			"empl",
+			"$employee->education",
+			"Log::info",
+			"log",
 			"updateOrCreate",
 			"job_id",
 			"checkEmployeeIdExist",
@@ -875,6 +567,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"CHARSET=utf8mb3 COLLATE=utf8_unicode_ci",
+			"DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+			"data"
 		],
 		"reverse": false,
 		"scrollbar_highlights": true,
@@ -891,484 +586,33 @@
 			[
 				{
 					"buffer": 0,
-					"file": "composer.json",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2462,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								579,
-								595
-							]
-						],
-						"settings":
-						{
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-									"1":
-									[
-										595,
-										596
-									]
-								},
-								"icon":
-								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/double_quote.png",
-										"region.greenish"
-									]
-								},
-								"open":
-								{
-									"1":
-									[
-										578,
-										579
-									]
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content"
-							],
-							"syntax": "Packages/JSON/JSON.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/Http/Controllers/Api/V1/Employee/LeaveApiController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3235,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								556,
-								490
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-									"1":
-									[
-										3233,
-										3234
-									]
-								},
-								"icon":
-								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"region.purplish"
-									]
-								},
-								"open":
-								{
-									"1":
-									[
-										401,
-										402
-									]
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content"
-							],
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 475.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "app/Http/Controllers/Api/V1/Employee/EducationApiController.php",
+					"file": "app/Http/Controllers/Employee/OthersAcr/AcrAcceptController.php",
 					"selected": true,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3535,
+						"buffer_size": 2854,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								796,
-								796
+								1341,
+								1341
 							]
 						],
 						"settings":
 						{
-							"auto_complete": false,
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-									"1":
-									[
-										1159,
-										1160
-									]
-								},
-								"icon":
-								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/square_bracket.png",
-										"region.bluish"
-									]
-								},
-								"open":
-								{
-									"1":
-									[
-										795,
-										796
-									]
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content"
-							],
 							"syntax": "Packages/PHP/PHP.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 450.0,
+						"translation.y": 657.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"stack_multiselect": false,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/Models/EeOffice.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5978,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5707,
-								5707
-							]
-						],
-						"settings":
-						{
-							"bracket_highlighter.busy": false,
-							"bracket_highlighter.locations":
-							{
-								"close":
-								{
-									"1":
-									[
-										5957,
-										5958
-									]
-								},
-								"icon":
-								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"region.purplish"
-									]
-								},
-								"open":
-								{
-									"1":
-									[
-										5705,
-										5706
-									]
-								},
-								"unmatched":
-								{
-								}
-							},
-							"bracket_highlighter.regions":
-							[
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content"
-							],
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3750.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
 					"stack_multiselect": false,
 					"type": "text"
 				}
@@ -1381,7 +625,7 @@
 	},
 	"input":
 	{
-		"height": 48.0
+		"height": 72.0
 	},
 	"layout":
 	{
@@ -1428,32 +672,240 @@
 		"selected_items":
 		[
 			[
-				"comp",
-				"composer.json"
+				"acr",
+				"app\\Models\\Acr\\Acr.php"
 			],
 			[
 				"web",
-				"routes/web.php"
+				"routes\\web_acr.php"
+			],
+			[
+				"employee/acr/trainningRequirementDetail.blade.php",
+				"resources\\views\\employee\\acr\\trainningRequirementDetail.blade.php"
+			],
+			[
+				"acrAnal",
+				"app\\Http\\Controllers\\Employee\\Acr\\AcrAnalysisController.php"
+			],
+			[
+				"emp",
+				"app\\Models\\Hrms\\Employee.php"
+			],
+			[
+				"temp",
+				"app\\Http\\Controllers\\TempController.php"
+			],
+			[
+				"basic",
+				"config\\acr\\basic.php"
+			],
+			[
+				"employee/other_acr/index.blade.php",
+				"resources\\views\\employee\\other_acr\\index.blade.php"
+			],
+			[
+				"layouts/_commonpartials/language_switcher.blade.php",
+				"resources\\views\\layouts\\_commonpartials\\language_switcher.blade.php"
+			],
+			[
+				"creat",
+				"resources\\views\\employee\\acr\\create.blade.php"
+			],
+			[
+				"app.php",
+				"bootstrap\\app.php"
+			],
+			[
+				"user",
+				"app\\Models\\User.php"
+			],
+			[
+				"RoleUser",
+				"database\\seeds\\RoleUserTableSeeder.php"
+			],
+			[
+				"acr/basic",
+				"config\\acr\\basic.php"
+			],
+			[
+				"employee/acr/add_officers.blade.php",
+				"resources\\views\\employee\\acr\\add_officers.blade.php"
+			],
+			[
+				"layouts/type200/main.blade.php",
+				"resources\\views\\layouts\\type200\\main.blade.php"
+			],
+			[
+				"employee/acr/trainningRequirementChart.blade.php",
+				"resources\\views\\employee\\acr\\trainningRequirementChart.blade.php"
+			],
+			[
+				"lara",
+				"storage\\logs\\laravel.log"
+			],
+			[
+				"sidebar",
+				"resources\\views\\layouts\\type200\\_commonpartials\\_sidebarmenu_acr.blade.php"
+			],
+			[
+				"diff",
+				"resources\\views\\employee\\acr\\difficulties.blade.php"
+			],
+			[
+				"create",
+				"resources\\views\\employee\\acr\\create.blade.php"
+			],
+			[
+				"employee/acr/my_acr.blade.php",
+				"resources\\views\\employee\\acr\\my_acr.blade.php"
+			],
+			[
+				"acrfor",
+				"app\\Http\\Controllers\\Employee\\Acr\\AcrFormController.php"
+			],
+			[
+				"employee/acr/pdfcoverpage.blade.php",
+				"resources\\views\\employee\\acr\\pdfcoverpage.blade.php"
+			],
+			[
+				"tem",
+				"app\\Http\\Controllers\\TempController.php"
+			],
+			[
+				"site",
+				"config\\site.php"
+			],
+			[
+				"pdf",
+				"vendor\\barryvdh\\laravel-dompdf\\src\\Facade\\Pdf.php"
+			],
+			[
+				"employee/acr/form/ifms_ministerial/review_create.blade.php",
+				"resources\\views\\employee\\acr\\form\\ifms_ministerial\\review_create.blade.php"
+			],
+			[
+				"employee/acr/form/ifms_ministerial/report_create.blade.php",
+				"resources\\views\\employee\\acr\\form\\ifms_ministerial\\report_create.blade.php"
+			],
+			[
+				"acrrepo",
+				"app\\Http\\Controllers\\Employee\\Acr\\AcrReportsController.php"
+			],
+			[
+				"employee/acr/form/ifms_ministerial/user_create.blade.php",
+				"resources\\views\\employee\\acr\\form\\ifms_ministerial\\user_create.blade.php"
+			],
+			[
+				"create1",
+				"resources\\views\\employee\\acr\\form\\create1.blade.php"
+			],
+			[
+				"acrre",
+				"app\\Http\\Controllers\\Employee\\Acr\\AcrReportsController.php"
+			],
+			[
+				"review_create.blade.php",
+				"resources\\views\\employee\\acr\\form\\ifms_ministerial\\review_create.blade.php"
+			],
+			[
+				"AcrController",
+				"app\\Http\\Controllers\\Employee\\Acr\\AcrController.php"
+			],
+			[
+				".env",
+				".env"
+			],
+			[
+				"CRETA",
+				"resources\\views\\employee\\acr\\create.blade.php"
+			],
+			[
+				"config/acr.php",
+				"config\\acr\\basic.php"
+			],
+			[
+				"employee/acr/form/create1.blade.php",
+				"resources\\views\\employee\\acr\\form\\create1.blade.php"
+			],
+			[
+				"employee/acr/form/single_page/report_create.blade.php",
+				"resources\\views\\employee\\acr\\form\\single_page\\report_create.blade.php"
+			],
+			[
+				"appr",
+				"resources\\views\\employee\\acr\\form\\appraisal.blade.php"
+			],
+			[
+				"employee/acr/create.blade.php",
+				"resources\\views\\employee\\acr\\create.blade.php"
+			],
+			[
+				"employee/acr/form/single_page/user_create.blade.php",
+				"resources\\views\\employee\\acr\\form\\single_page\\user_create.blade.php"
+			],
+			[
+				"AcrAnalysisController",
+				"app\\Http\\Controllers\\Employee\\Acr\\AcrAnalysisController.php"
+			],
+			[
+				"employ",
+				"app\\Models\\Hrms\\Employee.php"
+			],
+			[
+				"employee/acr/employee_acr.blade.php",
+				"resources\\views\\employee\\acr\\employee_acr.blade.php"
+			],
+			[
+				"create.blade.",
+				"resources\\views\\managedocuments\\create.blade.php"
+			],
+			[
+				"draft",
+				"resources\\views\\employee\\others_hr_grievance\\addDraft.blade.php"
+			],
+			[
+				"employee/acr/view_part1.blade.php",
+				"resources\\views\\employee\\acr\\view_part1.blade.php"
+			],
+			[
+				"web_a",
+				"routes\\web_acr.php"
+			],
+			[
+				"acrcreate",
+				"resources\\views\\employee\\acr\\create.blade.php"
+			],
+			[
+				"employee/acr/edit_defaulters_acr.blade.php",
+				"resources\\views\\employee\\acr\\edit_defaulters_acr.blade.php"
+			],
+			[
+				"def",
+				"app\\Http\\Controllers\\Employee\\OthersAcr\\AcrDefaulterController.php"
+			],
+			[
+				"lay",
+				"resources\\views\\errors\\layout.blade.php"
+			],
+			[
+				"larve",
+				"storage\\logs\\laravel.log"
+			],
+			[
+				"defaulter",
+				"app\\Http\\Controllers\\Employee\\OthersAcr\\AcrDefaulterController.php"
+			],
+			[
+				"comp",
+				"composer.json"
 			],
 			[
 				"composer",
 				"composer.json"
 			],
 			[
-				"user",
-				"app/Models/User.php"
-			],
-			[
 				"Kernel",
 				"app/Http/Kernel.php"
-			],
-			[
-				"emp",
-				"app/Models/Employee.php"
-			],
-			[
-				"lara",
-				"storage/logs/laravel-2022-02-23.log"
 			],
 			[
 				"larav",
@@ -1496,20 +948,12 @@
 				"storage/logs/laravel.log"
 			],
 			[
-				"site",
-				"config/site.php"
-			],
-			[
 				"cron",
 				"app/Http/Controllers/CronTasksCOntroller.php"
 			],
 			[
 				"co",
 				"composer.json"
-			],
-			[
-				"temp",
-				"app/Http/Controllers/TempController.php"
 			],
 			[
 				"routeserv",
@@ -1574,10 +1018,6 @@
 			[
 				"vill",
 				"app/Models/Im/Village.php"
-			],
-			[
-				"layouts/type200/main.blade.php",
-				"resources/views/layouts/type200/main.blade.php"
 			],
 			[
 				"l",
@@ -1742,170 +1182,6 @@
 			[
 				"instance-estimate-header.blade.php",
 				"resources/views/components/track/instance-estimate-header.blade.php"
-			],
-			[
-				"estimate",
-				"app/Http/Controllers/Track/UpdateEstimateController.php"
-			],
-			[
-				"estimatedoc",
-				"app/Http/Controllers/Track/InstanceEstimateDocController.php"
-			],
-			[
-				"all_estimates.blade",
-				"resources/views/track/estimate/all_estimates.blade.php"
-			],
-			[
-				".env",
-				".env"
-			],
-			[
-				"layouts/admin.blade.php",
-				"resources/views/layouts/admin.blade.php"
-			],
-			[
-				"layouts/type100/main.blade.php",
-				"resources/views/layouts/type100/main.blade.php"
-			],
-			[
-				"contrac",
-				"app/Http/Controllers/Contract/ContractorController.php"
-			],
-			[
-				".",
-				".env"
-			],
-			[
-				"partials/workheaderPartial.blade.php",
-				"resources/views/partials/workheaderPartial.blade.php"
-			],
-			[
-				"layouts/min.blade.php",
-				"resources/views/layouts/min.blade.php"
-			],
-			[
-				"app/Models/Track/InstanceEstimate.php",
-				"app/Models/Track/InstanceEstimate.php"
-			],
-			[
-				"app/Http/Requests/Track/StoreEstimateRequest.php",
-				"app/Http/Requests/Track/StoreEstimateRequest.php"
-			],
-			[
-				"EstimateController",
-				"app/Http/Controllers/Track/EstimateController.php"
-			],
-			[
-				"managedocuments/doclist.blade.php",
-				"resources/views/managedocuments/doclist.blade.php"
-			],
-			[
-				"managedocuments/create.blade.php",
-				"resources/views/managedocuments/create.blade.php"
-			],
-			[
-				"EeO",
-				"app/Models/EeOffice.php"
-			],
-			[
-				"config/mis_entry.php",
-				"config/mis_entry/svgIcon.php"
-			],
-			[
-				"admin contract contractor create",
-				"resources\\views\\admin\\contract\\contractor\\create.blade.php"
-			],
-			[
-				"admin patch index",
-				"resources\\views\\admin\\patch\\index.blade.php"
-			],
-			[
-				"roadpatch",
-				"app\\Models\\patch\\RoadPatchTarget.php"
-			],
-			[
-				"roadSummary",
-				"resources\\views\\reports\\roads\\roadSummary.blade.php"
-			],
-			[
-				"roadlist",
-				"app\\Http\\Controllers\\RoadListController.php"
-			],
-			[
-				"map bridge",
-				"resources\\views\\maps\\bridges.blade.php"
-			],
-			[
-				"sideba",
-				"resources\\views\\vendor\\backpack\\base\\inc\\sidebar_content.blade.php"
-			],
-			[
-				"side",
-				"resources\\views\\inc\\sidebar.blade.php"
-			],
-			[
-				"map bridges",
-				"resources\\views\\maps\\bridges.blade.php"
-			],
-			[
-				"map",
-				"resources\\views\\reports\\roads\\Map.blade.php"
-			],
-			[
-				"roadl",
-				"app\\Http\\Controllers\\RoadListController.php"
-			],
-			[
-				"map.blade",
-				"resources\\views\\reports\\roads\\Map.blade.php"
-			],
-			[
-				"roadList",
-				"resources\\views\\reports\\roads\\roadList.blade.php"
-			],
-			[
-				"distr",
-				"app\\Models\\District.php"
-			],
-			[
-				"constit",
-				"app\\Models\\Constituencie.php"
-			],
-			[
-				"officeRoadList",
-				"resources\\views\\reports\\roads\\officeRoadList.blade.php"
-			],
-			[
-				"summaryTable",
-				"resources\\views\\reports\\roads\\summaryTable.blade.php"
-			],
-			[
-				"segment",
-				"app\\Models\\Segment.php"
-			],
-			[
-				"summary",
-				"resources\\views\\reports\\roads\\summaryTable.blade.php"
-			],
-			[
-				"roadli",
-				"app\\Http\\Controllers\\RoadListController.php"
-			],
-			[
-				"officema",
-				"resources\\views\\reports\\roads\\officeMap.blade.php"
-			],
-			[
-				"officeMap",
-				"resources\\views\\reports\\roads\\officeMap.blade.php"
-			],
-			[
-				"officemap",
-				"resources\\views\\reports\\roads\\officeMap.blade.php"
-			],
-			[
-				"web.php",
-				"routes\\web.php"
 			]
 		],
 		"width": 0.0
@@ -1936,7 +1212,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 225.0,
+	"side_bar_width": 411.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

@@ -156,6 +156,7 @@ class AcrReviewController extends Controller {
     }
 
     public function storeReviewedAcr(Request $request) {
+        $milestone ='review';
         $acr = Acr::findOrFail($request->acr_id);
         $acr_is_due = $acr->isAcrDuetoLoggedUserfor('review');
 
@@ -168,16 +169,17 @@ class AcrReviewController extends Controller {
 
         $acr->update(['review_on' => now()]);
 
-        if ($acr->isTwoStep) {
+        if ($acr->isTwoStep || $acr->isAcceptingRetired()) {
             $acr->accept_on = now();
             $acr->accept_no = $acr->review_no;
             $acr->save();
             //final no ki entry karo
             $acr->updateFinalNo();
+            $milestone ='accept';
         }
 
         //    make pdf  and mail notification
-        dispatch(new MakeAcrPdfOnSubmit($acr, 'review'));
+        dispatch(new MakeAcrPdfOnSubmit($acr, $milestone));
 
         return redirect(route('acr.others.index'))->with('success', 'Acr Saved Successfully...');
     }

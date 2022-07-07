@@ -21,7 +21,7 @@ return [
 
 
    'duty'=>[
-      'submit'=>['period'=>90,'triggerOn'=>'','targetemployee'=>'employee_id'],
+      'submit'=>['period'=>90,'triggerOn'=>'acknowledge','triggerDate'=>'updated_at','targetemployee'=>'employee_id'],
       'acknowledge'=>['period'=>'','triggerOn'=>'','targetemployee'=>'employee_id'],
       'report'=>['period'=>30,'triggerOn'=>'submit','triggerDate'=>'submitted_at','targetemployee'=>'report_employee_id'],
       //what duty is to perform. report means acr is at submit level report is to be done . iska triggerOn submit hoga

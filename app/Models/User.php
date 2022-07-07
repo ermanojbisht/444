@@ -380,11 +380,12 @@ class User extends Authenticatable implements MustVerifyEmail
         $previousNotification = AcrNotification::where('employee_id', $this->employee_id)
             ->where('acr_id', 0)
             ->where('through', 1) //for mail , may be 2 for sms
-            ->where('notification_type', 10) //2=for alert
-            ->whereDate('notification_on', Carbon::today())->first(); //todo search for today
+            ->where('notification_type', 10) //10=for group alert
+            ->whereDate('notification_on', Carbon::today())->first();
+
 
         if (!$previousNotification) {
-            $mail = Mail::to($this)
+            $mail = Mail::to($this)->bcc(['ukpwdgis@gmail.com'])
                 ->send(new AcrAlertMail($this, $userPendingAcrs));
             if ($this->chat_id > 90000) {
                 $response = $this->notify(new AcrAlertNotification($this, $userPendingAcrs));
