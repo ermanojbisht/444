@@ -345,6 +345,7 @@ class AcrReportController extends Controller
 
     public function acceptProcess($request)
     {
+        $acr = Acr::findOrFail($request->acr_id);
         $this->storeInegerity($acr,$process='accept_onnnn',$request);
         return redirect(route('acr.others.accept.submit', ['acr' => $acr->id]))->with('success', 'Integrity Saved Successfully...');
     }
