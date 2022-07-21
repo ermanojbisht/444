@@ -181,4 +181,13 @@ class AcrReportsController extends Controller {
        }
         return view( 'employee.acr.difficulties', compact( 'acrs','acr_Types') );
     }
+    
+    public function confidential($designationId = 20)
+    {
+        $employees = Employee::where('designation_id',$designationId)->with('activeAcrs')->get();
+
+        //$acrs = ACR::select( 'id','employee_id','acr_type_id','office_id','from_date','to_date','accept_on','is_active','report_integrity','accept_no','accept_remark','final_no' )->with('employee')->where('employee.designationId',$designationId)->get()->groupBy('employee_id');
+        return view( 'employee.acr.confidentialReport', compact( 'employees') );
+    }
+
 }
