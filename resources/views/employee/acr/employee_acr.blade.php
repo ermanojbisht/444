@@ -1,7 +1,7 @@
 @extends('layouts.type200.main')
 
 @section('pagetitle')
-	{{$employee->shriName }}'s ACR Details
+	{{$employee->shriName }}'s Nonrejected ACR Details
 @endsection
 
 @section('styles')

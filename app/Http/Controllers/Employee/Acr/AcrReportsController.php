@@ -43,7 +43,7 @@ class AcrReportsController extends Controller {
      */
     public function show( Employee $employee )
     {
-        $acrs = Acr::where( 'employee_id', $employee->id )->orderBy('from_date','DESC')->get();
+        $acrs = Acr::where( 'employee_id', $employee->id )->where('is_active',1)->orderBy('from_date','DESC')->get();
         $isMyAcr=false;
         if($this->user){
             $isMyAcr= $this->user->employee_id==$employee->id;
