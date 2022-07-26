@@ -33,6 +33,7 @@ class SectionUpdateEmployeeRequest extends FormRequest
         $rules['gender_id'] = 'required|numeric|gt:0';
         $rules['birth_date'] = 'required|date';
         $rules['lock_level'] = 'required|numeric';
+        $rules['regular_incharge'] = 'required|numeric';
         
         $rules['appointment_order_at'] = 'required|date';
         $rules['appointment_order_no'] = 'required';

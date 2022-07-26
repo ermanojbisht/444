@@ -131,7 +131,33 @@ Route::prefix('consume')->group(function () {
 // Start : Hrms new laravel system routes  // todo:: also tried web_hrms need to remove or refactor later 
 Route::group(['as' => 'employee.'], function () {
 
+    /* EmployeeDetailController */
+    Route::get('viewEmpDetail/{employee}', 'Hrms\EmployeeDetailController@view')->name('viewEmpDetail');
+ 
+
+    // Migration Controller
+    Route::get('employee/migrate','Hrms\MigrationController@index')->name('migrate');
+
+    Route::get('migrateEmployeeTable','Hrms\MigrationController@migrateEmployeeTable')->name('migrateEmployeeTable');
+    Route::get('migrateEmployeeAddressTable','Hrms\MigrationController@migrateEmployeesAddresses')->name('migrateEmployeeAddressTable');
+    Route::get('migrateEmployeesFamilyTable','Hrms\MigrationController@migrateEmployeesFamilyTable')->name('migrateEmployeesFamilyTable');
+    Route::get('migrateEmployeesHistoryTable','Hrms\MigrationController@migrateEmployeesHistoryTable')->name('migrateEmployeesHistoryTable');
+    Route::get('migrateEmployeesEducationTable','Hrms\MigrationController@migrateEmployeesEducationTable')->name('migrateEmployeesEducationTable'); 
+    Route::get('migrateEmployeesCurrentStatusTable','Hrms\MigrationController@migrateEmployeesCurrentStatusTable')->name('migrateEmployeesCurrentStatusTable'); 
+   
+    Route::get('office_update_with_Factors','Hrms\MigrationController@office_update_with_Factors')->name('office_update_with_Factors'); 
+    Route::get('import_other_offices','Hrms\MigrationController@import_other_offices')->name('import_other_offices'); 
+
+    Route::get('setPosting_isDurgam_with_duration','Hrms\MigrationController@setPosting_isDurgam_with_duration')->name('setPosting_isDurgam_with_duration'); 
     
+    Route::get('import_Office_Hq_others','Hrms\MigrationController@import_Office_Hq_others')->name('import_Office_Hq_others'); 
+    
+    Route::get('import_leaves_data','Hrms\MigrationController@import_leaves_data')->name('import_leaves_data'); 
+    
+
+    // End: Migration Controller
+
+
     /* HrmsEmployeeController -> for section users */
 
     Route::get('employee/index', 'Hrms\HrmsEmployeeController@index')->name('index');
@@ -142,20 +168,14 @@ Route::group(['as' => 'employee.'], function () {
     Route::get('employee/edit/{employee}', 'Hrms\HrmsEmployeeController@edit')->name('edit');
     Route::post('employee/update', 'Hrms\HrmsEmployeeController@update')->name('update');
     
-    Route::post('employee/lockEmployee/{employee}/{lock_level}', 'Hrms\HrmsEmployeeController@lockEmployee')
-    ->name('lockEmployee');
+    Route::post('employee/lockEmployee/{employee}/{lock_level}', 'Hrms\HrmsEmployeeController@lockEmployee')->name('lockEmployee');
 
     Route::get('employee/update', 'Hrms\HrmsEmployeeController@update_employee_status')->name('updateEmployee');
-    Route::post('employee/updateEmployePostings', 'Hrms\HrmsEmployeeController@updateEmployePostings')
-    ->name('updateEmployePostings');
+    Route::post('employee/updateEmployePostings', 'Hrms\HrmsEmployeeController@updateEmployePostings')->name('updateEmployePostings');
     
-    Route::post('getEmployeesDesignationWise', 'Hrms\HrmsEmployeeController@getEmployeesDesignationWise')
-    ->name('getEmployeesDesignationWise');
-
-
-
+    Route::post('getEmployeesDesignationWise', 'Hrms\HrmsEmployeeController@getEmployeesDesignationWise')->name('getEmployeesDesignationWise');
   
-    /* AddressController */
+    /* UpdateEmployeeController */
     Route::get('office/employees/index', 'Hrms\UpdateEmployeeController@index')->name('office.index');
     Route::get('office/employees/view/{employee}', 'Hrms\UpdateEmployeeController@view')->name('office.view');
     
@@ -169,23 +189,18 @@ Route::group(['as' => 'employee.'], function () {
 
     Route::get('employee/Address/{addressType}/{employee}', 'Hrms\AddressController@updateAddress')->name('updateAddress');
     Route::post('address/store', 'Hrms\AddressController@storeAddressDetails')->name('storeAddressDetails');
-    
 
 
+    /* FamilyController */
     Route::get('employee/family/{employee}', 'Hrms\FamilyController@createFamilyDetails')->name('createFamilyDetails');
     Route::post('family/store', 'Hrms\FamilyController@storeFamilyDetails')->name('family.store');
 
     Route::get('employee/education/{employee}', 'Hrms\EducationController@createEducations')->name('AddEducationDetails');
     Route::post('education/store', 'Hrms\EducationController@storeEducationDetails')->name('education.store');
 
-
- 
-     
-    
+    /* PostingController */
     Route::get('employee/posting/{employee}', 'Hrms\PostingController@createPostings')->name('createPostings');
     Route::post('posting/store', 'Hrms\PostingController@storePostings')->name('postings.store');
-
-     
 
 
     Route::post('ajaxDataForOffice', 'Hrms\Hrms@ajaxDataForOffice')->name('ajaxDataForOffice'); 
@@ -193,9 +208,12 @@ Route::group(['as' => 'employee.'], function () {
 
 
 
+
+
 });
 
 
 // End : Hrms new system routes 
+
 
 

@@ -14,13 +14,12 @@
 @include('layouts._commonpartials._breadcrumb',
 ['datas'=> [
 ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
-['label'=> 'New Created Employees','active'=>true, 'route' => 'employee.index'],
-['label'=> 'Create','active'=>true],
+['label'=> 'Update Employee Office and Designation','active'=>true],
 ]])
 @endsection
 
 @section('sidebarmenu')
-
+    @include('layouts.type200._commonpartials._sidebarmenu_hrms',['active'=>'Employees'])
 @endsection
 
 @section('content')
@@ -64,6 +63,20 @@
                 </div>
 
 
+                 {{-- order_no --}}
+                 <div class="form-group col-md-3">
+                    <label class="" for="order_no"> Order No </label>
+                    <input type="text" class="form-control" id="order_no" name="order_no"
+                        placeholder="Order No" />
+                    @if($errors->has('order_no'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('order_no') }}
+                    </div>
+                    @endif
+                    <span class="help-block"> </span>
+                </div>
+
+
                 {{-- transfer_order_date --}}
                 <div class="form-group col-md-3">
                     <label class="required" for="transfer_order_date"> Order Date </label>
@@ -78,6 +91,15 @@
                     <span class="help-block"> </span>
                 </div>
 
+
+                
+
+
+
+            </div>
+            <br />
+
+            <div class="row">
 
                 {{-- is_office_head --}}
                 <div class="form-group col-md-3">
@@ -100,13 +122,6 @@
                     @endif
                     <span class="help-block"> </span>
                 </div>
-
-
-
-            </div>
-            <br />
-
-            <div class="row">
 
                 {{-- is_designation_changed --}}
                 <div class="form-group col-md-3">
@@ -182,13 +197,12 @@
                     {!! Form::radio('is_office_changed', '1', '',
                     ['id' => 'is_office_changed_Yes', 'class'=>'radio ', 'required',
                     'onchange'=>'isOfficeChanged(1)']) !!}
-
                     {!! Form::label('is_office_changed_Yes', 'Is Office Changed', ['class'=>'label']) !!}
 
                     <br />
                     {!! Form::radio('is_office_changed', '0', '',
-                    ['id' => 'is_office_changed_No', 'class'=>'radio ',
-                    'required','onchange'=>'isOfficeChanged(0)']) !!}
+                    ['id' => 'is_office_changed_No', 'class'=>'radio ', 'required',
+                   'onchange'=>'isOfficeChanged(0)']) !!}
                     {!! Form::label('is_office_changed_No', 'Office Not Changed', ['class'=>'label']) !!}
 
                     @if($errors->has('is_office_changed'))
@@ -216,6 +230,9 @@
 
                 <div class="form-group col-md-3 justify-content-center ">
                     <br />
+                     
+                    {!! Form::hidden('informed_by_employee_id', Auth::user()->employee_id, ['id'=>'informed_by_employee_id']) !!}
+
                     <button id="btnAddRegDetails" type="submit" class="btn btn-success">
                         Save Employee Detail </button>
                 </div>

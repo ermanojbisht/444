@@ -5,7 +5,7 @@
 @endsection
 
 @section('sidebarmenu')
-
+@include('layouts.type200._commonpartials._sidebarmenu_hrms',['active'=>'Employees'])
 @endsection
 
 @section('pagetitle')
@@ -16,7 +16,7 @@
 @include('layouts._commonpartials._breadcrumb',
 ['datas'=> [
 ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
-['label'=> 'Employees List','active'=>true],
+['label'=> 'New Employees','active'=>true],
 ]])
 @endsection
 
@@ -24,12 +24,13 @@
 
 <div class="card">
     <div class="d-flex justify-content-end bg-transparent">
-        <a class="btn btn-sm btn-dark m-2 " href="{{route('employee.create')}}">
+        <br />
+        {{-- <a class="btn btn-sm btn-dark m-2 " href="{{route('employee.create')}}">
             <svg class="icon">
                 <use xlink:href="{{asset('vendors/@coreui/icons/svg/free.svg#cil-plus')}}"></use>
             </svg>
             Create New
-        </a>
+        </a> --}}
     </div>
     <table id="tbl_NewAddedEmployees" class="table border mb-0">
         <thead class="fw-bold">
@@ -47,7 +48,15 @@
             @foreach($newAddedEmployees as $employee)
             <tr class="{!! $employee->status_bg_color() !!} ">
                 <td>{{1+$loop->index}}</td>
-                <td>{{$employee->id}}</td>
+                <td>
+                    @if( $employee->lock_level == 1)
+                    <a style="color: blue" target="_blank" class="dropdown-item" href="{{ route('employee.viewEmpDetail',['employee'=>$employee->id]) }}">
+                        {{$employee->id}}
+                    </a>
+                    @else
+                    {{$employee->id}}
+                    @endif
+                </td>
                 <td>{{$employee->name}}</td>
                 <td>{{($employee->designationName ? $employee->designationName->name : ' Not declared ') }}</td>
                 <td>{{$employee->birth_date ? $employee->birth_date->format('d M Y') : ''}} </td>
@@ -74,12 +83,10 @@
                                 Edit
                             </a>
                             @elseif( $employee->lock_level == 1)
-
                             <a class="dropdown-item"
                                 href="{{ route('employee.office.view',['employee'=>$employee->id]) }}">
                                 View Employee
                             </a>
-
                             @endif
                         </div>
                     </div>

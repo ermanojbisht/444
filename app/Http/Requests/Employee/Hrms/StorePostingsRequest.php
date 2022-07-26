@@ -27,14 +27,16 @@ class StorePostingsRequest extends FormRequest
     {  
         $rules['employee_id'] =  'required|min:5|max:50';
         
-        $rules['order_no'] =  'required';
-        $rules['order_at'] =  'required';
-        $rules['office_id'] =  'required|numeric';
-        $rules['from_date'] =  'required|date';
         $rules['to_date'] =  'nullable|date';
+        $rules['order_no'] =  'required';
+        $rules['order_at'] =  'required|date';
+        
+        $rules['from_date'] =  'required|date';
         $rules['mode_id'] = 'required|numeric';
+        $rules['office_id'] = 'required|numeric';
         $rules['designation_id'] = 'required|numeric';
-
+        
+        
         $rules['updated_by'] =  'required';
 
         return $rules;

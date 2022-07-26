@@ -6,7 +6,7 @@
 @endsection
 
 @section('pagetitle')
-Employee Registration
+Edit Employee Registration
 @endsection
 
 @section('breadcrumb')
@@ -189,7 +189,8 @@ Employee Registration
             <div class="form-group">
                 <br />
                 <div class="box-footer justify-content-between">
-                    <input type="hidden" id="lock_level" name="lock_level" value="0" />
+                    {!! Form::hidden('regular_incharge', '0', ['id'=>'regular_incharge']) !!}
+                    {!! Form::hidden('lock_level', '0', ['id'=>'lock_level']) !!}
                     <button id="btnAddRegDetails" type="submit" class="btn btn-success">
                         Update Employee Detail </button>
                 </div>

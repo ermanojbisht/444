@@ -36,8 +36,11 @@ class SectionStoreEmployeeRequest extends FormRequest
         $rules['current_designation_id'] = 'required|numeric';
         $rules['current_office_id'] = 'required|numeric';
         $rules['lock_level'] = 'required|numeric';
+        $rules['regular_incharge'] = 'required|numeric';
+        
         $rules['joining_date'] = 'required|date';
         $rules['appointed_through'] = 'required|numeric';
+
 
         return $rules;
     }

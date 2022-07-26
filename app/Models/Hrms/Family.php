@@ -18,7 +18,6 @@ class Family extends Model
         'relation_id',
         'name',
         'birth_date',
-        'aadhar',
         'nominee_percentage',
         'updated_by',
         'created_at',

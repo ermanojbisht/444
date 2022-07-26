@@ -58,9 +58,8 @@ Add Employee Families
                         {{-- Relation --}}
                         <div class="form-group col-md-3">
                             <label class="required" for="relation_id"> Relation </label>
-                            {!! Form::select('relation_id', config('hrms.masters.relation'), '1',
-                            ['id'=>'relation_id', 'required'=>'required',
-                            'class'=>'form-select ' ]) !!}
+                            {!! Form::select('relation_id', config('hrms.masters.relation'), '0',
+                            ['id'=>'relation_id', 'required'=>'required', 'class'=>'form-select ' ]) !!}
                             @if($errors->has('relation_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('relation_id') }}

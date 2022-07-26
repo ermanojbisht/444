@@ -14,13 +14,13 @@ Employee Registration
 @include('layouts._commonpartials._breadcrumb',
 ['datas'=> [
 ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
-['label'=> 'New Created Employees','active'=>true, 'route' => 'employee.index'],
-['label'=> 'Create','active'=>true],
+['label'=> 'New Employees','active'=>true, 'route' => 'employee.index'],
+['label'=> 'Add New Employee','active'=>true],
 ]])
 @endsection
 
 @section('sidebarmenu')
-
+@include('layouts.type200._commonpartials._sidebarmenu_hrms',['active'=>'Employees'])
 @endsection
 
 @section('content')
@@ -181,7 +181,8 @@ Employee Registration
 
                 <div class="form-group col-md-3 justify-content-center ">
                     <br />
-                    <input type="hidden" id="lock_level" name="lock_level" value="0" />
+                    {!! Form::hidden('regular_incharge', '0', ['id'=>'regular_incharge']) !!}
+                    {!! Form::hidden('lock_level', '0', ['id'=>'lock_level']) !!}
                     <button id="btnAddRegDetails" type="submit" class="btn btn-success">
                         Save Employee Detail </button>
                 </div>

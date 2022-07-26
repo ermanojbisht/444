@@ -39,8 +39,16 @@ class HrmsEmployeeController extends Controller
     public function index()
     {
         $title = "New Enrolled Employees";
-        $newAddedEmployees = Employee::where('lock_level', "0")->with('designationName')->get();
+        $newAddedEmployees = Employee::where('lock_level', "0")
+        ->orWhere('current_designation_id', 'null')
+        ->get();
+         
+        $OfficesAllocated = $this->user->OfficeToAnyJob(['employee_edit_job']); // hr-gr-draft for Draft Answer
+        $newAddedEmployees = Employee::where('retirement_date','>',now()) 
+        ->where('lock_level', 0)->with('designationName')->get();
 
+        //->whereIn("current_office_id", $OfficesAllocated)
+        // ->orwhere("current_office_id", 0)
         return view('hrms.employee.index', compact('newAddedEmployees', 'title'));
     }
 
@@ -92,8 +100,9 @@ class HrmsEmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        $designations = array('' => 'Select Designation') + Designation::where('group_id', '!=', 'null')
-            ->orderBy('name')->pluck('name', 'id')->toArray();
+        $designations = array('' => 'Select Designation') + Designation::whereNotNull('group_id')->
+        orderBy('name')->pluck('name', 'id')->toArray();
+         
         $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
 
         return view('hrms.employee.edit', compact('employee', 'designations', 'offices'));
@@ -149,7 +158,7 @@ class HrmsEmployeeController extends Controller
      */
     public function update_employee_status()
     {
-        $designations = array('' => 'Select Designation') + Designation::where('group_id', '!=', 'null')
+        $designations = array('' => 'Select Designation') + Designation::whereNotNull('group_id')
             ->orderBy('name')->pluck('name', 'id')->toArray();
         $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
 
@@ -164,25 +173,37 @@ class HrmsEmployeeController extends Controller
      * @param  UpdateEmployeeRequest $request [Employee Data]
      * @return [type]               redirect [New Added Employee Index]
      */
-    public function updateEmployePostings(Request $request)
+    public function updateEmployePostings(SectionUpdateEmployeePostingRequest $request)
     {
- 
-             
-        return ($request->validated());
+        // return ($request->validated());
 
-
-        $employee = Employee::findorFail($request->employee_id);
+        $employee = Employee::findorFail($request->id);
         $employee->update($request->validated());
 
-        $posting = Posting::where('employee_id', $request->employee_id);
-        $posting->update([
-            'employee_id' => $request->id,
-            'order_no' =>  $request->appointment_order_no,
-            'order_at' => $request->appointment_order_at,
-            'office_id' => $request->current_office_id,
-            'from_date' => $request->joining_date,
-            'designation_id' => $request->current_designation_id
-        ]);
+        // $office_id = $employee->current_office_id;
+        // if($request->is_office_changed == 1)
+        //     $office_id = $request->current_office_id;
+        
+        // $designation_id = $employee->current_designation_id;
+        // if($request->is_designation_changed == 1)
+        //     $designation_id  = $request->current_designation_id;
+    
+        // $is_prabhari = $employee->regular_incharge;
+        // if($request->is_designation_changed == 1)
+        //     $is_prabhari = $request->regular_incharge;
+
+        // $posting = Posting::create([
+        //     'employee_id' => $request->id,
+        //     'order_no' =>  $request->order_no,
+        //     'order_at' => $request->transfer_order_date,
+        //     'office_id' => $office_id,
+        //     //'from_date' => $request->transfer_order_date,
+        //     //'mode_id' => "13",
+        //     'designation_id' => $designation_id,
+        //     'is_prabhari' => $is_prabhari,
+        //     'islocked' => "0",
+        //     'row_confirm' => "0"
+        // ]);
 
 
         return redirect('employee/index')->with('status', 'Employee Updated Successfully!');
@@ -199,8 +220,6 @@ class HrmsEmployeeController extends Controller
     {
         $employees = Employee::where("current_designation_id", $request->designation_id)
             ->orderBy('name')->select('name', 'id')->get();
-
-
 
         return $employees;
     }

@@ -250,23 +250,36 @@ Add Employee Address
                                 Correspondence Address
                             </td>
                             <td>
-                                <label style="display:none;" id="lbl_state_id">{{$employee->getAddress(1)->state_id}}</label>
+                                @if($employee->getAddress(1)->state_id)
+                                <label style="display:none;" id="lbl_state_id">
+                                    {{$employee->getAddress(1)->state_id}}</label>
                                 {{ $employee->getAddress(1)->state_Name->name }}
+                                @endif
                             </td>
                             <td>
-                                <label style="display:none;" id="lbl_district_id">{{$employee->getAddress(1)->district_id}}</label>
+                                @if($employee->getAddress(1)->district_id)
+                                <label style="display:none;" id="lbl_district_id">
+                                    {{$employee->getAddress(1)->district_id}}</label>
                                 {{ $employee->getAddress(1)->district_Name->name }}
+                                @endif
                             </td>
                             <td>
-                                <label style="display:none;" id="lbl_tehsil_id">{{$employee->getAddress(1)->tehsil_id}}</label>
+                                @if($employee->getAddress(1)->tehsil_id)
+                                <label style="display:none;" id="lbl_tehsil_id">
+                                    {{$employee->getAddress(1)->tehsil_id}}</label>
                                 {{ $employee->getAddress(1)->tehsil_Name->name }}
+                                @endif
                             </td>
                             <td>
-                                <label style="display:none;" id="lbl_constituency_id">{{$employee->getAddress(1)->vidhansabha_id}}</label>
+                                @if($employee->getAddress(1)->constituency_Name)
+                                <label style="display:none;" id="lbl_constituency_id">
+                                    {{$employee->getAddress(1)->vidhansabha_id}}</label>
                                 {{ $employee->getAddress(1)->constituency_Name->name }}
+                                @endif
                             </td>
                             <td>
-                                <label id="lbl_address1"> {{ $employee->getAddress(1)->address1 }}</label>,
+                                {{-- @if($employee->getAddress(1))@endif --}}
+                                <label id="lbl_address1">{{ $employee->getAddress(1)->address1 }}</label>
                                 <label id="lbl_address2">{{ $employee->getAddress(1)->address2 }}</label>
                             </td>
                             <td>
@@ -283,19 +296,23 @@ Add Employee Address
                                 Permanent Address
                             </td>
                             <td>
-                                {{ $employee->getAddress(2)->state_Name->name }}
+                                {{ $employee->getAddress(2)->state_id ? $employee->getAddress(2)->state_Name->name : ''
+                                }}
                             </td>
                             <td>
-                                {{ $employee->getAddress(2)->district_Name->name }}
+                                {{ $employee->getAddress(2)->district_id ? $employee->getAddress(2)->district_Name->name
+                                : ''}}
                             </td>
                             <td>
-                                {{ $employee->getAddress(2)->tehsil_Name->name }}
+                                {{ $employee->getAddress(2)->tehsil_id ? $employee->getAddress(2)->tehsil_Name->name :
+                                '' }}
                             </td>
                             <td>
-                                {{ $employee->getAddress(2)->constituency_Name->name }}
+                                {{$employee->getAddress(2)->vidhansabha_id ?
+                                $employee->getAddress(2)->constituency_Name->name : '' }}
                             </td>
                             <td>
-                                {{ $employee->getAddress(2)->address1 }}, {{ $employee->getAddress(2)->address2 }}
+                                {{ $employee->getAddress(2)->address1 }} {{ $employee->getAddress(2)->address2 }}
                             </td>
                             <td>
                                 <a
@@ -311,19 +328,25 @@ Add Employee Address
                                 Home Address
                             </td>
                             <td>
-                                {{ $employee->getAddress(3)->state_Name->name }}
+
+                                @if($employee->getAddress(3)->state_Name)
+                                {{ $employee->getAddress(3)->state_Name->name }}@endif
                             </td>
                             <td>
-                                {{ $employee->getAddress(3)->district_Name->name }}
+                                @if($employee->getAddress(3)->district_Name)
+                                {{ $employee->getAddress(3)->district_Name->name }}@endif
                             </td>
                             <td>
-                                {{ $employee->getAddress(3)->tehsil_Name->name }}
+                                @if($employee->getAddress(3)->tehsil_Name)
+                                {{ $employee->getAddress(3)->tehsil_Name->name }}@endif
                             </td>
                             <td>
+                                @if($employee->getAddress(3)->constituency_Name)
                                 {{ $employee->getAddress(3)->constituency_Name->name }}
+                                @endif
                             </td>
                             <td>
-                                {{ $employee->getAddress(3)->address1 }}, {{ $employee->getAddress(3)->address2 }}
+                                {{ $employee->getAddress(3)->address1 }} &nbsp; {{ $employee->getAddress(3)->address2 }}
                             </td>
                             <td>
                                 <a

@@ -37,7 +37,7 @@ class UpdateEmployeeController extends Controller
     {
         $title = "Office Enrolled Employees";
         $OfficesAllocated = $this->user->OfficeToAnyJob(['employee_edit_job']); // hr-gr-draft for Draft Answer
-        $newAddedEmployees = Employee::whereIn("current_office_id", $OfficesAllocated)->whereIn('lock_level', [1, 2])
+        $newAddedEmployees = Employee::where('retirement_date','>',now())->whereIn("current_office_id", $OfficesAllocated)->whereIn('lock_level', [1, 2])
         ->with('designationName')->get();
 
         return view('hrms.employee.index', compact('newAddedEmployees', 'title'));
@@ -68,13 +68,10 @@ class UpdateEmployeeController extends Controller
      */
     public function editBasicDetails(Employee $employee)
     {
-
-        $designations = array('' => 'Select Designation') + Designation::where('group_id', '!=', 'null')
-            ->orderBy('name')->pluck('name', 'id')->toArray();
-
+        $designations = array('' => 'Select Designation') + Designation::whereNotNull('group_id')->
+        orderBy('name')->pluck('name', 'id')->toArray();
+         
         $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
-
-
         return view('hrms.employee.edit_all', compact('employee', 'designations', 'offices'));
     }
 

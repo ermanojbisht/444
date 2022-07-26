@@ -74,16 +74,17 @@ return [
       5 => 'Post-Graduation'
    ],
 
-
+   /* 1st to 7th are taken as they were in HRMS SQL => DB   */
    'relation' => [
+      0 => 'Select Relation',
       1 => 'Wife',
       2 => 'Son',
       3 => 'Daughter',
       4 => 'Father',
       5 => 'Mother',
-      6 => 'Brother',
-      7 => 'Sister',
-      8 => 'Husband',
+      6 => 'Sister',
+      7 => 'Husband',
+      8 => 'Brother',
       9 => 'Other'
    ],
 
@@ -120,19 +121,18 @@ return [
 
    'historyType' =>
    [
-      1  => 'Transfer',
-      2  => 'Promotion',
-      3  => 'Attachment',
-      4  => 'Deputation',
-      5  => 'Rejoin after Deputation',
-      6  => 'Suspension',
-      7  => 'Rejoin after Suspension',
-      8  => 'Demotion',
-      9  => 'Retired',
-      10 => 'Transfer with Promotion ?',
-      11 => 'Transfer with Demotion ?',
-      12 => 'Lean',
-      13 => 'New Appointment'
+      1 => 'Transfer',
+      2 => 'Attachment',
+      3 => 'Promotion',
+      4 => 'Promotion In Charge', 
+      5 => 'Demotion',
+      6 => 'Deputation',
+      7 => 'Rejoin after Deputation',
+      8 => 'Suspension',
+      9 => 'Rejoin after Suspension',
+      10 => 'Retired',
+      11 => 'Lean',
+      12 => 'New Appointment'
    ],
 
 

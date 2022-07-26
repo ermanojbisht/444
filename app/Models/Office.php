@@ -8,11 +8,30 @@ use Kalnoy\Nestedset\NodeTrait;
 
 class Office extends Model
 {
+
     use NodeTrait;
     public $timestamps =false;
     protected $connection='mysqlmispwd';
     public $fulltable = 'mispwd.offices';
 
+    protected $fillable = [
+        'id', 
+        'office_id', 
+        'office_type', 
+        'name', 
+        'name_h',
+        'parrent_id',
+        'is_exist',
+        '_lft', 
+        '_rgt',
+        'hr_office_id',
+        'isdurgam', 
+        'duration_factor', 
+        'Treasury_Code', 
+        'DDO_Code'  
+         
+    ];
+    
     public function getParentIdName()
     {
         return 'parrent_id';

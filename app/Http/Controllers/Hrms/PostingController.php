@@ -18,9 +18,10 @@ use App\Models\Hrms\State;
 use App\Models\Office;
 use App\Models\Tehsil;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Redirect;
-use Request;
+ 
 
 class PostingController extends Controller
 {
@@ -68,8 +69,13 @@ class PostingController extends Controller
      */
     public function storePostings(StorePostingsRequest $request)
     {
+        $lastPosting = Posting::where("employee_id",$request->employee_id)->whereNull("to_date");
+        $lastPosting->update(['to_date' => $request->to_date ]);
 
-        Posting::create($request->validated());
+        $newPosting = $request->validated();
+        $newPosting['to_date'] = NUll;
+        
+        Posting::create($newPosting);
         
         return redirect()->route('employee.createPostings',['employee'=>$request->employee_id])
         ->with('status', 'Postings Updated Successfully!'); 

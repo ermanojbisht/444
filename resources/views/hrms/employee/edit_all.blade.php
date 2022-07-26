@@ -6,7 +6,7 @@
 @endsection
 
 @section('pagetitle')
-Employee Registration
+Edit Employee Registration 
 @endsection
 
 @section('breadcrumb')

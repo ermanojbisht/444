@@ -16,8 +16,10 @@ class Employee extends Model
     use HasFactory;
     protected $keyType = 'string';
     public $table = 'employees';
-    protected $dates = ['birth_date','joining_date','retirement_date','transfer_order_date',
-    'appointment_order_at','created_at','updated_at'];
+    protected $dates = [
+        'birth_date', 'joining_date', 'retirement_date', 'transfer_order_date',
+        'appointment_order_at', 'created_at', 'updated_at'
+    ];
     // protected $connection='mysqlhrms'; 
     protected $fillable = [
         'id',
@@ -79,14 +81,60 @@ class Employee extends Model
     }
 
     public function getIsRetiredAttribute()
-    {        
-        return $this->retirement_date->lt(Carbon::now());      
+    {
+        return $this->retirement_date->lt(Carbon::now());
     }
 
-    // public function getEmpPostings()
-    // {
-    //     return $this->belongsTo(TransferDetail::class, "id", "emp_id");
-    // }
+    public function getEmpPostings()
+    {
+        return $this->belongsTo(Posting::class, "id", "employee_id");
+    }
+
+    public function getEmpCurrentPosting()
+    {
+        return $this->belongsTo(Posting::class, "id", "employee_id")->whereNull("to_date");
+    }
+
+
+    public function getEmpCurrentOffice()
+    {
+        $employeePosted = $this->belongsTo(Posting::class, "id", "employee_id")->whereNull("to_date")->first();
+
+        if ($employeePosted->head_quarter != 0)
+            return $currentOffice = OfficeHeadQuarter::where("id", $employeePosted->head_quarter)->first()->name;
+
+        if ($employeePosted->other_office_id != 0)
+            return $currentOffice = OtherOffice::where("id", $employeePosted->other_office_id)->first()->name;
+
+        if ($employeePosted->office_id != 0)
+            return  $currentOffice = Office::where("id", $employeePosted->office_id)->first()->name;
+    }
+
+    public function getEmpCurrentIsSugam()
+    {
+        $employeePosted = $this->belongsTo(Posting::class, "id", "employee_id")->whereNull("to_date")->first();
+
+        if ($employeePosted->head_quarter != 0)
+            $currentOffice = OfficeHeadQuarter::where("id", $employeePosted->head_quarter)->first();
+
+        if ($employeePosted->other_office_id != 0)
+            $currentOffice = OtherOffice::where("id", $employeePosted->other_office_id)->first();
+
+        if ($employeePosted->office_id != 0)
+            $currentOffice = Office::where("id", $employeePosted->office_id)->first();
+
+        if ($currentOffice->isdurgam == 1)
+            return "Durgam";
+        else
+            return "Sugam";
+    }
+
+    public function getDaysInCurrentOffice()
+    {
+        $posting_since = $this->belongsTo(Posting::class, "id", "employee_id")->whereNull("to_date")->select("from_date")->first();
+        return Carbon::today()->diffInDays(Carbon::parse($posting_since->from_date));
+    }
+
 
     public function officeName()
     {
@@ -107,8 +155,8 @@ class Employee extends Model
 
     public function getAddress($addressType)
     {
-       return  $this->belongsTo(Address::class, "id", "employee_id")
-       ->where("address_type_id", "=", $addressType)->first();
+        return  $this->belongsTo(Address::class, "id", "employee_id")
+            ->where("address_type_id", "=", $addressType)->first();
     }
 
     //todo : All functions below are imported from mis employee Model ^.^
@@ -176,7 +224,7 @@ class Employee extends Model
         }
         $this->update(['office_idd' => $officeIdd, 'timestamps' => false]);
     }
-    
+
     /**
      * Scope a query to only include AE Emp.
      *

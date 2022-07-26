@@ -26,15 +26,16 @@ class SectionUpdateEmployeePostingRequest extends FormRequest
     {
         $rules['designation_id'] = 'required|numeric|gt:0';
         $rules['id'] = 'required';
+        $rules['informed_by_employee_id'] = 'required';
+        $rules['order_no'] = 'required';
         $rules['transfer_order_date'] = 'required|date';
         $rules['is_office_head'] = 'required|numeric';
         $rules['is_designation_changed'] = 'required|numeric';
-        $rules['is_office_changed'] = 'required|numeric';
-
-        $rules['current_office_id'] = 'required_if:is_office_changed,==,1|numeric|gt:0';
-
         $rules['regular_incharge'] = 'required_if:is_designation_changed,==,1|numeric';
         $rules['current_designation_id'] = 'required_if:is_designation_changed,==,1|numeric|different:designation_id';
+        $rules['is_office_changed'] = 'required|numeric';
+        $rules['current_office_id'] = 'required_if:is_office_changed,===,1';
+
 
         return $rules;
     }
