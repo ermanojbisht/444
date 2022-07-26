@@ -6,7 +6,7 @@ return [
     'head'=>'1- Assessment of Performance',
     'head_note'=>'Assigned Tasks / Works',
     'foot_note'=>'',
-    'table_type'=>1, // 1 mean only Target Achivement Table 
+    'table_type'=>1, // 1 mean only Target Achievement Table 
     ],
  1002=>[
     'head'=>'1- Assessment of Performance',
@@ -107,7 +107,7 @@ return [
                'input_name'=>'col_2',
             ],
          4=>[
-               'text'=>'No. of lnspections Conducted for the period under consideration (target frequency is 1 Inspection per work per year during construction)',
+               'text'=>'No. of inspections Conducted for the period under consideration (target frequency is 1 Inspection per work per year during construction)',
                'input_type'=>'text',
                'input_name'=>'col_3',
             ],
@@ -116,7 +116,7 @@ return [
    2003=>[
       //'head'=>'Quality Assurance of Works under Construction with Sanctioned Cost equal or above 20 crore with Comliance notes. ',
       'head_note'=>'',
-      'foot_note'=>'Note:- If the officer does not submit the Comliance Report to Govt. in regular way every month, marks will be deducted as given in Part II (Self Appraisal), except under exceptional circumstances.',
+      'foot_note'=>'Note:- If the officer does not submit the Compliance Report to Govt. in regular way every month, marks will be deducted as given in Part II (Self Appraisal), except under exceptional circumstances.',
       'multi_rows'=>true,
       'columns'=>[
          1=>[
@@ -129,13 +129,13 @@ return [
                'input_name'=>'col_1',
             ],
          3=>[
-               'text'=>'No. of lnspections Conducted for the period under consideration (target frequency is I Inspection per work per year during construction)',
+               'text'=>'No. of inspections Conducted for the period under consideration (target frequency is I Inspection per work per year during construction)',
                'input_type'=>'text',
                'input_name'=>'col_2',
             ],
             
          4=>[
-               'text'=>'Number of Compliances on Inspection Noteffechnical Audit ensured',
+               'text'=>'Number of Compliances on Inspection Note/ Technical Audit ensured',
                'input_type'=>'text',
                'input_name'=>'col_3',
             ],
