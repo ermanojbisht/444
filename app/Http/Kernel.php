@@ -52,6 +52,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerificationMiddleware::class,
            // \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class, //mkb added for jwt and should be added after EncryptCookies
             \App\Http\Middleware\LanguageManager::class,
+            \App\Http\Middleware\XFrameHeaders::class,
         ],
     ];
 /**
