@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Redirect;
 
-class HrmsEmployeeController extends Controller
+class NewEmployeeController extends Controller
 {
 
     /**

@@ -20,7 +20,7 @@ Edit Employee Registration
 @endsection
 
 @section('sidebarmenu')
-
+@include('layouts.type200._commonpartials._sidebarmenu_hrms',['active'=>'Employees'])
 @endsection
 
 @section('content')
@@ -115,7 +115,7 @@ Edit Employee Registration
                             <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email"
                                 minlength="5" maxlength="100" name="email" id="email"
                                 value="{{ old('email') == '' ? $employee->email : old('email') }}"
-                                placeholder="Alternate Mobile No" required>
+                                placeholder="Email Address " required>
                             @if($errors->has('email'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('email') }}
@@ -144,7 +144,7 @@ Edit Employee Registration
                             <label class="required" for="blood_group_id"> Blood Group </label>
                             {!! Form::select('blood_group_id', config('hrms.masters.bloodGroup'),
                             $employee->blood_group_id,
-                            ['id'=>'blood_group_id','class'=>'form-select','required'], ) !!}
+                            ['id'=>'blood_group_id','class'=>'form-select','required', ($employee->blood_group_id == 0 )? '' : '']   ) !!}
                             @if($errors->has('blood_group_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('blood_group_id') }}

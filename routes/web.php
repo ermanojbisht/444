@@ -131,8 +131,8 @@ Route::prefix('consume')->group(function () {
 // Start : Hrms new laravel system routes  // todo:: also tried web_hrms need to remove or refactor later 
 Route::group(['as' => 'employee.'], function () {
 
-    /* EmployeeDetailController */
-    Route::get('viewEmpDetail/{employee}', 'Hrms\EmployeeDetailController@view')->name('viewEmpDetail');
+    /* EmployeeViewController */
+    Route::get('viewEmpDetail/{employee}', 'Hrms\EmployeeViewController@view')->name('viewEmpDetail');
  
 
     // Migration Controller
@@ -158,22 +158,22 @@ Route::group(['as' => 'employee.'], function () {
     // End: Migration Controller
 
 
-    /* HrmsEmployeeController -> for section users */
+    /* NewEmployeeController -> for section users */
 
-    Route::get('employee/index', 'Hrms\HrmsEmployeeController@index')->name('index');
+    Route::get('employee/index', 'Hrms\NewEmployeeController@index')->name('index');
 
-    Route::get('employee/create', 'Hrms\HrmsEmployeeController@create')->name('create');
-    Route::post('store', 'Hrms\HrmsEmployeeController@store')->name('store');
+    Route::get('employee/create', 'Hrms\NewEmployeeController@create')->name('create');
+    Route::post('store', 'Hrms\NewEmployeeController@store')->name('store');
     
-    Route::get('employee/edit/{employee}', 'Hrms\HrmsEmployeeController@edit')->name('edit');
-    Route::post('employee/update', 'Hrms\HrmsEmployeeController@update')->name('update');
+    Route::get('employee/edit/{employee}', 'Hrms\NewEmployeeController@edit')->name('edit');
+    Route::post('employee/update', 'Hrms\NewEmployeeController@update')->name('update');
     
-    Route::post('employee/lockEmployee/{employee}/{lock_level}', 'Hrms\HrmsEmployeeController@lockEmployee')->name('lockEmployee');
+    Route::post('employee/lockEmployee/{employee}/{lock_level}', 'Hrms\NewEmployeeController@lockEmployee')->name('lockEmployee');
 
-    Route::get('employee/update', 'Hrms\HrmsEmployeeController@update_employee_status')->name('updateEmployee');
-    Route::post('employee/updateEmployePostings', 'Hrms\HrmsEmployeeController@updateEmployePostings')->name('updateEmployePostings');
+    Route::get('employee/update', 'Hrms\NewEmployeeController@update_employee_status')->name('updateEmployee');
+    Route::post('employee/updateEmployePostings', 'Hrms\NewEmployeeController@updateEmployePostings')->name('updateEmployePostings');
     
-    Route::post('getEmployeesDesignationWise', 'Hrms\HrmsEmployeeController@getEmployeesDesignationWise')->name('getEmployeesDesignationWise');
+    Route::post('getEmployeesDesignationWise', 'Hrms\NewEmployeeController@getEmployeesDesignationWise')->name('getEmployeesDesignationWise');
   
     /* UpdateEmployeeController */
     Route::get('office/employees/index', 'Hrms\UpdateEmployeeController@index')->name('office.index');
@@ -184,11 +184,11 @@ Route::group(['as' => 'employee.'], function () {
 
 
     /* AddressController */
-    Route::get('office/employees/createAddressDetails/{employee}', 'Hrms\AddressController@createAddressDetails')->name('createAddress');
-    Route::post('address/store', 'Hrms\AddressController@storeAddressDetails')->name('storeAddressDetails');
+    Route::get('office/employees/Address/create/{employee}', 'Hrms\AddressController@create')->name('createAddress');
+    Route::post('address/store', 'Hrms\AddressController@store')->name('storeAddressDetails');
 
-    Route::get('employee/Address/{addressType}/{employee}', 'Hrms\AddressController@updateAddress')->name('updateAddress');
-    Route::post('address/store', 'Hrms\AddressController@storeAddressDetails')->name('storeAddressDetails');
+    Route::get('employee/Address/edit/{addressType}/{employee}', 'Hrms\AddressController@edit')->name('updateAddress');
+    Route::post('address/update', 'Hrms\AddressController@update')->name('updateAddressDetails');
 
 
     /* FamilyController */
@@ -199,8 +199,8 @@ Route::group(['as' => 'employee.'], function () {
     Route::post('education/store', 'Hrms\EducationController@storeEducationDetails')->name('education.store');
 
     /* PostingController */
-    Route::get('employee/posting/{employee}', 'Hrms\PostingController@createPostings')->name('createPostings');
-    Route::post('posting/store', 'Hrms\PostingController@storePostings')->name('postings.store');
+    Route::get('employee/posting/{employee}', 'Hrms\PostingController@create')->name('createPostings');
+    Route::post('posting/store', 'Hrms\PostingController@store')->name('postings.store');
 
 
     Route::post('ajaxDataForOffice', 'Hrms\Hrms@ajaxDataForOffice')->name('ajaxDataForOffice'); 

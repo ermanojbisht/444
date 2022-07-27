@@ -26,7 +26,7 @@ class UpdateEmployeeRequest extends FormRequest
     {  
         // |unique:employees
         $rules['id'] =  'required|min:5|max:50';
-        $rules['name'] = 'required|regex:/^[a-zA-Z\s]*$/|min:3|max:150';
+        $rules['name'] = 'required|regex:/^[a-zA-Z\w\s].*$/|min:3|max:150';
         $rules['father_name'] = 'required|regex:/^[a-zA-Z\s]*$/|min:3|max:150';
         $rules['gender_id'] = 'required|numeric|gt:0';
         $rules['birth_date'] = 'required|date';

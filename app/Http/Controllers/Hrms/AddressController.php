@@ -14,8 +14,8 @@ use App\Models\Hrms\State;
 use App\Models\Tehsil;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Redirect;
-use Request;
+use Illuminate\Support\Facades\Request;
+use Redirect; 
 
 class AddressController extends Controller
 {
@@ -41,7 +41,7 @@ class AddressController extends Controller
      * [view Employee Add Address ] by Office 
      * @return view for Employee Add Address 
      */
-    public function createAddressDetails(Employee $employee)
+    public function create(Employee $employee)
     {
         $states = array('' => 'Select State') + State::orderBy('id')->pluck('name', 'id')->toArray();
         $districts = array('' => 'Select District') + District::orderBy('id')->pluck('name', 'id')->toArray();
@@ -49,7 +49,7 @@ class AddressController extends Controller
         $constituencies = array('' => 'Select VidhanSabha') + Constituency::orderBy('name')->pluck('name', 'id')->toArray();
 
 
-        return view('hrms.employee.createAddress', compact('employee', 'states', 'districts', 'tehsils', 'constituencies'));
+        return view('hrms.employee.Address.create', compact('employee', 'states', 'districts', 'tehsils', 'constituencies'));
     }
 
 
@@ -58,7 +58,7 @@ class AddressController extends Controller
      * [view Employee Add Address ] by Office 
      * @return view for Employee Add Address 
      */
-    public function storeAddressDetails(StoreAddressRequest $request)
+    public function store(StoreAddressRequest $request)
     {
         Address::create($request->validated());
         
@@ -69,15 +69,8 @@ class AddressController extends Controller
 
     }
     
-    public function updateAddress($addressType, Employee $employee)
+    public function edit($addressType, Employee $employee)
     {
-
-        
-        return $employee->with('addresses')->get();
-        
-        // ->addresses()->get(); //  with(['addresses']);
-
-
         $address = $employee->getAddress($addressType);
 
         $states = array('' => 'Select State') + State::orderBy('id')->pluck('name', 'id')->toArray();
@@ -85,10 +78,19 @@ class AddressController extends Controller
         $tehsils = array('' => 'Select Tehsil') + Tehsil::orderBy('name')->pluck('name', 'id')->toArray();
         $constituencies = array('' => 'Select VidhanSabha') + Constituency::orderBy('name')->pluck('name', 'id')->toArray();
 
-        return view('hrms.employee.editAddress', compact('address', 'employee', 
+        return view('hrms.employee.Address.edit', compact('address','addressType', 'employee', 
         'states', 'districts', 'tehsils', 'constituencies'));
     }
 
+    
+    public function update(StoreAddressRequest $request)
+    {
+
+        
+        return $request->all();
+
+
+    }
 
     
 

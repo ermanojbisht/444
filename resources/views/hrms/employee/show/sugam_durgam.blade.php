@@ -18,7 +18,7 @@
 @endsection
 
 @section('pagetitle')
-Employee Detail
+Employee Sugam Durgam Detail
 @endsection
 
 @section('breadcrumb')
@@ -31,8 +31,8 @@ Employee Detail
 @endsection
 
 @section('sidebarmenu')
+@include('layouts.type200._commonpartials._sidebarmenu_hrms',['active'=>'Employees'])
 @endsection
-
 @section('content')
 
 <div class="card">

@@ -34,9 +34,12 @@
             $("#state_id").val(5).trigger('change');
             $(".addStatedetails").css("display","inline-block");
 
+
             $("#district_id").val(1).trigger('change');
             $("#tehsil_id").val(1).trigger('change');
             $("#vidhansabha_id").val(1).trigger('change');
+
+
              
         }
     }
@@ -48,8 +51,13 @@
         if(state_id != 5)
         {
             $(".addStatedetails").css("display","none");
+            $(".forUk").removeAttr("required");
+
         }else {
             $(".addStatedetails").css("display","inline-block");
+            
+            $(".forUk").attr("required","required");
+            
         }
 
     }
@@ -79,7 +87,7 @@ Add Employee Address
 
 @section('content')
 
-<form action="{{ route('employee.storeAddressDetails') }}" method="POST"
+<form action="{{ route('employee.updateAddressDetails') }}" method="POST"
     onsubmit="return confirm('Above Written Details are correct to my knowledge. ( मेरे द्वार भरा गया उपरोक्त डाटा सही हैं ) ??? ');">
     @csrf
 
@@ -95,14 +103,10 @@ Add Employee Address
                         {{-- address_type_id --}}
                         <div class="form-group col-md-3">
                             <label class="required" for="address_type_id"> Address Type </label>
-
-                            {{-- {!! Form::select('address_type_id', config('hrms.masters.addressType'), '1',
-                            ['id'=>'address_type_id','class'=>'form-select','required'], ) !!} --}}
-
                             <select id="address_type_id" class="form-select" required="" name="address_type_id">
-                                @if(! $employee->getAddress(1))<option value="1">Correspondence</option> @endif
-                                @if(! $employee->getAddress(2))<option value="2">Permanent</option> @endif
-                                @if(! $employee->getAddress(3))<option value="3">Home</option> @endif
+                                @if($addressType == 1)<option value="1">Correspondence</option> @endif
+                                @if($addressType == 2)<option value="2">Permanent</option> @endif
+                                @if($addressType == 3)<option value="3">Home</option> @endif
                             </select>
 
                             @if($errors->has('address_type_id'))
@@ -114,11 +118,12 @@ Add Employee Address
                                 @if($employee->getAddress(1))
                                 <input type="checkbox" name="same_address" id="same_address"
                                     onclick="same_as_correspond_address()" />
-                                <label for="same_address"> Same as Correspondence Address </label>
+                                <label for="same_address"> Same as Correspondence </label>
+                                <br/><br/>
                                 @endif
                             </span>
                         </div>
-
+                        
                         {{-- state_id --}}
                         <div class="form-group col-md-3">
                             <label class="required" for="state_id"> State Name </label>
@@ -137,7 +142,7 @@ Add Employee Address
                         <div class="form-group col-md-3 addStatedetails">
                             <label class="required" for="district_id"> District </label>
                             {!! Form::select('district_id', $districts, '',
-                            ['id' => 'district_id', 'class'=>'form-select select2', 'required']) !!}
+                            ['id' => 'district_id', 'class'=>'form-select select2 forUk ', 'required']) !!}
                             @if($errors->has('district_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('district_id') }}
@@ -150,7 +155,7 @@ Add Employee Address
                         <div class="form-group col-md-3 addStatedetails ">
                             <label class="required" for="tehsil_id"> Tehsil </label>
                             {!! Form::select('tehsil_id', $tehsils, '',
-                            ['id' => 'tehsil_id', 'class'=>'form-select select2 ', 'required']) !!}
+                            ['id' => 'tehsil_id', 'class'=>'form-select select2  forUk ', 'required']) !!}
                             @if($errors->has('tehsil_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('tehsil_id') }}
@@ -159,12 +164,12 @@ Add Employee Address
                             <span class="help-block"> </span>
                         </div>
 
-
+                        
                         {{-- vidhansabha_id --}}
                         <div class="form-group col-md-3 addStatedetails ">
                             <label class="required" for="vidhansabha_id"> Vidhansabha </label>
                             {!! Form::select('vidhansabha_id', $constituencies, '0',
-                            ['id' => 'vidhansabha_id', 'class'=>'form-select select2 ', 'required']) !!}
+                            ['id' => 'vidhansabha_id', 'class'=>'form-select select2  forUk ', 'required']) !!}
                             @if($errors->has('vidhansabha_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('vidhansabha_id') }}
@@ -172,6 +177,7 @@ Add Employee Address
                             @endif
                             <span class="help-block"> </span>
                         </div>
+
 
                         {{-- address1 --}}
                         <div class="form-group col-md-3">
@@ -206,7 +212,7 @@ Add Employee Address
                             <br />
                             <div class="box-footer justify-content-between">
                                 <button id="btnAddRegDetails" type="submit" class="btn btn-success">
-                                    Save Address Detail </button>
+                                    Update Address  </button>
                             </div>
                         </div>
                     </div>

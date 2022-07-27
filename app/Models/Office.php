@@ -24,12 +24,7 @@ class Office extends Model
         'is_exist',
         '_lft', 
         '_rgt',
-        'hr_office_id',
-        'isdurgam', 
-        'duration_factor', 
-        'Treasury_Code', 
-        'DDO_Code'  
-         
+        'hr_office_id'        
     ];
     
     public function getParentIdName()

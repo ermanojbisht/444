@@ -6,12 +6,14 @@
 return [
 
    'gender' => [
+      0 => 'Unknown',
       1 => 'Male',
       2 => 'Female',
       3 => 'Transgender'
    ],
 
    'religion' => [
+      0 => 'Unknown',
       1 => 'Hindu',
       2 => 'Muslim',
       3 => 'Sikh',
@@ -21,6 +23,7 @@ return [
    ],
 
    'married' => [
+      0 => 'Unknown',
       1 => 'Married',
       2 => 'Single',
       3 => 'Widow',
@@ -29,6 +32,7 @@ return [
    ],
 
    'bloodGroup' => [
+      0 => 'Unknown',
       1 => 'O-',
       2 => 'O+',
       3 => 'A-',
@@ -40,6 +44,7 @@ return [
    ],
 
    'cast' => [
+      0 => 'Unknown',
       1 => 'General',
       2 => 'OBC',
       3 => 'SC',
@@ -47,7 +52,8 @@ return [
    ],
 
    'disability' => [
-      1 => 'None',
+      0 => 'Unknown',
+      1 => 'None',  // default will be 1 in DB
       2 => 'Uttrakhand Dependent of Freedom Fighters',
       3 => 'Ex-Servicemen',
       4 => 'Women',
@@ -76,7 +82,7 @@ return [
 
    /* 1st to 7th are taken as they were in HRMS SQL => DB   */
    'relation' => [
-      0 => 'Select Relation',
+      0 => 'Unknown',
       1 => 'Wife',
       2 => 'Son',
       3 => 'Daughter',
@@ -89,17 +95,18 @@ return [
    ],
 
    'regular_incharge' => [
-      1 => 'regular',
+      1 => 'regular',  // Db Default  -> 1 
       2 => 'incharge'
    ],
 
    'appointmentType' => [
-      1   => 'UKPSC',
-      2   => 'UPNL',
-      3   => 'UKSSSC',
-      4   => 'UPSSSC',
-      5   => 'UPPSC',
-      6   => 'Adhoc'
+      0 => 'Unknown',
+      1 => 'UKPSC',
+      2 => 'UPNL',
+      3 => 'UKSSSC',
+      4 => 'UPSSSC',
+      5 => 'UPPSC',
+      6 => 'Adhoc'
    ],
 
 
@@ -124,7 +131,7 @@ return [
       1 => 'Transfer',
       2 => 'Attachment',
       3 => 'Promotion',
-      4 => 'Promotion In Charge', 
+      4 => 'Promotion In Charge',
       5 => 'Demotion',
       6 => 'Deputation',
       7 => 'Rejoin after Deputation',

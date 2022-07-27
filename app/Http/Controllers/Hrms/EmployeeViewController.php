@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Redirect;
 use Request;
 
-class EmployeeDetailController extends Controller
+class EmployeeViewController extends Controller
 {
 
     /**
@@ -87,7 +87,7 @@ class EmployeeDetailController extends Controller
 
         $homeAddress = $employee->getAddress(3);
 
-        return view('hrms.employee.viewEmployeeDetail', compact(
+        return view('hrms.employee.show.sugam_durgam', compact(
             'employee',
             'designations',
             'offices',

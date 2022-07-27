@@ -20,7 +20,7 @@ Employee Registration
 @endsection
 
 @section('sidebarmenu')
-
+@include('layouts.type200._commonpartials._sidebarmenu_hrms',['active'=>'Employees'])
 @endsection
 
 @section('content')
@@ -156,7 +156,8 @@ Employee Registration
         <div class="form-group col-md-3">
             <label class="required" for="email"> Email Address </label>
             <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" minlength="5"
-                maxlength="100" name="email" id="email" value="{{ old('email', '') }}" placeholder="Alternate Mobile No"
+                maxlength="100" name="email" id="email" value="{{ old('email', '') }}" 
+                placeholder="Email Address "
                 required>
             @if($errors->has('email'))
             <div class="invalid-feedback">
@@ -184,7 +185,7 @@ Employee Registration
             <label class="required" for="aadhar"> Aadhar </label>
             <input class="form-control {{ $errors->has('aadhar') ? 'is-invalid' : '' }}" type="text" minlength="12"
                 maxlength="12" name="aadhar" id="aadhar" value="{{ old('aadhar', '') }}"
-                placeholder="Aadhar Card Number" required>
+                placeholder="Aadhar Card Number"  >
             @if($errors->has('aadhar'))
             <div class="invalid-feedback">
                 {{ $errors->first('aadhar') }}

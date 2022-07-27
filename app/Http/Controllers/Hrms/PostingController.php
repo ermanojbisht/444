@@ -47,7 +47,7 @@ class PostingController extends Controller
      * [view Employee Add Address ] by Office 
      * @return view for Employee Add Address 
      */
-    public function createPostings(Employee $employee)
+    public function create(Employee $employee)
     {
          $employeePostings = Posting::where("employee_id", $employee->id)
       ->with('officeName')->with('designationName')->get();
@@ -57,8 +57,7 @@ class PostingController extends Controller
         
         $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
 
-
-        return view('hrms.employee.createPostings', compact('employee','employeePostings', 'designations', 'offices'));    
+        return view('hrms.employee.posting.create', compact('employee','employeePostings', 'designations', 'offices'));    
     }
 
 
@@ -67,7 +66,7 @@ class PostingController extends Controller
      * [view Employee Add Address ] by Office 
      * @return view for Employee Add Address 
      */
-    public function storePostings(StorePostingsRequest $request)
+    public function store(StorePostingsRequest $request)
     {
         $lastPosting = Posting::where("employee_id",$request->employee_id)->whereNull("to_date");
         $lastPosting->update(['to_date' => $request->to_date ]);
@@ -77,11 +76,9 @@ class PostingController extends Controller
         
         Posting::create($newPosting);
         
-        return redirect()->route('employee.createPostings',['employee'=>$request->employee_id])
+        return redirect()->route('employee..posting.create',['employee'=>$request->employee_id])
         ->with('status', 'Postings Updated Successfully!'); 
         
-        // return redirect()->back()->with('status', 'Employee Added Successfully!');
-
     }
 
     

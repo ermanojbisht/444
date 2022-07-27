@@ -39,9 +39,8 @@ class EducationController extends Controller
     {
         $employeeEducation = Education::where("employee_id", $employee->id)->get();
 
-        return view('hrms.employee.createEducation', compact('employee','employeeEducation'));
+        return view('hrms.employee.education.create', compact('employee','employeeEducation'));
     }
-
 
     /**
      ** Add Address Details
@@ -56,4 +55,7 @@ class EducationController extends Controller
             ->with('status', 'Address Updated Successfully!');
  
     }
+
+
+
 }

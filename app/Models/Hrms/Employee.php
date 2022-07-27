@@ -159,7 +159,7 @@ class Employee extends Model
             ->where("address_type_id", "=", $addressType)->first();
     }
 
-    //todo : All functions below are imported from mis employee Model ^.^
+    //todo : All functions below are imported from mis employee Model ^.^   
 
     /**
      * Route notifications for the Telegram channel.

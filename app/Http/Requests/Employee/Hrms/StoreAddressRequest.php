@@ -30,9 +30,9 @@ class StoreAddressRequest extends FormRequest
         $rules['address_type_id'] = 'required|numeric|gt:0';
        
         $rules['state_id'] = 'required|numeric|gt:0';
-        $rules['district_id'] = 'required|numeric|gt:0';
-        $rules['tehsil_id'] = 'required|numeric|gt:0';
-        $rules['vidhansabha_id'] = 'required|numeric|gt:0';
+        $rules['district_id'] = 'required_if:state_id,===,5'; // numeric|required|gt:0';
+        $rules['tehsil_id'] = 'required_if:state_id,===,5'; // numeric|required|gt:0';
+        $rules['vidhansabha_id'] = 'required_if:state_id,===,5'; //numeric|required|gt:0';
         $rules['updated_by'] =  'required';
 
         return $rules;

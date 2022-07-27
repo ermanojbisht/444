@@ -16,14 +16,11 @@ class AnnualLeave extends Model
         'id',
         'employee_id',
         'transfer_seasion',
-        'No_of_leaves',
-        'Office_name',
+        'no_of_leaves',
+        'office_name',
         'isdurgam',
         'duration_factor',
         'created_at',
         'updated_at'
     ];
-
-     
-
 }
