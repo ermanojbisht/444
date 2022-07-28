@@ -16,10 +16,12 @@
 
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
         <li class="nav-title">HRMS</li>
+        @can('create_employee')
         <x-nav-group icon="user-plus" name="Employees">
             <x-nav-item icon="plus" href="{{route('employee.create')}}">Add New Employee </x-nav-item>
             <x-nav-item icon="description" href="{{route('employee.index')}}">New Employees </x-nav-item>
         </x-nav-group>
+        @endcan
 
         <x-nav-group icon="user-plus" name="Update Employees">
             <x-nav-item icon="chat-bubble" href="{{route('employee.updateEmployee')}}">Transfer Detail </x-nav-item>
