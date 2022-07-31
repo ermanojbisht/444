@@ -65,15 +65,15 @@
 		</thead>
 		<tbody>
 			@foreach($acrs as $acr)
-			<tr class="{!! $acr->status_bg_color() !!}" style="--cui-bg-opacity: .25;">
+			<tr class="{{ $acr->status_bg_color() }}" style="--cui-bg-opacity: .25;">
 				<td data-sort="{{ $acr->id }}">{{1+$loop->index }}</td>
 				<td  class="align-middle">{{$employee->id}}</td>
 				<td  class="align-middle">{{$employee->getShriNameAttribute()}}</td>
 				<td  class="align-middle">{{$employee->father_name}}</td>
 				<td  class="align-middle">{{$employee->birth_date->format('d M Y')}}</td>
 				<td  class="align-middle">{{$acr->getFinancialYearAttribute()}}</td>
-				<td>{!! $acr->from_date->format('d&#160;M&#160;Y') !!}</td>
-				<td>{!! $acr->to_date->format('d&#160;M&#160;Y') !!}</td>
+				<td>{{ $acr->from_date->format('d M Y') }}</td>
+				<td>{{ $acr->to_date->format('d M Y') }}</td>
 				<td>{{$acr->status()}}</td>
 				@if(!$acr->is_active )
 					<td ></td>
@@ -156,10 +156,10 @@
 				</td>
 				@endif
 				@if($isMyAcr)
-					<td>{{$acr->accept_no}}</td>
+					<td>{{$acr->final_no}}</td>
 				@else
 				@can('acr-special')
-					<td>{{$acr->accept_no}}</td>				
+					<td>{{$acr->final_no}}</td>
 				@endcan
 				@endif
 				
