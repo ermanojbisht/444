@@ -129,7 +129,7 @@ Route::prefix('consume')->group(function () {
 
 
 // Start : Hrms new laravel system routes  // todo:: also tried web_hrms need to remove or refactor later 
-Route::group(['as' => 'employee.'], function () {
+Route::group(['as' => 'employee.', 'middleware'=>['auth']], function () {
 
     /* EmployeeViewController */
     Route::get('viewEmpDetail/{employee}', 'Hrms\EmployeeViewController@view')->name('viewEmpDetail');
