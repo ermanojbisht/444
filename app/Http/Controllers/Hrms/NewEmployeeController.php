@@ -38,18 +38,24 @@ class NewEmployeeController extends Controller
     // view all employees in Office
     public function index()
     {
-        $title = "New Enrolled Employees";
-        $newAddedEmployees = Employee::where('lock_level', "0")
-        ->orWhere('current_designation_id', 'null')
-        ->get();
-         
-        $OfficesAllocated = $this->user->OfficeToAnyJob(['employee_edit_job']); // hr-gr-draft for Draft Answer
-        $newAddedEmployees = Employee::where('retirement_date','>',now()) 
-        ->where('lock_level', 0)->with('designationName')->get();
+        $user = Auth::User();
+        if (Auth::user()->hasAccess(['create_employee'])) {
 
-        //->whereIn("current_office_id", $OfficesAllocated)
-        // ->orwhere("current_office_id", 0)
-        return view('hrms.employee.index', compact('newAddedEmployees', 'title'));
+            $title = "New Enrolled Employees";
+            $newAddedEmployees = Employee::where('lock_level', "0")
+                ->orWhere('current_designation_id', 'null')->get();
+
+
+            $newAddedEmployees = Employee::where('retirement_date', '>', now())
+                ->where('lock_level', 0)->with('designationName')->get();
+
+            //->whereIn("current_office_id", $OfficesAllocated)
+            // ->orwhere("current_office_id", 0)
+            return view('hrms.employee.index', compact('newAddedEmployees', 'title'));
+        } else {
+           
+            return redirect()->route('employee.office.index'); 
+        }
     }
 
     /**
@@ -100,9 +106,8 @@ class NewEmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        $designations = array('' => 'Select Designation') + Designation::whereNotNull('group_id')->
-        orderBy('name')->pluck('name', 'id')->toArray();
-         
+        $designations = array('' => 'Select Designation') + Designation::whereNotNull('group_id')->orderBy('name')->pluck('name', 'id')->toArray();
+
         $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
 
         return view('hrms.employee.edit', compact('employee', 'designations', 'offices'));
@@ -151,76 +156,5 @@ class NewEmployeeController extends Controller
         return redirect('employee/index')->with('status', 'Employee Added Successfully!');
     }
 
-
-    /**
-     * [update Employee Status => Office => Designation => Head Quarter]
-     * @return view for Employee Updatetion
-     */
-    public function update_employee_status()
-    {
-        $designations = array('' => 'Select Designation') + Designation::whereNotNull('group_id')
-            ->orderBy('name')->pluck('name', 'id')->toArray();
-        $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
-
-        $title = " जिन अधिकारियों/कर्मचारियों का ट्रान्सफर / परमोसन हो गया है उनका ऑफिस यहाँ से अपडेट कर सकते हैं। ";
-
-        return view('hrms.employee.update_employee_status', compact('title', 'designations', 'offices'));
-    }
-
-
-    /**
-     * [update Employee Data]
-     * @param  UpdateEmployeeRequest $request [Employee Data]
-     * @return [type]               redirect [New Added Employee Index]
-     */
-    public function updateEmployePostings(SectionUpdateEmployeePostingRequest $request)
-    {
-        // return ($request->validated());
-
-        $employee = Employee::findorFail($request->id);
-        $employee->update($request->validated());
-
-        // $office_id = $employee->current_office_id;
-        // if($request->is_office_changed == 1)
-        //     $office_id = $request->current_office_id;
-        
-        // $designation_id = $employee->current_designation_id;
-        // if($request->is_designation_changed == 1)
-        //     $designation_id  = $request->current_designation_id;
-    
-        // $is_prabhari = $employee->regular_incharge;
-        // if($request->is_designation_changed == 1)
-        //     $is_prabhari = $request->regular_incharge;
-
-        // $posting = Posting::create([
-        //     'employee_id' => $request->id,
-        //     'order_no' =>  $request->order_no,
-        //     'order_at' => $request->transfer_order_date,
-        //     'office_id' => $office_id,
-        //     //'from_date' => $request->transfer_order_date,
-        //     //'mode_id' => "13",
-        //     'designation_id' => $designation_id,
-        //     'is_prabhari' => $is_prabhari,
-        //     'islocked' => "0",
-        //     'row_confirm' => "0"
-        // ]);
-
-
-        return redirect('employee/index')->with('status', 'Employee Updated Successfully!');
-    }
-
-
-
-
-    /**
-     * [Get Employee Designationwise => Index]
-     * @return view for Employee Update
-     */
-    public function  getEmployeesDesignationWise(Request $request)
-    {
-        $employees = Employee::where("current_designation_id", $request->designation_id)
-            ->orderBy('name')->select('name', 'id')->get();
-
-        return $employees;
-    }
+     
 }
