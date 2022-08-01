@@ -39,6 +39,7 @@ class AcrEsclatedAlertJob implements ShouldQueue
      */
     public function handle()
     {
+        $dutyType=$this->dutyType;
         dispatch(new MakeAcrPdfOnSubmit($this->acr, $dutyType));
         $defaulterEmployee = $this->acr->userOnBasisOfDuty($dutyType);
         $mail = Mail::to($defaulterEmployee);
