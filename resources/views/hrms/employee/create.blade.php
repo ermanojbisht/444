@@ -134,14 +134,14 @@ Employee Registration
                     <span class="help-block"> </span>
                 </div>
 
-                {{-- current_designation_id --}}
+                {{-- designation_id --}}
                 <div class="form-group col-md-3">
-                    <label class="required" for="current_designation_id"> Designation </label>
-                    {!! Form::select('current_designation_id', $designations, '1', ['id' => 'current_designation_id',
+                    <label class="required" for="designation_id"> Designation </label>
+                    {!! Form::select('designation_id', $designations, '1', ['id' => 'designation_id',
                     'class'=>'form-select select2', 'required']) !!}
-                    @if($errors->has('current_designation_id'))
+                    @if($errors->has('designation_id'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('current_designation_id') }}
+                        {{ $errors->first('designation_id') }}
                     </div>
                     @endif
                     <span class="help-block"> </span>
@@ -152,14 +152,14 @@ Employee Registration
             <br />
             <div class="row">
 
-                {{-- current_office_id --}}
+                {{-- office_idd --}}
                 <div class="form-group col-md-3">
-                    <label class="required" for="current_office_id"> Office </label>
-                    {!! Form::select('current_office_id', $offices, '', ['id' => 'current_office_id',
+                    <label class="required" for="office_idd"> Office </label>
+                    {!! Form::select('office_idd', $offices, '', ['id' => 'office_idd',
                     'class'=>'form-select select2', 'required']) !!}
-                    @if($errors->has('current_office_id'))
+                    @if($errors->has('office_idd'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('current_office_id') }}
+                        {{ $errors->first('office_idd') }}
                     </div>
                     @endif
                     <span class="help-block"> </span>

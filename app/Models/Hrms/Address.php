@@ -35,9 +35,6 @@ class Address extends Model
     // todo: state table need to be corrected 
     
 
-    
-
-
     public function state_Name(){
         return $this->belongsTo(State::class, "state_id", "id");
     }

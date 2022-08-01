@@ -38,8 +38,8 @@ class SectionUpdateEmployeeRequest extends FormRequest
         $rules['appointment_order_at'] = 'required|date';
         $rules['appointment_order_no'] = 'required';
 
-        $rules['current_designation_id'] = 'required|numeric';
-        $rules['current_office_id'] = 'required|numeric';
+        $rules['designation_id'] = 'required|numeric';
+        $rules['office_idd'] = 'required|numeric';
 
         $rules['joining_date'] = 'required|date';
         $rules['appointed_through'] = 'required|numeric';

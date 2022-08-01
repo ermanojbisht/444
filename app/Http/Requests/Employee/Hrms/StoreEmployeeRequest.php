@@ -46,8 +46,8 @@ class StoreEmployeeRequest extends FormRequest
         $rules['identity_mark'] = 'required';
         $rules['lock_level'] = 'required|numeric';
         //$rules['transfer_order_date'] = 'required|date';
-        // $rules['current_designation_id'] = 'required|numeric';
-        // $rules['current_office_id'] = 'required|numeric';
+        // $rules['designation_id'] = 'required|numeric';
+        // $rules['office_idd'] = 'required|numeric';
 
 
         return $rules;

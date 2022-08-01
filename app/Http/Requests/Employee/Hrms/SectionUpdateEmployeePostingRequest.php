@@ -32,9 +32,9 @@ class SectionUpdateEmployeePostingRequest extends FormRequest
         $rules['is_office_head'] = 'required|numeric';
         $rules['is_designation_changed'] = 'required|numeric';
         $rules['regular_incharge'] = 'required_if:is_designation_changed,==,1|numeric';
-        $rules['current_designation_id'] = 'required_if:is_designation_changed,==,1|numeric|different:designation_id';
+        $rules['designation_id'] = 'required_if:is_designation_changed,==,1|numeric|different:designation_id';
         $rules['is_office_changed'] = 'required|numeric';
-        $rules['current_office_id'] = 'required_if:is_office_changed,===,1';
+        $rules['office_idd'] = 'required_if:is_office_changed,===,1';
 
 
         return $rules;

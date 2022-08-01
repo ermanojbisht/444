@@ -90,7 +90,7 @@ class EditEmployeeHqController extends Controller
      */
     public function  getEmployeesDesignationWise(Request $request)
     {
-        $employees = Employee::where("current_designation_id", $request->designation_id)
+        $employees = Employee::where("designation_id", $request->designation_id)
             ->orderBy('name')->select('name', 'id')->get();
 
         return $employees;

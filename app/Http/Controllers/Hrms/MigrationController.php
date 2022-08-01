@@ -162,8 +162,8 @@ class MigrationController extends Controller
                 $employee->height =  $emp->emp_height;
 
             $employee->identity_mark =  $emp->emp_idy;
-            $employee->current_office_id = $emp->Office_id;
-            $employee->current_designation_id =  $emp->Designation_id;
+            $employee->office_idd = $emp->Office_id;
+            $employee->designation_id =  $emp->Designation_id;
 
 
             $employee->informed_by_employee_id = $emp->User_Id;

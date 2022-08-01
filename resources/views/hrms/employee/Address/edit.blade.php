@@ -256,10 +256,10 @@ Add Employee Address
                                 Correspondence Address
                             </td>
                             <td>
-                                @if($employee->getAddress(1)->state_id)
+                                @if($employee->getAddress(1)->state_id > 0)
                                 <label style="display:none;" id="lbl_state_id">
                                     {{$employee->getAddress(1)->state_id}}</label>
-                                {{ $employee->getAddress(1)->state_Name->name }}
+                                    {{ $employee->getAddress(1)->state_Name->name }}
                                 @endif
                             </td>
                             <td>

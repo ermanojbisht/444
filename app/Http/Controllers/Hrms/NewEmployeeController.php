@@ -43,14 +43,14 @@ class NewEmployeeController extends Controller
 
             $title = "New Enrolled Employees";
             $newAddedEmployees = Employee::where('lock_level', "0")
-                ->orWhere('current_designation_id', 'null')->get();
+                ->orWhere('designation_id', 'null')->get();
 
 
             $newAddedEmployees = Employee::where('retirement_date', '>', now())
                 ->where('lock_level', 0)->with('designationName')->get();
 
-            //->whereIn("current_office_id", $OfficesAllocated)
-            // ->orwhere("current_office_id", 0)
+            //->whereIn("office_idd", $OfficesAllocated)
+            // ->orwhere("office_idd", 0)
             return view('hrms.employee.index', compact('newAddedEmployees', 'title'));
         } else {
            
@@ -86,10 +86,10 @@ class NewEmployeeController extends Controller
             'employee_id' => $request->id,
             'order_no' =>  $request->appointment_order_no,
             'order_at' => $request->appointment_order_at,
-            'office_id' => $request->current_office_id,
+            'office_id' => $request->office_idd,
             'from_date' => $request->joining_date,
             'mode_id' => "13",
-            'designation_id' => $request->current_designation_id,
+            'designation_id' => $request->designation_id,
             'is_prabhari' => '0',
             'islocked' => "1",
             'row_confirm' => "1"
@@ -129,9 +129,9 @@ class NewEmployeeController extends Controller
             'employee_id' => $request->id,
             'order_no' =>  $request->appointment_order_no,
             'order_at' => $request->appointment_order_at,
-            'office_id' => $request->current_office_id,
+            'office_id' => $request->office_idd,
             'from_date' => $request->joining_date,
-            'designation_id' => $request->current_designation_id
+            'designation_id' => $request->designation_id
         ]);
 
 
@@ -145,9 +145,9 @@ class NewEmployeeController extends Controller
     public function lockEmployee(Employee $employee, $lock_level)
     {
         if ($lock_level == 1) {
-            if (!$employee->current_designation_id)
+            if (!$employee->designation_id)
                 return redirect()->back()->with('fail', "Please Enter Designation.");
-            if (!$employee->current_office_id)
+            if (!$employee->office_idd)
                 return redirect()->back()->with('fail', "Please Enter Office Name.");
         }
 
