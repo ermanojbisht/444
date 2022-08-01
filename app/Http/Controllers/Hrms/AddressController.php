@@ -100,7 +100,7 @@ class AddressController extends Controller
 
     public function update(StoreAddressRequest $request)
     {
-        $address = Address::where("employee_id", $request->employee_id)->where("address_type_id", 3);
+        $address = Address::where("employee_id", $request->employee_id)->where("address_type_id", 3)->first();
 
         $district_id = 0;
         $tehsil_id = 0;
