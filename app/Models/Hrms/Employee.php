@@ -199,7 +199,6 @@ class Employee extends Model
     public function updateHomeDetails()
     {
         $homeAddress=$this->getAddress(3);
-
         if($homeAddress){
             $this->update([
                 'h_district' => ($homeAddress->district_id ? $homeAddress->district_Name->name : ''),
@@ -212,7 +211,7 @@ class Employee extends Model
 
     public function updateOfficeRelatedData()
     {
-        $office = Office::find($this->office_idd);
+       return $office = Office::find($this->office_idd);
         if ($office) {
             $this->update([
                 'office_type' => $office->office_type,

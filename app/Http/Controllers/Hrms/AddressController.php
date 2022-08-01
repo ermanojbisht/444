@@ -15,7 +15,7 @@ use App\Models\Tehsil;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
-use Redirect; 
+use Redirect;
 
 class AddressController extends Controller
 {
@@ -47,11 +47,16 @@ class AddressController extends Controller
         $districts = array('' => 'Select District') + District::orderBy('id')->pluck('name', 'id')->toArray();
         $tehsils = array('' => 'Select Tehsil') + Tehsil::orderBy('name')->pluck('name', 'id')->toArray();
         $constituencies = array('' => 'Select VidhanSabha') + Constituency::orderBy('name')
-        ->pluck('name', 'id')->toArray();
+            ->pluck('name', 'id')->toArray();
 
 
-        return view('hrms.employee.Address.create', compact('employee', 'states', 
-            'districts', 'tehsils', 'constituencies'));
+        return view('hrms.employee.Address.create', compact(
+            'employee',
+            'states',
+            'districts',
+            'tehsils',
+            'constituencies'
+        ));
     }
 
 
@@ -61,16 +66,16 @@ class AddressController extends Controller
      * @return view for Employee Add Address 
      */
     public function store(StoreAddressRequest $request)
-    {        
+    {
 
         $address = Address::create($request->validated());
 
         $address->employee->updateHomeDetails();
-           
-        return redirect()->route('employee.createAddress',['employee'=>$request->employee_id])
-        ->with('status', 'Address Updated Successfully!'); 
+
+        return redirect()->route('employee.createAddress', ['employee' => $request->employee_id])
+            ->with('status', 'Address Updated Successfully!');
     }
-    
+
     public function edit($addressType, Employee $employee)
     {
         $address = $employee->getAddress($addressType);
@@ -79,24 +84,51 @@ class AddressController extends Controller
         $districts = array('' => 'Select District') + District::orderBy('id')->pluck('name', 'id')->toArray();
         $tehsils = array('' => 'Select Tehsil') + Tehsil::orderBy('name')->pluck('name', 'id')->toArray();
         $constituencies = array('' => 'Select VidhanSabha') + Constituency::orderBy('name')
-        ->pluck('name', 'id')->toArray();
+            ->pluck('name', 'id')->toArray();
 
-        return view('hrms.employee.Address.edit', compact('address','addressType', 'employee', 
-        'states', 'districts', 'tehsils', 'constituencies'));
+        return view('hrms.employee.Address.edit', compact(
+            'address',
+            'addressType',
+            'employee',
+            'states',
+            'districts',
+            'tehsils',
+            'constituencies'
+        ));
     }
 
-    
+
     public function update(StoreAddressRequest $request)
     {
+        $address = Address::where("employee_id", $request->employee_id)->where("address_type_id", 3);
 
-        
-       $address->employee->updateHomeDetails();
+        $district_id = 0;
+        $tehsil_id = 0;
+        $vidhansabha_id =  0;
 
+        if ($request->state_id == 5) {
+            $district_id = $request->district_id;
+            $tehsil_id = $request->tehsil_id;
+            $vidhansabha_id = $request->vidhansabha_id;
+        }
 
+        $address->update([
+            'state_id' => $request->state_id,
+            'district_id' => $district_id,
+            'tehsil_id' => $tehsil_id,
+            'vidhansabha_id' => $vidhansabha_id,
+            'address1' => $request->address1,
+            'address2' => $request->address2,
+            'updated_by' => $request->updated_by
+        ]);
+
+        Log::info("Address = " . print_r($address, true));
+
+        $address->employee->updateHomeDetails();
+
+        return redirect()->route('employee.createAddress', ['employee' => $request->employee_id])
+            ->with('status', 'Address Updated Successfully!');
     }
-
-    
-
-
-
 }
+
+

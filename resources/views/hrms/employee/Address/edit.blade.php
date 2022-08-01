@@ -119,15 +119,15 @@ Add Employee Address
                                 <input type="checkbox" name="same_address" id="same_address"
                                     onclick="same_as_correspond_address()" />
                                 <label for="same_address"> Same as Correspondence </label>
-                                <br/><br/>
+                                <br /><br />
                                 @endif
                             </span>
                         </div>
-                        
+
                         {{-- state_id --}}
                         <div class="form-group col-md-3">
                             <label class="required" for="state_id"> State Name </label>
-                            {!! Form::select('state_id', $states, 5,
+                            {!! Form::select('state_id', $states, ($address->state_id ? $address->state_id : 5),
                             ['id' => 'state_id', 'class'=>'form-select select2', 'required',
                             'onchange' =>'fillOtherDetails()']) !!}
                             @if($errors->has('state'))
@@ -155,7 +155,7 @@ Add Employee Address
                         <div class="form-group col-md-3 addStatedetails ">
                             <label class="required" for="tehsil_id"> Tehsil </label>
                             {!! Form::select('tehsil_id', $tehsils, '',
-                            ['id' => 'tehsil_id', 'class'=>'form-select select2  forUk ', 'required']) !!}
+                            ['id' => 'tehsil_id', 'class'=>'form-select select2 forUk ', 'required']) !!}
                             @if($errors->has('tehsil_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('tehsil_id') }}
@@ -164,12 +164,12 @@ Add Employee Address
                             <span class="help-block"> </span>
                         </div>
 
-                        
+
                         {{-- vidhansabha_id --}}
                         <div class="form-group col-md-3 addStatedetails ">
                             <label class="required" for="vidhansabha_id"> Vidhansabha </label>
-                            {!! Form::select('vidhansabha_id', $constituencies, '0',
-                            ['id' => 'vidhansabha_id', 'class'=>'form-select select2  forUk ', 'required']) !!}
+                            {!! Form::select('vidhansabha_id', $constituencies, '',
+                            ['id' => 'vidhansabha_id', 'class'=>'form-select select2 forUk ', 'required']) !!}
                             @if($errors->has('vidhansabha_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('vidhansabha_id') }}
@@ -183,7 +183,8 @@ Add Employee Address
                         <div class="form-group col-md-3">
                             <label class="required" for="address1"> Address </label>
                             <textarea type="text" rows="2" class="form-control" id="address1" name="address1"
-                                placeholder="Address" required>{{ old('address1', '') }}</textarea>
+                                placeholder="Address" required
+                                >{{ ($address->address1 ? $address->address1 : old('address1','')) }}</textarea>
                             @if($errors->has('address1'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('address1') }}
@@ -196,7 +197,8 @@ Add Employee Address
                         <div class="form-group col-md-3">
                             <label for="address2"> Address Line 2 </label>
                             <textarea type="text" rows="2" class="form-control" id="address2" name="address2"
-                                placeholder="Address">{{ old('address2', '') }}</textarea>
+                                placeholder="Address"
+                                >{{ ($address->address2 ? $address->address2 : old('address2','')) }}</textarea>
                             @if($errors->has('address2'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('address2') }}
@@ -212,7 +214,7 @@ Add Employee Address
                             <br />
                             <div class="box-footer justify-content-between">
                                 <button id="btnAddRegDetails" type="submit" class="btn btn-success">
-                                    Update Address  </button>
+                                    Update Address </button>
                             </div>
                         </div>
                     </div>
@@ -259,7 +261,7 @@ Add Employee Address
                                 @if($employee->getAddress(1)->state_id > 0)
                                 <label style="display:none;" id="lbl_state_id">
                                     {{$employee->getAddress(1)->state_id}}</label>
-                                    {{ $employee->getAddress(1)->state_Name->name }}
+                                {{ $employee->getAddress(1)->state_Name->name }}
                                 @endif
                             </td>
                             <td>
