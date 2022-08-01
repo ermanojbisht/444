@@ -36,8 +36,8 @@ class UpdateEmployeeController extends Controller
     public function index()
     {
         $title = "Office Enrolled Employees";
-        $OfficesAllocated = $this->user->OfficeToAnyJob(['employee_edit_job']); // hr-gr-draft for Draft Answer
-        $newAddedEmployees = Employee::where('retirement_date','>',now())->whereIn("current_office_id", $OfficesAllocated)->whereIn('lock_level', [1, 2])
+        $OfficesAllocated = $this->user->OfficeToAnyJob(['edit_employee_job']); // hr-gr-draft for Draft Answer
+        $newAddedEmployees = Employee::where('retirement_date','>',now())->whereIn("office_idd", $OfficesAllocated)->whereIn('lock_level', [1, 2])
         ->with('designationName')->get();
 
         return view('hrms.employee.index', compact('newAddedEmployees', 'title'));

@@ -170,15 +170,15 @@
                 
                 
 
-                {{-- current_designation_id --}}
+                {{-- designation_id --}}
                 <div class="form-group col-md-3">
-                    <label class="required" for="current_designation_id"> Current Designation </label>
+                    <label class="required" for="designation_id"> Current Designation </label>
                     <br />
-                    {!! Form::select('current_designation_id', $designations, "1", ['id' => 'current_designation_id',
+                    {!! Form::select('designation_id', $designations, "1", ['id' => 'designation_id',
                     'class'=>'form-select select2', 'required' ]) !!}
-                    @if($errors->has('current_designation_id'))
+                    @if($errors->has('designation_id'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('current_designation_id') }}
+                        {{ $errors->first('designation_id') }}
                     </div>
                     @endif
                     <span class="help-block"> </span>
@@ -214,15 +214,15 @@
                 </div>
 
 
-                {{-- current_office_id --}}
+                {{-- office_idd --}}
                 <div class="form-group col-md-3 change_office" style="display:none;">
-                    <label class="required" for="current_office_id"> Office </label>
+                    <label class="required" for="office_idd"> Office </label>
                     <br />
-                    {!! Form::select('current_office_id', $offices, '', ['id' => 'current_office_id',
+                    {!! Form::select('office_idd', $offices, '', ['id' => 'office_idd',
                     'class'=>'form-select select2','style'=>'width:100%']) !!}
-                    @if($errors->has('current_office_id'))
+                    @if($errors->has('office_idd'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('current_office_id') }}
+                        {{ $errors->first('office_idd') }}
                     </div>
                     @endif
                     <span class="help-block"> </span>
@@ -272,25 +272,25 @@
                 }
             }
         });
-        $("#current_designation_id").val(designation_id).trigger('change');
-        $('#current_designation_id').select2("enable",false);
+        $("#designation_id").val(designation_id).trigger('change');
+        $('#designation_id').select2("enable",false);
     }
 
 
     function isDesignationChanged(ischanged)
     {
         if(ischanged == 1){
-            $('#current_designation_id').select2("enable");
-            $("#current_designation_id").val("").trigger('change');
+            $('#designation_id').select2("enable");
+            $("#designation_id").val("").trigger('change');
             $('.is_incharge').css("display","inline-block");  
             
             $("#regular").attr('required','required');
             $("#incharge").attr('required','required');
         }
         else{        
-            $('#current_designation_id').select2("enable",false);
+            $('#designation_id').select2("enable",false);
             var designation_id =  $("#designation_id").val();
-            $("#current_designation_id").val(designation_id).trigger('change');
+            $("#designation_id").val(designation_id).trigger('change');
             $('.is_incharge').css("display","none"); 
 
             $("#regular").removeAttr('required');
@@ -303,11 +303,11 @@
     {
         if(ischanged == 1){
             $('.change_office').css("display","inline-block");  
-            $("#current_office_id").attr('required','required');
+            $("#office_idd").attr('required','required');
         }
         else{ 
             $('.change_office').css("display","none");
-            $("#current_office_id").removeAttr('required');
+            $("#office_idd").removeAttr('required');
         }
 
     }

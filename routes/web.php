@@ -129,7 +129,7 @@ Route::prefix('consume')->group(function () {
 
 
 // Start : Hrms new laravel system routes  // todo:: also tried web_hrms need to remove or refactor later 
-Route::group(['as' => 'employee.'], function () {
+Route::group(['as' => 'employee.', 'middleware'=>['auth']], function () {
 
     /* EmployeeViewController */
     Route::get('viewEmpDetail/{employee}', 'Hrms\EmployeeViewController@view')->name('viewEmpDetail');
@@ -158,7 +158,7 @@ Route::group(['as' => 'employee.'], function () {
     // End: Migration Controller
 
 
-    /* NewEmployeeController -> for section users */
+    /* NewEmployeeController -> for HQ users with permission 'create_employee' */
 
     Route::get('employee/index', 'Hrms\NewEmployeeController@index')->name('index');
 
@@ -170,12 +170,17 @@ Route::group(['as' => 'employee.'], function () {
     
     Route::post('employee/lockEmployee/{employee}/{lock_level}', 'Hrms\NewEmployeeController@lockEmployee')->name('lockEmployee');
 
-    Route::get('employee/update', 'Hrms\NewEmployeeController@update_employee_status')->name('updateEmployee');
-    Route::post('employee/updateEmployePostings', 'Hrms\NewEmployeeController@updateEmployePostings')->name('updateEmployePostings');
     
-    Route::post('getEmployeesDesignationWise', 'Hrms\NewEmployeeController@getEmployeesDesignationWise')->name('getEmployeesDesignationWise');
+    /* EditEmployeeHqController -> for HQ users with permission 'employee_edit_hq' */
+
+    Route::get('employee/update', 'Hrms\EditEmployeeHqController@edit')->name('updateEmployee');
+    Route::post('employee/updateEmployePostings', 'Hrms\EditEmployeeHqController@update')->name('updateEmployePostings');
+    
+    Route::post('getEmployeesDesignationWise', 'Hrms\EditEmployeeHqController@getEmployeesDesignationWise')->name('getEmployeesDesignationWise');
   
     /* UpdateEmployeeController */
+
+
     Route::get('office/employees/index', 'Hrms\UpdateEmployeeController@index')->name('office.index');
     Route::get('office/employees/view/{employee}', 'Hrms\UpdateEmployeeController@view')->name('office.view');
     

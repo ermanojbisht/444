@@ -42,8 +42,8 @@ Employee Postings Detail
                         <div class="form-group col-md-3">
                             <label class="" for="designation_id"> Current Designation </label>
                             <br />
-                            @if($employee->current_designation_id)
-                            {!! Form::label('', $designations[$employee->current_designation_id],
+                            @if($employee->designation_id)
+                            {!! Form::label('', $designations[$employee->designation_id],
                             ['class'=>'label']) !!}
                             <span>@if($employee->regular_incharge == 1) (Incharge) @endif</span>
                             @else
@@ -52,7 +52,7 @@ Employee Postings Detail
                             {!! Form::hidden('regular_incharge', $employee->regular_incharge,
                             ['id'=>'regular_incharge'])
                             !!}
-                            {!! Form::hidden('designation_id', $employee->current_designation_id,
+                            {!! Form::hidden('designation_id', $employee->designation_id,
                             ['id'=>'designation_id']) !!}
 
 
@@ -68,11 +68,8 @@ Employee Postings Detail
                         <div class="form-group col-md-3">
                             <label class="" for="office_id"> Current Office </label>
                             <br />
-                            {!! Form::label('', $offices[$employee->officeName->id], ['class'=>'label'])
-                            !!}
+                            {!! Form::label('', $offices[$employee->officeName->id], ['class'=>'label']) !!}
                             {!! Form::hidden('office_id', $employee->officeName->id, ['id'=>'office_id']) !!}
-                            {{-- {!! Form::select('office_id', $offices, $employee->officeName->id,
-                            ['id' => 'office_id', 'class'=>'form-select select2', 'required']) !!} --}}
                             @if($errors->has('office_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('office_id') }}
@@ -208,20 +205,20 @@ Employee Postings Detail
                         </td>
                         <td>
                             @if($posting->to_date)
-                            {{ $posting->to_date->format('d M Y') }} 
+                            {{ $posting->to_date->format('d M Y') }}
                             @else
                             Till Present
                             @endif
                         </td>
                         <td>
-                             {!! $posting->days_in_office ? $posting->days_in_office . ' Days' : 'Till Present' !!}
+                            {!! $posting->days_in_office ? $posting->days_in_office . ' Days' : 'Till Present' !!}
                         </td>
                         {{-- <td> @if($posting->mode_id > 0) {{ config('hrms.masters.historyType')[$posting->mode_id] }}
                             @endif </td> --}}
                         <td>
                             @if(! $posting->to_date)
                             <a href="javascript:void(0)" onclick="showModal({{$posting->id}})">
-                                   Relieving Date
+                                Relieving Date
                             </a>
                             @endif
                         </td>
@@ -283,7 +280,7 @@ Employee Postings Detail
                 </ul>
                 <div class="row">
 
-                     
+
 
 
                 </div>

@@ -16,20 +16,38 @@
 
     <ul class="sidebar-nav" data-coreui="navigation" data-simplebar="">
         <li class="nav-title">HRMS</li>
+
         @can('create_employee')
         <x-nav-group icon="user-plus" name="Employees">
+            <x-nav-item icon="description" href="{{route('employee.index')}}">New Employees List</x-nav-item>
             <x-nav-item icon="plus" href="{{route('employee.create')}}">Add New Employee </x-nav-item>
-            <x-nav-item icon="description" href="{{route('employee.index')}}">New Employees </x-nav-item>
         </x-nav-group>
         @endcan
 
-        <x-nav-group icon="user-plus" name="Update Employees">
-            <x-nav-item icon="chat-bubble" href="{{route('employee.updateEmployee')}}">Transfer Detail </x-nav-item>
-        </x-nav-group>
+        @can('employee_edit_hq')
+            <x-nav-item icon="chat-bubble" href="{{route('employee.updateEmployee')}}">HQ Level Info Update </x-nav-item>
+        @endcan
+        @can('edit_employee')
+        <x-nav-item icon="user-plus" href="{{route('employee.office.index')}}">Employees List</x-nav-item>
+        @endcan
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0)" onclick="
+                let text;
+                let employee_code = prompt('Please enter Employee Code:', '');
+                if (employee_code == null || employee_code == '')
+                { text = 'Invalid.'; }
+                else { text='{{url('viewEmpDetail')}}' +'/'+ employee_code;
+                        window.open(text, '_blank');
+                }">
+                <svg class="nav-icon">
+                    <use
+                        xlink:href="{{url('vendors/@coreui/icons/svg/free.svg#cil-user')}}">
+                    </use>
+                </svg>
+                <span> Employee's Sugam <br>Durgam Details </span>
+            </a>
+        </li>
 
-        <x-nav-group icon="applications" name="My Office">
-            <x-nav-item icon="user-plus" href="{{route('employee.office.index')}}">View All Employees</x-nav-item>
-        </x-nav-group>
 
         {{--
         <x-nav-group icon="applications" name="Report">

@@ -36,11 +36,11 @@
         <thead class="fw-bold">
             <tr class="align-middle">
                 <th>#</th>
-                <th>Id</th>
+                <th>Employee Id</th>
                 <th>Name </th>
                 <th>Designation</th>
-                <th>Date Of Birth</th>
-                <th>Status -> Created on</th>
+                <th>Office</th> 
+                <th>Updated On</th>
                 <th style="width:10%">Action </th>
             </tr>
         </thead>
@@ -48,19 +48,14 @@
             @foreach($newAddedEmployees as $employee)
             <tr class="{!! $employee->status_bg_color() !!} ">
                 <td>{{1+$loop->index}}</td>
-                <td>
-                    @if( $employee->lock_level == 1)
-                    <a style="color: blue" target="_blank" class="dropdown-item" href="{{ route('employee.viewEmpDetail',['employee'=>$employee->id]) }}">
-                        {{$employee->id}}
-                    </a>
-                    @else
-                    {{$employee->id}}
-                    @endif
-                </td>
+                <td>{{$employee->id}}</td>
                 <td>{{$employee->name}}</td>
                 <td>{{($employee->designationName ? $employee->designationName->name : ' Not declared ') }}</td>
-                <td>{{$employee->birth_date ? $employee->birth_date->format('d M Y') : ''}} </td>
-                <td>{{$employee->created_at ? $employee->created_at->format('d M Y') : ''}} </td>
+                <td>@if ($employee->office_idd)
+                    {{ $employee->officeName->name }}
+                    @endif
+                </td> 
+                <td>{{$employee->updated_at ? $employee->updated_at->format('d M Y') : ''}} </td>
                 <td>
                     <div class="dropdown" id="{{1+$loop->index}}">
                         <button class="btn btn-transparent p-0" type="button" data-coreui-toggle="dropdown"
@@ -83,10 +78,28 @@
                                 Edit
                             </a>
                             @elseif( $employee->lock_level == 1)
+
+
+                            <a class="dropdown-item" target="_blank"
+                                href="{{ route('employee.createPostings',['employee'=>$employee->id]) }}">
+                                Add Posting Details </a>
+
+
+                            <a class="dropdown-item" target="_blank"
+                                href="{{ route('employee.createPostings',['employee'=>$employee->id]) }}">
+                                Add Leaves </a>
+
+
                             <a class="dropdown-item"
                                 href="{{ route('employee.office.view',['employee'=>$employee->id]) }}">
-                                View Employee
+                                Edit Personal Details
                             </a>
+
+                            <a class="dropdown-item" target="_blank"
+                                href="{{ route('employee.viewEmpDetail',['employee'=>$employee->id]) }}">
+                                Sugam Durgam Details
+                            </a>
+
                             @endif
                         </div>
                     </div>
@@ -101,13 +114,10 @@
 @endsection
 
 @section('footscripts')
-
-
-<script src="{{ asset('../plugins/datatables/jquery.dataTables.min.js') }}"></script>
+@include('layouts._commonpartials.js._datatable')
 <script type="text/javascript">
     $(document).ready(function () {
         $("#tbl_NewAddedEmployees").DataTable();
     });
 </script>
-
 @endsection
