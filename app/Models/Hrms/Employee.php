@@ -192,9 +192,36 @@ class Employee extends Model
 
     public function getAddress($addressType)
     {
-        return  $this->belongsTo(Address::class, "id", "employee_id")
+        return  $this->addresses()
             ->where("address_type_id", "=", $addressType)->first();
     }
+
+    public function updateHomeDetails()
+    {
+        $homeAddress=$this->getAddress(3);
+
+        if($homeAddress){
+            $this->update([
+                'h_district' => ($homeAddress->district_id ? $homeAddress->district_Name->name : ''),
+                'h_state' => ($homeAddress->state_id ? $homeAddress->state_Name->name : ''),
+                'h_tahsil' => ($homeAddress->tehsil_id ? $homeAddress->tehsil_Name->name : ''),
+                'timestamps' => false
+            ]);
+        }
+    }
+
+    public function updateOfficeRelatedData()
+    {
+        $office = Office::find($this->office_idd);
+        if ($office) {
+            $this->update([
+                'office_type' => $office->office_type,
+                'office_id' => $office->office_id,
+                'timestamps' => false
+            ]);
+        }
+    }
+
 
     //todo : All functions below are imported from mis employee Model ^.^   
 

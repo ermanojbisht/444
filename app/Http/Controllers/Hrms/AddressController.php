@@ -46,10 +46,12 @@ class AddressController extends Controller
         $states = array('' => 'Select State') + State::orderBy('id')->pluck('name', 'id')->toArray();
         $districts = array('' => 'Select District') + District::orderBy('id')->pluck('name', 'id')->toArray();
         $tehsils = array('' => 'Select Tehsil') + Tehsil::orderBy('name')->pluck('name', 'id')->toArray();
-        $constituencies = array('' => 'Select VidhanSabha') + Constituency::orderBy('name')->pluck('name', 'id')->toArray();
+        $constituencies = array('' => 'Select VidhanSabha') + Constituency::orderBy('name')
+        ->pluck('name', 'id')->toArray();
 
 
-        return view('hrms.employee.Address.create', compact('employee', 'states', 'districts', 'tehsils', 'constituencies'));
+        return view('hrms.employee.Address.create', compact('employee', 'states', 
+            'districts', 'tehsils', 'constituencies'));
     }
 
 
@@ -59,14 +61,14 @@ class AddressController extends Controller
      * @return view for Employee Add Address 
      */
     public function store(StoreAddressRequest $request)
-    {
-        Address::create($request->validated());
-        
+    {        
+
+        $address = Address::create($request->validated());
+
+        $address->employee->updateHomeDetails();
+           
         return redirect()->route('employee.createAddress',['employee'=>$request->employee_id])
         ->with('status', 'Address Updated Successfully!'); 
-        
-        // return redirect()->back()->with('status', 'Employee Added Successfully!');
-
     }
     
     public function edit($addressType, Employee $employee)
@@ -76,7 +78,8 @@ class AddressController extends Controller
         $states = array('' => 'Select State') + State::orderBy('id')->pluck('name', 'id')->toArray();
         $districts = array('' => 'Select District') + District::orderBy('id')->pluck('name', 'id')->toArray();
         $tehsils = array('' => 'Select Tehsil') + Tehsil::orderBy('name')->pluck('name', 'id')->toArray();
-        $constituencies = array('' => 'Select VidhanSabha') + Constituency::orderBy('name')->pluck('name', 'id')->toArray();
+        $constituencies = array('' => 'Select VidhanSabha') + Constituency::orderBy('name')
+        ->pluck('name', 'id')->toArray();
 
         return view('hrms.employee.Address.edit', compact('address','addressType', 'employee', 
         'states', 'districts', 'tehsils', 'constituencies'));
@@ -87,7 +90,7 @@ class AddressController extends Controller
     {
 
         
-        return $request->all();
+       $address->employee->updateHomeDetails();
 
 
     }

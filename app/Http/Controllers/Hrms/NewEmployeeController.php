@@ -81,7 +81,8 @@ class NewEmployeeController extends Controller
     {
         $employee = Employee::create($request->validated());
 
-
+        $employee->updateOfficeRelatedData();
+        
         $posting = Posting::create([
             'employee_id' => $request->id,
             'order_no' =>  $request->appointment_order_no,
