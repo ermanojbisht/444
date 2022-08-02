@@ -19,66 +19,42 @@ class Posting extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id',
-        'employee_id',
-        'order_no',
-        'order_at',
-        'office_id',
-        'other_office_id',
-        'head_quarter',
-        'from_date',
-        'to_date',
-        'mode_id',
-        'designation_id',
-        'regular_incharge',
-        'islocked',
-        'row_confirm',
-        'days_in_office',
-        'created_at',
-        'updated_at'
+        'id', 'employee_id', 'order_no', 'order_at', 'office_id', 'other_office_id', 'head_quarter_id', 'from_date', 'to_date', 'mode_id', 'designation_id', 'is_prabhari', 'is_locked', 'days_in_office','s_d','d_d' ,'attached_posting_id','created_at', 'updated_at'
     ];
 
     // public function state(){
     //     return $this->belongsTo(state::class);
     // }
 
-    public function officeName()
+    public function office()
     {
-        return $this->belongsTo(Office::class, "office_id", "id");
+        return $this->belongsTo(Office::class);
     }
 
-    public function designationName()
+    public function designation()
     {
-        return $this->belongsTo(Designation::class, "designation_id", "id");
+        return $this->belongsTo(Designation::class);
     }
 
-    public function otherOfficeName($id)
+    public function otherOffice()
     {
-        return OtherOffice::find($id)->name;
+        return $this->belongsTo(OtherOffice::class);
+
     }
 
-    public function headOfficeName($id)
+    public function headQuarter()
     {
-        return OfficeHeadQuarter::find($id)->name;
+        return $this->belongsTo(OfficeHeadQuarter::class);       
     }
 
-    public function getPosting_is_Sugam_and_Duration($office_type, $office_id)
+    public function postingOffice()
     {
-        if ($office_type == 3)
-            $currentOffice = OfficeHeadQuarter::where("id", $office_id)->first();
-
-        if ($office_type == 2)
-            $currentOffice = OtherOffice::where("id", $office_id)->first();
-
-        if ($office_type == 1)
-            $currentOffice = Office::where("id", $office_id)->first();
-
-        if ($currentOffice) {
-            if ($currentOffice->isdurgam)
-                return "Durgam <br/> (F=" . $currentOffice->duration_factor . ")";
-            else
-                return "Sugam <br/> (F=" . $currentOffice->duration_factor . ")";
-        }
+        if ($this->other_office_id)
+            return $this-otherOffice();
+        if ($this->head_quarter_id)
+            return $this->headQuarter();
+        if ($this->office_id)
+            return $this->office();       
     }
 
 
@@ -96,56 +72,43 @@ class Posting extends Model
         return false;
     }
 
-    public function set_durgam_sugam()
-    {
-        $office_type_identifier_table_name  = $this->getTableName();
-
-        if ($office_type_identifier_table_name) {
-            $posted_offices_durgam_sugam_period = OfficeSugamDurgam::where("table_name", $office_type_identifier_table_name)
-                ->where("office_id", $this->office_id)->get();
-
-            $duration_factor = 1.00;
-
-            foreach ($posted_offices_durgam_sugam_period as $posted_office) {
-
-                // $this->update([
-                // 'days_in_office' => $days_in_office ]);
-
-                $sugam_Durgam_tillDate = Carbon::today();
-
-                if (!$posted_office->end_date) {
-                    $sugam_Durgam_tillDate = $posted_office->end_date;
+    public function saveSugamDurgamPeriod()
+    { 
+        if ($this->getTableName()) {
+            $postingOffices = OfficeSugamDurgam::where("table_name", $this->getTableName())
+                ->where("office_id", $this->office_id)->orderBy('start_date')->get();
+           
+            if($postingOffices){
+                $fromPostingDate=$this->from_date;
+                $toPostingDate=$this->to_date;
+                $countedSDays=$countedDDays=0;
+                foreach ($postingOffices as $postingOffice) {
+                    $posted_office->end_date= (!$posted_office->end_date)?Carbon::today():$posted_office->end_date ;
+                    $countedDays=0;
+                                   
+                    if($toPostingDate<=$postingOffice->end_date){
+                        $countedDays=($toPostingDate->diffInDays($fromPostingDate)+1)*$posted_office->duration_factor;
+                        if($posted_office->isdurgam){
+                            $countedDDays=$countedDDays+$countedDays;
+                        }else{
+                            $countedSDays=$countedSDays+$countedDays;
+                        }
+                        break;
+                    }else{
+                       $countedDays=($postingOffice->end_date->diffInDays($fromPostingDate)+1)*$posted_office->duration_factor; 
+                       if($posted_office->isdurgam){
+                            $countedDDays=$countedDDays+$countedDays;
+                        }else{
+                            $countedSDays=$countedSDays+$countedDays;
+                        }
+                       $fromPostingDate=$postingOffice->end_date->addDay();
+                    }
                 }
-
-                if (
-                    $this->from_date->betweenIncluded($posted_office->start_date, $sugam_Durgam_tillDate) &&
-                    $this->to_date->betweenIncluded($posted_office->start_date, $sugam_Durgam_tillDate)
-                ) {
-                    return true;
-                }
-
-                if ($this->checkisDateInBetween($posted_office->start_date, $sugam_Durgam_tillDate, $this->from_date, $this->to_date)) {
-                    $duration_factor = $posted_office->duration_factor;
-                    $days_in_office = $duration_factor * (int)(Carbon::parse($this->from_date)->diffInDays(Carbon::parse($this->to_date)));
-                    $days_in_office = $days_in_office + 1;
-
-                } else {
-                    
-                }
-                // ToDo:: Ankit find ->  durgam 
-
-            }
-
-
-            return $days_in_office;
+                $this->update([
+                    's_d'=>$countedSDays,
+                    'd_d'=>$countedDDays,
+                ]);
+            }//postingOffices
         }
-    }
-
-    public function checkisDateInBetween($officeStartDate, $officeEndDate, $postingStartDate, $postingEndDate)
-    {
-        if ($postingStartDate > $postingEndDate) {
-            return false;
-        }
-        return false;
     }
 }
