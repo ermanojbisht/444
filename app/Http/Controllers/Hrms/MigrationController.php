@@ -269,13 +269,13 @@ class MigrationController extends Controller
             isnull(hv.ConstituencyId,0) as h_vidhansabha from emp_address ea 
             left outer join Master_District cd on cd.DistrictName = ea.c_district 
             left outer join Master_state cs on cs.state_nm = ea.c_state
-            left outer join tehsil_mas ct on ct.tehsil_name = ea.c_town
+            left outer join tehsil_mas ct on ct.tehsil = ea.c_town
             left outer join Master_District pd on pd.DistrictName = ea.p_district 
             left outer join Master_state ps on ps.state_nm = ea.p_state
-            left outer join tehsil_mas pt on pt.tehsil_name = ea.p_town
+            left outer join tehsil_mas pt on pt.tehsil = ea.p_town
             left outer join Master_District hd on hd.DistrictName = ea.h_district 
             left outer join Master_state hs on hs.state_nm = ea.h_State
-            left outer join tehsil_mas ht on ht.tehsil_name = ea.h_Tehsil
+            left outer join tehsil_mas ht on ht.tehsil = ea.h_Tehsil
             left outer join tblConstituency hv on hv.Constituency = ea.h_Vidhan_Sabha where ea.emp_code= ?", [$employee->id]);
             if ($emp_address) {
 

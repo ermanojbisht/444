@@ -128,7 +128,9 @@ class Posting extends Model
                     $duration_factor = $posted_office->duration_factor;
                     $days_in_office = $duration_factor * (int)(Carbon::parse($this->from_date)->diffInDays(Carbon::parse($this->to_date)));
                     $days_in_office = $days_in_office + 1;
+
                 } else {
+                    
                 }
                 // ToDo:: Ankit find ->  durgam 
 

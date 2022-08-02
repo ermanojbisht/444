@@ -188,9 +188,9 @@ class Employee extends Model
         $homeAddress=$this->getAddress(3);
         if($homeAddress){
             $this->update([
-                'h_district' => ($homeAddress->district_id ? $homeAddress->district_Name->name : ''),
-                'h_state' => ($homeAddress->state_id ? $homeAddress->state_Name->name : ''),
-                'h_tahsil' => ($homeAddress->tehsil_id ? $homeAddress->tehsil_Name->name : ''),
+                'h_district' => ($homeAddress->district_id ? $homeAddress->district->name : ''),
+                'h_state' => ($homeAddress->state_id ? $homeAddress->state->name : ''),
+                'h_tahsil' => ($homeAddress->tehsil_id ? $homeAddress->tehsil->name : ''),
                 'timestamps' => false
             ]);
         }

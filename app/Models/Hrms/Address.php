@@ -35,19 +35,19 @@ class Address extends Model
     // todo: state table need to be corrected 
     
 
-    public function state_Name(){
+    public function state(){
         return $this->belongsTo(State::class, "state_id", "id");
     }
     
-    public function district_Name(){
+    public function district(){
         return $this->belongsTo(District::class, "district_id", "id");
     }
 
-    public function tehsil_Name(){
+    public function tehsil(){
         return $this->belongsTo(Tehsil::class, "tehsil_id", "id");
     }
 
-    public function constituency_Name(){
+    public function constituency(){
         return $this->belongsTo(Constituency::class, "vidhansabha_id", "id");
     }
 

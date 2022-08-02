@@ -75,21 +75,21 @@ Employee Sugam Durgam Detail
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> Home state </div>
                     <div class="col-xs-6 col-md-6">
-                        @if($homeAddress->state_Name)
-                        {{ $homeAddress->state_Name->name }}@endif
+                        @if($homeAddress->state)
+                        {{ $homeAddress->state->name }}@endif
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> Home District </div>
                     <div class="col-xs-6 col-md-6">
-                        @if($homeAddress->district_Name)
-                        {{ $homeAddress->district_Name->name }}@endif </div>
+                        @if($homeAddress->district)
+                        {{ $homeAddress->district->name }}@endif </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> Home Tehsil </div>
                     <div class="col-xs-6 col-md-6">
-                        @if($homeAddress->tehsil_Name)
-                        {{ $homeAddress->tehsil_Name->name }}@endif </div>
+                        @if($homeAddress->tehsil)
+                        {{ $homeAddress->tehsil->name }}@endif </div>
                 </div>
             </div>
 
