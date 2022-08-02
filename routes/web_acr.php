@@ -124,6 +124,7 @@ Route::group(['prefix' => 'analysis', 'as' => 'acr.analysis.', 'middleware' => [
     Route::get('/trainningRequirementChart', 'Acr\AcrAnalysisController@trainningRequirementChart')->name('trainningRequirementChart');
     Route::get('/trainningRequirementDetail/{trainingId}', 'Acr\AcrAnalysisController@trainningRequirementDetail')->name('trainningRequirementDetail');
     Route::get('/daysChart', 'Acr\AcrAnalysisController@daysChart')->name('daysChart');
+    Route::get('/marksChart', 'Acr\AcrAnalysisController@marksChart')->name('marksChart');
     Route::get('/confidential', 'Acr\AcrReportsController@confidential')->name('confidential')->can('acr-special');
 });
 
