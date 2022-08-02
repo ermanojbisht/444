@@ -25,11 +25,8 @@ class UpdatePostingsRequest extends FormRequest
      */
     public function rules()
     {  
-        $rules['id'] =  'required';
-        $rules['employee_id'] =  'required|min:5|max:50';
-        $rules['to_date'] =  'required|date';
-        $rules['updated_by'] =  'required';
-
+        $rules['id'] =  'required'; 
+        $rules['to_date'] =  'required|date|before:today';
         return $rules;
     }
 

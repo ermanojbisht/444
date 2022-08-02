@@ -51,7 +51,7 @@ class EmployeeViewController extends Controller
         $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
 
         $employeePostings = Posting::where("employee_id", $employee->id)
-            ->with('officeName')->with('designationName')->get();
+            ->with('office')->with('designationName')->get();
 
         $homeAddress = $employee->getAddress(3);
 

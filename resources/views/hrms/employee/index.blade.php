@@ -52,7 +52,7 @@
                 <td>{{$employee->name}}</td>
                 <td>{{($employee->designationName ? $employee->designationName->name : ' Not declared ') }}</td>
                 <td>@if ($employee->office_idd)
-                    {{ $employee->officeName->name }}
+                    {{ $employee->office->name }}
                     @endif
                 </td>
                 <td>{{$employee->updated_at ? $employee->updated_at->format('d M Y') : ''}} </td>

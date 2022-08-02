@@ -43,7 +43,7 @@ class Employee extends Model
         'height',
         'identity_mark',
         'office_type',
-        'office_id',                                                                                                         
+        'office_id',
         'office_idd',
         'designation_id',
 
@@ -59,18 +59,18 @@ class Employee extends Model
         'avatar',
         'created_at',
         'updated_at',
-        'chat_id',  
+        'chat_id',
         'h_district',
-        'h_state',           
-        'h_tahsil',         
-        's_y',                  
-        's_m',                  
-        's_d',                  
-        's_t',                  
-        'd_y',                  
-        'd_m',                  
-        'd_d',                  
-        'd_t',                  
+        'h_state',
+        'h_tahsil',
+        's_y',
+        's_m',
+        's_d',
+        's_t',
+        'd_y',
+        'd_m',
+        'd_d',
+        'd_t',
         'last_office_name',
         'last_office_type',
         'orignal_office_days',
@@ -110,9 +110,9 @@ class Employee extends Model
         return $this->retirement_date->lt(Carbon::now());
     }
 
-    public function getEmpPostings()
+    public function postings()
     {
-        return $this->belongsTo(Posting::class, "id", "employee_id");
+        return $this->hasMany(Posting::class);
     }
 
     public function getEmpCurrentPosting()
@@ -160,10 +160,7 @@ class Employee extends Model
     }
 
 
-    public function officeName()
-    {
-        return $this->belongsTo(Office::class, "office_idd", "id");
-    }
+
 
     public function designationName()
     {
@@ -185,8 +182,8 @@ class Employee extends Model
 
     public function updateHomeDetails()
     {
-        $homeAddress=$this->getAddress(3);
-        if($homeAddress){
+        $homeAddress = $this->getAddress(3);
+        if ($homeAddress) {
             $this->update([
                 'h_district' => ($homeAddress->district_id ? $homeAddress->district->name : ''),
                 'h_state' => ($homeAddress->state_id ? $homeAddress->state->name : ''),
@@ -198,7 +195,7 @@ class Employee extends Model
 
     public function updateOfficeRelatedData()
     {
-       return $office = Office::find($this->office_idd);
+        return $office = Office::find($this->office_idd);
         if ($office) {
             $this->update([
                 'office_type' => $office->office_type,
@@ -207,7 +204,6 @@ class Employee extends Model
             ]);
         }
     }
-
 
     //todo : All functions below are imported from mis employee Model ^.^   
 
@@ -274,6 +270,57 @@ class Employee extends Model
         }
         $this->update(['office_idd' => $officeIdd, 'timestamps' => false]);
     }
+
+    public function updateSugamDurgam()
+    {
+        $postings = $this->postings()->get();
+        if ($postings) {
+
+            $totalSugamDays = $postings->sum('s_d');
+            $totalDurgamDays = $postings->sum('s_d');
+
+            $sugam =  Helper::getRefinedDayMonthYearFromDays($totalSugamDays);
+            $durgam =  Helper::getRefinedDayMonthYearFromDays($totalDurgamDays);
+            
+            $this->update([
+                's_y' => $sugam['y'],
+                's_m' => $sugam['m'],
+                's_d' => $sugam['d'],
+                's_t' => $totalSugamDays,
+                'd_y' => $durgam['y'],
+                'd_m' => $durgam['m'],
+                'd_d' => $durgam['d'],
+                'd_t' => $totalDurgamDays,
+                'timestamps' => false
+            ]);
+
+
+        }
+
+        
+        
+    }
+
+
+    public function previousPostings($posting_id)
+    {
+        $posting = Posting::find($posting_id);
+        $posting_date = $posting->from_date;
+
+        return $this->postings()->where('from_date', '<' , $posting_date)->orderby('from_Date')->get()->last();
+    }
+     
+    public function nextPostings($posting_id)
+    {
+        $posting = Posting::find($posting_id);
+        $posting_date = $posting->from_date;
+
+        return $this->postings()->where('from_date', '>' , $posting_date)->orderby('from_Date')->first();
+    }
+
+
+
+
 
     /**
      * Scope a query to only include AE Emp.

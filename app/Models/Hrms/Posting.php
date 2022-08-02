@@ -4,6 +4,7 @@ namespace App\Models\Hrms;
 
 use App\Helpers\Helper;
 use App\Models\Designation;
+use App\Models\Hrms\Employee;
 use App\Models\Office;
 use Carbon\Carbon;
 use DB;
@@ -19,12 +20,13 @@ class Posting extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id', 'employee_id', 'order_no', 'order_at', 'office_id', 'other_office_id', 'head_quarter_id', 'from_date', 'to_date', 'mode_id', 'designation_id', 'is_prabhari', 'is_locked', 'days_in_office','s_d','d_d' ,'attached_posting_id','created_at', 'updated_at'
+        'id', 'employee_id', 'order_no', 'order_at', 'office_id', 'other_office_id', 'head_quarter_id', 'from_date', 'to_date', 'mode_id', 'designation_id', 'is_prabhari', 'is_locked', 's_d', 'd_d', 'attached_posting_id', 'created_at', 'updated_at'
     ];
 
-    // public function state(){
-    //     return $this->belongsTo(state::class);
-    // }
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 
     public function office()
     {
@@ -39,24 +41,22 @@ class Posting extends Model
     public function otherOffice()
     {
         return $this->belongsTo(OtherOffice::class);
-
     }
 
     public function headQuarter()
     {
-        return $this->belongsTo(OfficeHeadQuarter::class);       
+        return $this->belongsTo(OfficeHeadQuarter::class);
     }
 
     public function postingOffice()
     {
         if ($this->other_office_id)
-            return $this-otherOffice();
+            return $this->otherOffice();
         if ($this->head_quarter_id)
             return $this->headQuarter();
         if ($this->office_id)
-            return $this->office();       
+            return $this->office();
     }
-
 
     public function getTableName()
     {
@@ -73,42 +73,51 @@ class Posting extends Model
     }
 
     public function saveSugamDurgamPeriod()
-    { 
+    {
         if ($this->getTableName()) {
-            $postingOffices = OfficeSugamDurgam::where("table_name", $this->getTableName())
+             $postingOffices = OfficeSugamDurgam::where("table_name", $this->getTableName())
                 ->where("office_id", $this->office_id)->orderBy('start_date')->get();
-           
-            if($postingOffices){
-                $fromPostingDate=$this->from_date;
-                $toPostingDate=$this->to_date;
-                $countedSDays=$countedDDays=0;
+
+            if ($postingOffices) {
+                $fromPostingDate = $this->from_date;
+                $toPostingDate = $this->to_date;
+                $countedSDays = $countedDDays = 0;
                 foreach ($postingOffices as $postingOffice) {
-                    $posted_office->end_date= (!$posted_office->end_date)?Carbon::today():$posted_office->end_date ;
-                    $countedDays=0;
-                                   
-                    if($toPostingDate<=$postingOffice->end_date){
-                        $countedDays=($toPostingDate->diffInDays($fromPostingDate)+1)*$posted_office->duration_factor;
-                        if($posted_office->isdurgam){
-                            $countedDDays=$countedDDays+$countedDays;
-                        }else{
-                            $countedSDays=$countedSDays+$countedDays;
+                    $postingOffice->end_date = (!$postingOffice->end_date) ? Carbon::today() : $postingOffice->end_date;
+                    $countedDays = 0;
+
+                    if($fromPostingDate > $postingOffice->end_date)
+                        continue;
+
+                    if ($toPostingDate <= $postingOffice->end_date) {
+                    $countedDays = ($toPostingDate->diffInDays($fromPostingDate) + 1) * $postingOffice->duration_factor;
+                        if ($postingOffice->isdurgam) {
+                            $countedDDays = $countedDDays + $countedDays;
+                        } else {
+                            $countedSDays = $countedSDays + $countedDays; 
                         }
                         break;
-                    }else{
-                       $countedDays=($postingOffice->end_date->diffInDays($fromPostingDate)+1)*$posted_office->duration_factor; 
-                       if($posted_office->isdurgam){
-                            $countedDDays=$countedDDays+$countedDays;
-                        }else{
-                            $countedSDays=$countedSDays+$countedDays;
+                    } else {
+                     $countedDays = ($postingOffice->end_date->diffInDays($fromPostingDate) + 1) * $postingOffice->duration_factor;
+                        if ($postingOffice->isdurgam) {
+                            $countedDDays = $countedDDays + $countedDays; 
+                        } else {
+                            $countedSDays = $countedSDays + $countedDays; 
                         }
-                       $fromPostingDate=$postingOffice->end_date->addDay();
+                        $fromPostingDate = $postingOffice->end_date->addDay();
                     }
                 }
+
                 $this->update([
-                    's_d'=>$countedSDays,
-                    'd_d'=>$countedDDays,
+                    's_d' => $countedSDays,
+                    'd_d' => $countedDDays,
                 ]);
-            }//postingOffices
+            } //postingOffices
         }
     }
+
+
+    
+
+
 }

@@ -7,7 +7,8 @@
 
 
 @section('pagetitle')
-Employee Postings Detail
+{{($isLastPostingClosed) ? 'Add New Postings' : 'Enter End Date of Current Posting ' }}
+ for Employee {{$employee->name}} ({{$employee->id}})
 @endsection
 
 @section('breadcrumb')
@@ -16,7 +17,7 @@ Employee Postings Detail
 ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
 ['label'=> 'Office Employees','active'=>true, 'route' => 'employee.office.index'],
 ['label'=> 'View Employee','active'=>true, 'route' => 'employee.office.view','routefielddata' => $employee->id],
-['label'=> 'Add Posting Details','active'=>true],
+['label'=> 'Add New Postings','active'=>true],
 ]])
 @endsection
 
@@ -26,16 +27,17 @@ Employee Postings Detail
 
 @section('content')
 
+@if($isLastPostingClosed)
+
 <form action="{{ route('employee.postings.store') }}" method="POST"
     onsubmit="return confirm('Above Written Details are correct to my knowledge. ( मेरे द्वार भरा गया उपरोक्त डाटा सही हैं ) ??? ');">
     @csrf
 
     <div class="row">
+
         <div class="form-group  col-sm-12">
             <div class="card">
                 <div class="card-body">
-
-
                     <div class="row">
 
                         {{-- designation_id --}}
@@ -68,8 +70,8 @@ Employee Postings Detail
                         <div class="form-group col-md-3">
                             <label class="" for="office_id"> Current Office </label>
                             <br />
-                            {!! Form::label('', $offices[$employee->officeName->id], ['class'=>'label']) !!}
-                            {!! Form::hidden('office_id', $employee->officeName->id, ['id'=>'office_id']) !!}
+                            {!! Form::label('', $offices[$employee->office_idd], ['class'=>'label']) !!}
+                            {!! Form::hidden('office_id', $employee->office->id, ['id'=>'office_id']) !!}
                             @if($errors->has('office_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('office_id') }}
@@ -107,7 +109,6 @@ Employee Postings Detail
                     </div>
                     <br />
                     <div class="row">
-
                         {{-- Mode --}}
                         <div class="form-group col-md-3">
                             <label class="required" for="mode_id"> Mode </label>
@@ -123,7 +124,7 @@ Employee Postings Detail
 
                         {{-- From Date --}}
                         <div class="form-group col-md-3">
-                            <label class="required" for="from_date"> Joining Date </label>
+                            <label class="required" for="from_date"> From Date </label>
                             <input class="form-control {{ $errors->has('from_date') ? 'is-invalid' : '' }}" type="date"
                                 name="from_date" id="from_date" format required value="{{ old('from_date', '')}}">
                             @if($errors->has('from_date'))
@@ -140,7 +141,7 @@ Employee Postings Detail
                             'class'=>'form-control', 'required']) !!}
                             <div class="box-footer justify-content-between">
                                 <button id="btnAddRegDetails" type="submit" class="btn btn-success">
-                                    Save Education Detail </button>
+                                    Add Posting Detail </button>
                             </div>
                         </div>
                     </div>
@@ -150,10 +151,12 @@ Employee Postings Detail
     </div>
     <br />
 </form>
-<div class="card">
-    <div class="card-body">
+@endif
 
-        <p class="h5"> Employee Posting Details : </p>
+<div class="card">
+    <div class="card-body text-info">
+
+        <p class="h5"> Employee Posting Details in Reverse Order : </p>
         <div class="row">
             <div class="form-group col-md-12">
                 <table id="tbl_employee_postings" class="table border mb-0 dataTable no-footer ">
@@ -177,28 +180,17 @@ Employee Postings Detail
                             Action
                         </th>
                     </tr>
-
                     @foreach($employeePostings as $posting )
                     <tr>
                         <td>
-                            @if($posting->office_id > 0)
-                            <span id="lbloffice{{$posting->id}}"> {{ $posting->officeName->name }} </span>
-                            {{-- <span id="lblofficeid{{$posting->id}}"> {{ $posting->officeName->id }} </span> --}}
-                            @elseif ($posting->other_office_id > 0)
-                            <span id="lbloffice{{$posting->id}}"> {{
-                                $posting->otherOfficeName($posting->other_office_id) }} </span>
-                            {{-- <span id="lblofficeid{{$posting->id}}"> {{ $posting->other_office_id }} </span> --}}
-                            @elseif ($posting->head_quarter > 1)
-                            <span id="lbloffice{{$posting->id}}"> {{ $posting->headOfficeName($posting->head_quarter) }}
-                            </span>
-                            {{-- <span id="lblofficeid{{$posting->id}}"> {{ $posting->head_quarter }} </span> --}}
-                            @endif
+                            {{$posting->id}}
+                            <span id="lbloffice{{$posting->id}}"> {{ $posting->postingOffice->name }} </span>
                         </td>
                         <td>
                             @if ($posting->designation_id)
-                            <label id="lbldesignation{{$posting->id}}"> {{ $posting->designationName->name }} </label>
+                            <label id="lbldesignation{{$posting->id}}"> {{ $posting->designation->name }} </label>
                             <label style="display: none;" id="lbldesignationid{{$posting->id}}"> {{
-                                $posting->designationName->id }} </label>
+                                $posting->designation->id }} </label>
                             @endif
                         </td>
                         <td>
@@ -212,19 +204,39 @@ Employee Postings Detail
                             @endif
                         </td>
                         <td>
-                            {!! $posting->days_in_office ? $posting->days_in_office . ' Days' : 'Till Present' !!}
+                            @if($posting->s_d || $posting->d_d)
+                            @if($posting->s_d)
+                            {{ $posting->s_d }} Days Sugam
+                            @endif
+
+                            @if ($posting->d_d)
+                            {{ $posting->s_d }} Days Durgam
+                            @endif
+                            @else
+                            @if($posting->to_date)
+                            {{ 1 +
+                            (int)(Carbon\Carbon::parse($posting->from_date)->diffInDays(Carbon\Carbon::parse($posting->to_date)))
+                            }}
+                            @else
+                            {{ 1 +
+                            (int)Carbon\Carbon::parse('2022-05-31')->diffInDays(Carbon\Carbon::parse($posting->from_date))
+                            }}
+                            Till 31/05/22
+                            @endif
+                            @endif
+                            {{-- {!! $posting->days_in_office ?
+                            $posting->days_in_office . ' Days ' : ' Till Present ' !!} --}}
                         </td>
                         <td>
                             @if(! $posting->to_date)
                             <a href="javascript:void(0)" onclick="showModal({{$posting->id}})">
-                                Relieving Date
+                                Add End Date
                             </a>
                             @endif
                         </td>
                     </tr>
                     @endforeach
                 </table>
-
             </div>
         </div>
     </div>
@@ -239,7 +251,6 @@ Employee Postings Detail
                 <form action="{{ route('employee.postings.updateRelieving') }}" method="POST"
                     onsubmit="return confirm('Above Written Details are correct to my knowledge. ( मेरे द्वार भरा गया उपरोक्त डाटा सही हैं ) ??? ');">
                     @csrf
-
 
                     <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between">
@@ -284,7 +295,7 @@ Employee Postings Detail
                             <div class="form-group col-ofset-6 col-md-6">
                                 {!! Form::hidden('updated_by', Auth::user()->employee_id, ['id'=>'updated_by',
                                 'class'=>'form-control', 'required']) !!}
-                                {!! Form::text('id', "0", ['id'=>'posting_id','style'=>'display:;']) !!}
+                                {!! Form::text('id', "0", ['id'=>'posting_id','style'=>'display:none;']) !!}
                             </div>
                             <div class="form-group col-ofset-6 col-md-6">
                                 <input type="submit" class="btn btn-sm btn-success" value="Update Relieving" />

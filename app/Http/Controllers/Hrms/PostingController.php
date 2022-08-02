@@ -18,11 +18,12 @@ use App\Models\Hrms\Posting;
 use App\Models\Hrms\State;
 use App\Models\Office;
 use App\Models\Tehsil;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Redirect;
- 
+
 
 class PostingController extends Controller
 {
@@ -50,16 +51,17 @@ class PostingController extends Controller
      */
     public function create(Employee $employee)
     {
+        $employeePostings = Posting::where("employee_id", $employee->id)->orderby('from_date', 'DESC')
+            ->with('office')->with('designation')->get();
 
-         $employeePostings = Posting::where("employee_id", $employee->id)
-      ->with('officeName')->with('designationName')->get();
-        
+        $isLastPostingClosed = ($employeePostings->first()->to_date);
+
         $designations = array('' => 'Select Designation') + Designation::where('group_id', '!=', 'null')
-        ->orderBy('name')->pluck('name', 'id')->toArray();
-        
+            ->orderBy('name')->pluck('name', 'id')->toArray();
+
         $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
 
-        return view('hrms.employee.posting.create', compact('employee','employeePostings', 'designations', 'offices'));    
+        return view('hrms.employee.posting.create', compact('employee', 'employeePostings', 'designations', 'offices','isLastPostingClosed'));
     }
 
 
@@ -70,39 +72,51 @@ class PostingController extends Controller
      */
     public function store(StorePostingsRequest $request)
     {
-        $lastPosting = Posting::where("employee_id",$request->employee_id)->whereNull("to_date");
-        $lastPosting->update(['to_date' => $request->to_date ]);
+        $lastPosting = Posting::where("employee_id", $request->employee_id)->whereNull("to_date");
+        $lastPosting->update(['to_date' => $request->to_date]);
 
         $newPosting = $request->validated();
         $newPosting['to_date'] = NUll;
-        
+
         Posting::create($newPosting);
-        
-        return redirect()->route('employee..posting.create',['employee'=>$request->employee_id])
-        ->with('status', 'Postings Updated Successfully!'); 
-        
+
+        return redirect()->route('employee..posting.create', ['employee' => $request->employee_id])
+            ->with('status', 'Postings Updated Successfully!');
     }
 
-        /**
+    /**
      ** Add Postings Details
      * [Update Employees Postings Details] by Office 
      * @return view for Employee Add Postings 
      */
     public function updateRelieving(UpdatePostingsRequest $request)
     {
-
         $posting = Posting::find($request->id);
-        
-        // $posting->update([
-        //     'to_date'=>$request->to_date 
-        // ]);
-        
+        $end_date = Carbon::parse($request->to_date);
 
-        return $posting->set_durgam_sugam();
+        abort_if($posting->from_date->gt($end_date), 403, ' End Date ' . $end_date->format('d m y') . ' cannot be greater then posting start Date' . $posting->from_date->format('d m y'));
+        
+        $posting->update([
+            'to_date' => $request->to_date
+        ]);
 
+        $posting->saveSugamDurgamPeriod();
+        $posting->employee->updateSugamDurgam();
+        return redirect()->back()->with('success', 'End Date Added Successfully');
     }
-    
-    
+
+
+    public function editPosting(Posting $posting)
+    {
+        $posting->employee->nextPostings($posting->id);
+        $posting->employee->previousPostings($posting->id);
+    }
+
+    public function deletePosting(Posting $posting)
+    {
+        $posting->employee->nextPostings($posting->id);
+        $posting->employee->previousPostings($posting->id);
+    }
 
 
 }

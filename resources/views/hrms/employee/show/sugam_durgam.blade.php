@@ -161,7 +161,7 @@ Employee Sugam Durgam Detail
                             @elseif ($posting->other_office_id > 0)
                             {{ $posting->otherOfficeName($posting->other_office_id) }}
                             @elseif ($posting->head_quarter > 1)
-                            {{ $posting->headOfficeName($posting->head_quarter) }}
+                            {{ $posting->headQuarter->name) }}
                             @endif
                         </td>
                         <td>
@@ -183,8 +183,14 @@ Employee Sugam Durgam Detail
                         </td>
                         <td>
                             
-                            @if($posting->days_in_office)
-                                {{ $posting->days_in_office }}
+                            @if($posting->s_d || $posting->d_d)
+                                @if($posting->s_d)
+                                    Sugam Days -> {{ $posting->s_d }}
+                                @endif
+
+                                @if ($posting->d_d)
+                                    Durgam Days ->  {{ $posting->s_d }}
+                                @endif
                             @else
                                 @if($posting->to_date)
                                 {{ 1 +
