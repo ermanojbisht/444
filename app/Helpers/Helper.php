@@ -796,7 +796,7 @@ class Helper
 	 * @param [type] $attach  true means add and false means remove
 	 */
 
-	public static function addRemoveValueToCSVField($modelCollection, $csvField = 'users_for_notification', $valueToaddOrRemove, $attach)
+	public static function addRemoveValueToCSVField($modelCollection, $valueToaddOrRemove, $attach,$csvField = 'users_for_notification')
 	{
 		foreach ($modelCollection as  $model) {
 			$csvFieldItems = $model->$csvField;
@@ -1072,6 +1072,11 @@ class Helper
 		$y = $y + $years;
 		return ['d' => $d, 'm' => $m, 'y' => $y];
 	}
+
+    public static function lastDateForTransferCOnsideration()
+    {
+        return Carbon::createFromDate(date('Y'), 5)->endOfMonth()->startOfDay();
+    }
 
 
 	

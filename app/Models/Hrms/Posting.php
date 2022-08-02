@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Log;
 
 class Posting extends Model
 {
@@ -61,36 +62,46 @@ class Posting extends Model
     public function getTableName()
     {
         if ($this->other_office_id >  0)
-            return "other_offices";
+            return ["other_offices",$this->other_office_id];
 
         if ($this->head_quarter > 0)
-            return "office_head_quarters";
+            return ["office_head_quarters",$this->head_quarter];
 
         if ($this->office_id > 0)
-            return "mispwd.offices";
+            return ["mispwd.offices",$this->office_id];
 
         return false;
     }
 
     public function saveSugamDurgamPeriod()
     {
-        if ($this->getTableName()) {
-             $postingOffices = OfficeSugamDurgam::where("table_name", $this->getTableName())
-                ->where("office_id", $this->office_id)->orderBy('start_date')->get();
+        //Log::info("posting = ".print_r($this->toArray(),true));
+        $postingOfficeTableAndFields=$this->getTableName();
+        if ($postingOfficeTableAndFields) {
+
+             $postingOffices = OfficeSugamDurgam::where("table_name", $postingOfficeTableAndFields[0])
+                ->where("office_id", $postingOfficeTableAndFields[1])->orderBy('start_date')->get();
 
             if ($postingOffices) {
                 $fromPostingDate = $this->from_date;
-                $toPostingDate = $this->to_date;
+                $toPostingDate = $this->to_date?$this->to_date:Helper::lastDateForTransferCOnsideration();
                 $countedSDays = $countedDDays = 0;
                 foreach ($postingOffices as $postingOffice) {
+                    //Log::info("postingOffice = ".print_r($postingOffice->toArray(),true));
                     $postingOffice->end_date = (!$postingOffice->end_date) ? Carbon::today() : $postingOffice->end_date;
+                    //Log::info("fromPostingDate = ".print_r($fromPostingDate->format('Y-m-d'),true));
+                    //Log::info("toPostingDate = ".print_r($toPostingDate->format('Y-m-d'),true));
+                    //Log::info("postingOffice->start_date = ".print_r($postingOffice->start_date->format('Y-m-d'),true));
+                    //Log::info("postingOffice->end_date = ".print_r($postingOffice->end_date->format('Y-m-d'),true));
                     $countedDays = 0;
 
-                    if($fromPostingDate > $postingOffice->end_date)
+                    if($fromPostingDate->gt($postingOffice->end_date))
                         continue;
 
+                    //Log::info("fromPostingDate->gt(postingOffice->end_date  is false");
                     if ($toPostingDate <= $postingOffice->end_date) {
-                    $countedDays = ($toPostingDate->diffInDays($fromPostingDate) + 1) * $postingOffice->duration_factor;
+                        //Log::info("toPostingDate <= postingOffice->end_date ");
+                        $countedDays = ($toPostingDate->diffInDays($fromPostingDate) + 1) * $postingOffice->duration_factor;
                         if ($postingOffice->isdurgam) {
                             $countedDDays = $countedDDays + $countedDays;
                         } else {
@@ -98,7 +109,8 @@ class Posting extends Model
                         }
                         break;
                     } else {
-                     $countedDays = ($postingOffice->end_date->diffInDays($fromPostingDate) + 1) * $postingOffice->duration_factor;
+                        //Log::info("toPostingDate >...... postingOffice->end_date ");
+                        $countedDays = ($postingOffice->end_date->diffInDays($fromPostingDate) + 1) * $postingOffice->duration_factor;
                         if ($postingOffice->isdurgam) {
                             $countedDDays = $countedDDays + $countedDays; 
                         } else {

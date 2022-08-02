@@ -292,7 +292,7 @@ class UsersController extends Controller
         $list = rtrim($list, '|');
         $Proposals = ForestProposal::where('WORK_code', 'REGEXP', $list)->get();
         if ($Proposals) {
-            Helper::addRemoveValueToCSVField($Proposals, $csvField = 'users_for_notification', $userid, $attach);
+            Helper::addRemoveValueToCSVField($Proposals, $userid, $attach, $csvField = 'users_for_notification');
         }
 
         return redirect('/assignUserOffices/'.$userid)->with('status', 'User Office Updated Successfully!');
