@@ -206,6 +206,9 @@ Route::group(['as' => 'employee.', 'middleware'=>['auth']], function () {
     /* PostingController */
     Route::get('employee/posting/{employee}', 'Hrms\PostingController@create')->name('createPostings');
     Route::post('posting/store', 'Hrms\PostingController@store')->name('postings.store');
+    Route::post('posting/update', 'Hrms\PostingController@updateRelieving')->name('postings.updateRelieving');
+
+    
 
 
     Route::post('ajaxDataForOffice', 'Hrms\Hrms@ajaxDataForOffice')->name('ajaxDataForOffice'); 

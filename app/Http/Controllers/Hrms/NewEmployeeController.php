@@ -69,7 +69,7 @@ class NewEmployeeController extends Controller
         $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
         $title = "Create new Employee";
 
-        return view('hrms.employee.create', compact('title', 'designations', 'offices'));
+        return view('hrms.employee.new_entry.create', compact('title', 'designations', 'offices'));
     }
 
     /**
@@ -111,7 +111,7 @@ class NewEmployeeController extends Controller
 
         $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
 
-        return view('hrms.employee.edit', compact('employee', 'designations', 'offices'));
+        return view('hrms.employee.new_entry.edit', compact('employee', 'designations', 'offices'));
     }
 
 

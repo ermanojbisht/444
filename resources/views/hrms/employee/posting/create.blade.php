@@ -195,10 +195,11 @@ Employee Postings Detail
                             @endif
                         </td>
                         <td>
+                            @if ($posting->designation_id)
                             <label id="lbldesignation{{$posting->id}}"> {{ $posting->designationName->name }} </label>
                             <label style="display: none;" id="lbldesignationid{{$posting->id}}"> {{
                                 $posting->designationName->id }} </label>
-
+                            @endif
                         </td>
                         <td>
                             {{$posting->from_date->format('d M Y')}}
@@ -213,8 +214,6 @@ Employee Postings Detail
                         <td>
                             {!! $posting->days_in_office ? $posting->days_in_office . ' Days' : 'Till Present' !!}
                         </td>
-                        {{-- <td> @if($posting->mode_id > 0) {{ config('hrms.masters.historyType')[$posting->mode_id] }}
-                            @endif </td> --}}
                         <td>
                             @if(! $posting->to_date)
                             <a href="javascript:void(0)" onclick="showModal({{$posting->id}})">
@@ -237,55 +236,66 @@ Employee Postings Detail
         <div class="modal-content">
             <div class="modal-body border border-2 border-info p-1 " id="user_input_data">
 
+                <form action="{{ route('employee.postings.updateRelieving') }}" method="POST"
+                    onsubmit="return confirm('Above Written Details are correct to my knowledge. ( मेरे द्वार भरा गया उपरोक्त डाटा सही हैं ) ??? ');">
+                    @csrf
 
-                <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span class="fw-bold"> Employee Code :</span>
-                        <span> {{$employee->id }}</span>
 
-                        <input class="form-control" type="hidden" name="employee_id" id="employee_id"
-                            value="{{ $employee->id == '' ? '' : $employee->id }}">
-                    </li>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-bold"> Employee Code :</span>
+                            <span> {{$employee->id }}</span>
 
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span class="fw-bold"> Name :</span>
-                        <span> {{$employee->name }}</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span class="fw-bold"> Designation :</span>
-                        <span id="lbldesignation"> </span>
-                        <span style="display: none;" id="lbldesignationid"> </span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span class="fw-bold"> Office :</span>
-                        <span id="lbloffice"> </span>
-                        <span style="display: none;" id="lblofficeid"> </span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <label class="required fw-bold" for="to_date">Last Office Relieving Date </label>
-                        {{-- Relieving Date --}}
-                        <div class="form-group col-md-6">
-                            <input class="form-control {{ $errors->has('to_date') ? 'is-invalid' : '' }}" type="date"
-                                name="to_date" id="to_date" format required
-                                value="{{$employee->to_date ? $employee->to_date->format('Y-m-d') : old('to_date', '') }}">
-                            @if($errors->has('to_date'))
-                            <div class="invalid-feedback">
-                                {{ $errors->first('to_date') }}
+                            <input class="form-control" type="hidden" name="employee_id" id="employee_id"
+                                value="{{ $employee->id == '' ? '' : $employee->id }}">
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-bold"> Name :</span>
+                            <span> {{$employee->name }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-bold"> Designation :</span>
+                            <span id="lbldesignation"> </span>
+                            <span style="display: none;" id="lbldesignationid"> </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-bold"> Office :</span>
+                            <span id="lbloffice"> </span>
+                            <span style="display: none;" id="lblofficeid"> </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <label class="required fw-bold" for="to_date">Last Office Relieving Date </label>
+                            {{-- Relieving Date --}}
+                            <div class="form-group col-md-6">
+                                <input class="form-control {{ $errors->has('to_date') ? 'is-invalid' : '' }}"
+                                    type="date" name="to_date" id="to_date" format required
+                                    value="{{$employee->to_date ? $employee->to_date->format('Y-m-d') : old('to_date', '') }}">
+                                @if($errors->has('to_date'))
+                                <div class="invalid-feedback">
+                                    {{ $errors->first('to_date') }}
+                                </div>
+                                @endif
+                                <span class="help-block"> </span>
                             </div>
-                            @endif
-                            <span class="help-block"> </span>
-                        </div>
-                    </li>
+                        </li>
 
-                </ul>
-                <div class="row">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <div class="form-group col-ofset-6 col-md-6">
+                                {!! Form::hidden('updated_by', Auth::user()->employee_id, ['id'=>'updated_by',
+                                'class'=>'form-control', 'required']) !!}
+                                {!! Form::text('id', "0", ['id'=>'posting_id','style'=>'display:;']) !!}
+                            </div>
+                            <div class="form-group col-ofset-6 col-md-6">
+                                <input type="submit" class="btn btn-sm btn-success" value="Update Relieving" />
+                            </div>
+                        </li>
 
-
-
-
-                </div>
-                <br />
-
+                    </ul>
+                    <div class="row">
+                    </div>
+                    <br />
+                </form>
 
             </div>
         </div>
@@ -311,7 +321,7 @@ Employee Postings Detail
         $("#lbloffice").html($("#lbloffice" +posting).html());
         $("#lblofficeid").html($("#lblofficeid" +posting).html());
 
-        
+        $("#posting_id").val(posting);
 
 
         $('#user_data_model').modal('show');

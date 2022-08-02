@@ -575,8 +575,8 @@ namespace App\Models{
  * @property string|null $h_district
  * @property string|null $h_state
  * @property string|null $h_tahsil
- * @property string|null $c_email
- * @property int|null $c_mobile
+ * @property string|null $email
+ * @property int|null $phone_no
  * @property int|null $s_y
  * @property int|null $s_m
  * @property int|null $s_d

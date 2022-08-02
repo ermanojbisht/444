@@ -122,8 +122,6 @@ class AddressController extends Controller
             'updated_by' => $request->updated_by
         ]);
 
-        Log::info("Address = " . print_r($address, true));
-
         $address->employee->updateHomeDetails();
 
         return redirect()->route('employee.createAddress', ['employee' => $request->employee_id])

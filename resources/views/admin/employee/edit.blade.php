@@ -10,7 +10,7 @@
 @endcan
 <div class="card">
     <div class="card-header">
-        Edit Employee {{$employee->name}}, Mail: {{$employee->c_email}}, Mobile No: {{$employee->c_mobile}}
+        Edit Employee {{$employee->name}}, Mail: {{$employee->email}}, Mobile No: {{$employee->phone_no}}
     </div>
 
     <div class="card-body">

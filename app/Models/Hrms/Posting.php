@@ -62,7 +62,6 @@ class Posting extends Model
         return OfficeHeadQuarter::find($id)->name;
     }
 
-
     public function getPosting_is_Sugam_and_Duration($office_type, $office_id)
     {
         if ($office_type == 3)
@@ -116,15 +115,12 @@ class Posting extends Model
 
                 if (!$posted_office->end_date) {
                     $sugam_Durgam_tillDate = $posted_office->end_date;
-
                 }
 
-                    // $officeStartDate = $posted_office->start_date; 
-                    // $officeEndDate = $sugam_Durgam_tillDate; 
-                    // $postingStartDate = $this->from_date;
-                    // $postingEndDate = $this->to_date;
-                if ($this->from_date->betweenIncluded($posted_office->start_date, $sugam_Durgam_tillDate) && 
-                    $this->to_date->betweenIncluded($posted_office->start_date, $sugam_Durgam_tillDate)) {
+                if (
+                    $this->from_date->betweenIncluded($posted_office->start_date, $sugam_Durgam_tillDate) &&
+                    $this->to_date->betweenIncluded($posted_office->start_date, $sugam_Durgam_tillDate)
+                ) {
                     return true;
                 }
 
@@ -132,36 +128,14 @@ class Posting extends Model
                     $duration_factor = $posted_office->duration_factor;
                     $days_in_office = $duration_factor * (int)(Carbon::parse($this->from_date)->diffInDays(Carbon::parse($this->to_date)));
                     $days_in_office = $days_in_office + 1;
-                }
-                else
-                {
-
-                     
-
+                } else {
                 }
                 // ToDo:: Ankit find ->  durgam 
 
-
-              
             }
 
 
             return $days_in_office;
-
-            // if ($this->to_date) {
-            //     $days_in_office = $duration_factor * (int)(Carbon::parse($this->from_date)->diffInDays(Carbon::parse($this->to_date)));
-
-            //     $days_in_office = $days_in_office + 1;
-
-            //     // $this->update([
-            //     //     'days_in_office' => $days_in_office
-            //     // ]);
-            // } else {
-
-            //     $days_in_office =   $duration_factor * (int)Carbon::today()->diffInDays(Carbon::parse($this->from_date));
-            // }
-
-            // return Helper::getRefinedDayMonthYearFromDays($days_in_office);
         }
     }
 
@@ -170,9 +144,6 @@ class Posting extends Model
         if ($postingStartDate > $postingEndDate) {
             return false;
         }
-
-       
-
         return false;
     }
 }

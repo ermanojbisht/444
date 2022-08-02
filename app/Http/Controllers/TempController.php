@@ -129,7 +129,7 @@ class TempController extends Controller
         WHERE employees.`password` IS NOT NULL
 
         UPDATE `employees` INNER JOIN `users`
-        ON employees.c_email=users.`email`
+        ON employees.email=users.`email`
         SET employees.`password`=users.`password`
         WHERE employees.`password` IS NOT NULL*/
 

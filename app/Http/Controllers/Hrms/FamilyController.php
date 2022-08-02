@@ -40,7 +40,7 @@ class FamilyController extends Controller
     {
         $employeeFamily = Family::where("employee_id", $employee->id)->get();
 
-        return view('hrms.employee.createfamily', compact('employee', 'employeeFamily'));
+        return view('hrms.employee.family.create', compact('employee', 'employeeFamily'));
     }
 
 

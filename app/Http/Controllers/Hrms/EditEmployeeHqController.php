@@ -67,7 +67,7 @@ class EditEmployeeHqController extends Controller
 
         $title = " जिन अधिकारियों/कर्मचारियों का ट्रान्सफर / परमोसन हो गया है उनका ऑफिस यहाँ से अपडेट कर सकते हैं। ";
 
-        return view('hrms.employee.update_employee_status', compact('title', 'designations', 'offices'));
+        return view('hrms.employee.admin.update_employee_status', compact('title', 'designations', 'offices'));
     }
 
 

@@ -7,6 +7,7 @@ use App\Http\Requests\Employee\Hrms\StoreAddressRequest;
 use App\Http\Requests\Employee\Hrms\StoreEmployeeRequest;
 use App\Http\Requests\Employee\Hrms\StorePostingsRequest;
 use App\Http\Requests\Employee\Hrms\UpdateEmployeeRequest;
+use App\Http\Requests\Employee\Hrms\UpdatePostingsRequest;
 use App\Models\Designation;
 use App\Models\Hrms\Address;
 use App\Models\Hrms\Constituency;
@@ -43,12 +44,13 @@ class PostingController extends Controller
     }
 
     /**
-     ** Add Address Details
-     * [view Employee Add Address ] by Office 
-     * @return view for Employee Add Address 
+     ** Add Postings Details
+     * [view Employee Add Postings ] by Office 
+     * @return view for Employee Add Postings 
      */
     public function create(Employee $employee)
     {
+
          $employeePostings = Posting::where("employee_id", $employee->id)
       ->with('officeName')->with('designationName')->get();
         
@@ -62,9 +64,9 @@ class PostingController extends Controller
 
 
     /**
-     ** Add Address Details
-     * [view Employee Add Address ] by Office 
-     * @return view for Employee Add Address 
+     ** Add Postings Details
+     * [Store Employees Postings Details] by Office 
+     * @return view for Employee Add Postings 
      */
     public function store(StorePostingsRequest $request)
     {
@@ -81,6 +83,25 @@ class PostingController extends Controller
         
     }
 
+        /**
+     ** Add Postings Details
+     * [Update Employees Postings Details] by Office 
+     * @return view for Employee Add Postings 
+     */
+    public function updateRelieving(UpdatePostingsRequest $request)
+    {
+
+        $posting = Posting::find($request->id);
+        
+        // $posting->update([
+        //     'to_date'=>$request->to_date 
+        // ]);
+        
+
+        return $posting->set_durgam_sugam();
+
+    }
+    
     
 
 

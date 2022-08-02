@@ -42,14 +42,10 @@ class Employee extends Model
         'aadhar',
         'height',
         'identity_mark',
-        
-           
         'office_type',
         'office_id',                                                                                                         
         'office_idd',
- 
         'designation_id',
- 
 
         'regular_incharge',
         'informed_by_employee_id',
@@ -63,36 +59,28 @@ class Employee extends Model
         'avatar',
         'created_at',
         'updated_at',
-
-'chat_id',  
-
- 
-'h_district',
-'h_state',           
-'h_tahsil',          
-// 'c_email',   todo: remove form other project as well => using    email   now      
-// 'c_mobile',  todo: remove form other project as well => using    phone_no   now        
-'s_y',                  
-'s_m',                  
-'s_d',                  
-'s_t',                  
-'d_y',                  
-'d_m',                  
-'d_d',                  
-'d_t',                  
-'last_office_name',
-'last_office_type',
-'orignal_office_days',
-'orignal_office_name',
-'orignal_office_type',
-'durgam_days_reduction',
-'is_locked',
-'password',
-'remember_token',
-'is_prabhari'
-
-
-
+        'chat_id',  
+        'h_district',
+        'h_state',           
+        'h_tahsil',         
+        's_y',                  
+        's_m',                  
+        's_d',                  
+        's_t',                  
+        'd_y',                  
+        'd_m',                  
+        'd_d',                  
+        'd_t',                  
+        'last_office_name',
+        'last_office_type',
+        'orignal_office_days',
+        'orignal_office_name',
+        'orignal_office_type',
+        'durgam_days_reduction',
+        'is_locked',
+        'password',
+        'remember_token',
+        'is_prabhari' // to be remove
     ];
 
     public function status_bg_color()
@@ -131,7 +119,6 @@ class Employee extends Model
     {
         return $this->belongsTo(Posting::class, "id", "employee_id")->whereNull("to_date");
     }
-
 
     public function getEmpCurrentOffice()
     {

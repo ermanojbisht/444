@@ -39,7 +39,7 @@
                 <th>Employee Id</th>
                 <th>Name </th>
                 <th>Designation</th>
-                <th>Office</th> 
+                <th>Office</th>
                 <th>Updated On</th>
                 <th style="width:10%">Action </th>
             </tr>
@@ -54,7 +54,7 @@
                 <td>@if ($employee->office_idd)
                     {{ $employee->officeName->name }}
                     @endif
-                </td> 
+                </td>
                 <td>{{$employee->updated_at ? $employee->updated_at->format('d M Y') : ''}} </td>
                 <td>
                     <div class="dropdown" id="{{1+$loop->index}}">
@@ -84,21 +84,17 @@
                                 href="{{ route('employee.createPostings',['employee'=>$employee->id]) }}">
                                 Add Posting Details </a>
 
-
                             <a class="dropdown-item" target="_blank"
                                 href="{{ route('employee.createPostings',['employee'=>$employee->id]) }}">
                                 Add Leaves </a>
 
-
                             <a class="dropdown-item"
                                 href="{{ route('employee.office.view',['employee'=>$employee->id]) }}">
-                                Edit Personal Details
-                            </a>
+                                Edit Personal Details </a>
 
                             <a class="dropdown-item" target="_blank"
                                 href="{{ route('employee.viewEmpDetail',['employee'=>$employee->id]) }}">
-                                Sugam Durgam Details
-                            </a>
+                                Sugam Durgam Details </a>
 
                             @endif
                         </div>
