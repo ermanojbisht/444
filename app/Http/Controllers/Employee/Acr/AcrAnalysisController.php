@@ -72,4 +72,67 @@ class AcrAnalysisController extends Controller
         return view('employee.acr.daysChart', compact('data'));
       
     }
+
+    public function marksChart(Request $request)
+    {
+        $acr_data = Acr::where('acr_type_id','>',0)->where('is_active',1)->where('final_no','>',0)->get();
+
+        $acr_marks = $acr_data->map(function ($acr) {
+                if($acr->final_no <= 10){
+                    return $acr->final_no*10;
+                }else{
+                    return $acr->final_no*1;
+                }
+            });
+        $total = count($acr_marks);
+        $step = 5;
+        $min = round(($acr_marks->min()/$step),0)*$step;
+        $max = 100;
+        $columns = ceil(($max- $min)/$step);
+        $data = [];
+        $start = $min;
+        for ($i=0; $i < $columns; $i++) { 
+            
+            $end = $start + $step;
+
+            $range_data = array_filter($acr_marks->toArray(), function($n) use($start,$end){ 
+                return $n > $start && $n <= $end;
+            });
+
+            $count = count($range_data);
+
+            if(count($range_data)){
+                $average = array_sum($range_data) / count($range_data);
+            }else{
+                $average = $start;
+            }
+
+            if($start >= 80){
+                $color = "#01C153";
+            }elseif($start >= 60){
+                $color = "#89D358";
+            }elseif($start >= 40){
+                $color = "#DCF53D";
+            }else{
+                $color = "#ff0000";
+            }
+
+            $percent =  round(count($range_data)*100/$total,0);
+
+            $data[] = [ 'start'=>$start, 
+                        'end'=>$end,
+                        'range'=> $start.'-'.$end,
+                        'step'=>$step,
+                        'count'=>$count,
+                        'color'=>$color,
+                        'average'=>round($average,1),
+                        'percent'=>$percent,
+                    ];
+            $start = $end;
+        }
+       //return $data;
+       // return  $acr_data->avg();
+        return view('employee.acr.marksChart', compact('data'));
+      
+    }
 }

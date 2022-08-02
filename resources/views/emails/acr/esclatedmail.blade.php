@@ -2,12 +2,12 @@
 Dear {{$defaulterEmployee->shriName}}
 
 
-@if($targetDutyType=='report')
+@if($dutyType=='report')
 {{$acr->employee->shriName}} has submitted his/her self appraisal on @mkbdate($acr->submitted_at).
 But you have not reported this ACR within the prescribed timelimit hence it has been esclated to heigher authorties .
 @endif
 
-@if($targetDutyType=='review')
+@if($dutyType=='review')
 {{$acr->employee->shriName}}'s performance report has been reported by {{$acr->userOnBasisOfDuty('report')->shriName}} on @mkbdate($acr->report_on).
 But you have not reviewed this ACR within the prescribed timelimit hence it has been esclated to heigher authorties .
 @endif
