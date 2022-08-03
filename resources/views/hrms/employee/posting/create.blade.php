@@ -183,7 +183,6 @@ for Employee {{$employee->name}} ({{$employee->id}})
                     @foreach($employeePostings as $posting )
                     <tr>
                         <td>
-                            {{$posting->id}}
                             <span id="lbloffice{{$posting->id}}"> {{ $posting->postingOffice->name }} </span>
                         </td>
                         <td>

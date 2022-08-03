@@ -196,15 +196,12 @@ $posting->employee->id],
                     </tr>
                     <tr style="background-color: #B0D8FF">
                         <td>
-                            {{$prevposting->id}}
                             <span id="lbloffice{{$prevposting->id}}"> {{ $prevposting->postingOffice->name }} </span>
                         </td>
                         <td>
                             @if ($prevposting->designation_id)
                             <label id="lbldesignation{{$prevposting->id}}"> {{ $prevposting->designation->name }}
-                            </label>
-                            <label id="lbldesignationid{{$prevposting->id}}"> {{
-                                $prevposting->designation->id }} </label>
+                            </label> 
                             @endif
                         </td>
                         <td>
@@ -258,15 +255,13 @@ $posting->employee->id],
                         </td>
                     </tr>
                     <tr tooltip="row to edit" style="background-color: #C6FFC6">
-                        <td>
-                            {{$posting->id}}
-                            <span id="lbloffice{{$posting->id}}"> {{ $posting->postingOffice->name }} </span>
+                        <td> 
+                            {{ $posting->postingOffice->name }}  
                         </td>
                         <td>
                             @if ($posting->designation_id)
-                            <label id="lbldesignation{{$posting->id}}"> {{ $posting->designation->name }} </label>
-                            <label  id="lbldesignationid{{$posting->id}}"> {{
-                                $posting->designation->id }} </label>
+                           {{ $posting->designation->name }}  
+                             
                             @endif
                         </td>
                         <td>
@@ -299,9 +294,7 @@ $posting->employee->id],
                             }}
                             Till 31/05/22
                             @endif
-                            @endif
-                            {{-- {!! $posting->days_in_office ?
-                            $posting->days_in_office . ' Days ' : ' Till Present ' !!} --}}
+                            @endif 
                         </td>
                         <td></td>
                     </tr>
@@ -314,15 +307,11 @@ $posting->employee->id],
                     </tr>
                     <tr style=" background-color : #f9d7d7">
                         <td>
-                            {{$nextPosting->id}}
-                            <span id="lbloffice{{$nextPosting->id}}"> {{ $nextPosting->postingOffice->name }} </span>
+                              {{ $nextPosting->postingOffice->name }}  
                         </td>
                         <td>
                             @if ($nextPosting->designation_id)
-                            <label id="lbldesignation{{$nextPosting->id}}"> {{ $nextPosting->designation->name }}
-                            </label>
-                            <label id="lbldesignationid{{$nextPosting->id}}"> {{
-                                $nextPosting->designation->id }} </label>
+                              {{ $nextPosting->designation->name }}
                             @endif
                         </td>
                         <td>

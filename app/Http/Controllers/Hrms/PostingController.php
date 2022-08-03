@@ -160,7 +160,7 @@ class PostingController extends Controller
 
         if ($prevposting) {
             $prevposting->update([
-                'to_date' => $request->from_date
+                'to_date' => $from_date->subDay()
             ]);
             $prevposting->saveSugamDurgamPeriod();
         }
@@ -168,7 +168,7 @@ class PostingController extends Controller
         if ($nextPosting) {
 
             $nextPosting->update([
-                'from_date' => $request->to_date
+                'from_date' => $end_date->addDay()
             ]);
             $nextPosting->saveSugamDurgamPeriod();
         }
@@ -205,24 +205,26 @@ class PostingController extends Controller
     {
 
         $posting = Posting::find($posting->id);
+        
         $prevposting = $posting->employee->previousPostings($posting->id);
-        if ($prevposting) {
-            $prevposting->update([
-                'to_date' => $posting->from_date
-            ]);
-            $prevposting->saveSugamDurgamPeriod();
-        }
-
         $nextPosting = $posting->employee->nextPostings($posting->id);
-        if ($nextPosting) {
+        
 
+        // if ($prevposting) {
+        //     $prevposting->update([
+        //         'to_date' => $nextPosting->from_date
+        //     ]);
+        //     $prevposting->saveSugamDurgamPeriod();
+        // }
+
+        if ($nextPosting) {
             $nextPosting->update([
-                'from_date' => $posting->to_date
+                'from_date' => $prevposting->to_date->addDay()
             ]);
             $nextPosting->saveSugamDurgamPeriod();
         }
 
-        $posting->delete();
+       // $posting->delete();
 
         $posting->employee->updateSugamDurgam();
 
