@@ -5,7 +5,7 @@ namespace App\Http\Requests\Employee\Hrms;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
 
-class StorePostingsRequest extends FormRequest
+class UpdatePostingDetailsRequest extends FormRequest
 {
 
     /**
@@ -25,6 +25,7 @@ class StorePostingsRequest extends FormRequest
      */
     public function rules()
     {  
+        $rules['id'] = 'required|numeric';
         $rules['employee_id'] =  'required|min:5|max:50';
         $rules['to_date'] =  'nullable|date';
         //$rules['order_no'] =  'required';

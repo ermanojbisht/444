@@ -45,7 +45,7 @@ Employee Registration
                     <a href="{{ route('employee.AddEducationDetails',['employee'=>$employee->id]) }}"
                         class="btn btn-outline-success col-5 m-1"> Add Education Details </a>
 
-                    <a href="{{ route('employee.createPostings',['employee'=>$employee->id]) }}"
+                    <a href="{{ route('employee.posting.create',['employee'=>$employee->id]) }}"
                         class="btn btn-outline-success col-5 m-1"> Add Posting Details </a>
 
                 </div>

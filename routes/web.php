@@ -204,19 +204,19 @@ Route::group(['as' => 'employee.', 'middleware'=>['auth']], function () {
     Route::post('education/store', 'Hrms\EducationController@storeEducationDetails')->name('education.store');
 
     /* PostingController */
-    Route::get('employee/posting/{employee}', 'Hrms\PostingController@create')->name('createPostings');
+    Route::get('employee/posting/{employee}', 'Hrms\PostingController@create')->name('posting.create');
     Route::post('posting/store', 'Hrms\PostingController@store')->name('postings.store');
     Route::post('posting/update', 'Hrms\PostingController@updateRelieving')->name('postings.updateRelieving');
 
-    
+    Route::get('employee/posting/edit/{posting}', 'Hrms\PostingController@edit')->name('editPosting');
+    Route::post('posting/updateDetails', 'Hrms\PostingController@update')->name('postings.updateDetails');
+
+    Route::get('employee/posting/delete/{posting}', 'Hrms\PostingController@delete')->name('delete');
+    Route::post('posting/delete/{posting}', 'Hrms\PostingController@deletePosting')->name('postings.deletePosting');
 
 
     Route::post('ajaxDataForOffice', 'Hrms\Hrms@ajaxDataForOffice')->name('ajaxDataForOffice'); 
     //todo detach it for base use
-
-
-
-
 
 });
 
