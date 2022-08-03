@@ -403,4 +403,72 @@ class Employee extends Model
             $empAcr->save();
         }
     }
+
+    public function identifyLastOffice()
+    {
+        $postings= $this->postings()->orderBy('from_date')->get();
+        $lastPosting=$postings->last();
+        if($lastPosting){
+            $this->update([
+                'last_office_name'=>$lastPosting->postingOffice->name,
+                'last_office_type'=>$lastPosting->postingOffice->isdurgam,
+                'timestamps' => false
+            ]);
+            switch ($lastPosting->mode_id) {
+                case 1:
+                    // Transfer
+                    $this->updateOrignalOfficeDetails($lastPosting->id);
+                    return;
+                    break;
+            }
+
+            $i=0;
+
+            foreach ($postings as $posting) {
+                echo "posting=".$posting->id."-";
+                if($posting->mode_id==1){//'Transfer'
+                    $i=0;
+                    $postingId=$posting->id;
+                    $lastData=false;
+                    continue;
+                }else{
+                    if ($i == 0) {
+                        $postingId=$posting->id;
+                    }else{
+                        if(($lastData->postingOffice->name==$posting->postingOffice->name)){//todo mkb may be id not name
+                            $postingId=$lastData->id;
+                        }else{
+                            if(in_array($lastData->mode_id,[2,8])){//'Attachment','Suspention'
+                                //$postingId=$lastData->id;
+                            }else{
+                                $postingId=$posting->id;
+                            }
+                        }
+                    }
+                    $lastData=$posting;
+                    $i++;
+                }
+                //echo $postingId."<br>";
+            }//foreach
+
+            $this->updateOrignalOfficeDetails($postingId);
+
+        };
+
+
+
+    }
+
+    public function updateOrignalOfficeDetails($postingId)
+    {
+        $posting= Posting::find($postingId);
+        $period = Helper::dateDifference($posting->from_date, Helper::lastDateForTransferCOnsideration(), false);
+        $this->update([
+            'orignal_office_name'=>$posting->postingOffice->name,
+            'orignal_office_type'=>$posting->postingOffice->isdurgam,//may got from detail list
+            'orignal_office_days'=>( $period->days+1),
+            'timestamps' => false
+        ]);
+    }
+
 }
