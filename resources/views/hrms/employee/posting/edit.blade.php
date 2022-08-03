@@ -8,7 +8,7 @@
 
 @section('pagetitle')
 {{($isLastPostingClosed) ? 'Add New Postings' : 'Enter End Date of Current Posting ' }}
-for Employee {{$employee->name}} ({{$employee->id}})
+for Employee {{$posting->employee->name}} ({{$posting->employee->id}})
 @endsection
 
 @section('breadcrumb')
@@ -16,7 +16,8 @@ for Employee {{$employee->name}} ({{$employee->id}})
 ['datas'=> [
 ['label'=> 'Home','active'=>false, 'route'=> 'employee.home'],
 ['label'=> 'Office Employees','active'=>true, 'route' => 'employee.office.index'],
-['label'=> 'View Employee','active'=>true, 'route' => 'employee.office.view','routefielddata' => $employee->id],
+['label'=> 'View Employee','active'=>true, 'route' => 'employee.office.view','routefielddata' =>
+$posting->employee->id],
 ['label'=> 'Add New Postings','active'=>true],
 ]])
 @endsection
@@ -29,7 +30,7 @@ for Employee {{$employee->name}} ({{$employee->id}})
 
 @if($isLastPostingClosed)
 
-<form action="{{ route('employee.postings.store') }}" method="POST"
+<form action="{{ route('employee.postings.updateDetails') }}" method="POST"
     onsubmit="return confirm('Above Written Details are correct to my knowledge. ( मेरे द्वार भरा गया उपरोक्त डाटा सही हैं ) ??? ');">
     @csrf
 
@@ -39,25 +40,12 @@ for Employee {{$employee->name}} ({{$employee->id}})
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-
                         {{-- designation_id --}}
                         <div class="form-group col-md-3">
-                            <label class="" for="designation_id"> Current Designation </label>
-                            <br />
-                            @if($employee->designation_id)
-                            {!! Form::label('', $designations[$employee->designation_id],
-                            ['class'=>'label']) !!}
-                            <span>@if($employee->regular_incharge == 1) (Incharge) @endif</span>
-                            @else
-                            Not delclared by Section
-                            @endif
-                            {!! Form::hidden('regular_incharge', $employee->regular_incharge,
-                            ['id'=>'regular_incharge'])
-                            !!}
-                            {!! Form::hidden('designation_id', $employee->designation_id,
-                            ['id'=>'designation_id']) !!}
-
-
+                            <label class="required" for="designation_id"> Designation </label>
+                            {!! Form::select('designation_id', $designations,
+                            $posting->designation_id, ['id' => 'designation_id',
+                            'class'=>'form-select select2', 'required']) !!}
                             @if($errors->has('designation_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('designation_id') }}
@@ -68,10 +56,10 @@ for Employee {{$employee->name}} ({{$employee->id}})
 
                         {{-- office_id --}}
                         <div class="form-group col-md-3">
-                            <label class="" for="office_id"> Current Office </label>
-                            <br />
-                            {!! Form::label('', $offices[$employee->office_idd], ['class'=>'label']) !!}
-                            {!! Form::hidden('office_id', $employee->office->id, ['id'=>'office_id']) !!}
+                            <label class="required" for="office_id"> Office </label>
+                            {!! Form::select('office_id', $offices,
+                            ($posting->office) ? $posting->office->id : '', ['id' => 'office_id',
+                            'class'=>'form-select select2', 'required']) !!}
                             @if($errors->has('office_id'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('office_id') }}
@@ -80,11 +68,13 @@ for Employee {{$employee->name}} ({{$employee->id}})
                             <span class="help-block"> </span>
                         </div>
 
+
                         {{-- order_no --}}
                         <div class="form-group col-md-3">
                             <label class="" for="order_no"> Order No </label>
                             <input type="text" class="form-control" id="order_no" name="order_no"
-                                placeholder="Order No" />
+                                placeholder="Order No" 
+                                value="{{$posting->order_no ? $posting->order_no : '' }}" />
                             @if($errors->has('order_no'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('order_no') }}
@@ -98,7 +88,7 @@ for Employee {{$employee->name}} ({{$employee->id}})
                             <label class="" for="order_at"> Order Date </label>
                             <input class="form-control {{ $errors->has('order_at') ? 'is-invalid' : '' }}" type="date"
                                 name="order_at" id="order_at" format
-                                value="{{$employee->order_at ? $employee->order_at->format('Y-m-d') : old('order_at', '') }} ">
+                                value="{{$posting->order_at ? $posting->order_at->format('Y-m-d') : old('order_at', '') }} ">
                             @if($errors->has('order_at'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('order_at') }}
@@ -126,7 +116,8 @@ for Employee {{$employee->name}} ({{$employee->id}})
                         <div class="form-group col-md-3">
                             <label class="required" for="from_date"> From Date </label>
                             <input class="form-control {{ $errors->has('from_date') ? 'is-invalid' : '' }}" type="date"
-                                name="from_date" id="from_date" format required value="{{ old('from_date', '')}}">
+                                name="from_date" id="from_date" format required 
+                                value="{{  ($posting->from_date) ? $posting->from_date->format('Y-m-d') : old('from_date', '')}}">
                             @if($errors->has('from_date'))
                             <div class="invalid-feedback">
                                 {{ $errors->first('from_date') }}
@@ -135,13 +126,30 @@ for Employee {{$employee->name}} ({{$employee->id}})
                             <span class="help-block"> </span>
                         </div>
 
+
+                        {{-- To Date --}}
+                        <div class="form-group col-md-3">
+                            <label class="required" for="to_date"> To Date </label>
+                            <input class="form-control {{ $errors->has('to_date') ? 'is-invalid' : '' }}" type="date"
+                                name="to_date" id="to_date" format required 
+                                value="{{  ($posting->to_date) ? $posting->to_date->format('Y-m-d') : old('to_date', '')}}">
+                            @if($errors->has('to_date'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('to_date') }}
+                            </div>
+                            @endif
+                            <span class="help-block"> </span>
+                        </div>
+
                         <div class="form-group col-md-3">
                             <br />
-                            {!! Form::hidden('updated_by', Auth::user()->employee_id, ['id'=>'updated_by',
+                            {!! Form::hidden('id', $posting->id, ['id'=>'id', 'class'=>'form-control', 'required']) !!}
+                            {!! Form::hidden('employee_id', $posting->employee->id, ['id'=>'employee_id',
                             'class'=>'form-control', 'required']) !!}
+
                             <div class="box-footer justify-content-between">
                                 <button id="btnAddRegDetails" type="submit" class="btn btn-success">
-                                    Add Posting Detail </button>
+                                    Update Posting Detail </button>
                             </div>
                         </div>
                     </div>
@@ -155,9 +163,8 @@ for Employee {{$employee->name}} ({{$employee->id}})
 
 <div class="card">
     <div class="card-body text-info">
-
-        <p class="h5"> Employee Posting Details in Reverse Order : </p>
         <div class="row">
+            <p class="h5"> Change in Posting Dates can affect these postings : </p>
             <div class="form-group col-md-12">
                 <table id="tbl_employee_postings" class="table border mb-0 dataTable no-footer ">
                     <tr>
@@ -180,16 +187,81 @@ for Employee {{$employee->name}} ({{$employee->id}})
                             Action
                         </th>
                     </tr>
-                    @foreach($employeePostings as $posting )
-                    <tr>
+
+                    @if ($prevposting)
+                    <tr style="background-color: #B0D8FF">
+                        <td colspan="6">
+                            <p class="h5"> Employee Previous Posting Details : </p>
+                        </td>
+                    </tr>
+                    <tr style="background-color: #B0D8FF">
                         <td>
-                            <span id="lbloffice{{$posting->id}}"> {{ $posting->postingOffice->name }} </span>
+                            <span id="lbloffice{{$prevposting->id}}"> {{ $prevposting->postingOffice->name }} </span>
+                        </td>
+                        <td>
+                            @if ($prevposting->designation_id)
+                            <label id="lbldesignation{{$prevposting->id}}"> {{ $prevposting->designation->name }}
+                            </label> 
+                            @endif
+                        </td>
+                        <td>
+                            {{$prevposting->from_date->format('d M Y')}}
+                        </td>
+                        <td>
+                            @if($prevposting->to_date)
+                            {{ $prevposting->to_date->format('d M Y') }}
+                            @else
+                            Till Present
+                            @endif
+                        </td>
+                        <td>
+                            @if($prevposting->s_d || $prevposting->d_d)
+                            @if($prevposting->s_d)
+                            {{ $prevposting->s_d }} Days Sugam
+                            @endif
+
+                            @if ($prevposting->d_d)
+                            {{ $prevposting->s_d }} Days Durgam
+                            @endif
+                            @else
+                            @if($prevposting->to_date)
+                            {{ 1 +
+                            (int)(Carbon\Carbon::parse($prevposting->from_date)->diffInDays(Carbon\Carbon::parse($prevposting->to_date)))
+                            }}
+                            @else
+                            {{ 1 +
+                            (int)Carbon\Carbon::parse('2022-05-31')->diffInDays(Carbon\Carbon::parse($prevposting->from_date))
+                            }}
+                            Till 31/05/22
+                            @endif
+                            @endif
+                        </td>
+                        <td>
+                            <a class="dropdown-item" target="_blank"
+                                href="{{ route('employee.editPosting',['posting'=>$prevposting->id]) }}">
+                                Edit </a>
+
+                            @if(! $prevposting->to_date)
+                            <a href="javascript:void(0)" onclick="showModal({{$prevposting->id}})">
+                                Add End Date
+                            </a>
+                            @endif
+                        </td>
+                    </tr>
+                    @endif
+                    <tr style="background-color: #C6FFC6">
+                        <td colspan="6">
+                            <p class="h5"> Posting To be Edited : </p>
+                        </td>
+                    </tr>
+                    <tr tooltip="row to edit" style="background-color: #C6FFC6">
+                        <td> 
+                            {{ $posting->postingOffice->name }}  
                         </td>
                         <td>
                             @if ($posting->designation_id)
-                            <label id="lbldesignation{{$posting->id}}"> {{ $posting->designation->name }} </label>
-                            <label style="display: none;" id="lbldesignationid{{$posting->id}}"> {{
-                                $posting->designation->id }} </label>
+                           {{ $posting->designation->name }}  
+                             
                             @endif
                         </td>
                         <td>
@@ -222,109 +294,77 @@ for Employee {{$employee->name}} ({{$employee->id}})
                             }}
                             Till 31/05/22
                             @endif
-                            @endif
-                            {{-- {!! $posting->days_in_office ?
-                            $posting->days_in_office . ' Days ' : ' Till Present ' !!} --}}
+                            @endif 
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    @if ($nextPosting)
+                    <tr style=" background-color : #f9d7d7">
+                        <td colspan="6">
+                            <p class="h5"> Employee's Next Posting Details : </p>
+                        </td>
+                    </tr>
+                    <tr style=" background-color : #f9d7d7">
+                        <td>
+                              {{ $nextPosting->postingOffice->name }}  
                         </td>
                         <td>
+                            @if ($nextPosting->designation_id)
+                              {{ $nextPosting->designation->name }}
+                            @endif
+                        </td>
+                        <td>
+                            {{$nextPosting->from_date->format('d M Y')}}
+                        </td>
+                        <td>
+                            @if($nextPosting->to_date)
+                            {{ $nextPosting->to_date->format('d M Y') }}
+                            @else
+                            Till Present
+                            @endif
+                        </td>
+                        <td>
+                            @if($nextPosting->s_d || $nextPosting->d_d)
+                            @if($nextPosting->s_d)
+                            {{ $nextPosting->s_d }} Days Sugam
+                            @endif
 
+                            @if ($nextPosting->d_d)
+                            {{ $nextPosting->s_d }} Days Durgam
+                            @endif
+                            @else
+                            @if($nextPosting->to_date)
+                            {{ 1 +
+                            (int)(Carbon\Carbon::parse($nextPosting->from_date)->diffInDays(Carbon\Carbon::parse($nextPosting->to_date)))
+                            }}
+                            @else
+                            {{ 1 +
+                            (int)Carbon\Carbon::parse('2022-05-31')->diffInDays(Carbon\Carbon::parse($nextPosting->from_date))
+                            }}
+                            Till 31/05/22
+                            @endif
+                            @endif 
+                        </td>
+                        <td>
                             <a class="dropdown-item" target="_blank"
-                                href="{{ route('employee.editPosting',['posting'=>$posting->id]) }}">
+                                href="{{ route('employee.editPosting',['posting'=>$nextPosting->id]) }}">
                                 Edit </a>
-
-
-                            <a class="dropdown-item" target="_blank"
-                                href="{{ route('employee.delete',['posting'=>$posting->id]) }}">
-                                Delete </a>
-
-
-
-                            @if(! $posting->to_date)
-                            <a href="javascript:void(0)" onclick="showModal({{$posting->id}})">
+                            @if(! $nextPosting->to_date)
+                            <a href="javascript:void(0)" onclick="showModal({{$nextPosting->id}})">
                                 Add End Date
                             </a>
                             @endif
                         </td>
-
                     </tr>
-                    @endforeach
+                    @endif
                 </table>
             </div>
         </div>
     </div>
 </div>
 
-<!-- boostrap model -->
-<div class="modal fade" id="user_data_model" aria-hidden="true" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered" style="width: auto; " role="document">
-        <div class="modal-content">
-            <div class="modal-body border border-2 border-info p-1 " id="user_input_data">
 
-                <form action="{{ route('employee.postings.updateRelieving') }}" method="POST"
-                    onsubmit="return confirm('Above Written Details are correct to my knowledge. ( मेरे द्वार भरा गया उपरोक्त डाटा सही हैं ) ??? ');">
-                    @csrf
-
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span class="fw-bold"> Employee Code :</span>
-                            <span> {{$employee->id }}</span>
-
-                            <input class="form-control" type="hidden" name="employee_id" id="employee_id"
-                                value="{{ $employee->id == '' ? '' : $employee->id }}">
-                        </li>
-
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span class="fw-bold"> Name :</span>
-                            <span> {{$employee->name }}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span class="fw-bold"> Designation :</span>
-                            <span id="lbldesignation"> </span>
-                            <span style="display: none;" id="lbldesignationid"> </span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span class="fw-bold"> Office :</span>
-                            <span id="lbloffice"> </span>
-                            <span style="display: none;" id="lblofficeid"> </span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <label class="required fw-bold" for="to_date">Last Office Relieving Date </label>
-                            {{-- Relieving Date --}}
-                            <div class="form-group col-md-6">
-                                <input class="form-control {{ $errors->has('to_date') ? 'is-invalid' : '' }}"
-                                    type="date" name="to_date" id="to_date" format required
-                                    value="{{$employee->to_date ? $employee->to_date->format('Y-m-d') : old('to_date', '') }}">
-                                @if($errors->has('to_date'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('to_date') }}
-                                </div>
-                                @endif
-                                <span class="help-block"> </span>
-                            </div>
-                        </li>
-
-                        <li class="list-group-item d-flex justify-content-between">
-                            <div class="form-group col-ofset-6 col-md-6">
-                                {!! Form::hidden('updated_by', Auth::user()->employee_id, ['id'=>'updated_by',
-                                'class'=>'form-control', 'required']) !!}
-                                {!! Form::text('id', "0", ['id'=>'posting_id','style'=>'display:none;']) !!}
-                            </div>
-                            <div class="form-group col-ofset-6 col-md-6">
-                                <input type="submit" class="btn btn-sm btn-success" value="Update Relieving" />
-                            </div>
-                        </li>
-
-                    </ul>
-                    <div class="row">
-                    </div>
-                    <br />
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end bootstrap model -->
 
 
 
@@ -335,21 +375,7 @@ for Employee {{$employee->name}} ({{$employee->id}})
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script type="text/javascript">
     $(".select2").select2();
-
-    function showModal(posting)
-    {
-        $("#lbldesignation").html($("#lbldesignation" +posting).html());
-        $("#lbldesignationid").html($("#lbldesignationid" +posting).html());
-
-        $("#lbloffice").html($("#lbloffice" +posting).html());
-        $("#lblofficeid").html($("#lblofficeid" +posting).html());
-
-        $("#posting_id").val(posting);
-
-
-        $('#user_data_model').modal('show');
-
-    }
+     
 </script>
 @include('partials.js._makeDropDown')
 @endsection

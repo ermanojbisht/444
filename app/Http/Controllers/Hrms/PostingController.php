@@ -3,21 +3,13 @@
 namespace App\Http\Controllers\Hrms;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Employee\Hrms\StoreAddressRequest;
-use App\Http\Requests\Employee\Hrms\StoreEmployeeRequest;
 use App\Http\Requests\Employee\Hrms\StorePostingsRequest;
-use App\Http\Requests\Employee\Hrms\UpdateEmployeeRequest;
+use App\Http\Requests\Employee\Hrms\UpdatePostingDetailsRequest;
 use App\Http\Requests\Employee\Hrms\UpdatePostingsRequest;
 use App\Models\Designation;
-use App\Models\Hrms\Address;
-use App\Models\Hrms\Constituency;
-use App\Models\Hrms\District;
-use App\Models\Hrms\Education;
 use App\Models\Hrms\Employee;
 use App\Models\Hrms\Posting;
-use App\Models\Hrms\State;
 use App\Models\Office;
-use App\Models\Tehsil;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -61,7 +53,7 @@ class PostingController extends Controller
 
         $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
 
-        return view('hrms.employee.posting.create', compact('employee', 'employeePostings', 'designations', 'offices','isLastPostingClosed'));
+        return view('hrms.employee.posting.create', compact('employee', 'employeePostings', 'designations', 'offices', 'isLastPostingClosed'));
     }
 
 
@@ -80,7 +72,7 @@ class PostingController extends Controller
 
         Posting::create($newPosting);
 
-        return redirect()->route('employee..posting.create', ['employee' => $request->employee_id])
+        return redirect()->route('employee.posting.create', ['employee' => $request->employee_id])
             ->with('status', 'Postings Updated Successfully!');
     }
 
@@ -94,8 +86,8 @@ class PostingController extends Controller
         $posting = Posting::find($request->id);
         $end_date = Carbon::parse($request->to_date);
 
-        abort_if($posting->from_date->gt($end_date), 403, ' End Date ' . $end_date->format('d m y') . ' cannot be greater then posting start Date' . $posting->from_date->format('d m y'));
-        
+        abort_if($posting->from_date->gt($end_date), 403, ' End Date ' . $end_date->format('d M Y') . ' cannot be greater then posting start Date' . $posting->from_date->format('d M Y'));
+
         $posting->update([
             'to_date' => $request->to_date
         ]);
@@ -106,17 +98,159 @@ class PostingController extends Controller
     }
 
 
-    public function editPosting(Posting $posting)
+    public function edit(Posting $posting)
     {
-        $posting->employee->nextPostings($posting->id);
-        $posting->employee->previousPostings($posting->id);
+
+        $employeePostings = $posting->employee->postings()->get();
+        //$employeePostings =  $posting->with('office')->with('designation')->get();
+
+        $isLastPostingClosed = ($employeePostings->first()->to_date);
+
+        $designations = array('' => 'Select Designation') + Designation::where('group_id', '!=', 'null')
+            ->orderBy('name')->pluck('name', 'id')->toArray();
+
+        $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
+
+        $nextPosting = $posting->employee->nextPostings($posting->id);
+        $prevposting = $posting->employee->previousPostings($posting->id);
+
+        return view('hrms.employee.posting.edit', compact(
+            'posting',
+            'prevposting',
+            'nextPosting',
+            'designations',
+            'offices',
+            'isLastPostingClosed'
+        ));
     }
 
+    public function update(UpdatePostingDetailsRequest $request)
+    {
+        $posting = Posting::find($request->id);
+
+        $from_date = Carbon::parse($request->from_date);
+        $end_date = Carbon::parse($request->to_date);
+
+        abort_if($from_date->gt($end_date), 403, ' End Date ' . $end_date->format('d M Y') .
+            ' cannot be less then posting start Date ' . $posting->from_date->format('d M Y'));
+
+
+        $prevposting = $posting->employee->previousPostings($request->id);
+
+        if ($prevposting) {
+            abort_if($from_date->lte($prevposting->from_date), 403, ' From Date ' . $from_date->format('d M Y') .
+                ' cannot be less then or equals previous posting Start Date ' . $prevposting->from_date->format('d M Y'));
+        }
+
+
+        $nextPosting = $posting->employee->nextPostings($request->id);
+        if ($nextPosting) {
+            abort_if($end_date->gt($nextPosting->to_date), 403, ' End Date ' . $end_date->format('d M Y') .
+                ' cannot be greater then next posting From Date ' . $nextPosting->to_date->format('d M Y'));
+        }
+
+
+        if ($posting->from_Date != $from_date || $posting->to_Date != $end_date) {
+
+            $posting->update([
+                'order_no' =>  $request->order_no,
+                'order_at' =>  $request->order_at,
+                'from_date' =>  $request->from_date,
+                'to_date' =>  $request->to_date,
+                'mode_id' => $request->mode_id,
+                'office_id' =>  $request->office_id,
+                'designation_id' =>  $request->designation_id
+            ]);
+
+            if ($prevposting) {
+                $prevposting->update([
+                    'to_date' => $from_date->subDay()
+                ]);
+            }
+
+            if ($nextPosting) {
+                $nextPosting->update([
+                    'from_date' => $end_date->addDay()
+                ]);
+            }
+
+            if ($prevposting) {
+                $prevposting->saveSugamDurgamPeriod();
+            }
+
+            $posting->saveSugamDurgamPeriod();
+
+            if ($nextPosting) {
+                $nextPosting->saveSugamDurgamPeriod();
+            }
+
+            $posting->employee->updateSugamDurgam();
+        
+        } else {
+            $posting->update([
+                'order_no' =>  $request->order_no,
+                'order_at' =>  $request->order_at,
+                'mode_id' => $request->mode_id,
+                'office_id' =>  $request->office_id,
+                'designation_id' =>  $request->designation_id
+            ]);
+        }
+
+
+        return redirect()->route('employee.posting.create', ['employee' => $request->employee_id])
+            ->with('status', 'Postings Updated Successfully!');
+    }
+
+    /* View Delete Posting View Page */
+    public function delete(Posting $posting)
+    {
+
+        $employeePostings = $posting->employee->postings()->get();
+        //$employeePostings =  $posting->with('office')->with('designation')->get();
+
+        $isLastPostingClosed = ($employeePostings->first()->to_date);
+
+        $designations = array('' => 'Select Designation') + Designation::where('group_id', '!=', 'null')
+            ->orderBy('name')->pluck('name', 'id')->toArray();
+
+        $offices = array('' => 'Select Office') + Office::orderBy('name')->pluck('name', 'id')->toArray();
+
+        $nextPosting = $posting->employee->nextPostings($posting->id);
+        $prevposting = $posting->employee->previousPostings($posting->id);
+
+        return view('hrms.employee.posting.delete', compact('posting',  'prevposting', 'nextPosting', 'designations', 'offices', 'isLastPostingClosed'));
+    }
+
+
+    /* Request to Delete -> Selected Posting  */
     public function deletePosting(Posting $posting)
     {
-        $posting->employee->nextPostings($posting->id);
-        $posting->employee->previousPostings($posting->id);
+
+        $posting = Posting::find($posting->id);
+
+        $prevposting = $posting->employee->previousPostings($posting->id);
+        $nextPosting = $posting->employee->nextPostings($posting->id);
+
+
+        // if ($prevposting) {
+        //     $prevposting->update([
+        //         'to_date' => $nextPosting->from_date
+        //     ]);
+        //     $prevposting->saveSugamDurgamPeriod();
+        // }
+
+        if ($nextPosting) {
+            $nextPosting->update([
+                'from_date' => $prevposting->to_date->addDay()
+            ]);
+            $nextPosting->saveSugamDurgamPeriod();
+        }
+
+        $posting->delete();
+
+        $posting->employee->updateSugamDurgam();
+
+        return redirect()->route('employee.posting.create', ['employee' => $posting->employee->id])
+            ->with('status', 'Postings Updated Successfully!');
     }
-
-
 }

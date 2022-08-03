@@ -81,11 +81,11 @@
 
 
                             <a class="dropdown-item" target="_blank"
-                                href="{{ route('employee.createPostings',['employee'=>$employee->id]) }}">
+                                href="{{ route('employee.posting.create',['employee'=>$employee->id]) }}">
                                 Add Posting Details </a>
 
                             <a class="dropdown-item" target="_blank"
-                                href="{{ route('employee.createPostings',['employee'=>$employee->id]) }}">
+                                href="{{ route('employee.posting.create',['employee'=>$employee->id]) }}">
                                 Add Leaves </a>
 
                             <a class="dropdown-item"

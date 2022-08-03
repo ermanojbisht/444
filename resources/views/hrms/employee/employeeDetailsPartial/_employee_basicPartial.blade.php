@@ -60,7 +60,7 @@
             </li>
 
             <li class="list-group-item d-flex justify-content-between">
-                <span> <b> Office</b>: {{ $employee->officeName->name }} </span>
+                <span> <b> Office</b>: {{ $employee->office->name }} </span>
             </li>
         </ul>
 
