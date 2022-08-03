@@ -1,11 +1,6 @@
 @extends('layouts.type200.main')
 
 @section('headscripts')
-
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-
-@include('layouts._commonpartials.css._select2')
-
 <style>
     .bg-success {
         background-color: #dff0d8 !important;
@@ -60,13 +55,11 @@ Employee Sugam Durgam Detail
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> Date Of Birth </div>
-                    <div class="col-xs-6 col-md-6">{{ $employee->birth_date == '' ? '' :
-                        $employee->birth_date->format('d M Y') }} </div>
+                    <div class="col-xs-6 col-md-6">{{ ($employee->birth_date)?$employee->birth_date->format('d M Y'):'unknown' }} </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> Joining Date </div>
-                    <div class="col-xs-6 col-md-6"> {{ $employee->joining_date == '' ? '' :
-                        $employee->joining_date->format('d M Y') }} </div>
+                    <div class="col-xs-6 col-md-6"> {{ ($employee->joining_date)?$employee->joining_date->format('d M Y'):'unknown' }} </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> Home state </div>
@@ -152,13 +145,7 @@ Employee Sugam Durgam Detail
                     @foreach($employeePostings as $posting )
                     <tr>
                         <td>
-                            @if($posting->office_id > 0)
-                            {{ $posting->officeName->name }}
-                            @elseif ($posting->other_office_id > 0)
-                            {{ $posting->otherOfficeName($posting->other_office_id) }}
-                            @elseif ($posting->head_quarter > 1)
-                            {{ $posting->headQuarter->name) }}
-                            @endif
+                            {{ $posting->postingOffice->name }}
                         </td>
                         <td>
                             @if($posting->designation_id)
@@ -185,7 +172,7 @@ Employee Sugam Durgam Detail
                                 @endif
 
                                 @if ($posting->d_d)
-                                    Durgam Days ->  {{ $posting->s_d }}
+                                    Durgam Days ->  {{ $posting->d_d }}
                                 @endif
                             @else
                                 @if($posting->to_date)
@@ -199,18 +186,8 @@ Employee Sugam Durgam Detail
                                 @endif
                             @endif
                         </td>
-                        <td> 
-                            @if($posting->office_id > 0)
-                            {!! $posting->getPosting_is_Sugam_and_Duration(1, $posting->office_id) !!}
-
-                            @elseif ($posting->other_office_id > 0)
-                            {!! $posting->getPosting_is_Sugam_and_Duration(2, $posting->other_office_id) !!}
-
-                            @elseif ($posting->head_quarter > 1)
-                            {!! $posting->getPosting_is_Sugam_and_Duration(3, $posting->head_quarter) !!}
-                            @endif
-
-
+                        <td>
+                            {{ $posting->postingOffice->isdurgam?'Durgam':'Sugam' }}
                         </td>
                     </tr>
                     @endforeach
@@ -220,16 +197,4 @@ Employee Sugam Durgam Detail
         </div>
     </div>
 </div>
-
-
-
-@endsection
-
-@section('footscripts')
-<!-- Select2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script type="text/javascript">
-    $(".select2").select2();
-</script>
-@include('partials.js._makeDropDown')
 @endsection

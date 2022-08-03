@@ -10,6 +10,7 @@ use DB;
 use Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Log;
 
 class Employee extends Model
 {
@@ -385,6 +386,8 @@ class Employee extends Model
     {
         $postings= $this->postings()->orderBy('from_date')->get();
         $lastPosting=$postings->last();
+        //Log::info("lastPosting = ".print_r($lastPosting,true));
+
         if($lastPosting){
             $this->update([
                 'last_office_name'=>$lastPosting->postingOffice->name,
@@ -430,7 +433,7 @@ class Employee extends Model
 
             $this->updateOrignalOfficeDetails($postingId);
 
-        };
+        }
 
 
 

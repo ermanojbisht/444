@@ -99,7 +99,7 @@ class Posting extends Model
                         continue;
 
                     //Log::info("fromPostingDate->gt(postingOffice->end_date  is false");
-                    if ($toPostingDate <= $postingOffice->end_date) {
+                    if ($toPostingDate->lte($postingOffice->end_date)) {
                         //Log::info("toPostingDate <= postingOffice->end_date ");
                         $countedDays = ($toPostingDate->diffInDays($fromPostingDate) + 1) * $postingOffice->duration_factor;
                         if ($postingOffice->isdurgam) {
