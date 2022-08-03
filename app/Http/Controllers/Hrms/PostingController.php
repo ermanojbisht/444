@@ -131,57 +131,66 @@ class PostingController extends Controller
         $from_date = Carbon::parse($request->from_date);
         $end_date = Carbon::parse($request->to_date);
 
-        abort_if($from_date->gte($end_date), 403, ' End Date ' . $end_date->format('d M Y') .
-            ' cannot be less or equals then posting start Date ' . $posting->from_date->format('d M Y'));
+        abort_if($from_date->gt($end_date), 403, ' End Date ' . $end_date->format('d M Y') .
+            ' cannot be less then posting start Date ' . $posting->from_date->format('d M Y'));
+
 
         $prevposting = $posting->employee->previousPostings($request->id);
+
         if ($prevposting) {
-            abort_if($from_date->lte($prevposting->to_date), 403, ' From Date ' . $from_date->format('d M Y') .
-                ' cannot be less then or equals previous posting End Date ' . $prevposting->to_date->format('d M Y'));
+            abort_if($from_date->lte($prevposting->from_date), 403, ' From Date ' . $from_date->format('d M Y') .
+                ' cannot be less then or equals previous posting Start Date ' . $prevposting->from_date->format('d M Y'));
         }
+
 
         $nextPosting = $posting->employee->nextPostings($request->id);
         if ($nextPosting) {
-            abort_if($end_date->gte($nextPosting->from_date), 403, ' End Date ' . $end_date->format('d M Y') .
-                ' cannot be greater then or equals next posting From Date ' . $nextPosting->from_date->format('d M Y'));
+            abort_if($end_date->gt($nextPosting->to_date), 403, ' End Date ' . $end_date->format('d M Y') .
+                ' cannot be greater then next posting From Date ' . $nextPosting->to_date->format('d M Y'));
         }
 
 
         if ($posting->from_Date != $from_date || $posting->to_Date != $end_date) {
-
 
             $posting->update([
                 'order_no' =>  $request->order_no,
                 'order_at' =>  $request->order_at,
                 'from_date' =>  $request->from_date,
                 'to_date' =>  $request->to_date,
+                'mode_id' => $request->mode_id,
                 'office_id' =>  $request->office_id,
                 'designation_id' =>  $request->designation_id
             ]);
-
-
-            $posting->saveSugamDurgamPeriod();
 
             if ($prevposting) {
                 $prevposting->update([
                     'to_date' => $from_date->subDay()
                 ]);
-                $prevposting->saveSugamDurgamPeriod();
             }
 
             if ($nextPosting) {
-
                 $nextPosting->update([
                     'from_date' => $end_date->addDay()
                 ]);
+            }
+
+            if ($prevposting) {
+                $prevposting->saveSugamDurgamPeriod();
+            }
+
+            $posting->saveSugamDurgamPeriod();
+
+            if ($nextPosting) {
                 $nextPosting->saveSugamDurgamPeriod();
             }
 
             $posting->employee->updateSugamDurgam();
+        
         } else {
             $posting->update([
                 'order_no' =>  $request->order_no,
                 'order_at' =>  $request->order_at,
+                'mode_id' => $request->mode_id,
                 'office_id' =>  $request->office_id,
                 'designation_id' =>  $request->designation_id
             ]);

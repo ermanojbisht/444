@@ -27,10 +27,12 @@ class UpdatePostingDetailsRequest extends FormRequest
     {  
         $rules['id'] = 'required|numeric';
         $rules['employee_id'] =  'required|min:5|max:50';
-        $rules['to_date'] =  'nullable|date';
+        
         //$rules['order_no'] =  'required';
         //$rules['order_at'] =  'required|date';
         $rules['from_date'] =  'required|date';
+        $rules['to_date'] =  'nullable|date'; // should be graeter then from_date ->ankit
+
         $rules['mode_id'] = 'required|numeric';
         $rules['office_id'] = 'required|numeric';
         $rules['designation_id'] = 'required|numeric';
