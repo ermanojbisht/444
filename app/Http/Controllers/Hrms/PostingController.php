@@ -147,33 +147,46 @@ class PostingController extends Controller
         }
 
 
-        $posting->update([
-            'order_no' =>  $request->order_no,
-            'order_at' =>  $request->order_at,
-            'from_date' =>  $request->from_date,
-            'to_date' =>  $request->to_date,
-            'office_id' =>  $request->office_id,
-            'designation_id' =>  $request->designation_id
-        ]);
+        if ($posting->from_Date != $from_date || $posting->to_Date != $end_date) {
 
-        $posting->saveSugamDurgamPeriod();
 
-        if ($prevposting) {
-            $prevposting->update([
-                'to_date' => $from_date->subDay()
+            $posting->update([
+                'order_no' =>  $request->order_no,
+                'order_at' =>  $request->order_at,
+                'from_date' =>  $request->from_date,
+                'to_date' =>  $request->to_date,
+                'office_id' =>  $request->office_id,
+                'designation_id' =>  $request->designation_id
             ]);
-            $prevposting->saveSugamDurgamPeriod();
+
+
+            $posting->saveSugamDurgamPeriod();
+
+            if ($prevposting) {
+                $prevposting->update([
+                    'to_date' => $from_date->subDay()
+                ]);
+                $prevposting->saveSugamDurgamPeriod();
+            }
+
+            if ($nextPosting) {
+
+                $nextPosting->update([
+                    'from_date' => $end_date->addDay()
+                ]);
+                $nextPosting->saveSugamDurgamPeriod();
+            }
+
+            $posting->employee->updateSugamDurgam();
+        } else {
+            $posting->update([
+                'order_no' =>  $request->order_no,
+                'order_at' =>  $request->order_at,
+                'office_id' =>  $request->office_id,
+                'designation_id' =>  $request->designation_id
+            ]);
         }
 
-        if ($nextPosting) {
-
-            $nextPosting->update([
-                'from_date' => $end_date->addDay()
-            ]);
-            $nextPosting->saveSugamDurgamPeriod();
-        }
-
-        $posting->employee->updateSugamDurgam();
 
         return redirect()->route('employee.posting.create', ['employee' => $request->employee_id])
             ->with('status', 'Postings Updated Successfully!');
@@ -205,10 +218,10 @@ class PostingController extends Controller
     {
 
         $posting = Posting::find($posting->id);
-        
+
         $prevposting = $posting->employee->previousPostings($posting->id);
         $nextPosting = $posting->employee->nextPostings($posting->id);
-        
+
 
         // if ($prevposting) {
         //     $prevposting->update([
@@ -224,7 +237,7 @@ class PostingController extends Controller
             $nextPosting->saveSugamDurgamPeriod();
         }
 
-       // $posting->delete();
+        $posting->delete();
 
         $posting->employee->updateSugamDurgam();
 
