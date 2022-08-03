@@ -99,11 +99,11 @@ Employee Sugam Durgam Detail
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> Sugam Period </div>
-                    <div class="col-xs-6 col-md-6 bg-success"> 12 Y,9 M,21 D </div>
+                    <div class="col-xs-6 col-md-6 bg-success"> {{ $employee->s_y }} Y,{{ $employee->s_m }} M,{{ $employee->s_d }} D </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> Durgam Period </div>
-                    <div class="col-xs-6 col-md-6 bg-warning"> 6 Y,2 M,20 D </div>
+                    <div class="col-xs-6 col-md-6 bg-warning"> {{ $employee->d_y }} Y,{{ $employee->d_m }} M,{{ $employee->d_d }} D </div>
                 </div>
             </div>
 
