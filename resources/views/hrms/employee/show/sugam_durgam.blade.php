@@ -51,11 +51,7 @@ Employee Sugam Durgam Detail
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> current office </div>
                     <div class="col-xs-6 col-md-6">
-                        @if($employee->office_id)
-                        {{ $employee->officeName->name }}
-                        @else
-                        {{ $employee->getEmpCurrentOffice() }}
-                        @endif
+                        {{ $employee->last_office_name }}
                     </div>
                 </div>
                 <div class="row">
@@ -97,12 +93,12 @@ Employee Sugam Durgam Detail
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> Designation </div>
                     <div class="col-xs-6 col-md-6">
-                        {{ $employee->designationName == '' ? '' : $employee->designationName->name }}
+                        {{ $employee->designation->name }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> current office type </div>
-                    <div class="col-xs-6 col-md-6"> {{ $employee->getEmpCurrentIsSugam() }} </div>
+                    <div class="col-xs-6 col-md-6"> {{ $employee->last_office_type?'Durgam':'Sugam' }} </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6 col-md-6"> Days in current office </div>
@@ -166,7 +162,7 @@ Employee Sugam Durgam Detail
                         </td>
                         <td>
                             @if($posting->designation_id)
-                                {{ $posting->designationName->name }}
+                                {{ $posting->designation->name }}
                             @else
                                 Other Department Designation
                             @endif

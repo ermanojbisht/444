@@ -47,7 +47,7 @@ class NewEmployeeController extends Controller
 
 
             $newAddedEmployees = Employee::where('retirement_date', '>', now())
-                ->where('lock_level', 0)->with('designationName')->get();
+                ->where('lock_level', 0)->with('designation')->get();
 
             //->whereIn("office_idd", $OfficesAllocated)
             // ->orwhere("office_idd", 0)

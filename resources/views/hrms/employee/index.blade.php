@@ -50,7 +50,7 @@
                 <td>{{1+$loop->index}}</td>
                 <td>{{$employee->id}}</td>
                 <td>{{$employee->name}}</td>
-                <td>{{($employee->designationName ? $employee->designationName->name : ' Not declared ') }}</td>
+                <td>{{$employee->designation->name }}</td>
                 <td>@if ($employee->office_idd)
                     {{ $employee->office->name }}
                     @endif

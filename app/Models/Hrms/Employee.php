@@ -59,69 +59,46 @@ class Employee extends Model
         return $this->hasMany(Posting::class);
     }
 
-    public function getEmpCurrentPosting()
+    public function lastPosting()
     {
-        return $this->belongsTo(Posting::class, "id", "employee_id")->whereNull("to_date");
+        return $this->postings()->orderBy("from_date",'DESC')->first();
     }
 
-    public function getEmpCurrentOffice()
+    public function updateLastOfficeName()
     {
-        $employeePosted = $this->belongsTo(Posting::class, "id", "employee_id")->whereNull("to_date")->first();
+        $employeeLastPosting = $this->lastPosting();
 
-        if ($employeePosted->head_quarter != 0)
-            return $currentOffice = OfficeHeadQuarter::where("id", $employeePosted->head_quarter)->first()->name;
+        if($employeeLastPosting ){
+            $postingOffice=$employeeLastPosting->postingOffice();
+            $this->update([
+                'last_office_type' => $postingOffice->isdurgam,
+                'last_office_name' => $postingOffice->name,
+                'timestamps' => false
+            ]);
+        }
 
-        if ($employeePosted->other_office_id != 0)
-            return $currentOffice = OtherOffice::where("id", $employeePosted->other_office_id)->first()->name;
-
-        if ($employeePosted->office_id != 0)
-            return  $currentOffice = Office::where("id", $employeePosted->office_id)->first()->name;
     }
 
-    public function getEmpCurrentIsSugam()
-    {
-        $employeePosted = $this->belongsTo(Posting::class, "id", "employee_id")->whereNull("to_date")->first();
-
-        if ($employeePosted->head_quarter != 0)
-            $currentOffice = OfficeHeadQuarter::where("id", $employeePosted->head_quarter)->first();
-
-        if ($employeePosted->other_office_id != 0)
-            $currentOffice = OtherOffice::where("id", $employeePosted->other_office_id)->first();
-
-        if ($employeePosted->office_id != 0)
-            $currentOffice = Office::where("id", $employeePosted->office_id)->first();
-
-        if ($currentOffice->isdurgam == 1)
-            return "Durgam";
-        else
-            return "Sugam";
-    }
 
     public function getDaysInCurrentOffice()
     {
-        $posting_since = $this->belongsTo(Posting::class, "id", "employee_id")->whereNull("to_date")->select("from_date")->first();
-        return Carbon::today()->diffInDays(Carbon::parse($posting_since->from_date));
-    }
-
-
-
-
-    public function designationName()
-    {
-        return $this->belongsTo(Designation::class, "designation_id", "id");
+        $lastPosting=$this->lastPosting();
+        if($lastPosting){
+            return Carbon::today()->diffInDays($this->lastPosting()->from_date)+1;
+        }
+        return 0;
     }
 
 
     public function addresses()
     {
-        return $this->belongsTo(Address::class, "id", "employee_id");
+        return $this->hasMany(Address::class);
     }
 
 
     public function getAddress($addressType)
     {
-        return  $this->addresses()
-            ->where("address_type_id", "=", $addressType)->first();
+        return  $this->addresses()->where("address_type_id", $addressType)->first();
     }
 
     public function updateHomeDetails()

@@ -52,7 +52,7 @@
                 <span>
                     <b> Designation</b>:
                     @if ($employee->designation_id)
-                    {{ $employee->designationName->name }}
+                    {{ $employee->designation->name }}
                     <br />
                     @if ($employee->regular_incharge != 0) (Incharge) @endif
                     @endif
